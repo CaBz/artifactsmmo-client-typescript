@@ -1,0 +1,92 @@
+import {ArtifactsClient} from "./ArtifactsClient.js";
+import {Character} from "../entities/Character.js";
+
+export class CharacterGateway {
+    constructor(private readonly client: ArtifactsClient, private readonly character: string) {
+    }
+
+    async status() {
+        const result = await this.client.getCharacterStatus(this.character);
+        return new Character(result);
+    }
+
+    async logStatus(sections?: string[]) {
+        const character = await this.status();
+        character.logToConsole(sections);
+    }
+
+    async move(x: number, y: number) {
+        const result = await this.client.move(this.character, x, y);
+        const character = new Character(result.character);
+
+        return {
+            ...result,
+            character,
+        }
+    }
+
+    async gather() {
+        const result = await this.client.gather(this.character);
+        const character = new Character(result.character);
+
+        character.logToConsole(['status', 'skills', 'inventory']);
+
+        return {
+            ...result,
+            character,
+        }
+    }
+
+    async craft(item: string, quantity: number) {
+        const result = await this.client.craft(this.character, item, quantity);
+        const character = new Character(result.character);
+
+        character.logToConsole(['status', 'skills', 'inventory']);
+
+        return {
+            ...result,
+            character,
+        }
+    }
+
+    async rest() {
+        const result = await this.client.rest(this.character);
+        const character = new Character(result.character);
+
+        character.logToConsole(['status']);
+
+        return {...result, character};
+    }
+
+    async fight() {
+        const result = await this.client.fight(this.character);
+        const character = new Character(result.character);
+        const fight = result.fight;
+
+        console.log(`| FIGHT RESULT: ${fight.result} IN ${fight.turns} TURNS`);
+        console.log(`| GAINED +${fight.xp}xp`, `+${fight.gold}g`);
+        if (fight.drops.length > 0) {
+            console.log('| Drops', fight.drops);
+        }
+
+        character.logToConsole(['status', 'inventory']);
+
+        return result;
+    }
+
+    async bankDeposit(item: string, quantity: number) {
+        const result = await this.client.bankDeposit(this.character, item, quantity);
+
+        //console.log(result);
+
+        return result;
+    }
+
+    async bankWithdraw(item: string, quantity: number) {
+        const result = await this.client.bankWithdraw(this.character, item, quantity);
+
+        //console.log(result);
+
+        return result;
+    }
+}
