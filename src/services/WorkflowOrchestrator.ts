@@ -6,7 +6,7 @@ import {
     MoveAction, SubworkflowAction,
     SubworkflowCondition,
     WorkflowAction,
-} from "../lexical/Workflows.js";
+} from "../Workflows.js";
 import {Mover} from "./Mover.js";
 import {Gatherer} from "./Gatherer.js";
 import {Crafter} from "./Crafter.js";

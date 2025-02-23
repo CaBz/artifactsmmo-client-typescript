@@ -47,12 +47,8 @@ export class ArtifactsClient {
     async getByEntityAndCode(entity: any, code?: any) {
         let response;
         try {
-            if (code) {
-                response = this.sendRequest('GET', `${entity}/${code}`);
-            }
-
-            response = this.sendRequest('GET', entity);
-
+            const path = code ? `${entity}/${code}` : entity;
+            response = await this.sendRequest('GET', path);
         } catch (e) {
             console.error(`${e.code}: ${e.message}`);
         }

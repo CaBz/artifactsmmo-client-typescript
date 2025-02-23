@@ -8,7 +8,7 @@ import {Fighter} from "./services/Fighter.js";
 import {WorkflowOrchestrator} from "./services/WorkflowOrchestrator.js";
 import {ArtifactsClient} from "./gateways/ArtifactsClient.js";
 import {CharacterGateway} from "./gateways/CharacterGateway.js";
-import {WorkflowAction, WorkflowRegister} from "./lexical/Workflows.js";
+import {WorkflowAction, WorkflowRegister} from "./Workflows.js";
 
 export class Container {
     private instances: Map<string, any> = new Map<string, any>();

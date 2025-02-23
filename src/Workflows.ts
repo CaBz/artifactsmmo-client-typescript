@@ -1,5 +1,5 @@
-import {Item} from "./Item.js";
-import {PointOfInterest} from "./PointOfInterest.js";
+import {Item} from "./lexical/Item.js";
+import {PointOfInterest} from "./lexical/PointOfInterest.js";
 
 export interface MoveAction {
     action: Action.Move;
@@ -99,7 +99,7 @@ export class WorkflowRegister {
 
         // Woodcutting lv. 1
         workflows.set('ash', [
-            { action: Action.Move, coordinates: PointOfInterest.Ash },
+            { action: Action.Move, coordinates: PointOfInterest.Ash2 },
             { action: Action.Gather, loops: -1 },
             { action: Action.Move, coordinates: PointOfInterest.Bank },
             { action: Action.BankDepositAll },
