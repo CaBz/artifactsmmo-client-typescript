@@ -94,12 +94,19 @@ export class WorkflowRegister {
         workflows.set('spruce', WorkflowFactory.gather(PointOfInterest.Spruce1)); // Woodcutting lv. 10
 
 
-        workflows.set('sunflower', // Alchemy lv. 1 + Alchemy lv. 5
+        workflows.set('sunflower-craft', // Alchemy lv. 1 + Alchemy lv. 5
             WorkflowFactory.gatherAndCraft(PointOfInterest.Sunflower, PointOfInterest.Alchemy, Item.SmallHealthPotion, Item.Sunflower)
         );
 
+        workflows.set('sunflower', // Alchemy lv. 1 + Alchemy lv. 5
+            WorkflowFactory.gather(PointOfInterest.Sunflower)
+        );
+
+        workflows.set('gudgeon-cook', // Fishing lv. 1
+            WorkflowFactory.gatherAndCraft(PointOfInterest.Gudgeon, PointOfInterest.Cooking, Item.CookedGudgeon, Item.Gudgeon)
+        );
+
         workflows.set('gudgeon', // Fishing lv. 1
-            //WorkflowFactory.gatherAndCraft(PointOfInterest.Gudgeon, PointOfInterest.Cooking, Item.CookedGudgeon, Item.Gudgeon)
             WorkflowFactory.gather(PointOfInterest.Gudgeon)
         );
 
@@ -133,7 +140,7 @@ export class WorkflowRegister {
             {code: Item.Algae, quantity: 1},
         ];
         workflows.set('earth_boost_potion',
-            WorkflowFactory.bankWithdrawAndCraft(items, PointOfInterest.Alchemy, Item.EathBoostPotion, -1)
+            WorkflowFactory.bankWithdrawAndCraft(items, PointOfInterest.Alchemy, Item.EathBoostPotion, 1)
         );
     }
 

@@ -20,7 +20,7 @@ async function processCommand(commandName: string) {
             );
             break;
 
-        case 'character-status':
+        case 'status':
             await container.characterGateway.logStatus(consoleParams.shift()?.split(','))
             break;
 
