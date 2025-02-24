@@ -1,4 +1,5 @@
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
+import * as Utils from "../Utils.js";
 
 export class CooldownWaiter {
     constructor(private readonly characterGateway: CharacterGateway) {
@@ -12,12 +13,11 @@ export class CooldownWaiter {
             return;
         }
 
-        const line = `>>> ${remainingCooldown}ms`;
-        process.stdout.write(`| ${line.padEnd(34, ' ')} |`);
+        Utils.stdoutHeadline(`>>> ${remainingCooldown}ms`);
 
         await this.sleep(remainingCooldown);
-        process.stdout.clearLine(1);
-        process.stdout.cursorTo(0);
+
+        Utils.stdoutClear();
     }
 
     private async sleep(ms: number) {
