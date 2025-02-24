@@ -1,6 +1,4 @@
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
-import * as Utils from "../Utils.js";
-import {Direction} from "tty";
 
 export class CooldownWaiter {
     constructor(private readonly characterGateway: CharacterGateway) {
