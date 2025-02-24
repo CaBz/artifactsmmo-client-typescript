@@ -120,11 +120,20 @@ export class WorkflowRegister {
 
     private static registerForCrafting(workflows: Map<string, WorkflowAction[]>) {
         workflows.set('copper_bar',
-            WorkflowFactory.bankWithdrawAndCraft(Item.CopperOre, -1, PointOfInterest.Forge, Item.Copper, -1)
+            WorkflowFactory.bankWithdrawAndCraft([{code: Item.CopperOre, quantity:-1}], PointOfInterest.Forge, Item.Copper, -1)
         );
 
         workflows.set('small_health_potion',
-            WorkflowFactory.bankWithdrawAndCraft(Item.Sunflower, -1, PointOfInterest.Alchemy, Item.SmallHealthPotion, -1)
+            WorkflowFactory.bankWithdrawAndCraft([{code: Item.Sunflower, quantity:-1}], PointOfInterest.Alchemy, Item.SmallHealthPotion, -1)
+        );
+
+        const items = [
+            {code: Item.Sunflower, quantity: 1},
+            {code: Item.YellowSlimeBall, quantity: 1},
+            {code: Item.Algae, quantity: 1},
+        ];
+        workflows.set('earth_boost_potion',
+            WorkflowFactory.bankWithdrawAndCraft(items, PointOfInterest.Alchemy, Item.EathBoostPotion, -1)
         );
     }
 
@@ -142,6 +151,11 @@ export class WorkflowRegister {
             { action: Action.BankWithdraw, code: Item.CopperOre, quantity: -1 },
         ]);
     }
+}
+
+export interface ResourceItem {
+    code: Item,
+    quantity: number,
 }
 
 export class WorkflowFactory {
@@ -185,14 +199,21 @@ export class WorkflowFactory {
         ];
     }
 
-    static bankWithdrawAndCraft(resourceItem: Item, resourceQuantity: number, craftPoint: PointOfInterest, craftItem: Item, craftQuantity: number): WorkflowAction[] {
-        return [
+    static bankWithdrawAndCraft(resourceItems: ResourceItem[], craftPoint: PointOfInterest, craftItem: Item, craftQuantity: number): WorkflowAction[] {
+        const actions = [
             { action: Action.Move, coordinates: PointOfInterest.Bank },
             { action: Action.BankDepositAll },
+        ];
 
-            { action: Action.BankWithdraw, code: resourceItem, quantity: resourceQuantity },
-            { action: Action.Move, coordinates: craftPoint },
-            { action: Action.Craft, code: craftItem, quantity: craftQuantity, },
-        ]
+        let resourceItem: ResourceItem;
+        for (var i=0; i<resourceItems.length; i++) {
+            resourceItem = resourceItems[i]!;
+            actions.push({ action: Action.BankWithdraw, code: resourceItem.code, quantity: resourceItem.quantity });
+        }
+
+        actions.push({ action: Action.Move, coordinates: craftPoint });
+        actions.push({ action: Action.Craft, code: craftItem, quantity: craftQuantity, });
+
+        return actions;
     }
 }
