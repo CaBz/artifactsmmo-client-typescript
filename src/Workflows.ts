@@ -93,8 +93,13 @@ export class WorkflowRegister {
         // Woodcutting lv. 1
         workflows.set('ash', WorkflowFactory.gather(PointOfInterest.Ash1, PointOfInterest.Bank1));
         workflows.set('ash-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Ash1, PointOfInterest.Bank1, PointOfInterest.Workshop, Item.AshPlank, Item.AshWood));
+
+        // Woodcutting lv. 10
         workflows.set('spruce', WorkflowFactory.gather(PointOfInterest.Spruce1, PointOfInterest.Bank1));
         workflows.set('spruce-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Spruce1, PointOfInterest.Bank1, PointOfInterest.Workshop, Item.SprucePlank, Item.SpruceWood));
+
+        // Woodcutting lv. 20
+        workflows.set('birch', WorkflowFactory.gather(PointOfInterest.Birch1, PointOfInterest.Bank1));
 
         // Alchemy lv. 1 + Alchemy lv. 5
         workflows.set('sunflower', WorkflowFactory.gather(PointOfInterest.Sunflower, PointOfInterest.Bank1));
@@ -136,19 +141,19 @@ export class WorkflowRegister {
 
     private static registerForCrafting(workflows: Map<string, WorkflowAction[]>) {
         workflows.set('copper_bar',
-            WorkflowFactory.bankWithdrawAndCraft([{code: Item.CopperOre, quantity:-1}], PointOfInterest.Forge, Item.Copper, -1)
+            WorkflowFactory.bankWithdrawAndCraft2(PointOfInterest.Forge, Item.Copper, -1)
         );
 
         workflows.set('ash_plank',
-            WorkflowFactory.bankWithdrawAndCraft([{code: Item.AshWood, quantity:-1}], PointOfInterest.Workshop, Item.AshPlank, -1)
+            WorkflowFactory.bankWithdrawAndCraft2(PointOfInterest.Workshop, Item.AshPlank, -1)
         );
 
         workflows.set('spruce_plank',
-            WorkflowFactory.bankWithdrawAndCraft([{code: Item.SpruceWood, quantity:-1}], PointOfInterest.Workshop, Item.SprucePlank, -1)
+            WorkflowFactory.bankWithdrawAndCraft2(PointOfInterest.Workshop, Item.SprucePlank, -1)
         );
 
         workflows.set('small_health_potion',
-            WorkflowFactory.bankWithdrawAndCraft([{code: Item.Sunflower, quantity:-1}], PointOfInterest.Alchemy, Item.SmallHealthPotion, -1)
+            WorkflowFactory.bankWithdrawAndCraft2(PointOfInterest.Alchemy, Item.SmallHealthPotion, -1)
         );
 
         workflows.set('earth_boost_potion',
@@ -182,11 +187,9 @@ export class WorkflowRegister {
         ]);
 
 
-        workflows.set('test', [
-            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
-            { action: Action.BankDepositAll },
-            { action: Action.BankWithdraw, code: Item.CopperOre, quantity: -1 },
-        ]);
+        workflows.set('test',
+            WorkflowFactory.bankWithdrawAndCraft2(PointOfInterest.Alchemy, Item.SmallHealthPotion, 1)
+        );
     }
 }
 
@@ -249,13 +252,18 @@ export class WorkflowFactory {
         return actions;
     }
 
-    static recipeToWithdrawActions(item: Item): WorkflowAction[] {
-        const recipe = Recipes.getFor(item);
-        const actions = [];
-        for (var i=0; i<recipe.items.length; i++) {
-            actions.push({ action: Action.BankWithdraw, code: recipe.items[i].code, quantity: recipe.items[i].quantity });
-        }
+    static bankWithdrawAndCraft2(craftPoint: PointOfInterest, craftItem: Item, craftQuantity: number): WorkflowAction[] {
+        const recipe: Recipe = Recipes.getFor(craftItem);
+        const withdrawActions: WorkflowAction[] = recipe.items.map((item: ResourceItem): WorkflowAction => {
+            return { action: Action.BankWithdraw, code: item.code, quantity: item.quantity }
+        });
 
-        return actions;
+        return [
+            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
+            { action: Action.BankDepositAll },
+            ...withdrawActions,
+            { action: Action.Move, coordinates: craftPoint },
+            { action: Action.Craft, code: craftItem, quantity: craftQuantity },
+        ];
     }
 }

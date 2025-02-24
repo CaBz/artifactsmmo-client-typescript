@@ -38,6 +38,8 @@ export class WorkflowOrchestrator {
         }
 
         const workflowActions = this.workflows.get(name);
+        // console.log(workflowActions);
+
         if (!workflowActions || workflowActions.length === 0) {
             console.error('\n\n!!!! Need to put a proper workflow name dudelino !!!\n\n\n');
             return;

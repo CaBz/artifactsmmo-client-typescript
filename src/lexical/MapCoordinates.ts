@@ -34,8 +34,8 @@ export const MapCoordinates: {[key: string]: Coordinates} = {
     [PointOfInterest.Ash2]: { x: -1, y: 0 }, // 1
     [PointOfInterest.Spruce1]: { x: 2, y: 6 }, // 10 - BEST
     [PointOfInterest.Spruce2]: { x: 1, y: 9 }, // 10
-    [PointOfInterest.Birch1]: { x: -1, y: 6 }, // 20 - BEST
-    [PointOfInterest.Birch2]: { x: 3, y: 5 }, // 20
+    [PointOfInterest.Birch1]: { x: 3, y: 5 }, // 20 - BEST
+    [PointOfInterest.Birch2]: { x: -1, y: 6 }, // 20
     [PointOfInterest.Magic]: { x: 3, y: 11 }, // 35 - Event? Move around?
     [PointOfInterest.Maple1]: { x: 4, y: 14 }, // 40 - BEST
     [PointOfInterest.Maple2]: { x: 1, y: 13 }, // 40

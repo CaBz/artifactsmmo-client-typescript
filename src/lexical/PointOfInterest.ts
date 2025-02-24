@@ -26,8 +26,8 @@ export enum PointOfInterest {
     Ash2 = 'ash2', // -1, 0 -- 1 // ash_tree - ash_wood
     Spruce1 = 'spruce1', // 2,6  -- 10 // spruce_tree - spruce_wood
     Spruce2 = 'spruce2', // 1,9 -- 10 // spruce_tree - spruce_wood
-    Birch1 = 'birch1', // -1,6 -- 20 // birch_tree - birch_wood
-    Birch2 = 'birch2', // 3,5 -- 20 // birch_tree - birch_wood
+    Birch1 = 'birch1', // 3,5 -- 20 // birch_tree - birch_wood
+    Birch2 = 'birch2', // -1,6 -- 20 // birch_tree - birch_wood
     Magic = 'magic', // 3,11 -- 35 // magic_tree -magic_wood
     Maple1 = 'maple1', // 4,14 -- 40 // maple_tree - maple_wood
     Maple2 = 'maple12', // 1,13 -- 40 // maple_tree - maple_wood
