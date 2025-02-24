@@ -112,6 +112,10 @@ export class WorkflowRegister {
         workflows.set('yellow_slime1', // Level 2
             WorkflowFactory.fightUntilFull(PointOfInterest.YellowSlime1)
         );
+
+        workflows.set('green_slime1', // Level 4
+            WorkflowFactory.fightUntilFull(PointOfInterest.GreenSlime1)
+        );
     }
 
     private static registerForCrafting(workflows: Map<string, WorkflowAction[]>) {
