@@ -81,94 +81,42 @@ export class WorkflowRegister {
     }
 
     private static registerForGathering(workflows: Map<string, WorkflowAction[]>) {
-        // Mining lv. 1
-        workflows.set('copper', [
-            // Gather until full
-            { action: Action.Move, coordinates: PointOfInterest.Copper },
-            { action: Action.Gather, loops: -1 },
+        workflows.set('copper', // Mining lv. 1
+            WorkflowFactory.gatherAndCraft(PointOfInterest.Copper, PointOfInterest.Forge, Item.Copper, Item.CopperOre)
+        );
 
-            // Make all copper
-            { action: Action.Move, coordinates: PointOfInterest.Forge },
-            { action: Action.Craft, code: Item.Copper, quantity: -1, },
+        workflows.set('iron', // Mining lv. 10
+            WorkflowFactory.gatherAndCraft(PointOfInterest.Iron, PointOfInterest.Forge, Item.Iron, Item.IronOre)
+        );
 
-            // Drop everything and get back the ores
-            { action: Action.Move, coordinates: PointOfInterest.Bank },
-            { action: Action.BankDepositAll },
-            { action: Action.BankWithdraw, code: Item.CopperOre, quantity: -1 },
-        ]);
+        // Wood
+        workflows.set('ash', WorkflowFactory.gather(PointOfInterest.Ash1)); // Woodcutting lv. 1
+        workflows.set('spruce', WorkflowFactory.gather(PointOfInterest.Spruce1)); // Woodcutting lv. 10
 
-        // Woodcutting lv. 1
-        workflows.set('ash', [
-            { action: Action.Move, coordinates: PointOfInterest.Ash2 },
-            { action: Action.Gather, loops: -1 },
-            { action: Action.Move, coordinates: PointOfInterest.Bank },
-            { action: Action.BankDepositAll },
-        ]);
 
-        // Alchemy lv. 1 + Alchemy lv. 5
-        workflows.set('sunflower', [
-            { action: Action.Move, coordinates: PointOfInterest.Sunflower },
-            { action: Action.Gather, loops: -1 },
+        workflows.set('sunflower', // Alchemy lv. 1 + Alchemy lv. 5
+            WorkflowFactory.gatherAndCraft(PointOfInterest.Sunflower, PointOfInterest.Alchemy, Item.SmallHealthPotion, Item.Sunflower)
+        );
 
-            { action: Action.Move, coordinates: PointOfInterest.Alchemy },
-            { action: Action.Craft, code: Item.SmallHealthPotion, quantity: -1, },
-
-            { action: Action.Move, coordinates: PointOfInterest.Bank },
-            { action: Action.BankDepositAll },
-            { action: Action.BankWithdraw, code: Item.Sunflower, quantity: -1 },
-        ]);
-
-        // Fishing lv. 1
-        workflows.set('gudgeon', [
-            { action: Action.Move, coordinates: PointOfInterest.Gudgeon },
-            { action: Action.Gather, loops: -1 },
-
-            { action: Action.Move, coordinates: PointOfInterest.Cooking },
-            { action: Action.Craft, code: Item.CookedGudgeon, quantity: -1, },
-
-            { action: Action.Move, coordinates: PointOfInterest.Bank },
-            { action: Action.BankDepositAll },
-            { action: Action.BankWithdraw, code: Item.Gudgeon, quantity: -1 },
-        ]);
+        workflows.set('gudgeon', // Fishing lv. 1
+            WorkflowFactory.gatherAndCraft(PointOfInterest.Gudgeon, PointOfInterest.Cooking, Item.CookedGudgeon, Item.Gudgeon)
+        );
     }
 
     private static registerForMonsters(workflows: Map<string, WorkflowAction[]>) {
-        // Level 2
-        workflows.set('yellow_slime1', [
-            { action: Action.Move, coordinates: PointOfInterest.YellowSlime1 },
-            {
-                action: Action.SubWorkflow,
-                condition: SubworkflowCondition.InventoryFull,
-                actions: [
-                    { action: Action.Rest },
-                    { action: Action.Fight, loops: 1 },
-                ],
-            },
-            { action: Action.Move, coordinates: PointOfInterest.Bank },
-            { action: Action.BankDepositAll },
-        ]);
+        workflows.set('yellow_slime1', // Level 2
+            WorkflowFactory.fightUntilFull(PointOfInterest.YellowSlime1)
+        );
     }
 
     private static registerForCrafting(workflows: Map<string, WorkflowAction[]>) {
-        workflows.set('copper_bar', [
-            // Move to bank and dump everything
-            { action: Action.Move, coordinates: PointOfInterest.Bank },
-            { action: Action.BankDepositAll },
+        workflows.set('copper_bar',
+            WorkflowFactory.bankWithdrawAndCraft(Item.CopperOre, 10, PointOfInterest.Forge, Item.Copper, 1)
+        );
 
-            // Get copper ores and go craft ingots
-            { action: Action.BankWithdraw, code: Item.CopperOre, quantity: 10 },
-            { action: Action.Move, coordinates: PointOfInterest.Forge },
-            { action: Action.Craft, code: Item.Copper, quantity: 1, },
-        ]);
-
-        workflows.set('small_health_potion', [
-            { action: Action.Move, coordinates: PointOfInterest.Bank },
-            { action: Action.BankDepositAll },
-
-            { action: Action.BankWithdraw, code: Item.Sunflower, quantity: 30 },
-            { action: Action.Move, coordinates: PointOfInterest.Alchemy },
-            { action: Action.Craft, code: Item.SmallHealthPotion, quantity: 10, },
-        ]);
+        workflows.set('small_health_potion',
+            WorkflowFactory.bankWithdrawAndCraft(Item.Sunflower, 30, PointOfInterest.Alchemy, Item.SmallHealthPotion, 10)
+        );
     }
 
     private static registerForOthers(workflows: Map<string, WorkflowAction[]>) {
@@ -184,5 +132,58 @@ export class WorkflowRegister {
             { action: Action.BankDepositAll },
             { action: Action.BankWithdraw, code: Item.CopperOre, quantity: -1 },
         ]);
+    }
+}
+
+export class WorkflowFactory {
+    static gatherAndCraft(gatherPoint: PointOfInterest, craftPoint: PointOfInterest, craftItem: Item, gatherItem: Item): WorkflowAction[] {
+        return [
+            { action: Action.Move, coordinates: gatherPoint },
+            { action: Action.Gather, loops: -1 },
+
+            { action: Action.Move, coordinates: craftPoint },
+            { action: Action.Craft, code: craftItem, quantity: -1, },
+
+            { action: Action.Move, coordinates: PointOfInterest.Bank },
+            { action: Action.BankDepositAll },
+            { action: Action.BankWithdraw, code: gatherItem, quantity: -1 },
+        ]
+    }
+
+    static gather(gatherPoint: PointOfInterest): WorkflowAction[] {
+        return [
+            { action: Action.Move, coordinates: gatherPoint },
+            { action: Action.Gather, loops: -1 },
+
+            { action: Action.Move, coordinates: PointOfInterest.Bank },
+            { action: Action.BankDepositAll },
+        ]
+    }
+
+    static fightUntilFull(monsterPoint: PointOfInterest): WorkflowAction[] {
+        return [
+            { action: Action.Move, coordinates: monsterPoint },
+            {
+                action: Action.SubWorkflow,
+                condition: SubworkflowCondition.InventoryFull,
+                actions: [
+                    { action: Action.Rest },
+                    { action: Action.Fight, loops: 1 },
+                ],
+            },
+            { action: Action.Move, coordinates: PointOfInterest.Bank },
+            { action: Action.BankDepositAll },
+        ];
+    }
+
+    static bankWithdrawAndCraft(resourceItem: Item, resourceQuantity: number, craftPoint: PointOfInterest, craftItem: Item, craftQuantity: number): WorkflowAction[] {
+        return [
+            { action: Action.Move, coordinates: PointOfInterest.Bank },
+            { action: Action.BankDepositAll },
+
+            { action: Action.BankWithdraw, code: resourceItem, quantity: resourceQuantity },
+            { action: Action.Move, coordinates: craftPoint },
+            { action: Action.Craft, code: craftItem, quantity: craftQuantity, },
+        ]
     }
 }

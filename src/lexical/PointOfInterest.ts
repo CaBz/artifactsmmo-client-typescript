@@ -22,8 +22,8 @@ export enum PointOfInterest {
     Gold = 'gold', // 6,-3 -- 30 // gold_rocks - gold_ore
     Mithril = 'mithril', // -2,13 -- 40 // mithril_rocks - mithril_ore
 
-    Ash1 = 'ash1', // -1, 0 -- 1 // ash_tree - ash_wood
-    Ash2 = 'ash2', // 6, 1 -- 1 // ash_tree - ash_wood
+    Ash1 = 'ash1', // 6, 1 -- 1 // ash_tree - ash_wood
+    Ash2 = 'ash2', // -1, 0 -- 1 // ash_tree - ash_wood
     Spruce1 = 'spruce1', // 2,6  -- 10 // spruce_tree - spruce_wood
     Spruce2 = 'spruce2', // 1,9 -- 10 // spruce_tree - spruce_wood
     Birch1 = 'birch1', // -1,6 -- 20 // birch_tree - birch_wood
