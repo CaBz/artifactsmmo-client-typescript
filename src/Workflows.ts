@@ -134,13 +134,21 @@ export class WorkflowRegister {
             WorkflowFactory.bankWithdrawAndCraft([{code: Item.Sunflower, quantity:-1}], PointOfInterest.Alchemy, Item.SmallHealthPotion, -1)
         );
 
-        const items = [
-            {code: Item.Sunflower, quantity: 1},
-            {code: Item.YellowSlimeBall, quantity: 1},
-            {code: Item.Algae, quantity: 1},
-        ];
         workflows.set('earth_boost_potion',
-            WorkflowFactory.bankWithdrawAndCraft(items, PointOfInterest.Alchemy, Item.EathBoostPotion, 1)
+            WorkflowFactory.bankWithdrawAndCraft([
+                    {code: Item.Sunflower, quantity: 1},
+                    {code: Item.YellowSlimeBall, quantity: 1},
+                    {code: Item.Algae, quantity: 1},
+            ],
+            PointOfInterest.Alchemy, Item.EathBoostPotion, 1)
+        );
+
+        workflows.set('air_boost_potion',
+            WorkflowFactory.bankWithdrawAndCraft([
+                {code: Item.Sunflower, quantity: 1},
+                {code: Item.GreenSlimeBall, quantity: 1},
+                {code: Item.Algae, quantity: 1},
+            ], PointOfInterest.Alchemy, Item.AirBoostPotion, 1)
         );
     }
 
