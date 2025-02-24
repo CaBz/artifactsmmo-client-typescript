@@ -54,6 +54,7 @@ export const MapCoordinates: {[key: string]: Coordinates} = {
     [PointOfInterest.Salmon2]: { x: -2, y: -4 },
 
     // Utilities
-    [PointOfInterest.Bank]: { x: 4, y: 1 },
+    [PointOfInterest.Bank1]: { x: 4, y: 1 },
+    [PointOfInterest.Bank2]: { x: 7, y: 13 },
     [PointOfInterest.GrandExchange]: { x: 5, y: 1 },
 };

@@ -1,14 +1,18 @@
 export enum Item {
     CopperOre = 'copper_ore',
+    Copper = 'copper',
     IronOre = 'iron_ore',
+    Iron = 'iron',
     Coal = 'coal',
     GoldOre = 'gold_ore',
-    MithrilOre = 'mithril_ore',
-
-    Copper = 'copper',
-    Iron = 'iron',
     Gold = 'gold',
+    MithrilOre = 'mithril_ore',
     Mithril = 'mithril',
+
+    AshWood = 'ash_wood',
+    AshPlank = 'ash_plank',
+    SpruceWood = 'spruce_wood',
+    SprucePlank = 'spruce_plank',
 
 
     Sunflower = 'sunflower',

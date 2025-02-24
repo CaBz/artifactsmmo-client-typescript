@@ -33,8 +33,8 @@ export enum PointOfInterest {
     Maple2 = 'maple12', // 1,13 -- 40 // maple_tree - maple_wood
 
     Sunflower = 'sunflower', // 2,2 -- 1 // sunflower_field - sunflower
-    Glowsteam = 'glowsteam', // 1,10 -- 40 // glowstem - glowstem_leaf
     Nettle = 'nettle', // 7,11 -- 20 // nettle - nettle_leaf
+    Glowsteam = 'glowsteam', // 1,10 -- 40 // glowstem - glowstem_leaf
 
     Gudgeon = 'gudgeon', // 4,2 -- 1 // gudgeon_fishing_spot - gudgeon
     Shrimp = 'shrimp', // 5,2 -- 10 // shrimp_fishing_spot - shrimp
@@ -44,6 +44,7 @@ export enum PointOfInterest {
     Salmon2 = 'salmon2', // -2,-4 -- 40 // salmon_fishing_spot - salmon
 
     // Utilities
-    Bank = 'bank',
+    Bank1 = 'bank1',
+    Bank2 = 'bank2', // 7,13
     GrandExchange = 'grand_exchange'
 }
