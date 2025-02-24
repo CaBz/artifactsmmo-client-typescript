@@ -57,12 +57,17 @@ export enum Item {
     Algae = 'algae',
     Gudgeon = 'gudgeon',
     Shrimp = 'shrimp',
+    GoldenShrimpg = 'golden_shrimp',
 
     // Cooking
-    CookedGudgeon = 'cooked_gudgeon', // 1x - 1x gudgeon
+    CookedChicken = 'cooked_chicken',
+    CookedGudgeon = 'cooked_gudgeon',
+    FriendEggs = 'friend_eggs',
+    CookedShrimp = 'cooked_shrimp',
 
     // Monster Drops
     Egg = 'egg',
+    RawChicken = 'raw_chicken',
     MilkBucket = 'milk_bucket',
     YellowSlimeBall = 'yellow_slimeball',
     GreenSlimeBall = 'green_slimeball',
@@ -70,3 +75,30 @@ export enum Item {
     BlueSlimeBall = 'blue_slimeball',
     BatWing = 'bat_wing',
 }
+
+export const AlchemyCraftable: Item[] = [
+    Item.SmallHealthPotion,
+    Item.EathBoostPotion,
+    Item.AirBoostPotion,
+    Item.FireBoostPotion,
+    Item.WaterBoostPotion,
+    Item.MinorHealthPotion,
+    Item.SmallAntitode,
+    Item.HealthPotion,
+    Item.HealthBoostPotion,
+    Item.Antitode,
+    Item.GreaterHealthPotion,
+    Item.EnchantedHealthPotion,
+    Item.EnchantedBoostPotion,
+    Item.EarthResPotion,
+    Item.FireResPotion,
+    Item.AirhResPotion,
+    Item.WaterResPotion,
+];
+
+export const CookingCraftable: Item[] = [
+    Item.CookedChicken,
+    Item.CookedGudgeon,
+    Item.FriendEggs,
+    Item.CookedShrimp,
+]

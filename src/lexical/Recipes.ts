@@ -169,16 +169,33 @@ export class Recipes {
                     {code: Item.GlowstemLeaf, quantity: 1},
                 ]);
 
-            // Jewelcrafting
+            // Jewelrycrafting
+
             // Cooking
+            case Item.CookedChicken:
+                return RecipeFactory.cooking(1, [
+                    {code: Item.RawChicken, quantity: 1},
+                ]);
+            case Item.CookedGudgeon:
+                return RecipeFactory.cooking(1, [
+                    {code: Item.Gudgeon, quantity: 1},
+                ]);
+            case Item.FriendEggs:
+                return RecipeFactory.cooking(5, [
+                    {code: Item.Egg, quantity: 2},
+                ]);
+            case Item.CookedShrimp:
+                return RecipeFactory.cooking(10, [
+                    {code: Item.Shrimp, quantity: 1},
+                ]);
+
             // Monster Drops
 
             default:
-                throw new Error(`Recipe for ${item} is'nt defined dudelino!`);
+                throw new Error(`Recipe for ${item} is not defined dudelino!`);
         }
     }
 }
-
 
 export class RecipeFactory {
     static mining(level: number, items: ResourceItem[]): Recipe {

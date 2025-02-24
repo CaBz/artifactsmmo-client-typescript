@@ -1,5 +1,5 @@
-import {Item} from "./lexical/Item.js";
-import {PointOfInterest} from "./lexical/PointOfInterest.js";
+import {AlchemyCraftable, CookingCraftable, Item} from "./lexical/Item.js";
+import {FightingPOIs, PointOfInterest} from "./lexical/PointOfInterest.js";
 import {Recipe, Recipes, ResourceItem} from "./lexical/Recipes.js";
 
 export interface MoveAction {
@@ -108,70 +108,35 @@ export class WorkflowRegister {
         // Alchemy lv. 20 + Bank2
         workflows.set('nettle', WorkflowFactory.gather(PointOfInterest.Nettle, PointOfInterest.Bank2));
 
-        workflows.set('sunflower', // Alchemy lv. 1 + Alchemy lv. 5
-            WorkflowFactory.gather(PointOfInterest.Sunflower, PointOfInterest.Bank1)
-        );
+        // Fishing lv. 1
+        workflows.set('gudgeon-cook', WorkflowFactory.gatherAndCraft(PointOfInterest.Gudgeon, PointOfInterest.Bank1, PointOfInterest.Cooking, Item.CookedGudgeon, Item.Gudgeon));
+        workflows.set('gudgeon', WorkflowFactory.gather(PointOfInterest.Gudgeon, PointOfInterest.Bank1));
 
-        workflows.set('gudgeon-cook', // Fishing lv. 1
-            WorkflowFactory.gatherAndCraft(PointOfInterest.Gudgeon, PointOfInterest.Bank1, PointOfInterest.Cooking, Item.CookedGudgeon, Item.Gudgeon)
-        );
-
-        workflows.set('gudgeon', // Fishing lv. 1
-            WorkflowFactory.gather(PointOfInterest.Gudgeon, PointOfInterest.Bank1)
-        );
-
-        workflows.set('shrimp', // Fishing lv. 10
-            WorkflowFactory.gather(PointOfInterest.Shrimp, PointOfInterest.Bank1)
-        );
+        // Fishing lv. 10
+        workflows.set('shrimp', WorkflowFactory.gather(PointOfInterest.Shrimp, PointOfInterest.Bank1));
+        workflows.set('shrimp-cook', WorkflowFactory.gatherAndCraft(PointOfInterest.Shrimp, PointOfInterest.Bank1, PointOfInterest.Cooking, Item.CookedShrimp, Item.Shrimp));
     }
 
     private static registerForMonsters(workflows: Map<string, WorkflowAction[]>) {
-        workflows.set('chicken', // Level 2
-            WorkflowFactory.fightUntilFull(PointOfInterest.Chicken)
-        );
-
-        workflows.set('yellow_slime1', // Level 2
-            WorkflowFactory.fightUntilFull(PointOfInterest.YellowSlime1)
-        );
-
-        workflows.set('green_slime1', // Level 4
-            WorkflowFactory.fightUntilFull(PointOfInterest.GreenSlime1)
-        );
+        FightingPOIs.forEach((pointOfInterest: PointOfInterest) => {
+            workflows.set(pointOfInterest, WorkflowFactory.fightUntilFull(pointOfInterest));
+        })
     }
 
     private static registerForCrafting(workflows: Map<string, WorkflowAction[]>) {
-        workflows.set('copper_bar',
-            WorkflowFactory.bankWithdrawAndCraft2(PointOfInterest.Forge, Item.Copper, -1)
-        );
+        workflows.set('copper_bar', WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Forge, Item.Copper, -1));
+        workflows.set('iron_bar', WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Forge, Item.Iron, -1));
 
-        workflows.set('ash_plank',
-            WorkflowFactory.bankWithdrawAndCraft2(PointOfInterest.Workshop, Item.AshPlank, -1)
-        );
+        workflows.set('ash_plank', WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Workshop, Item.AshPlank, -1));
+        workflows.set('spruce_plank', WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Workshop, Item.SprucePlank, -1));
 
-        workflows.set('spruce_plank',
-            WorkflowFactory.bankWithdrawAndCraft2(PointOfInterest.Workshop, Item.SprucePlank, -1)
-        );
+        CookingCraftable.forEach((meal: Item) => {
+            workflows.set(`craft_${meal}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Cooking, meal, -1));
+        });
 
-        workflows.set('small_health_potion',
-            WorkflowFactory.bankWithdrawAndCraft2(PointOfInterest.Alchemy, Item.SmallHealthPotion, -1)
-        );
-
-        workflows.set('earth_boost_potion',
-            WorkflowFactory.bankWithdrawAndCraft([
-                    {code: Item.Sunflower, quantity: 1},
-                    {code: Item.YellowSlimeBall, quantity: 1},
-                    {code: Item.Algae, quantity: 1},
-            ],
-            PointOfInterest.Alchemy, Item.EathBoostPotion, 1)
-        );
-
-        workflows.set('air_boost_potion',
-            WorkflowFactory.bankWithdrawAndCraft([
-                {code: Item.Sunflower, quantity: 1},
-                {code: Item.GreenSlimeBall, quantity: 1},
-                {code: Item.Algae, quantity: 1},
-            ], PointOfInterest.Alchemy, Item.AirBoostPotion, 1)
-        );
+        AlchemyCraftable.forEach((potion: Item) => {
+            workflows.set(`craft_${potion}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Alchemy, potion, -1));
+        });
     }
 
     private static registerForOthers(workflows: Map<string, WorkflowAction[]>) {
@@ -180,16 +145,6 @@ export class WorkflowRegister {
             { action: Action.Move, coordinates: PointOfInterest.Bank1 },
             { action: Action.BankDepositAll },
         ]);
-
-        workflows.set('sunflower-earth-potion', [
-            ...workflows.get('sunflower')!,
-            ...workflows.get('earth_boost_potion')!
-        ]);
-
-
-        workflows.set('test',
-            WorkflowFactory.bankWithdrawAndCraft2(PointOfInterest.Alchemy, Item.SmallHealthPotion, 1)
-        );
     }
 }
 
@@ -234,28 +189,17 @@ export class WorkflowFactory {
         ];
     }
 
-    static bankWithdrawAndCraft(resourceItems: ResourceItem[], craftPoint: PointOfInterest, craftItem: Item, craftQuantity: number): WorkflowAction[] {
-        const actions = [
-            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
-            { action: Action.BankDepositAll },
-        ];
-
-        let resourceItem: ResourceItem;
-        for (var i=0; i<resourceItems.length; i++) {
-            resourceItem = resourceItems[i]!;
-            actions.push({ action: Action.BankWithdraw, code: resourceItem.code, quantity: resourceItem.quantity });
-        }
-
-        actions.push({ action: Action.Move, coordinates: craftPoint });
-        actions.push({ action: Action.Craft, code: craftItem, quantity: craftQuantity, });
-
-        return actions;
-    }
-
-    static bankWithdrawAndCraft2(craftPoint: PointOfInterest, craftItem: Item, craftQuantity: number): WorkflowAction[] {
+    static bankWithdrawAndCraft(craftPoint: PointOfInterest, craftItem: Item, craftQuantity: number): WorkflowAction[] {
         const recipe: Recipe = Recipes.getFor(craftItem);
+        const itemsLength: number = recipe.items.length;
+
         const withdrawActions: WorkflowAction[] = recipe.items.map((item: ResourceItem): WorkflowAction => {
-            return { action: Action.BankWithdraw, code: item.code, quantity: item.quantity }
+            return {
+                action: Action.BankWithdraw,
+                code: item.code,
+                // Get as many items if it's just one item
+                quantity: itemsLength === 1 ? -1 : item.quantity
+            }
         });
 
         return [

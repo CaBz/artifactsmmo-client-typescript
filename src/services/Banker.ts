@@ -56,7 +56,8 @@ export class Banker {
 
             const character = await this.characterGateway.status();
             const availableSpaces = character.availableInventorySpaces();
-            quantity = quantity > availableSpaces ? availableSpaces : quantity;
+
+            quantity = Math.min(quantity, availableSpaces);
         }
 
         Utils.logHeadline(`BANK WITHDRAW > ${item} x${quantity}`);

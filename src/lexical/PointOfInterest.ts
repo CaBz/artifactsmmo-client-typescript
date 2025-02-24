@@ -2,8 +2,13 @@ export enum PointOfInterest {
     // Monsters
     Chicken = 'chicken',
     GreenSlime1 = 'green_slime1',
+    GreenSlime2 = 'green_slime2',
     YellowSlime1 = 'yellow_slime1',
     YellowSlime2 = 'yellow_slime2',
+    BlueSlime1 = 'blue_slime1',
+    BlueSlime2 = 'blue_slime2',
+    RedSlime1 = 'red_slime1',
+    RedSlime2 = 'red_slime2',
 
     // Crafting
     Cooking = 'cooking',
@@ -48,3 +53,16 @@ export enum PointOfInterest {
     Bank2 = 'bank2', // 7,13
     GrandExchange = 'grand_exchange'
 }
+
+
+export const FightingPOIs = [
+    PointOfInterest.Chicken,
+    PointOfInterest.GreenSlime1,
+    PointOfInterest.GreenSlime2,
+    PointOfInterest.YellowSlime1,
+    PointOfInterest.YellowSlime2,
+    PointOfInterest.BlueSlime1,
+    PointOfInterest.BlueSlime2,
+    PointOfInterest.RedSlime1,
+    PointOfInterest.RedSlime2,
+];
