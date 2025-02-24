@@ -99,7 +99,12 @@ export class WorkflowRegister {
         );
 
         workflows.set('gudgeon', // Fishing lv. 1
-            WorkflowFactory.gatherAndCraft(PointOfInterest.Gudgeon, PointOfInterest.Cooking, Item.CookedGudgeon, Item.Gudgeon)
+            //WorkflowFactory.gatherAndCraft(PointOfInterest.Gudgeon, PointOfInterest.Cooking, Item.CookedGudgeon, Item.Gudgeon)
+            WorkflowFactory.gather(PointOfInterest.Gudgeon)
+        );
+
+        workflows.set('shrimp', // Fishing lv. 10
+            WorkflowFactory.gather(PointOfInterest.Shrimp)
         );
     }
 
@@ -111,11 +116,11 @@ export class WorkflowRegister {
 
     private static registerForCrafting(workflows: Map<string, WorkflowAction[]>) {
         workflows.set('copper_bar',
-            WorkflowFactory.bankWithdrawAndCraft(Item.CopperOre, 10, PointOfInterest.Forge, Item.Copper, 1)
+            WorkflowFactory.bankWithdrawAndCraft(Item.CopperOre, -1, PointOfInterest.Forge, Item.Copper, -1)
         );
 
         workflows.set('small_health_potion',
-            WorkflowFactory.bankWithdrawAndCraft(Item.Sunflower, 30, PointOfInterest.Alchemy, Item.SmallHealthPotion, 10)
+            WorkflowFactory.bankWithdrawAndCraft(Item.Sunflower, -1, PointOfInterest.Alchemy, Item.SmallHealthPotion, -1)
         );
     }
 
