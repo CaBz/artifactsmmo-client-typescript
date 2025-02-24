@@ -151,6 +151,11 @@ export class WorkflowRegister {
             { action: Action.BankDepositAll },
         ]);
 
+        workflows.set('sunflower-earth-potion', [
+            ...workflows.get('sunflower')!,
+            ...workflows.get('earth_boost_potion')!
+        ]);
+
 
         workflows.set('test', [
             { action: Action.Move, coordinates: PointOfInterest.Bank },
