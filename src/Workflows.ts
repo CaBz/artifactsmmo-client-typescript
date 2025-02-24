@@ -82,20 +82,22 @@ export class WorkflowRegister {
 
     private static registerForGathering(workflows: Map<string, WorkflowAction[]>) {
         workflows.set('copper', // Mining lv. 1
-            WorkflowFactory.gatherAndCraft(PointOfInterest.Copper, PointOfInterest.Forge, Item.Copper, Item.CopperOre)
+            WorkflowFactory.gatherAndCraft(PointOfInterest.Copper, PointOfInterest.Bank1, PointOfInterest.Forge, Item.Copper, Item.CopperOre)
         );
 
         workflows.set('iron', // Mining lv. 10
-            WorkflowFactory.gatherAndCraft(PointOfInterest.Iron, PointOfInterest.Forge, Item.Iron, Item.IronOre)
+            WorkflowFactory.gatherAndCraft(PointOfInterest.Iron, PointOfInterest.Bank1, PointOfInterest.Forge, Item.Iron, Item.IronOre)
         );
 
         // Wood
         workflows.set('ash', WorkflowFactory.gather(PointOfInterest.Ash1, PointOfInterest.Bank1)); // Woodcutting lv. 1
         workflows.set('spruce', WorkflowFactory.gather(PointOfInterest.Spruce1, PointOfInterest.Bank1)); // Woodcutting lv. 10
-
+        workflows.set('spruce-craft',
+            WorkflowFactory.gatherAndCraft(PointOfInterest.Spruce1, PointOfInterest.Bank1, PointOfInterest.Workshop, Item.SprucePlank, Item.SpruceWood)
+        );
 
         workflows.set('sunflower-craft', // Alchemy lv. 1 + Alchemy lv. 5
-            WorkflowFactory.gatherAndCraft(PointOfInterest.Sunflower, PointOfInterest.Alchemy, Item.SmallHealthPotion, Item.Sunflower)
+            WorkflowFactory.gatherAndCraft(PointOfInterest.Sunflower, PointOfInterest.Bank1, PointOfInterest.Alchemy, Item.SmallHealthPotion, Item.Sunflower)
         );
 
         workflows.set('sunflower', // Alchemy lv. 1 + Bank1
@@ -111,7 +113,7 @@ export class WorkflowRegister {
         );
 
         workflows.set('gudgeon-cook', // Fishing lv. 1
-            WorkflowFactory.gatherAndCraft(PointOfInterest.Gudgeon, PointOfInterest.Cooking, Item.CookedGudgeon, Item.Gudgeon)
+            WorkflowFactory.gatherAndCraft(PointOfInterest.Gudgeon, PointOfInterest.Bank1, PointOfInterest.Cooking, Item.CookedGudgeon, Item.Gudgeon)
         );
 
         workflows.set('gudgeon', // Fishing lv. 1
@@ -124,6 +126,10 @@ export class WorkflowRegister {
     }
 
     private static registerForMonsters(workflows: Map<string, WorkflowAction[]>) {
+        workflows.set('chicken', // Level 2
+            WorkflowFactory.fightUntilFull(PointOfInterest.Chicken)
+        );
+
         workflows.set('yellow_slime1', // Level 2
             WorkflowFactory.fightUntilFull(PointOfInterest.YellowSlime1)
         );
@@ -195,7 +201,7 @@ export interface ResourceItem {
 }
 
 export class WorkflowFactory {
-    static gatherAndCraft(gatherPoint: PointOfInterest, craftPoint: PointOfInterest, craftItem: Item, gatherItem: Item): WorkflowAction[] {
+    static gatherAndCraft(gatherPoint: PointOfInterest, bankPoint: PointOfInterest, craftPoint: PointOfInterest, craftItem: Item, gatherItem: Item): WorkflowAction[] {
         return [
             { action: Action.Move, coordinates: gatherPoint },
             { action: Action.Gather, loops: -1 },
@@ -203,7 +209,7 @@ export class WorkflowFactory {
             { action: Action.Move, coordinates: craftPoint },
             { action: Action.Craft, code: craftItem, quantity: -1, },
 
-            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
+            { action: Action.Move, coordinates: bankPoint },
             { action: Action.BankDepositAll },
             { action: Action.BankWithdraw, code: gatherItem, quantity: -1 },
         ]
