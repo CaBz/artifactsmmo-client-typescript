@@ -14,7 +14,10 @@ await processCommand(commandName);
 async function processCommand(commandName: string) {
     switch (commandName) {
         case 'workflow':
-            await container.workflowOrhcestrator.findWorkflowAndExecute(consoleParams.shift() || '');
+            await container.workflowOrhcestrator.findWorkflowAndExecute(
+                consoleParams.shift() || '', // name -> Workflows.ts
+                +(consoleParams.shift() || -1) // loops -> -1 = infinity
+            );
             break;
 
         case 'character-status':

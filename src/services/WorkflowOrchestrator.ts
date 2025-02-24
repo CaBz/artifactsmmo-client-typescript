@@ -31,7 +31,7 @@ export class WorkflowOrchestrator {
     ) {
     }
 
-    async findWorkflowAndExecute(name: string): Promise<void> {
+    async findWorkflowAndExecute(name: string, loops: number): Promise<void> {
         if (!this.workflows.has(name)) {
             console.error('\n\n!!!! Need to put a proper workflow name dudelino !!!\n\n\n');
             return;
@@ -46,7 +46,12 @@ export class WorkflowOrchestrator {
         Utils.logHeadline(`WORKFLOW: ${name}`);
 
         await this.execute(workflowActions!);
-        await this.findWorkflowAndExecute(name);
+
+        if ((loops - 1) === 0) {
+            return;
+        }
+
+        await this.findWorkflowAndExecute(name, loops - 1);
     }
 
     async execute(actions: WorkflowAction[]): Promise<void> {
