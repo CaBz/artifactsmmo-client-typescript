@@ -60,11 +60,14 @@ export class Recipes {
                 return RecipeFactory.woodcutting(10, [
                     { code: Item.SpruceWood, quantity: 10 },
                 ]);
-
             case Item.HardwoodPlank:
                 return RecipeFactory.woodcutting(20, [
                     { code: Item.AshWood, quantity: 4 },
                     { code: Item.BirchWood, quantity: 6 },
+                ]);
+            case Item.MaplePlank:
+                return RecipeFactory.woodcutting(40, [
+                    { code: Item.MapleWood, quantity: 10 },
                 ]);
 
             // Alchemy
@@ -180,6 +183,10 @@ export class Recipes {
                 return RecipeFactory.cooking(1, [
                     {code: Item.Gudgeon, quantity: 1},
                 ]);
+            case Item.CookedBeef:
+                return RecipeFactory.cooking(1, [
+                    {code: Item.RawBeef, quantity: 1},
+                ]);
             case Item.FriendEggs:
                 return RecipeFactory.cooking(5, [
                     {code: Item.Egg, quantity: 2},
@@ -187,6 +194,18 @@ export class Recipes {
             case Item.CookedShrimp:
                 return RecipeFactory.cooking(10, [
                     {code: Item.Shrimp, quantity: 1},
+                ]);
+            case Item.CookedTrout:
+                return RecipeFactory.cooking(20, [
+                    {code: Item.Trout, quantity: 1},
+                ]);
+            case Item.CookedBass:
+                return RecipeFactory.cooking(30, [
+                    {code: Item.Bass, quantity: 1},
+                ]);
+            case Item.CookedSalmon:
+                return RecipeFactory.cooking(40, [
+                    {code: Item.Salmon, quantity: 1},
                 ]);
 
             // Monster Drops

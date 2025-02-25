@@ -1,6 +1,7 @@
 export enum PointOfInterest {
     // Monsters
     Chicken = 'chicken',
+    Cow = 'cow',
     GreenSlime1 = 'green_slime1',
     GreenSlime2 = 'green_slime2',
     YellowSlime1 = 'yellow_slime1',
@@ -55,8 +56,9 @@ export enum PointOfInterest {
 }
 
 
-export const FightingPOIs = [
+export const FightingPOIs: PointOfInterest[] = [
     PointOfInterest.Chicken,
+    PointOfInterest.Cow,
     PointOfInterest.GreenSlime1,
     PointOfInterest.GreenSlime2,
     PointOfInterest.YellowSlime1,
@@ -65,4 +67,35 @@ export const FightingPOIs = [
     PointOfInterest.BlueSlime2,
     PointOfInterest.RedSlime1,
     PointOfInterest.RedSlime2,
+];
+
+export const GatheringPOIs = [
+    [PointOfInterest.Copper, PointOfInterest.Bank1],
+    [PointOfInterest.Iron, PointOfInterest.Bank1],
+    [PointOfInterest.Coal, PointOfInterest.Bank1],
+    [PointOfInterest.Gold, PointOfInterest.Bank1],
+    [PointOfInterest.Mithril, PointOfInterest.Bank2],
+
+    [PointOfInterest.Ash1, PointOfInterest.Bank1],
+    [PointOfInterest.Ash2, PointOfInterest.Bank1],
+    [PointOfInterest.Spruce1, PointOfInterest.Bank1],
+    [PointOfInterest.Spruce2, PointOfInterest.Bank2],
+    [PointOfInterest.Birch1, PointOfInterest.Bank1],
+    [PointOfInterest.Birch2, PointOfInterest.Bank1],
+    [PointOfInterest.Maple1, PointOfInterest.Bank2],
+    [PointOfInterest.Maple2, PointOfInterest.Bank2],
+
+    [PointOfInterest.Sunflower, PointOfInterest.Bank1],
+    [PointOfInterest.Nettle, PointOfInterest.Bank2],
+    [PointOfInterest.Glowsteam, PointOfInterest.Bank2],
+
+    [PointOfInterest.Gudgeon, PointOfInterest.Bank1],
+    [PointOfInterest.Shrimp, PointOfInterest.Bank1],
+    [PointOfInterest.Trout, PointOfInterest.Bank2],
+    [PointOfInterest.Bass, PointOfInterest.Bank2],
+    [PointOfInterest.Salmon1, PointOfInterest.Bank1],
+    [PointOfInterest.Salmon2, PointOfInterest.Bank1],
+
+    // Event
+    [PointOfInterest.Magic, PointOfInterest.Bank2],
 ];

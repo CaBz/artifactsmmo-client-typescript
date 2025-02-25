@@ -8,6 +8,7 @@ export interface Coordinates {
 export const MapCoordinates: {[key: string]: Coordinates} = {
     // Monster
     [PointOfInterest.Chicken]: { x: 0, y: 1 }, //lv.1
+    [PointOfInterest.Cow]: { x: 0, y: 2 }, //lv.1
     [PointOfInterest.YellowSlime1]: { x: 4, y: -1 }, //lv.2
     [PointOfInterest.YellowSlime2]: { x: 0, y: 1 }, //lv.2
     [PointOfInterest.GreenSlime1]: { x: 3, y: -2 }, //lv.4

@@ -26,6 +26,8 @@ export enum Item {
     HardwoodPlank = 'hardwood_plank',
     MagicSap = 'magic_sap',
     MapleSap = 'maple_sap',
+    MapleWood = 'maple_wood',
+    MaplePlank = 'maple_plank',
 
     // Alchemy
     Sunflower = 'sunflower',
@@ -58,17 +60,26 @@ export enum Item {
     Gudgeon = 'gudgeon',
     Shrimp = 'shrimp',
     GoldenShrimpg = 'golden_shrimp',
+    Trout = 'trout',
+    Bass = 'bass',
+    Salmon = 'salmon',
 
     // Cooking
     CookedChicken = 'cooked_chicken',
     CookedGudgeon = 'cooked_gudgeon',
     FriendEggs = 'friend_eggs',
+    CookedBeef = 'cooked_beef',
     CookedShrimp = 'cooked_shrimp',
+    CookedBass = 'cooked_bass',
+    CookedTrout = 'cooked_trout',
+    CookedSalmon = 'cooked_salmon',
 
     // Monster Drops
     Egg = 'egg',
     RawChicken = 'raw_chicken',
+    RawBeef = 'raw_beef',
     MilkBucket = 'milk_bucket',
+    CowHide = 'cow_hide',
     YellowSlimeBall = 'yellow_slimeball',
     GreenSlimeBall = 'green_slimeball',
     RedSlimeBall = 'red_slimeball',
@@ -76,7 +87,23 @@ export enum Item {
     BatWing = 'bat_wing',
 }
 
-export const AlchemyCraftable: Item[] = [
+export const CraftableMining: Item[] = [
+    Item.Copper,
+    Item.Iron,
+    Item.Steel,
+    Item.Gold,
+    Item.Strangold,
+    Item.Mithril,
+];
+
+export const CraftableWoodcutting: Item[] = [
+    Item.AshPlank,
+    Item.SprucePlank,
+    Item.HardwoodPlank,
+    Item.MaplePlank,
+];
+
+export const CraftableAlchemy: Item[] = [
     Item.SmallHealthPotion,
     Item.EathBoostPotion,
     Item.AirBoostPotion,
@@ -96,9 +123,12 @@ export const AlchemyCraftable: Item[] = [
     Item.WaterResPotion,
 ];
 
-export const CookingCraftable: Item[] = [
+export const CraftableCooking: Item[] = [
     Item.CookedChicken,
     Item.CookedGudgeon,
     Item.FriendEggs,
     Item.CookedShrimp,
+    Item.CookedTrout,
+    Item.CookedBass,
+    Item.CookedSalmon,
 ]

@@ -1,5 +1,5 @@
-import {AlchemyCraftable, CookingCraftable, Item} from "./lexical/Item.js";
-import {FightingPOIs, PointOfInterest} from "./lexical/PointOfInterest.js";
+import {CraftableAlchemy, CraftableCooking, CraftableMining, CraftableWoodcutting, Item} from "./lexical/Item.js";
+import {FightingPOIs, GatheringPOIs, PointOfInterest} from "./lexical/PointOfInterest.js";
 import {Recipe, Recipes, ResourceItem} from "./lexical/Recipes.js";
 
 export interface MoveAction {
@@ -82,60 +82,45 @@ export class WorkflowRegister {
     }
 
     private static registerForGathering(workflows: Map<string, WorkflowAction[]>) {
-        // Mining lv. 1
-        workflows.set('copper', WorkflowFactory.gather(PointOfInterest.Copper, PointOfInterest.Bank1));
         workflows.set('copper-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Copper, PointOfInterest.Bank1, PointOfInterest.Forge, Item.Copper, Item.CopperOre));
-
-        // Mining lv. 10
-        workflows.set('iron', WorkflowFactory.gather(PointOfInterest.Iron, PointOfInterest.Bank1));
         workflows.set('iron-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Iron, PointOfInterest.Bank1, PointOfInterest.Forge, Item.Iron, Item.IronOre));
 
-        // Woodcutting lv. 1
-        workflows.set('ash', WorkflowFactory.gather(PointOfInterest.Ash1, PointOfInterest.Bank1));
         workflows.set('ash-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Ash1, PointOfInterest.Bank1, PointOfInterest.Workshop, Item.AshPlank, Item.AshWood));
-
-        // Woodcutting lv. 10
-        workflows.set('spruce', WorkflowFactory.gather(PointOfInterest.Spruce1, PointOfInterest.Bank1));
         workflows.set('spruce-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Spruce1, PointOfInterest.Bank1, PointOfInterest.Workshop, Item.SprucePlank, Item.SpruceWood));
 
-        // Woodcutting lv. 20
-        workflows.set('birch', WorkflowFactory.gather(PointOfInterest.Birch1, PointOfInterest.Bank1));
-
-        // Alchemy lv. 1 + Alchemy lv. 5
-        workflows.set('sunflower', WorkflowFactory.gather(PointOfInterest.Sunflower, PointOfInterest.Bank1));
         workflows.set('sunflower-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Sunflower, PointOfInterest.Bank1, PointOfInterest.Alchemy, Item.SmallHealthPotion, Item.Sunflower));
 
-        // Alchemy lv. 20 + Bank2
-        workflows.set('nettle', WorkflowFactory.gather(PointOfInterest.Nettle, PointOfInterest.Bank2));
-
-        // Fishing lv. 1
         workflows.set('gudgeon-cook', WorkflowFactory.gatherAndCraft(PointOfInterest.Gudgeon, PointOfInterest.Bank1, PointOfInterest.Cooking, Item.CookedGudgeon, Item.Gudgeon));
-        workflows.set('gudgeon', WorkflowFactory.gather(PointOfInterest.Gudgeon, PointOfInterest.Bank1));
-
-        // Fishing lv. 10
-        workflows.set('shrimp', WorkflowFactory.gather(PointOfInterest.Shrimp, PointOfInterest.Bank1));
         workflows.set('shrimp-cook', WorkflowFactory.gatherAndCraft(PointOfInterest.Shrimp, PointOfInterest.Bank1, PointOfInterest.Cooking, Item.CookedShrimp, Item.Shrimp));
+
+
+        GatheringPOIs.forEach((pointOfInterests: PointOfInterest[]) => {
+            const [gatherPOI, bankPOI] = pointOfInterests;
+            workflows.set(`gather-${gatherPOI}`, WorkflowFactory.gather(gatherPOI!, bankPOI!));
+        })
     }
 
     private static registerForMonsters(workflows: Map<string, WorkflowAction[]>) {
         FightingPOIs.forEach((pointOfInterest: PointOfInterest) => {
-            workflows.set(pointOfInterest, WorkflowFactory.fightUntilFull(pointOfInterest));
+            workflows.set(`fight-${pointOfInterest}`, WorkflowFactory.fightUntilFull(pointOfInterest));
         })
     }
 
     private static registerForCrafting(workflows: Map<string, WorkflowAction[]>) {
-        workflows.set('copper_bar', WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Forge, Item.Copper, -1));
-        workflows.set('iron_bar', WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Forge, Item.Iron, -1));
-
-        workflows.set('ash_plank', WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Workshop, Item.AshPlank, -1));
-        workflows.set('spruce_plank', WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Workshop, Item.SprucePlank, -1));
-
-        CookingCraftable.forEach((meal: Item) => {
-            workflows.set(`craft_${meal}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Cooking, meal, -1));
+        CraftableMining.forEach((bar: Item) => {
+            workflows.set(`forge-${bar}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Forge, bar, -1));
         });
 
-        AlchemyCraftable.forEach((potion: Item) => {
-            workflows.set(`craft_${potion}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Alchemy, potion, -1));
+        CraftableWoodcutting.forEach((plank: Item) => {
+            workflows.set(`cut-${plank}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Workshop, plank, -1));
+        });
+
+        CraftableCooking.forEach((meal: Item) => {
+            workflows.set(`cook-${meal}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Cooking, meal, -1));
+        });
+
+        CraftableAlchemy.forEach((potion: Item) => {
+            workflows.set(`brew-${potion}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Alchemy, potion, -1));
         });
     }
 
