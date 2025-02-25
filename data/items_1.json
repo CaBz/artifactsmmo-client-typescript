@@ -1,0 +1,2749 @@
+{
+  "data": [
+    {
+      "name": "Cooked Gudgeon",
+      "code": "cooked_gudgeon",
+      "level": 1,
+      "type": "consumable",
+      "subtype": "food",
+      "description": "",
+      "effects": [
+        {
+          "code": "heal",
+          "value": 75
+        }
+      ],
+      "craft": {
+        "skill": "cooking",
+        "level": 1,
+        "items": [
+          {
+            "code": "gudgeon",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Copper Dagger",
+      "code": "copper_dagger",
+      "level": 1,
+      "type": "weapon",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "attack_air",
+          "value": 6
+        },
+        {
+          "code": "critical_strike",
+          "value": 35
+        }
+      ],
+      "craft": {
+        "skill": "weaponcrafting",
+        "level": 1,
+        "items": [
+          {
+            "code": "copper",
+            "quantity": 6
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Copper Ore",
+      "code": "copper_ore",
+      "level": 1,
+      "type": "resource",
+      "subtype": "mining",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Raw Chicken",
+      "code": "raw_chicken",
+      "level": 1,
+      "type": "resource",
+      "subtype": "food",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Copper Boots",
+      "code": "copper_boots",
+      "level": 1,
+      "type": "boots",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 10
+        },
+        {
+          "code": "wisdom",
+          "value": 10
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 1,
+        "items": [
+          {
+            "code": "copper",
+            "quantity": 8
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Egg",
+      "code": "egg",
+      "level": 1,
+      "type": "resource",
+      "subtype": "mob",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Copper Helmet",
+      "code": "copper_helmet",
+      "level": 1,
+      "type": "helmet",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 20
+        },
+        {
+          "code": "dmg",
+          "value": 3
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 1,
+        "items": [
+          {
+            "code": "copper",
+            "quantity": 6
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Ash Wood",
+      "code": "ash_wood",
+      "level": 1,
+      "type": "resource",
+      "subtype": "woodcutting",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Cooked Chicken",
+      "code": "cooked_chicken",
+      "level": 1,
+      "type": "consumable",
+      "subtype": "food",
+      "description": "",
+      "effects": [
+        {
+          "code": "heal",
+          "value": 80
+        }
+      ],
+      "craft": {
+        "skill": "cooking",
+        "level": 1,
+        "items": [
+          {
+            "code": "raw_chicken",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Feather",
+      "code": "feather",
+      "level": 1,
+      "type": "resource",
+      "subtype": "mob",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Gudgeon",
+      "code": "gudgeon",
+      "level": 1,
+      "type": "resource",
+      "subtype": "fishing",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Tasks Coin",
+      "code": "tasks_coin",
+      "level": 1,
+      "type": "currency",
+      "subtype": "",
+      "description": "You can earn this currency by completing tasks. You can exchange them at any Tasks Master for a reward.",
+      "effects": [],
+      "craft": null,
+      "tradeable": false
+    },
+    {
+      "name": "Copper",
+      "code": "copper",
+      "level": 1,
+      "type": "resource",
+      "subtype": "bar",
+      "description": "",
+      "effects": [],
+      "craft": {
+        "skill": "mining",
+        "level": 1,
+        "items": [
+          {
+            "code": "copper_ore",
+            "quantity": 10
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Wooden Shield",
+      "code": "wooden_shield",
+      "level": 1,
+      "type": "shield",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "res_fire",
+          "value": 2
+        },
+        {
+          "code": "res_earth",
+          "value": 2
+        },
+        {
+          "code": "res_water",
+          "value": 2
+        },
+        {
+          "code": "res_air",
+          "value": 2
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 1,
+        "items": [
+          {
+            "code": "ash_plank",
+            "quantity": 6
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Wooden Staff",
+      "code": "wooden_staff",
+      "level": 1,
+      "type": "weapon",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "attack_earth",
+          "value": 8
+        },
+        {
+          "code": "critical_strike",
+          "value": 5
+        }
+      ],
+      "craft": {
+        "skill": "weaponcrafting",
+        "level": 1,
+        "items": [
+          {
+            "code": "wooden_stick",
+            "quantity": 1
+          },
+          {
+            "code": "ash_wood",
+            "quantity": 4
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Copper Ring",
+      "code": "copper_ring",
+      "level": 1,
+      "type": "ring",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "dmg",
+          "value": 2
+        }
+      ],
+      "craft": {
+        "skill": "jewelrycrafting",
+        "level": 1,
+        "items": [
+          {
+            "code": "copper",
+            "quantity": 6
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Ash Plank",
+      "code": "ash_plank",
+      "level": 1,
+      "type": "resource",
+      "subtype": "plank",
+      "description": "",
+      "effects": [],
+      "craft": {
+        "skill": "woodcutting",
+        "level": 1,
+        "items": [
+          {
+            "code": "ash_wood",
+            "quantity": 10
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Wooden Stick",
+      "code": "wooden_stick",
+      "level": 1,
+      "type": "weapon",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "attack_earth",
+          "value": 4
+        },
+        {
+          "code": "critical_strike",
+          "value": 5
+        }
+      ],
+      "craft": null,
+      "tradeable": false
+    },
+    {
+      "name": "Apple",
+      "code": "apple",
+      "level": 1,
+      "type": "consumable",
+      "subtype": "food",
+      "description": "",
+      "effects": [
+        {
+          "code": "heal",
+          "value": 50
+        }
+      ],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Algae",
+      "code": "algae",
+      "level": 1,
+      "type": "resource",
+      "subtype": "fishing",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Sunflower",
+      "code": "sunflower",
+      "level": 1,
+      "type": "resource",
+      "subtype": "alchemy",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Bag of Gold",
+      "code": "bag_of_gold",
+      "level": 1,
+      "type": "consumable",
+      "subtype": "bag",
+      "description": "Use the item to receive 2500 gold.",
+      "effects": [
+        {
+          "code": "gold",
+          "value": 2500
+        }
+      ],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Small Bag of Gold",
+      "code": "small_bag_of_gold",
+      "level": 1,
+      "type": "consumable",
+      "subtype": "bag",
+      "description": "Use the item to receive 1000 gold.",
+      "effects": [
+        {
+          "code": "gold",
+          "value": 1000
+        }
+      ],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Golden Egg",
+      "code": "golden_egg",
+      "level": 1,
+      "type": "resource",
+      "subtype": "mob",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Recall Potion",
+      "code": "recall_potion",
+      "level": 1,
+      "type": "consumable",
+      "subtype": "potion",
+      "description": "Use the item to teleport you to the spawn.",
+      "effects": [
+        {
+          "code": "teleport_x",
+          "value": 0
+        },
+        {
+          "code": "teleport_y",
+          "value": 0
+        }
+      ],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "South Bank Potion",
+      "code": "south_bank_potion",
+      "level": 1,
+      "type": "consumable",
+      "subtype": "potion",
+      "description": "Use the item to teleport you to the south bank.",
+      "effects": [
+        {
+          "code": "teleport_x",
+          "value": 7
+        },
+        {
+          "code": "teleport_y",
+          "value": 13
+        }
+      ],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Yellow Slimeball",
+      "code": "yellow_slimeball",
+      "level": 2,
+      "type": "resource",
+      "subtype": "mob",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Green Slimeball",
+      "code": "green_slimeball",
+      "level": 4,
+      "type": "resource",
+      "subtype": "mob",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Copper Legs Armor",
+      "code": "copper_legs_armor",
+      "level": 5,
+      "type": "leg_armor",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 25
+        },
+        {
+          "code": "dmg",
+          "value": 2
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 5,
+        "items": [
+          {
+            "code": "copper",
+            "quantity": 5
+          },
+          {
+            "code": "feather",
+            "quantity": 2
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Feather Coat",
+      "code": "feather_coat",
+      "level": 5,
+      "type": "body_armor",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 25
+        },
+        {
+          "code": "dmg_air",
+          "value": 5
+        },
+        {
+          "code": "dmg_water",
+          "value": 5
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 5,
+        "items": [
+          {
+            "code": "feather",
+            "quantity": 5
+          },
+          {
+            "code": "ash_plank",
+            "quantity": 2
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Fire Staff",
+      "code": "fire_staff",
+      "level": 5,
+      "type": "weapon",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "attack_fire",
+          "value": 16
+        },
+        {
+          "code": "critical_strike",
+          "value": 5
+        }
+      ],
+      "craft": {
+        "skill": "weaponcrafting",
+        "level": 5,
+        "items": [
+          {
+            "code": "red_slimeball",
+            "quantity": 2
+          },
+          {
+            "code": "ash_plank",
+            "quantity": 5
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Raw Beef",
+      "code": "raw_beef",
+      "level": 5,
+      "type": "resource",
+      "subtype": "food",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Cooked Beef",
+      "code": "cooked_beef",
+      "level": 5,
+      "type": "consumable",
+      "subtype": "food",
+      "description": "",
+      "effects": [
+        {
+          "code": "heal",
+          "value": 150
+        }
+      ],
+      "craft": {
+        "skill": "cooking",
+        "level": 5,
+        "items": [
+          {
+            "code": "raw_beef",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Copper Armor",
+      "code": "copper_armor",
+      "level": 5,
+      "type": "body_armor",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 25
+        },
+        {
+          "code": "dmg_earth",
+          "value": 5
+        },
+        {
+          "code": "dmg_fire",
+          "value": 5
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 5,
+        "items": [
+          {
+            "code": "copper",
+            "quantity": 5
+          },
+          {
+            "code": "feather",
+            "quantity": 2
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Milk Bucket",
+      "code": "milk_bucket",
+      "level": 5,
+      "type": "resource",
+      "subtype": "food",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Fried Eggs",
+      "code": "fried_eggs",
+      "level": 5,
+      "type": "consumable",
+      "subtype": "food",
+      "description": "",
+      "effects": [
+        {
+          "code": "heal",
+          "value": 150
+        }
+      ],
+      "craft": {
+        "skill": "cooking",
+        "level": 5,
+        "items": [
+          {
+            "code": "egg",
+            "quantity": 2
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Sticky Dagger",
+      "code": "sticky_dagger",
+      "level": 5,
+      "type": "weapon",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "attack_air",
+          "value": 12
+        },
+        {
+          "code": "critical_strike",
+          "value": 35
+        }
+      ],
+      "craft": {
+        "skill": "weaponcrafting",
+        "level": 5,
+        "items": [
+          {
+            "code": "copper",
+            "quantity": 5
+          },
+          {
+            "code": "green_slimeball",
+            "quantity": 2
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Sticky Sword",
+      "code": "sticky_sword",
+      "level": 5,
+      "type": "weapon",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "attack_earth",
+          "value": 16
+        },
+        {
+          "code": "critical_strike",
+          "value": 5
+        }
+      ],
+      "craft": {
+        "skill": "weaponcrafting",
+        "level": 5,
+        "items": [
+          {
+            "code": "yellow_slimeball",
+            "quantity": 2
+          },
+          {
+            "code": "copper",
+            "quantity": 5
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Life Amulet",
+      "code": "life_amulet",
+      "level": 5,
+      "type": "amulet",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 30
+        }
+      ],
+      "craft": {
+        "skill": "jewelrycrafting",
+        "level": 5,
+        "items": [
+          {
+            "code": "feather",
+            "quantity": 4
+          },
+          {
+            "code": "red_slimeball",
+            "quantity": 2
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Water Bow",
+      "code": "water_bow",
+      "level": 5,
+      "type": "weapon",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "attack_water",
+          "value": 16
+        },
+        {
+          "code": "critical_strike",
+          "value": 35
+        }
+      ],
+      "craft": {
+        "skill": "weaponcrafting",
+        "level": 5,
+        "items": [
+          {
+            "code": "blue_slimeball",
+            "quantity": 2
+          },
+          {
+            "code": "ash_plank",
+            "quantity": 5
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Small Health Potion",
+      "code": "small_health_potion",
+      "level": 5,
+      "type": "utility",
+      "subtype": "potion",
+      "description": "Restores 20HP at the start of the turn if the player has lost more than 50% of his health points.",
+      "effects": [
+        {
+          "code": "restore",
+          "value": 20
+        }
+      ],
+      "craft": {
+        "skill": "alchemy",
+        "level": 5,
+        "items": [
+          {
+            "code": "sunflower",
+            "quantity": 3
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Satchel",
+      "code": "satchel",
+      "level": 5,
+      "type": "bag",
+      "subtype": "",
+      "description": "Increase your inventory space by 15.",
+      "effects": [
+        {
+          "code": "inventory_space",
+          "value": 15
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 5,
+        "items": [
+          {
+            "code": "cowhide",
+            "quantity": 5
+          },
+          {
+            "code": "feather",
+            "quantity": 2
+          },
+          {
+            "code": "jasper_crystal",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Blue Slimeball",
+      "code": "blue_slimeball",
+      "level": 6,
+      "type": "resource",
+      "subtype": "mob",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Red Slimeball",
+      "code": "red_slimeball",
+      "level": 7,
+      "type": "resource",
+      "subtype": "mob",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Cowhide",
+      "code": "cowhide",
+      "level": 8,
+      "type": "resource",
+      "subtype": "mob",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Fire & Earth Amulet",
+      "code": "fire_and_earth_amulet",
+      "level": 10,
+      "type": "amulet",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 20
+        },
+        {
+          "code": "dmg_fire",
+          "value": 5
+        },
+        {
+          "code": "dmg_earth",
+          "value": 5
+        }
+      ],
+      "craft": {
+        "skill": "jewelrycrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "iron",
+            "quantity": 4
+          },
+          {
+            "code": "red_slimeball",
+            "quantity": 2
+          },
+          {
+            "code": "yellow_slimeball",
+            "quantity": 2
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Iron Boots",
+      "code": "iron_boots",
+      "level": 10,
+      "type": "boots",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 40
+        },
+        {
+          "code": "res_water",
+          "value": 5
+        },
+        {
+          "code": "res_air",
+          "value": 5
+        },
+        {
+          "code": "haste",
+          "value": 3
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "iron",
+            "quantity": 5
+          },
+          {
+            "code": "feather",
+            "quantity": 3
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Iron Sword",
+      "code": "iron_sword",
+      "level": 10,
+      "type": "weapon",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "attack_earth",
+          "value": 24
+        },
+        {
+          "code": "critical_strike",
+          "value": 5
+        }
+      ],
+      "craft": {
+        "skill": "weaponcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "iron",
+            "quantity": 6
+          },
+          {
+            "code": "feather",
+            "quantity": 2
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Leather Boots",
+      "code": "leather_boots",
+      "level": 10,
+      "type": "boots",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 40
+        },
+        {
+          "code": "res_fire",
+          "value": 5
+        },
+        {
+          "code": "res_earth",
+          "value": 5
+        },
+        {
+          "code": "haste",
+          "value": 3
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "ash_plank",
+            "quantity": 4
+          },
+          {
+            "code": "cowhide",
+            "quantity": 4
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Mushroom",
+      "code": "mushroom",
+      "level": 10,
+      "type": "resource",
+      "subtype": "mob",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Cooked Shrimp",
+      "code": "cooked_shrimp",
+      "level": 10,
+      "type": "consumable",
+      "subtype": "food",
+      "description": "",
+      "effects": [
+        {
+          "code": "heal",
+          "value": 150
+        }
+      ],
+      "craft": {
+        "skill": "cooking",
+        "level": 10,
+        "items": [
+          {
+            "code": "shrimp",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Leather Armor",
+      "code": "leather_armor",
+      "level": 10,
+      "type": "body_armor",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 50
+        },
+        {
+          "code": "dmg_air",
+          "value": 8
+        },
+        {
+          "code": "dmg_water",
+          "value": 8
+        },
+        {
+          "code": "res_fire",
+          "value": 2
+        },
+        {
+          "code": "res_earth",
+          "value": 2
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "spruce_plank",
+            "quantity": 4
+          },
+          {
+            "code": "cowhide",
+            "quantity": 4
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Adventurer Helmet",
+      "code": "adventurer_helmet",
+      "level": 10,
+      "type": "helmet",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 50
+        },
+        {
+          "code": "dmg",
+          "value": 5
+        },
+        {
+          "code": "wisdom",
+          "value": 15
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "feather",
+            "quantity": 4
+          },
+          {
+            "code": "cowhide",
+            "quantity": 3
+          },
+          {
+            "code": "spruce_plank",
+            "quantity": 3
+          },
+          {
+            "code": "mushroom",
+            "quantity": 4
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Air & Water Amulet",
+      "code": "air_and_water_amulet",
+      "level": 10,
+      "type": "amulet",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 20
+        },
+        {
+          "code": "dmg_water",
+          "value": 5
+        },
+        {
+          "code": "dmg_air",
+          "value": 5
+        }
+      ],
+      "craft": {
+        "skill": "jewelrycrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "iron",
+            "quantity": 4
+          },
+          {
+            "code": "green_slimeball",
+            "quantity": 2
+          },
+          {
+            "code": "blue_slimeball",
+            "quantity": 2
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Greater Wooden Staff",
+      "code": "greater_wooden_staff",
+      "level": 10,
+      "type": "weapon",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "attack_water",
+          "value": 24
+        },
+        {
+          "code": "critical_strike",
+          "value": 5
+        }
+      ],
+      "craft": {
+        "skill": "weaponcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "spruce_plank",
+            "quantity": 6
+          },
+          {
+            "code": "blue_slimeball",
+            "quantity": 2
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Iron Armor",
+      "code": "iron_armor",
+      "level": 10,
+      "type": "body_armor",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 50
+        },
+        {
+          "code": "dmg_earth",
+          "value": 8
+        },
+        {
+          "code": "dmg_fire",
+          "value": 8
+        },
+        {
+          "code": "res_water",
+          "value": 2
+        },
+        {
+          "code": "res_air",
+          "value": 2
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "iron",
+            "quantity": 5
+          },
+          {
+            "code": "cowhide",
+            "quantity": 3
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Iron Legs Armor",
+      "code": "iron_legs_armor",
+      "level": 10,
+      "type": "leg_armor",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 50
+        },
+        {
+          "code": "haste",
+          "value": 1
+        },
+        {
+          "code": "dmg_fire",
+          "value": 5
+        },
+        {
+          "code": "dmg_earth",
+          "value": 5
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "iron",
+            "quantity": 5
+          },
+          {
+            "code": "cowhide",
+            "quantity": 3
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Adventurer Vest",
+      "code": "adventurer_vest",
+      "level": 10,
+      "type": "body_armor",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 60
+        },
+        {
+          "code": "dmg",
+          "value": 6
+        },
+        {
+          "code": "wisdom",
+          "value": 20
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "feather",
+            "quantity": 2
+          },
+          {
+            "code": "cowhide",
+            "quantity": 6
+          },
+          {
+            "code": "spruce_plank",
+            "quantity": 4
+          },
+          {
+            "code": "yellow_slimeball",
+            "quantity": 4
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Iron Helm",
+      "code": "iron_helm",
+      "level": 10,
+      "type": "helmet",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 40
+        },
+        {
+          "code": "dmg_fire",
+          "value": 5
+        },
+        {
+          "code": "dmg_earth",
+          "value": 5
+        },
+        {
+          "code": "res_fire",
+          "value": 4
+        },
+        {
+          "code": "res_earth",
+          "value": 4
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "iron",
+            "quantity": 5
+          },
+          {
+            "code": "feather",
+            "quantity": 3
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Iron Ore",
+      "code": "iron_ore",
+      "level": 10,
+      "type": "resource",
+      "subtype": "mining",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Leather Hat",
+      "code": "leather_hat",
+      "level": 10,
+      "type": "helmet",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 40
+        },
+        {
+          "code": "dmg_air",
+          "value": 5
+        },
+        {
+          "code": "dmg_water",
+          "value": 5
+        },
+        {
+          "code": "res_water",
+          "value": 4
+        },
+        {
+          "code": "res_air",
+          "value": 4
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "cowhide",
+            "quantity": 5
+          },
+          {
+            "code": "yellow_slimeball",
+            "quantity": 3
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Slime Shield",
+      "code": "slime_shield",
+      "level": 10,
+      "type": "shield",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "res_fire",
+          "value": 4
+        },
+        {
+          "code": "res_earth",
+          "value": 4
+        },
+        {
+          "code": "res_water",
+          "value": 4
+        },
+        {
+          "code": "res_air",
+          "value": 4
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "spruce_plank",
+            "quantity": 6
+          },
+          {
+            "code": "red_slimeball",
+            "quantity": 3
+          },
+          {
+            "code": "yellow_slimeball",
+            "quantity": 3
+          },
+          {
+            "code": "green_slimeball",
+            "quantity": 3
+          },
+          {
+            "code": "blue_slimeball",
+            "quantity": 3
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Iron",
+      "code": "iron",
+      "level": 10,
+      "type": "resource",
+      "subtype": "bar",
+      "description": "",
+      "effects": [],
+      "craft": {
+        "skill": "mining",
+        "level": 10,
+        "items": [
+          {
+            "code": "iron_ore",
+            "quantity": 10
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Jasper Crystal",
+      "code": "jasper_crystal",
+      "level": 10,
+      "type": "resource",
+      "subtype": "task",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Cheese",
+      "code": "cheese",
+      "level": 10,
+      "type": "consumable",
+      "subtype": "food",
+      "description": "",
+      "effects": [
+        {
+          "code": "heal",
+          "value": 180
+        }
+      ],
+      "craft": {
+        "skill": "cooking",
+        "level": 10,
+        "items": [
+          {
+            "code": "milk_bucket",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Spruce Wood",
+      "code": "spruce_wood",
+      "level": 10,
+      "type": "resource",
+      "subtype": "woodcutting",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Iron Ring",
+      "code": "iron_ring",
+      "level": 10,
+      "type": "ring",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "dmg",
+          "value": 4
+        }
+      ],
+      "craft": {
+        "skill": "jewelrycrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "iron",
+            "quantity": 6
+          },
+          {
+            "code": "feather",
+            "quantity": 2
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Iron Dagger",
+      "code": "iron_dagger",
+      "level": 10,
+      "type": "weapon",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "attack_air",
+          "value": 17
+        },
+        {
+          "code": "critical_strike",
+          "value": 35
+        }
+      ],
+      "craft": {
+        "skill": "weaponcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "iron",
+            "quantity": 6
+          },
+          {
+            "code": "feather",
+            "quantity": 2
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Spruce Plank",
+      "code": "spruce_plank",
+      "level": 10,
+      "type": "resource",
+      "subtype": "plank",
+      "description": "",
+      "effects": [],
+      "craft": {
+        "skill": "woodcutting",
+        "level": 10,
+        "items": [
+          {
+            "code": "spruce_wood",
+            "quantity": 10
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Shrimp",
+      "code": "shrimp",
+      "level": 10,
+      "type": "resource",
+      "subtype": "fishing",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Magical Cure",
+      "code": "magical_cure",
+      "level": 10,
+      "type": "resource",
+      "subtype": "task",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Fire Bow",
+      "code": "fire_bow",
+      "level": 10,
+      "type": "weapon",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "attack_fire",
+          "value": 17
+        },
+        {
+          "code": "critical_strike",
+          "value": 35
+        }
+      ],
+      "craft": {
+        "skill": "weaponcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "spruce_plank",
+            "quantity": 6
+          },
+          {
+            "code": "red_slimeball",
+            "quantity": 2
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Iron Pickaxe",
+      "code": "iron_pickaxe",
+      "level": 10,
+      "type": "weapon",
+      "subtype": "tool",
+      "description": "Reduces cooldown by 10% when a character mines a resource.",
+      "effects": [
+        {
+          "code": "attack_earth",
+          "value": 5
+        },
+        {
+          "code": "mining",
+          "value": -10
+        }
+      ],
+      "craft": {
+        "skill": "weaponcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "spruce_plank",
+            "quantity": 2
+          },
+          {
+            "code": "iron",
+            "quantity": 8
+          },
+          {
+            "code": "jasper_crystal",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Iron Axe",
+      "code": "iron_axe",
+      "level": 10,
+      "type": "weapon",
+      "subtype": "tool",
+      "description": "Reduces cooldown by 10% when a character logs a tree.",
+      "effects": [
+        {
+          "code": "attack_earth",
+          "value": 5
+        },
+        {
+          "code": "woodcutting",
+          "value": -10
+        }
+      ],
+      "craft": {
+        "skill": "weaponcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "spruce_plank",
+            "quantity": 2
+          },
+          {
+            "code": "iron",
+            "quantity": 8
+          },
+          {
+            "code": "jasper_crystal",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Spruce Fishing Rod",
+      "code": "spruce_fishing_rod",
+      "level": 10,
+      "type": "weapon",
+      "subtype": "tool",
+      "description": "Reduces cooldown by 10% when a character is fishing.",
+      "effects": [
+        {
+          "code": "attack_water",
+          "value": 5
+        },
+        {
+          "code": "fishing",
+          "value": -10
+        }
+      ],
+      "craft": {
+        "skill": "weaponcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "spruce_plank",
+            "quantity": 8
+          },
+          {
+            "code": "iron",
+            "quantity": 2
+          },
+          {
+            "code": "jasper_crystal",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Backpack",
+      "code": "backpack",
+      "level": 10,
+      "type": "bag",
+      "subtype": "",
+      "description": "Increase your inventory space by 35.",
+      "effects": [
+        {
+          "code": "inventory_space",
+          "value": 35
+        }
+      ],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Earth Boost Potion",
+      "code": "earth_boost_potion",
+      "level": 10,
+      "type": "utility",
+      "subtype": "potion",
+      "description": "Gives 12% earth damage at the start of fight.",
+      "effects": [
+        {
+          "code": "boost_dmg_earth",
+          "value": 12
+        }
+      ],
+      "craft": {
+        "skill": "alchemy",
+        "level": 10,
+        "items": [
+          {
+            "code": "yellow_slimeball",
+            "quantity": 1
+          },
+          {
+            "code": "sunflower",
+            "quantity": 1
+          },
+          {
+            "code": "algae",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Air Boost Potion",
+      "code": "air_boost_potion",
+      "level": 10,
+      "type": "utility",
+      "subtype": "potion",
+      "description": "Gives 12% air damage at the start of fight.",
+      "effects": [
+        {
+          "code": "boost_dmg_air",
+          "value": 12
+        }
+      ],
+      "craft": {
+        "skill": "alchemy",
+        "level": 10,
+        "items": [
+          {
+            "code": "green_slimeball",
+            "quantity": 1
+          },
+          {
+            "code": "sunflower",
+            "quantity": 1
+          },
+          {
+            "code": "algae",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Fire Boost Potion",
+      "code": "fire_boost_potion",
+      "level": 10,
+      "type": "utility",
+      "subtype": "potion",
+      "description": "Gives 12% fire damage at the start of fight.",
+      "effects": [
+        {
+          "code": "boost_dmg_fire",
+          "value": 12
+        }
+      ],
+      "craft": {
+        "skill": "alchemy",
+        "level": 10,
+        "items": [
+          {
+            "code": "red_slimeball",
+            "quantity": 1
+          },
+          {
+            "code": "sunflower",
+            "quantity": 1
+          },
+          {
+            "code": "algae",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Water Boost Potion",
+      "code": "water_boost_potion",
+      "level": 10,
+      "type": "utility",
+      "subtype": "potion",
+      "description": "Gives 12% water damage at the start of fight.",
+      "effects": [
+        {
+          "code": "boost_dmg_water",
+          "value": 12
+        }
+      ],
+      "craft": {
+        "skill": "alchemy",
+        "level": 10,
+        "items": [
+          {
+            "code": "blue_slimeball",
+            "quantity": 1
+          },
+          {
+            "code": "sunflower",
+            "quantity": 1
+          },
+          {
+            "code": "algae",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Leather Gloves",
+      "code": "leather_gloves",
+      "level": 10,
+      "type": "weapon",
+      "subtype": "tool",
+      "description": "Reduces cooldown by 10% when a character harvest a plant.",
+      "effects": [
+        {
+          "code": "attack_air",
+          "value": 5
+        },
+        {
+          "code": "alchemy",
+          "value": -10
+        }
+      ],
+      "craft": {
+        "skill": "weaponcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "ash_plank",
+            "quantity": 2
+          },
+          {
+            "code": "cowhide",
+            "quantity": 8
+          },
+          {
+            "code": "jasper_crystal",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Astralyte Crystal",
+      "code": "astralyte_crystal",
+      "level": 10,
+      "type": "resource",
+      "subtype": "task",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Enchanted Fabric",
+      "code": "enchanted_fabric",
+      "level": 10,
+      "type": "resource",
+      "subtype": "task",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Forest Ring",
+      "code": "forest_ring",
+      "level": 10,
+      "type": "ring",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 20
+        },
+        {
+          "code": "dmg",
+          "value": 3
+        },
+        {
+          "code": "wisdom",
+          "value": 15
+        }
+      ],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Leather Legs Armor",
+      "code": "leather_legs_armor",
+      "level": 10,
+      "type": "leg_armor",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 50
+        },
+        {
+          "code": "haste",
+          "value": 1
+        },
+        {
+          "code": "dmg_air",
+          "value": 5
+        },
+        {
+          "code": "dmg_water",
+          "value": 5
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 10,
+        "items": [
+          {
+            "code": "spruce_plank",
+            "quantity": 5
+          },
+          {
+            "code": "cowhide",
+            "quantity": 3
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Golden Shrimp",
+      "code": "golden_shrimp",
+      "level": 10,
+      "type": "resource",
+      "subtype": "fishing",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Flying Wing",
+      "code": "flying_wing",
+      "level": 12,
+      "type": "resource",
+      "subtype": "mob",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Serpent Skin",
+      "code": "serpent_skin",
+      "level": 12,
+      "type": "resource",
+      "subtype": "mob",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Air Ring",
+      "code": "air_ring",
+      "level": 15,
+      "type": "ring",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "dmg_air",
+          "value": 8
+        }
+      ],
+      "craft": {
+        "skill": "jewelrycrafting",
+        "level": 15,
+        "items": [
+          {
+            "code": "iron",
+            "quantity": 5
+          },
+          {
+            "code": "green_slimeball",
+            "quantity": 4
+          },
+          {
+            "code": "flying_wing",
+            "quantity": 3
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Multislimes Sword",
+      "code": "multislimes_sword",
+      "level": 15,
+      "type": "weapon",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "attack_air",
+          "value": 8
+        },
+        {
+          "code": "attack_water",
+          "value": 8
+        },
+        {
+          "code": "attack_fire",
+          "value": 8
+        },
+        {
+          "code": "attack_earth",
+          "value": 8
+        },
+        {
+          "code": "critical_strike",
+          "value": 24
+        }
+      ],
+      "craft": {
+        "skill": "weaponcrafting",
+        "level": 15,
+        "items": [
+          {
+            "code": "iron",
+            "quantity": 5
+          },
+          {
+            "code": "red_slimeball",
+            "quantity": 2
+          },
+          {
+            "code": "blue_slimeball",
+            "quantity": 2
+          },
+          {
+            "code": "yellow_slimeball",
+            "quantity": 2
+          },
+          {
+            "code": "green_slimeball",
+            "quantity": 2
+          },
+          {
+            "code": "jasper_crystal",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Mushmush Wizard Hat",
+      "code": "mushmush_wizard_hat",
+      "level": 15,
+      "type": "helmet",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "dmg_fire",
+          "value": 10
+        },
+        {
+          "code": "dmg_earth",
+          "value": 10
+        },
+        {
+          "code": "hp",
+          "value": 50
+        },
+        {
+          "code": "critical_strike",
+          "value": 3
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 15,
+        "items": [
+          {
+            "code": "cowhide",
+            "quantity": 3
+          },
+          {
+            "code": "wolf_hair",
+            "quantity": 3
+          },
+          {
+            "code": "mushroom",
+            "quantity": 5
+          },
+          {
+            "code": "jasper_crystal",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Raw Wolf Meat",
+      "code": "raw_wolf_meat",
+      "level": 15,
+      "type": "resource",
+      "subtype": "food",
+      "description": "",
+      "effects": [],
+      "craft": null,
+      "tradeable": true
+    },
+    {
+      "name": "Earth Ring",
+      "code": "earth_ring",
+      "level": 15,
+      "type": "ring",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "dmg_earth",
+          "value": 8
+        }
+      ],
+      "craft": {
+        "skill": "jewelrycrafting",
+        "level": 15,
+        "items": [
+          {
+            "code": "iron",
+            "quantity": 5
+          },
+          {
+            "code": "yellow_slimeball",
+            "quantity": 4
+          },
+          {
+            "code": "flying_wing",
+            "quantity": 3
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Lucky Wizard Hat",
+      "code": "lucky_wizard_hat",
+      "level": 15,
+      "type": "helmet",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "dmg_air",
+          "value": 10
+        },
+        {
+          "code": "dmg_water",
+          "value": 10
+        },
+        {
+          "code": "hp",
+          "value": 50
+        },
+        {
+          "code": "critical_strike",
+          "value": 3
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 15,
+        "items": [
+          {
+            "code": "green_cloth",
+            "quantity": 5
+          },
+          {
+            "code": "flying_wing",
+            "quantity": 4
+          },
+          {
+            "code": "green_slimeball",
+            "quantity": 5
+          },
+          {
+            "code": "jasper_crystal",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Mushmush Jacket",
+      "code": "mushmush_jacket",
+      "level": 15,
+      "type": "body_armor",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 60
+        },
+        {
+          "code": "dmg",
+          "value": 10
+        },
+        {
+          "code": "critical_strike",
+          "value": 3
+        },
+        {
+          "code": "wisdom",
+          "value": 10
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 15,
+        "items": [
+          {
+            "code": "cowhide",
+            "quantity": 4
+          },
+          {
+            "code": "flying_wing",
+            "quantity": 4
+          },
+          {
+            "code": "mushroom",
+            "quantity": 6
+          },
+          {
+            "code": "jasper_crystal",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Adventurer Boots",
+      "code": "adventurer_boots",
+      "level": 15,
+      "type": "boots",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 60
+        },
+        {
+          "code": "haste",
+          "value": 4
+        },
+        {
+          "code": "wisdom",
+          "value": 25
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 15,
+        "items": [
+          {
+            "code": "cowhide",
+            "quantity": 6
+          },
+          {
+            "code": "wolf_hair",
+            "quantity": 4
+          },
+          {
+            "code": "mushroom",
+            "quantity": 3
+          },
+          {
+            "code": "spruce_plank",
+            "quantity": 2
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Adventurer Pants",
+      "code": "adventurer_pants",
+      "level": 15,
+      "type": "leg_armor",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "hp",
+          "value": 60
+        },
+        {
+          "code": "wisdom",
+          "value": 20
+        },
+        {
+          "code": "dmg",
+          "value": 5
+        }
+      ],
+      "craft": {
+        "skill": "gearcrafting",
+        "level": 15,
+        "items": [
+          {
+            "code": "ash_plank",
+            "quantity": 2
+          },
+          {
+            "code": "cowhide",
+            "quantity": 8
+          },
+          {
+            "code": "green_cloth",
+            "quantity": 2
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Cooked Wolf Meat",
+      "code": "cooked_wolf_meat",
+      "level": 15,
+      "type": "consumable",
+      "subtype": "food",
+      "description": "",
+      "effects": [
+        {
+          "code": "heal",
+          "value": 200
+        }
+      ],
+      "craft": {
+        "skill": "cooking",
+        "level": 15,
+        "items": [
+          {
+            "code": "raw_wolf_meat",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Mushstaff",
+      "code": "mushstaff",
+      "level": 15,
+      "type": "weapon",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "attack_fire",
+          "value": 15
+        },
+        {
+          "code": "attack_earth",
+          "value": 15
+        },
+        {
+          "code": "critical_strike",
+          "value": 24
+        }
+      ],
+      "craft": {
+        "skill": "weaponcrafting",
+        "level": 15,
+        "items": [
+          {
+            "code": "spruce_plank",
+            "quantity": 5
+          },
+          {
+            "code": "mushroom",
+            "quantity": 4
+          },
+          {
+            "code": "green_cloth",
+            "quantity": 2
+          },
+          {
+            "code": "jasper_crystal",
+            "quantity": 1
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    },
+    {
+      "name": "Fire Ring",
+      "code": "fire_ring",
+      "level": 15,
+      "type": "ring",
+      "subtype": "",
+      "description": "",
+      "effects": [
+        {
+          "code": "dmg_fire",
+          "value": 8
+        }
+      ],
+      "craft": {
+        "skill": "jewelrycrafting",
+        "level": 15,
+        "items": [
+          {
+            "code": "iron",
+            "quantity": 5
+          },
+          {
+            "code": "red_slimeball",
+            "quantity": 4
+          },
+          {
+            "code": "flying_wing",
+            "quantity": 3
+          }
+        ],
+        "quantity": 1
+      },
+      "tradeable": true
+    }
+  ],
+  "total": 353,
+  "page": 1,
+  "size": 100,
+  "pages": 4
+}

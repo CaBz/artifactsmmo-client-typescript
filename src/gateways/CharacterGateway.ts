@@ -49,6 +49,18 @@ export class CharacterGateway {
         }
     }
 
+    async recycle(item: string, quantity: number) {
+        const result = await this.client.recycle(this.character, item, quantity);
+        const character = new Character(result.character);
+
+        character.logToConsole(['status', 'inventory']);
+
+        return {
+            ...result,
+            character,
+        }
+    }
+
     async rest() {
         const result = await this.client.rest(this.character);
         const character = new Character(result.character);

@@ -1,8 +1,8 @@
-import {Item} from "./Item.js";
+import {ItemName} from "./ItemName.js";
 import {Skill} from "./Skill.js";
 
 export interface ResourceItem {
-    code: Item,
+    code: ItemName,
     quantity: number,
 }
 
@@ -13,199 +13,209 @@ export interface Recipe {
 }
 
 export class Recipes {
-    static getFor(item: Item): Recipe {
+    static getFor(item: ItemName): Recipe {
         switch (item) {
             // Mining
-            case Item.Copper:
+            case ItemName.Copper:
                 return RecipeFactory.mining(1, [
-                    { code: Item.CopperOre, quantity: 10 },
+                    { code: ItemName.CopperOre, quantity: 10 },
                 ]);
 
-            case Item.Iron: // Lv.10
+            case ItemName.Iron: // Lv.10
                 return RecipeFactory.mining(10, [
-                    { code: Item.IronOre, quantity: 10 },
+                    { code: ItemName.IronOre, quantity: 10 },
                 ]);
 
-            case Item.Steel:
+            case ItemName.Steel:
                 return RecipeFactory.mining(20, [
-                    { code: Item.IronOre, quantity: 4 },
-                    { code: Item.Coal, quantity: 7 },
+                    { code: ItemName.IronOre, quantity: 4 },
+                    { code: ItemName.Coal, quantity: 7 },
                 ]);
 
-            case Item.Gold:
+            case ItemName.Gold:
                 return RecipeFactory.mining(30, [
-                    { code: Item.GoldOre, quantity: 10 },
+                    { code: ItemName.GoldOre, quantity: 10 },
                 ]);
 
-            case Item.Strangold:
+            case ItemName.Strangold:
                 return RecipeFactory.mining(35, [
-                    { code: Item.GoldOre, quantity: 4 },
-                    { code: Item.StrangeOre, quantity: 6 },
+                    { code: ItemName.GoldOre, quantity: 4 },
+                    { code: ItemName.StrangeOre, quantity: 6 },
                 ]);
 
-            case Item.Mithril:
+            case ItemName.Mithril:
                 return RecipeFactory.mining(40, [
-                    { code: Item.MithrilOre, quantity: 10 },
+                    { code: ItemName.MithrilOre, quantity: 10 },
                 ]);
 
             // Weapongcrafting
+            case ItemName.CopperDagger:
+                return RecipeFactory.weaponcrafting(1, [
+                    { code: ItemName.Copper, quantity: 6 },
+                ]);
+            case ItemName.WoodenStaff:
+                return RecipeFactory.weaponcrafting(1, [
+                    { code: ItemName.WoodenStick, quantity: 1 },
+                    { code: ItemName.AshWood, quantity: 4 },
+                ]);
+
             // Gearcrafting
 
             // Woodcutting
-            case Item.AshPlank:
+            case ItemName.AshPlank:
                 return RecipeFactory.woodcutting(1, [
-                    { code: Item.AshWood, quantity: 10 },
+                    { code: ItemName.AshWood, quantity: 10 },
                 ]);
-            case Item.SprucePlank:
+            case ItemName.SprucePlank:
                 return RecipeFactory.woodcutting(10, [
-                    { code: Item.SpruceWood, quantity: 10 },
+                    { code: ItemName.SpruceWood, quantity: 10 },
                 ]);
-            case Item.HardwoodPlank:
+            case ItemName.HardwoodPlank:
                 return RecipeFactory.woodcutting(20, [
-                    { code: Item.AshWood, quantity: 4 },
-                    { code: Item.BirchWood, quantity: 6 },
+                    { code: ItemName.AshWood, quantity: 4 },
+                    { code: ItemName.BirchWood, quantity: 6 },
                 ]);
-            case Item.MaplePlank:
+            case ItemName.MaplePlank:
                 return RecipeFactory.woodcutting(40, [
-                    { code: Item.MapleWood, quantity: 10 },
+                    { code: ItemName.MapleWood, quantity: 10 },
                 ]);
 
             // Alchemy
-            case Item.SmallHealthPotion:
+            case ItemName.SmallHealthPotion:
                 return RecipeFactory.alchemy(5, [
-                    {code: Item.Sunflower, quantity: 3},
+                    {code: ItemName.Sunflower, quantity: 3},
                 ]);
-            case Item.EathBoostPotion:
+            case ItemName.EathBoostPotion:
                 return RecipeFactory.alchemy(10, [
-                    {code: Item.Sunflower, quantity: 1},
-                    {code: Item.YellowSlimeBall, quantity: 1},
-                    {code: Item.Algae, quantity: 1},
+                    {code: ItemName.Sunflower, quantity: 1},
+                    {code: ItemName.YellowSlimeBall, quantity: 1},
+                    {code: ItemName.Algae, quantity: 1},
                 ]);
-            case Item.AirBoostPotion:
+            case ItemName.AirBoostPotion:
                 return RecipeFactory.alchemy(10, [
-                    {code: Item.Sunflower, quantity: 1},
-                    {code: Item.GreenSlimeBall, quantity: 1},
-                    {code: Item.Algae, quantity: 1},
+                    {code: ItemName.Sunflower, quantity: 1},
+                    {code: ItemName.GreenSlimeBall, quantity: 1},
+                    {code: ItemName.Algae, quantity: 1},
                 ]);
-            case Item.FireBoostPotion:
+            case ItemName.FireBoostPotion:
                 return RecipeFactory.alchemy(10, [
-                    {code: Item.Sunflower, quantity: 1},
-                    {code: Item.RedSlimeBall, quantity: 1},
-                    {code: Item.Algae, quantity: 1},
+                    {code: ItemName.Sunflower, quantity: 1},
+                    {code: ItemName.RedSlimeBall, quantity: 1},
+                    {code: ItemName.Algae, quantity: 1},
                 ]);
-            case Item.WaterBoostPotion:
+            case ItemName.WaterBoostPotion:
                 return RecipeFactory.alchemy(10, [
-                    {code: Item.Sunflower, quantity: 1},
-                    {code: Item.BlueSlimeBall, quantity: 1},
-                    {code: Item.Algae, quantity: 1},
+                    {code: ItemName.Sunflower, quantity: 1},
+                    {code: ItemName.BlueSlimeBall, quantity: 1},
+                    {code: ItemName.Algae, quantity: 1},
                 ]);
 
-            case Item.MinorHealthPotion:
+            case ItemName.MinorHealthPotion:
                 return RecipeFactory.alchemy(20, [
-                    {code: Item.NettleLeaf, quantity: 2},
-                    {code: Item.Algae, quantity: 1},
+                    {code: ItemName.NettleLeaf, quantity: 2},
+                    {code: ItemName.Algae, quantity: 1},
                 ]);
-            case Item.SmallAntitode:
+            case ItemName.SmallAntitode:
                 return RecipeFactory.alchemy(20, [
-                    {code: Item.MilkBucket, quantity: 1},
-                    {code: Item.Sap, quantity: 1},
-                    {code: Item.NettleLeaf, quantity: 1},
+                    {code: ItemName.MilkBucket, quantity: 1},
+                    {code: ItemName.Sap, quantity: 1},
+                    {code: ItemName.NettleLeaf, quantity: 1},
                 ]);
-            case Item.HealthPotion:
+            case ItemName.HealthPotion:
                 return RecipeFactory.alchemy(30, [
-                    {code: Item.NettleLeaf, quantity: 2},
-                    {code: Item.Sunflower, quantity: 1},
-                    {code: Item.Sap, quantity: 1},
+                    {code: ItemName.NettleLeaf, quantity: 2},
+                    {code: ItemName.Sunflower, quantity: 1},
+                    {code: ItemName.Sap, quantity: 1},
                 ]);
-            case Item.Antitode:
+            case ItemName.Antitode:
                 return RecipeFactory.alchemy(30, [
-                    {code: Item.Strangold, quantity: 2},
-                    {code: Item.MapleSap, quantity: 1},
-                    {code: Item.GlowstemLeaf, quantity: 1},
+                    {code: ItemName.Strangold, quantity: 2},
+                    {code: ItemName.MapleSap, quantity: 1},
+                    {code: ItemName.GlowstemLeaf, quantity: 1},
                 ]);
-            case Item.HealthBoostPotion:
+            case ItemName.HealthBoostPotion:
                 return RecipeFactory.alchemy(40, [
-                    {code: Item.Shrimp, quantity: 1},
-                    {code: Item.Sap, quantity: 1},
-                    {code: Item.NettleLeaf, quantity: 1},
+                    {code: ItemName.Shrimp, quantity: 1},
+                    {code: ItemName.Sap, quantity: 1},
+                    {code: ItemName.NettleLeaf, quantity: 1},
                 ]);
-            case Item.GreaterHealthPotion:
+            case ItemName.GreaterHealthPotion:
                 return RecipeFactory.alchemy(35, [
-                    {code: Item.GlowstemLeaf, quantity: 2},
-                    {code: Item.Egg, quantity: 1},
-                    {code: Item.Algae, quantity: 1},
+                    {code: ItemName.GlowstemLeaf, quantity: 2},
+                    {code: ItemName.Egg, quantity: 1},
+                    {code: ItemName.Algae, quantity: 1},
                 ]);
-            case Item.EnchantedHealthPotion:
+            case ItemName.EnchantedHealthPotion:
                 return RecipeFactory.alchemy(40, [
-                    {code: Item.GlowstemLeaf, quantity: 2},
-                    {code: Item.Sunflower, quantity: 1},
-                    {code: Item.MagicSap, quantity: 1},
+                    {code: ItemName.GlowstemLeaf, quantity: 2},
+                    {code: ItemName.Sunflower, quantity: 1},
+                    {code: ItemName.MagicSap, quantity: 1},
                 ]);
-            case Item.EnchantedBoostPotion:
+            case ItemName.EnchantedBoostPotion:
                 return RecipeFactory.alchemy(40, [
-                    {code: Item.GlowstemLeaf, quantity: 2},
-                    {code: Item.BatWing, quantity: 1},
-                    {code: Item.MagicSap, quantity: 1},
+                    {code: ItemName.GlowstemLeaf, quantity: 2},
+                    {code: ItemName.BatWing, quantity: 1},
+                    {code: ItemName.MagicSap, quantity: 1},
                 ]);
-            case Item.EarthResPotion:
+            case ItemName.EarthResPotion:
                 return RecipeFactory.alchemy(40, [
-                    {code: Item.YellowSlimeBall, quantity: 2},
-                    {code: Item.MapleSap, quantity: 1},
-                    {code: Item.GlowstemLeaf, quantity: 1},
+                    {code: ItemName.YellowSlimeBall, quantity: 2},
+                    {code: ItemName.MapleSap, quantity: 1},
+                    {code: ItemName.GlowstemLeaf, quantity: 1},
                 ]);
-            case Item.FireResPotion:
+            case ItemName.FireResPotion:
                 return RecipeFactory.alchemy(40, [
-                    {code: Item.RedSlimeBall, quantity: 2},
-                    {code: Item.MapleSap, quantity: 1},
-                    {code: Item.GlowstemLeaf, quantity: 1},
+                    {code: ItemName.RedSlimeBall, quantity: 2},
+                    {code: ItemName.MapleSap, quantity: 1},
+                    {code: ItemName.GlowstemLeaf, quantity: 1},
                 ]);
-            case Item.AirhResPotion:
+            case ItemName.AirhResPotion:
                 return RecipeFactory.alchemy(40, [
-                    {code: Item.GreenSlimeBall, quantity: 2},
-                    {code: Item.MapleSap, quantity: 1},
-                    {code: Item.GlowstemLeaf, quantity: 1},
+                    {code: ItemName.GreenSlimeBall, quantity: 2},
+                    {code: ItemName.MapleSap, quantity: 1},
+                    {code: ItemName.GlowstemLeaf, quantity: 1},
                 ]);
-            case Item.WaterResPotion:
+            case ItemName.WaterResPotion:
                 return RecipeFactory.alchemy(40, [
-                    {code: Item.BlueSlimeBall, quantity: 2},
-                    {code: Item.MapleSap, quantity: 1},
-                    {code: Item.GlowstemLeaf, quantity: 1},
+                    {code: ItemName.BlueSlimeBall, quantity: 2},
+                    {code: ItemName.MapleSap, quantity: 1},
+                    {code: ItemName.GlowstemLeaf, quantity: 1},
                 ]);
 
             // Jewelrycrafting
 
             // Cooking
-            case Item.CookedChicken:
+            case ItemName.CookedChicken:
                 return RecipeFactory.cooking(1, [
-                    {code: Item.RawChicken, quantity: 1},
+                    {code: ItemName.RawChicken, quantity: 1},
                 ]);
-            case Item.CookedGudgeon:
+            case ItemName.CookedGudgeon:
                 return RecipeFactory.cooking(1, [
-                    {code: Item.Gudgeon, quantity: 1},
+                    {code: ItemName.Gudgeon, quantity: 1},
                 ]);
-            case Item.CookedBeef:
+            case ItemName.CookedBeef:
                 return RecipeFactory.cooking(1, [
-                    {code: Item.RawBeef, quantity: 1},
+                    {code: ItemName.RawBeef, quantity: 1},
                 ]);
-            case Item.FriendEggs:
+            case ItemName.FriendEggs:
                 return RecipeFactory.cooking(5, [
-                    {code: Item.Egg, quantity: 2},
+                    {code: ItemName.Egg, quantity: 2},
                 ]);
-            case Item.CookedShrimp:
+            case ItemName.CookedShrimp:
                 return RecipeFactory.cooking(10, [
-                    {code: Item.Shrimp, quantity: 1},
+                    {code: ItemName.Shrimp, quantity: 1},
                 ]);
-            case Item.CookedTrout:
+            case ItemName.CookedTrout:
                 return RecipeFactory.cooking(20, [
-                    {code: Item.Trout, quantity: 1},
+                    {code: ItemName.Trout, quantity: 1},
                 ]);
-            case Item.CookedBass:
+            case ItemName.CookedBass:
                 return RecipeFactory.cooking(30, [
-                    {code: Item.Bass, quantity: 1},
+                    {code: ItemName.Bass, quantity: 1},
                 ]);
-            case Item.CookedSalmon:
+            case ItemName.CookedSalmon:
                 return RecipeFactory.cooking(40, [
-                    {code: Item.Salmon, quantity: 1},
+                    {code: ItemName.Salmon, quantity: 1},
                 ]);
 
             // Monster Drops

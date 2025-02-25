@@ -3,7 +3,7 @@ import {
     CraftAction,
     FightAction,
     GatherAction,
-    MoveAction, SubworkflowAction,
+    MoveAction, RecycleAction, SubworkflowAction,
     SubworkflowCondition,
     WorkflowAction,
 } from "../Workflows.js";
@@ -80,6 +80,13 @@ export class WorkflowOrchestrator {
                 await this.crafter.craft(
                     (action as CraftAction).code,
                     (action as CraftAction).quantity
+                );
+                break;
+
+            case Action.Recycle:
+                await this.crafter.recycle(
+                    (action as RecycleAction).code,
+                    (action as RecycleAction).quantity
                 );
                 break;
 

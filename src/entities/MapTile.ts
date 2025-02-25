@@ -1,29 +1,29 @@
 import {Coordinates} from "../lexical/MapCoordinates.js";
 
-export class Map {
+export class MapTile {
     constructor(private readonly data: any) {
     }
 
-    getName() {
+    get name() {
         return this.data.name;
     }
 
-    getSkin() {
+    get skin() {
         return this.data.skin;
     }
 
-    getCoordinates(): Coordinates {
+    get coordinates(): Coordinates {
         return {
             x: this.data.x,
             y: this.data.y,
         };
     }
 
-    getContentType() {
-        return this.data.content.type;
+    get contentType() {
+        return this.data.content?.type;
     }
 
-    getContentCode() {
-        return this.data.content.code;
+    get contentCode() {
+        return this.data.content?.code;
     }
 }

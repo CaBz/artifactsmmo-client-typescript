@@ -1,6 +1,6 @@
 import { Character } from "../entities/Character.js";
 import {ClientException} from "./ClientException.js";
-import {Map} from "../entities/Map.js";
+import {MapTile} from "../entities/MapTile.js";
 
 export class ArtifactsClient {
     private serverUrl: string;
@@ -30,6 +30,10 @@ export class ArtifactsClient {
 
     async craft(characterName: string, code: string, quantity: number) {
         return this.sendCharacterAction(characterName, 'crafting', {code, quantity});
+    }
+
+    async recycle(characterName: string, code: string, quantity: number) {
+        return this.sendCharacterAction(characterName, 'recycling', {code, quantity});
     }
 
     async rest(characterName: string) {
@@ -77,9 +81,9 @@ export class ArtifactsClient {
     }
 
     // MAPS
-    async getMap(x: number, y: number): Promise<Map> {
+    async getMap(x: number, y: number): Promise<MapTile> {
         const response = await this.sendRequest('GET', `maps/${x}/${y}`);
-        const map = new Map(response);
+        const map = new MapTile(response);
         console.log(map);
 
         return map;
