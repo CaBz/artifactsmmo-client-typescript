@@ -167,6 +167,17 @@ async function generateEnums() {
                 console.log(identifier, entity.skill, entity.level, map.coordinates.x, map.coordinates.y);
                 break;
             case 'monster':
+                entity = monsters.get(map.contentCode);
+                for (let i=1; i<10; i++) {
+                    identifier = `${entity.code.split('_')[0]}${i}`;
+                    identifier = identifier.charAt(0).toUpperCase() + identifier.slice(1)
+                    if (!entities.has(identifier)) {
+                        break;
+                    }
+                }
+                entities.set(identifier, true);
+                console.log(identifier, entity, map.coordinates.x, map.coordinates.y);
+                return;
                 break;
             case 'bank':
                 break;
