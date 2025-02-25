@@ -13,4 +13,8 @@ export class Monster {
     get code(): string {
         return this.data.code;
     }
+
+    get level(): number {
+        return this.data.level;
+    }
 }

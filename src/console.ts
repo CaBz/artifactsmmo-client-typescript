@@ -76,8 +76,6 @@ async function processCommand(commandName: string) {
             await container.client.getByEntityAndCode(commandName, consoleParams.shift())
             break;
 
-        case 'list-fights': await findAllFightSpots(); break;
-        case 'data': await loadData(); break;
         case 'merge-all-data': await mergeEverything(); break;
         case 'generate-enums': await generateEnums(); break;
 
@@ -95,31 +93,70 @@ async function generateEnums() {
     const monsters: Map<string, Monster> = data[2];
     const resources: Map<string, Resource> = data[3];
 
-    const craftableItems = [];
-
     // -----------
     // ITEMS
     // -----------
+    const craftableItems = {
+        mining: [],
+        woodcutting: [],
+        fishing: [],
+        weaponcrafting: [],
+        gearcrafting: [],
+        jewelrycrafting: [],
+        cooking: [],
+        alchemy: [],
+
+    };
+
     let fileContent = 'export enum Items {\n';
     items.forEach((item) => {
         fileContent += `    ${item.nameForEnum} = '${item.code}',\n`;
 
         if (item.isCraftable) {
-            craftableItems.push(item);
+            craftableItems[item.skillToCraft].push(item);
         }
     });
     fileContent += '}\n';
     await fs.writeFile('outputs/Items.ts', fileContent, 'utf8');
 
+    craftableItems.alchemy.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
+    craftableItems.woodcutting.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
+    craftableItems.fishing.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
+    craftableItems.weaponcrafting.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
+    craftableItems.gearcrafting.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
+    craftableItems.jewelrycrafting.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
+    craftableItems.cooking.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
+    craftableItems.alchemy.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
+
+    let countRecipes = 0;
+    Object.entries(craftableItems).forEach(([key, craftItems]: [string, Item[]]) => {
+        console.log('-----------------------------------');
+        console.log(key.toUpperCase());
+        console.log('-----------------------------------');
+
+        craftItems.forEach((item: Item) => {
+            countRecipes++;
+            console.log(`* [${item.levelToCraft}] ${item.code} -> x${item.quantityCrafted}`);
+            item.itemsToCraft.forEach((dataItem: any) => {
+                const item = items.get(dataItem.code);
+                console.log(`    - ${item.code} x${dataItem.quantity} -> ${item.type}${item.subType ? ` / ${item.subType}` : ''}`);
+            });
+            console.log();
+        })
+        console.log();
+    })
+    console.log(`Total recipes: ${countRecipes}`);
+    return;
+
     // -----------
     // RECIPES
     // -----------
-    fileContent = 'export enum Recipes {\n';
-    craftableItems.forEach((item) => {
-
-    });
-    fileContent += '}\n';
-    await fs.writeFile('outputs/Recipes.ts', fileContent, 'utf8');
+    // fileContent = 'export enum Recipes {\n';
+    // craftableItems.forEach((item) => {
+    //
+    // });
+    // fileContent += '}\n';
+    // await fs.writeFile('outputs/Recipes.ts', fileContent, 'utf8');
 
     // -----------
     // RESOURCES
@@ -157,31 +194,37 @@ async function generateEnums() {
             case 'resource':
                 entity = resources.get(map.contentCode);
                 for (let i=1; i<10; i++) {
-                    identifier = `${entity.code.split('_')[0]}${i}`;
-                    identifier = identifier.charAt(0).toUpperCase() + identifier.slice(1)
+                    identifier = `${entity.nameForEnum}${i}`;
                     if (!entities.has(identifier)) {
                         break;
                     }
                 }
                 entities.set(identifier, true);
-                console.log(identifier, entity.skill, entity.level, map.coordinates.x, map.coordinates.y);
+                //console.log(identifier, entity.skill, entity.level, map.coordinates.x, map.coordinates.y);
                 break;
             case 'monster':
                 entity = monsters.get(map.contentCode);
                 for (let i=1; i<10; i++) {
-                    identifier = `${entity.code.split('_')[0]}${i}`;
-                    identifier = identifier.charAt(0).toUpperCase() + identifier.slice(1)
+                    identifier = `${entity.nameForEnum}${i}`;
                     if (!entities.has(identifier)) {
                         break;
                     }
                 }
                 entities.set(identifier, true);
-                console.log(identifier, entity, map.coordinates.x, map.coordinates.y);
-                return;
+                //console.log(identifier, entity.level, map.coordinates.x, map.coordinates.y);
                 break;
             case 'bank':
+                for (let i=1; i<10; i++) {
+                    identifier = map.contentCode.charAt(0).toUpperCase() + map.contentCode.slice(1) + i;
+                    if (!entities.has(identifier)) {
+                        break;
+                    }
+                }
+                entities.set(identifier, true);
+                //console.log(identifier, map.coordinates.x, map.coordinates.y);
                 break;
             case 'tasks_master':
+                console.log(map);
                 break;
             case 'workshop':
                 break;
@@ -194,30 +237,6 @@ async function generateEnums() {
                 break;
         }
     }
-}
-
-async function findAllFightSpots() {
-    // beurk code
-    const data: any = await loadData();
-    const items: Map<string, Item> = data[0];
-    const maps: MapTile[] = data[1];
-    const monsters: Map<string, Monster> = data[2];
-    const resources: Map<string, Resource> = data[3];
-
-    let map: MapTile;
-    const fightSpots = [];
-    const resourceSpots = [];
-
-    for (let i=0; i<maps.length; i++) {
-        map = maps[i];
-        if (map.contentType === 'monster') {
-            console.log(monsters.get(map.contentCode));
-            return;
-            fightSpots.push(map);
-        }
-    }
-
-    console.log(fightSpots.length);
 }
 
 async function loadData() {

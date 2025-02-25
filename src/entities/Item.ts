@@ -34,7 +34,15 @@ export class Item {
         return this.data.craft?.skill;
     }
 
+    get levelToCraft(): number {
+        return this.data.craft?.level;
+    }
+
     get itemsToCraft(): any[] {
         return this.data.craft?.items;
+    }
+
+    get quantityCrafted(): number {
+        return this.data.craft?.quantity;
     }
 }
