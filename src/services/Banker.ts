@@ -4,6 +4,7 @@ import {Items} from "../lexical/Items.js";
 import * as Utils from "../Utils.js";
 import {ClientException} from "../gateways/ClientException.js";
 import {ArtifactsClient} from "../gateways/ArtifactsClient.js";
+import {Item} from "../entities/Item.js";
 
 export class Banker {
     constructor(
@@ -80,6 +81,7 @@ export class Banker {
     async getStatus(withItems: boolean) {
         try {
             const result = await this.client.getBank(withItems);
+            result.sort((a: any, b: any) => a.code.localeCompare(b.code));
             console.dir(result, { depth: null })
         } catch (e) {
             if (e instanceof ClientException) {

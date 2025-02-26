@@ -46,7 +46,7 @@ export class Crafter {
         }
 
         if (quantity === -1) {
-            await this.craft(item, quantity);
+            await this.recycle(item, quantity);
         }
     }
 }

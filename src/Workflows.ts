@@ -205,14 +205,12 @@ export class WorkflowFactory {
 
     static bankWithdrawAndCraft(craftPoint: PointOfInterest, craftItem: Items, craftQuantity: number, recycle: boolean): WorkflowAction[] {
         const recipe: Recipe = Recipes.getFor(craftItem);
-        const itemsLength: number = recipe.items.length;
 
         const withdrawActions: WorkflowAction[] = recipe.items.map((item: ResourceItem): WorkflowAction => {
             return {
                 action: Action.BankWithdraw,
                 code: item.code,
-                // Get as many items if it's just one item
-                quantity: itemsLength === 1 ? -1 : item.quantity
+                quantity: item.quantity,
             }
         });
 
