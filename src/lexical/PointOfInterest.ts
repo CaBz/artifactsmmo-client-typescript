@@ -14,7 +14,7 @@ export enum PointOfInterest {
     // Crafting
     Cooking = 'cooking',
     Weapon = 'weapon',
-    Armor = 'armor',
+    Gear = 'gear',
     Jewel = 'jewel',
     Alchemy = 'alchemy',
 

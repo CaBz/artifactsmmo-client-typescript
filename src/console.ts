@@ -2,7 +2,7 @@ import {PointOfInterest} from "./lexical/PointOfInterest.js";
 import {Container} from "./Container.js";
 import { promises as fs } from "node:fs";
 import {Item} from "./entities/Item.js";
-import {loadEverything, mergeEverything} from "./DataLoader.js";
+import {loadEverything, mergeEverything, readFile, readFileRaw} from "./DataLoader.js";
 import {MapTile} from "./entities/MapTile.js";
 import {Monster} from "./entities/Monster.js";
 import {Resource} from "./entities/Resource.js";
@@ -77,7 +77,7 @@ async function processCommand(commandName: string) {
             break;
 
         case 'merge-all-data': await mergeEverything(); break;
-        case 'generate-enums': await generateEnums(); break;
+        case 'generate': await generate(); break;
 
         default:
             console.error('\n\n!!!! Need to put a proper command name dudelino !!!\n\n\n');
@@ -86,7 +86,10 @@ async function processCommand(commandName: string) {
 }
 
 // code de marde
-async function generateEnums() {
+async function generate() {
+    const lexicalFilePath = 'src/lexical';
+
+    let fileContent: string;
     const data: any = await loadData();
     const items: Map<string, Item> = data[0];
     const maps: MapTile[] = data[1];
@@ -108,7 +111,7 @@ async function generateEnums() {
 
     };
 
-    let fileContent = 'export enum Items {\n';
+    fileContent = 'export enum Items {\n';
     items.forEach((item) => {
         fileContent += `    ${item.nameForEnum} = '${item.code}',\n`;
 
@@ -117,9 +120,12 @@ async function generateEnums() {
         }
     });
     fileContent += '}\n';
-    await fs.writeFile('outputs/Items.ts', fileContent, 'utf8');
+    await fs.writeFile(`${lexicalFilePath}/Items.ts`, fileContent, 'utf8');
 
-    craftableItems.alchemy.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
+    // -----------
+    // RECIPES & CRAFTABLE ITEMS
+    // -----------
+    craftableItems.mining.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
     craftableItems.woodcutting.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
     craftableItems.fishing.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
     craftableItems.weaponcrafting.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
@@ -128,35 +134,65 @@ async function generateEnums() {
     craftableItems.cooking.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
     craftableItems.alchemy.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
 
+    let placeholderRecipes: string = '';
+    const placeholderCraftable = {
+        mining: '',
+        woodcutting: '',
+        fishing: '',
+        weaponcrafting: '',
+        gearcrafting: '',
+        jewelrycrafting: '',
+        cooking: '',
+        alchemy: '',
+
+    };
+
     let countRecipes = 0;
+    const SPACES = `            `;
     Object.entries(craftableItems).forEach(([key, craftItems]: [string, Item[]]) => {
         console.log('-----------------------------------');
         console.log(key.toUpperCase());
         console.log('-----------------------------------');
 
+        placeholderRecipes += `${SPACES}// ${key.toUpperCase()}\n`;
+
         craftItems.forEach((item: Item) => {
             countRecipes++;
             console.log(`* [${item.levelToCraft}] ${item.code} -> x${item.quantityCrafted}`);
+
+            placeholderRecipes += `${SPACES}case Items.${item.nameForEnum}:\n`;
+            placeholderRecipes += `${SPACES}    return RecipeFactory.${key}(${item.levelToCraft}, [\n`;
+
+            placeholderCraftable[key] += `\n    Items.${item.nameForEnum},`;
+
             item.itemsToCraft.forEach((dataItem: any) => {
-                const item = items.get(dataItem.code);
+                const item = items.get(dataItem.code)!;
                 console.log(`    - ${item.code} x${dataItem.quantity} -> ${item.type}${item.subType ? ` / ${item.subType}` : ''}`);
+
+
+                placeholderRecipes += `${SPACES}        {code: Items.${item.nameForEnum}, quantity: ${dataItem.quantity}},\n`;
             });
+
+            placeholderRecipes += `${SPACES}    ]);\n`
             console.log();
         })
+        placeholderRecipes += '\n';
+
         console.log();
     })
     console.log(`Total recipes: ${countRecipes}`);
-    return;
 
-    // -----------
-    // RECIPES
-    // -----------
-    // fileContent = 'export enum Recipes {\n';
-    // craftableItems.forEach((item) => {
-    //
-    // });
-    // fileContent += '}\n';
-    // await fs.writeFile('outputs/Recipes.ts', fileContent, 'utf8');
+    const recipesTemplate = await readFileRaw('data/templates/Recipes.ts');
+    fileContent = recipesTemplate.replace('//{PLACEHOLDER}', placeholderRecipes);
+    await fs.writeFile(`${lexicalFilePath}/Recipes.ts`, fileContent, 'utf8');
+
+    const craftableItemsTemplate = await readFileRaw('data/templates/CraftableItems.ts');
+    fileContent = craftableItemsTemplate;
+    Object.entries(placeholderCraftable).forEach(([key, placeholder]: [string, string]) => {
+        console.log(`//{PLACEHOLDER_${key.toUpperCase()}}`)
+        fileContent = fileContent.replace(`/*{PLACEHOLDER_${key.toUpperCase()}}*/`, placeholder + '\n');
+    });
+    await fs.writeFile(`${lexicalFilePath}/CraftableItems.ts`, fileContent, 'utf8');
 
     // -----------
     // RESOURCES
@@ -166,7 +202,7 @@ async function generateEnums() {
         fileContent += `    ${resource.nameForEnum} = '${resource.code}',\n`;
     });
     fileContent += '}\n';
-    await fs.writeFile('outputs/Resources.ts', fileContent, 'utf8');
+    await fs.writeFile(`${lexicalFilePath}/Resources.ts`, fileContent, 'utf8');
 
     // -----------
     // MONSTERS
@@ -176,8 +212,9 @@ async function generateEnums() {
         fileContent += `    ${monster.nameForEnum} = '${monster.code}',\n`;
     });
     fileContent += '}\n';
-    await fs.writeFile('outputs/Monsters.ts', fileContent, 'utf8');
+    await fs.writeFile(`${lexicalFilePath}/Monsters.ts`, fileContent, 'utf8');
 
+    return;
     // -----------
     // DON'T KNOW WHERE I'M GOING WITH THIS
     // -----------

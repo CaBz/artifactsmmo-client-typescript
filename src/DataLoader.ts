@@ -1,8 +1,4 @@
 import {promises as fs} from "fs";
-import {Item} from "./entities/Item.js";
-import {MapTile} from "./entities/MapTile.js";
-import {Monster} from "./entities/Monster.js";
-import {Resource} from "./entities/Resource.js";
 
 
 export async function mergeEverything() {
@@ -54,10 +50,15 @@ export async function loadEverything() {
 
 
 export async function readFile(fileName: string) {
+    const data = await readFileRaw(fileName);
+    return JSON.parse(data);
+}
+
+export async function readFileRaw(fileName: string) {
     const bufferedData = await fs.readFile(fileName);
     const data = await Buffer.from(bufferedData);
 
-    return JSON.parse(data);
+    return data.toString();
 }
 
 export async function writeFile(fileName: string, data: any) {

@@ -1,6 +1,6 @@
 import {CooldownWaiter} from "./CooldownWaiter.js";
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
-import {ItemName} from "../lexical/ItemName.js";
+import {Items} from "../lexical/Items.js";
 import * as Utils from "../Utils.js";
 import {ClientException} from "../gateways/ClientException.js";
 import {ArtifactsClient} from "../gateways/ArtifactsClient.js";
@@ -28,7 +28,7 @@ export class Banker {
         }
     }
 
-    async depositItem(item: ItemName, quantity: number): Promise<void> {
+    async depositItem(item: Items, quantity: number): Promise<void> {
         Utils.logHeadline(`BANK DEPOSIT > ${item} x${quantity}`);
 
         await this.waiter.waitForCooldown();
@@ -46,7 +46,7 @@ export class Banker {
         }
     }
 
-    async withdraw(item: ItemName, quantity: number): Promise<void> {
+    async withdraw(item: Items, quantity: number): Promise<void> {
         if (quantity === -1) {
             const result = await this.client.bankQuery(item);
             quantity = result[0]?.quantity;

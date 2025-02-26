@@ -21,7 +21,7 @@ export const MapCoordinates: {[key: string]: Coordinates} = {
     // Crafting
     [PointOfInterest.Cooking]: { x: 1, y: 1 },
     [PointOfInterest.Weapon]: { x: 2, y: 1 },
-    [PointOfInterest.Armor]: { x: 3, y: 1 },
+    [PointOfInterest.Gear]: { x: 3, y: 1 },
     [PointOfInterest.Jewel]: { x: 1, y: 3 },
     [PointOfInterest.Alchemy]: { x: 2, y: 3 },
     [PointOfInterest.Workshop]: { x: -2, y: -3 },
