@@ -80,6 +80,26 @@ export class ArtifactsClient {
         return this.sendCharacterAction(characterName, 'bank/withdraw', {code, quantity});
     }
 
+    async taskGet(characterName: string) {
+        return this.sendCharacterAction(characterName, 'task/new');
+    }
+
+    async taskExchange(characterName: string) {
+        return this.sendCharacterAction(characterName, 'task/exchange');
+    }
+
+    async taskTrade(characterName: string, code: string, quantity: number) {
+        return this.sendCharacterAction(characterName, 'task/trade', {code, quantity});
+    }
+
+    async taskComplete(characterName: string) {
+        return this.sendCharacterAction(characterName, 'task/complete');
+    }
+
+    async taskCancel(characterName: string) {
+        return this.sendCharacterAction(characterName, 'task/cancel');
+    }
+
     // MAPS
     async getMap(x: number, y: number): Promise<MapTile> {
         const response = await this.sendRequest('GET', `maps/${x}/${y}`);

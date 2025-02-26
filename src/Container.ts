@@ -1,14 +1,15 @@
-import {CooldownWaiter} from "./services/CooldownWaiter.js";
+import {Waiter} from "./services/Waiter.js";
 import {Mover} from "./services/Mover.js";
 import {Gatherer} from "./services/Gatherer.js";
 import {Crafter} from "./services/Crafter.js";
 import {Banker} from "./services/Banker.js";
 import {Rester} from "./services/Rester.js";
 import {Fighter} from "./services/Fighter.js";
-import {WorkflowOrchestrator} from "./services/WorkflowOrchestrator.js";
+import {Tasker} from "./services/Tasker.js";
 import {ArtifactsClient} from "./gateways/ArtifactsClient.js";
 import {CharacterGateway} from "./gateways/CharacterGateway.js";
-import {WorkflowAction, WorkflowRegister} from "./Workflows.js";
+import {WorkflowAction, WorkflowOrchestrator} from "./workflows/WorkflowOrchestrator.js";
+import {WorkflowRegister} from "./workflows/WorkflowRegister.js";
 
 export class Container {
     private instances: Map<string, any> = new Map<string, any>();
@@ -34,15 +35,16 @@ export class Container {
     }
 
     private registerServices() {
-        this.instances.set('waiter', new CooldownWaiter(this.characterGateway));
+        this.instances.set('waiter', new Waiter(this.characterGateway));
         this.instances.set('mover', new Mover(this.waiter, this.characterGateway));
         this.instances.set('gatherer', new Gatherer(this.waiter, this.characterGateway));
         this.instances.set('crafter', new Crafter(this.waiter, this.characterGateway));
         this.instances.set('banker', new Banker(this.waiter, this.characterGateway, this.client));
         this.instances.set('rester', new Rester(this.waiter, this.characterGateway));
         this.instances.set('fighter', new Fighter(this.waiter, this.characterGateway));
+        this.instances.set('tasker', new Tasker(this.waiter, this.characterGateway));
     }
-    get waiter(): CooldownWaiter {
+    get waiter(): Waiter {
         return this.instances.get('waiter');
     }
 
@@ -70,6 +72,10 @@ export class Container {
         return this.instances.get('fighter');
     }
 
+    get tasker(): Tasker {
+        return this.instances.get('tasker');
+    }
+
     private registerWorkflowOrchestrator() {
         this.instances.set(
             'workflow-orchestrator',
@@ -81,6 +87,7 @@ export class Container {
                 this.banker,
                 this.rester,
                 this.fighter,
+                this.tasker,
                 this.workflows,
             )
         );
@@ -91,7 +98,7 @@ export class Container {
     }
 
     private registerWorkflows() {
-        this.instances.set('workflows', WorkflowRegister.getWorkflows());
+        this.instances.set('workflows', WorkflowRegister.create());
     }
 
     get workflows(): Map<string, WorkflowAction[]> {

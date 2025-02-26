@@ -1,14 +1,13 @@
-import {CooldownWaiter} from "./CooldownWaiter.js";
+import {Waiter} from "./Waiter.js";
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
 import {Items} from "../lexical/Items.js";
 import * as Utils from "../Utils.js";
 import {ClientException} from "../gateways/ClientException.js";
 import {ArtifactsClient} from "../gateways/ArtifactsClient.js";
-import {Item} from "../entities/Item.js";
 
 export class Banker {
     constructor(
-        private readonly waiter: CooldownWaiter,
+        private readonly waiter: Waiter,
         private readonly characterGateway: CharacterGateway,
         private readonly client: ArtifactsClient
     ) {
@@ -32,7 +31,7 @@ export class Banker {
     async depositItem(item: Items, quantity: number): Promise<void> {
         Utils.logHeadline(`BANK DEPOSIT > ${item} x${quantity}`);
 
-        await this.waiter.waitForCooldown();
+        await this.waiter.wait();
 
         try {
             await this.characterGateway.bankDeposit(item, quantity);
@@ -43,7 +42,6 @@ export class Banker {
             }
 
             console.error((e as Error).message);
-            throw (e);
         }
     }
 
@@ -63,7 +61,7 @@ export class Banker {
 
         Utils.logHeadline(`BANK WITHDRAW > ${item} x${quantity}`);
 
-        await this.waiter.waitForCooldown();
+        await this.waiter.wait();
 
         try {
             await this.characterGateway.bankWithdraw(item, quantity);
@@ -74,7 +72,6 @@ export class Banker {
             }
 
             console.error((e as Error).message);
-            throw (e);
         }
     }
 
@@ -90,7 +87,6 @@ export class Banker {
             }
 
             console.error((e as Error).message);
-            throw (e);
         }
     }
 }

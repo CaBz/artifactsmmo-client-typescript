@@ -1,12 +1,12 @@
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
 import {PointOfInterest} from "../lexical/PointOfInterest.js";
-import {CooldownWaiter} from "./CooldownWaiter.js";
+import {Waiter} from "./Waiter.js";
 import {MapCoordinates} from "../lexical/MapCoordinates.js";
 import * as Utils from "../Utils.js";
 import {ClientException} from "../gateways/ClientException.js";
 
 export class Mover {
-    constructor(private readonly waiter: CooldownWaiter, private readonly characterGateway: CharacterGateway) {
+    constructor(private readonly waiter: Waiter, private readonly characterGateway: CharacterGateway) {
     }
 
     async moveToPointOfInterest(name: PointOfInterest): Promise<void> {
@@ -20,7 +20,7 @@ export class Mover {
 
     async moveToCoordinates(x: number, y: number, name?: PointOfInterest): Promise<void> {
         Utils.logHeadline(`MOVE x:${x} y:${y} (${name})`);
-        await this.waiter.waitForCooldown();
+        await this.waiter.wait();
 
         try {
             await this.characterGateway.move(x, y);
@@ -31,7 +31,6 @@ export class Mover {
             }
 
             console.error((e as Error).message);
-            throw (e);
         }
     }
 }

@@ -2,10 +2,12 @@ import {PointOfInterest} from "./lexical/PointOfInterest.js";
 import {Container} from "./Container.js";
 import { promises as fs } from "node:fs";
 import {Item} from "./entities/Item.js";
-import {loadEverything, mergeEverything, readFile, readFileRaw} from "./DataLoader.js";
+import {loadEverything, mergeEverything, readFileRaw} from "./DataLoader.js";
 import {MapTile} from "./entities/MapTile.js";
 import {Monster} from "./entities/Monster.js";
 import {Resource} from "./entities/Resource.js";
+import {Items} from "./lexical/Items.js";
+import * as Utils from "./Utils.js";
 
 const consoleParams = process.argv;
 consoleParams.shift(); // process name
@@ -15,15 +17,24 @@ const characterName = consoleParams.shift()!
 const container = new Container(characterName);
 
 const commandName: string = consoleParams.shift() || 'character-status';
-await processCommand(commandName);
+
+try {
+    await processCommand(commandName);
+} catch (e) {
+    console.log();
+    console.error(`UNHANDLED EXCEPTION: ${e.message}`);
+    console.log();
+}
 
 async function processCommand(commandName: string) {
     switch (commandName) {
         case 'workflow':
+            console.log(Utils.LINE);
             await container.workflowOrhcestrator.findWorkflowAndExecute(
                 consoleParams.shift() || '', // name -> Workflows.ts
                 +(consoleParams.shift() || -1) // loops -> -1 = infinity
             );
+            console.log(Utils.LINE);
             break;
 
         case 'status':
@@ -35,7 +46,7 @@ async function processCommand(commandName: string) {
             break;
 
         case 'bank-withdraw':
-            await container.banker.withdraw(consoleParams.shift() || '', -1);
+            await container.banker.withdraw((consoleParams.shift() || '') as Items, -1);
             break;
 
         case 'map-status':
@@ -108,7 +119,6 @@ async function generate() {
         jewelrycrafting: [],
         cooking: [],
         alchemy: [],
-
     };
 
     fileContent = 'export enum Items {\n';

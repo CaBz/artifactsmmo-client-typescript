@@ -63,4 +63,8 @@ export const MapCoordinates: {[key: string]: Coordinates} = {
     [PointOfInterest.Bank1]: { x: 4, y: 1 },
     [PointOfInterest.Bank2]: { x: 7, y: 13 },
     [PointOfInterest.GrandExchange]: { x: 5, y: 1 },
+
+    [PointOfInterest.TaskMasterMonsters]: { x: 1, y: 2 },
+    [PointOfInterest.TaskMasterItems]: { x: 4, y: 13 },
+
 };

@@ -40,6 +40,26 @@ export class Character {
         return this.data.inventory.reduce((total: number, inventory: any) => total + inventory.quantity, 0);
     }
 
+    getTask() {
+        const task = this.data.task;
+        if (task === '') {
+            return undefined;
+        }
+
+        return {
+            task: this.data.task,
+            type: this.data.task_type,
+            progress: this.data.task_progress,
+            total: this.data.task_total,
+        }
+    }
+
+    isTaskCompleted() {
+        const task = this.getTask();
+
+        return !task || (task.progress === task.total);
+    }
+
     logToConsole(sections?: string[]): void {
         const allSections = sections === undefined;
 

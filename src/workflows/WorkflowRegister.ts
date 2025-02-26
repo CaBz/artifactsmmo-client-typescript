@@ -1,6 +1,5 @@
-import {FightingPOIs, GatheringPOIs, PointOfInterest} from "./lexical/PointOfInterest.js";
-import {Recipe, Recipes, ResourceItem} from "./lexical/Recipes.js";
-import {Items} from "./lexical/Items.js";
+import {FightingPOIs, GatheringPOIs, PointOfInterest} from "../lexical/PointOfInterest.js";
+import {Items} from "../lexical/Items.js";
 import {
     CraftableAlchemy,
     CraftableCooking,
@@ -8,91 +7,30 @@ import {
     CraftableMining,
     CraftableWeaponcrafting,
     CraftableWoodcutting
-} from "./lexical/CraftableItems.js";
-
-export interface MoveAction {
-    action: Action.Move;
-    coordinates: PointOfInterest;
-}
-
-export interface GatherAction {
-    action: Action.Gather;
-    loops: number;
-}
-
-export interface CraftAction {
-    action: Action.Craft;
-    code: Items;
-    quantity: number;
-}
-
-export interface RecycleAction {
-    action: Action.Recycle;
-    code: Items;
-    quantity: number;
-}
-
-export interface BankDepositAllAction {
-    action: Action.BankDepositAll;
-}
-
-export interface BankWithdrawAction {
-    action: Action.BankWithdraw;
-    code: Items;
-    quantity: number;
-}
-
-export interface RestAction {
-    action: Action.Rest;
-}
-
-export interface FightAction {
-    action: Action.Fight;
-    loops: number;
-}
-
-export interface SubworkflowAction {
-    action: Action.SubWorkflow;
-    actions: WorkflowAction[];
-    condition: SubworkflowCondition;
-}
-
-export enum SubworkflowCondition {
-    InventoryFull = 'inventory-full',
-}
-
-export type WorkflowAction =
-    MoveAction
-    | GatherAction
-    | CraftAction
-    | RecycleAction
-    | RestAction
-    | FightAction
-    | SubworkflowAction
-    | BankWithdrawAction
-    | BankDepositAllAction;
-
-export enum Action {
-    Move = 'move',
-    Gather = 'gather',
-    Craft = 'craft',
-    Recycle = 'recycle',
-    Rest = 'rest',
-    Fight = 'fight',
-    BankDepositAll = 'bank-deposit-all',
-    BankWithdraw = 'bank-withdraw',
-
-    SubWorkflow = 'subworkflow',
-}
+} from "../lexical/CraftableItems.js";
+import {Action, WorkflowAction} from "./WorkflowOrchestrator.js";
+import {WorkflowFactory} from "./WorkflowFactory.js";
 
 export class WorkflowRegister {
-    static getWorkflows(): Map<string, WorkflowAction[]> {
+    static create(): Map<string, WorkflowAction[]> {
         const workflows = new Map<string, WorkflowAction[]>;
 
         WorkflowRegister.registerForGathering(workflows);
         WorkflowRegister.registerForMonsters(workflows);
         WorkflowRegister.registerForCrafting(workflows);
         WorkflowRegister.registerForOthers(workflows);
+
+        workflows.set('task-items', [
+            { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
+            { action: Action.GetTask },
+            { action: Action.ExecuteTask },
+            { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
+            { action: Action.CompleteTask },
+        ]);
+
+        workflows.set('test', [
+            { action: Action.ExecuteTask },
+        ]);
 
         return workflows;
     }
@@ -162,70 +100,3 @@ export class WorkflowRegister {
     }
 }
 
-export class WorkflowFactory {
-    static gatherAndCraft(gatherPoint: PointOfInterest, bankPoint: PointOfInterest, craftPoint: PointOfInterest, craftItem: Items, gatherItem: Items): WorkflowAction[] {
-        return [
-            { action: Action.Move, coordinates: gatherPoint },
-            { action: Action.Gather, loops: -1 },
-
-            { action: Action.Move, coordinates: craftPoint },
-            { action: Action.Craft, code: craftItem, quantity: -1, },
-
-            { action: Action.Move, coordinates: bankPoint },
-            { action: Action.BankDepositAll },
-            { action: Action.BankWithdraw, code: gatherItem, quantity: -1 },
-        ]
-    }
-
-    static gather(gatherPoint: PointOfInterest, bankPoint: PointOfInterest): WorkflowAction[] {
-        return [
-            { action: Action.Move, coordinates: gatherPoint },
-            { action: Action.Gather, loops: -1 },
-
-            { action: Action.Move, coordinates: bankPoint },
-            { action: Action.BankDepositAll },
-        ]
-    }
-
-    static fightUntilFull(monsterPoint: PointOfInterest): WorkflowAction[] {
-        return [
-            { action: Action.Move, coordinates: monsterPoint },
-            {
-                action: Action.SubWorkflow,
-                condition: SubworkflowCondition.InventoryFull,
-                actions: [
-                    { action: Action.Rest },
-                    { action: Action.Fight, loops: 1 },
-                ],
-            },
-            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
-            { action: Action.BankDepositAll },
-        ];
-    }
-
-    static bankWithdrawAndCraft(craftPoint: PointOfInterest, craftItem: Items, craftQuantity: number, recycle: boolean): WorkflowAction[] {
-        const recipe: Recipe = Recipes.getFor(craftItem);
-
-        const withdrawActions: WorkflowAction[] = recipe.items.map((item: ResourceItem): WorkflowAction => {
-            return {
-                action: Action.BankWithdraw,
-                code: item.code,
-                quantity: item.quantity,
-            }
-        });
-
-        const result = [
-            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
-            { action: Action.BankDepositAll },
-            ...withdrawActions,
-            { action: Action.Move, coordinates: craftPoint },
-            { action: Action.Craft, code: craftItem, quantity: craftQuantity },
-        ];
-
-        if (recycle) {
-            result.push({ action: Action.Recycle, code: craftItem, quantity: craftQuantity });
-        }
-
-        return result;
-    }
-}

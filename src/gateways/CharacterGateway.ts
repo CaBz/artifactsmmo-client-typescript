@@ -101,4 +101,44 @@ export class CharacterGateway {
 
         return result;
     }
+
+    async taskGet() {
+        const result = await this.client.taskGet(this.character);
+
+        //console.log(result);
+
+        return result;
+    }
+
+    async taskExchange() {
+        const result = await this.client.taskExchange(this.character);
+
+        //console.log(result);
+
+        return result;
+    }
+
+    async taskTrade(item: string, quantity: number) {
+        const result = await this.client.taskTrade(this.character, item, quantity);
+
+        //console.log(result);
+
+        return result;
+    }
+
+    async taskComplete() {
+        const result = await this.client.taskComplete(this.character);
+
+        //console.log(result);
+
+        return result;
+    }
+
+    async taskCancel() {
+        const result = await this.client.taskCancel(this.character);
+
+        //console.log(result);
+
+        return result;
+    }
 }

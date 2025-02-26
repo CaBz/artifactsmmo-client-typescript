@@ -1,15 +1,15 @@
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
-import {CooldownWaiter} from "./CooldownWaiter.js";
+import {Waiter} from "./Waiter.js";
 import * as Utils from "../Utils.js";
 import {ClientException} from "../gateways/ClientException.js";
 
 export class Gatherer {
-    constructor(private readonly waiter: CooldownWaiter, private readonly characterGateway: CharacterGateway) {
+    constructor(private readonly waiter: Waiter, private readonly characterGateway: CharacterGateway) {
     }
 
     async gather(loops: number): Promise<void> {
         Utils.logHeadline(`GATHER > ${loops}`);
-        await this.waiter.waitForCooldown();
+        await this.waiter.wait();
 
         try {
             await this.characterGateway.gather();
@@ -21,7 +21,6 @@ export class Gatherer {
             }
 
             console.error((e as Error).message);
-            throw (e);
         }
 
         if (loops-1 === 0) {

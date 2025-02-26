@@ -1,16 +1,16 @@
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
-import {CooldownWaiter} from "./CooldownWaiter.js";
+import {Waiter} from "./Waiter.js";
 import * as Utils from "../Utils.js";
 import {ClientException} from "../gateways/ClientException.js";
 import {Items} from "../lexical/Items.js";
 
 export class Crafter {
-    constructor(private readonly waiter: CooldownWaiter, private readonly characterGateway: CharacterGateway) {
+    constructor(private readonly waiter: Waiter, private readonly characterGateway: CharacterGateway) {
     }
 
     async craft(item: Items, quantity: number): Promise<void> {
         Utils.logHeadline(`CRAFT > ${item} x${quantity}`);
-        await this.waiter.waitForCooldown();
+        await this.waiter.wait();
 
         try {
             await this.characterGateway.craft(item, quantity === -1 ? 1 : quantity);
@@ -21,7 +21,6 @@ export class Crafter {
             }
 
             console.error((e as Error).message);
-            throw (e);
         }
 
         if (quantity === -1) {
@@ -31,7 +30,7 @@ export class Crafter {
 
     async recycle(item: Items, quantity: number): Promise<void> {
         Utils.logHeadline(`RECYCLE > ${item} x${quantity}`);
-        await this.waiter.waitForCooldown();
+        await this.waiter.wait();
 
         try {
             await this.characterGateway.recycle(item, quantity === -1 ? 1 : quantity);
@@ -42,7 +41,6 @@ export class Crafter {
             }
 
             console.error((e as Error).message);
-            throw (e);
         }
 
         if (quantity === -1) {

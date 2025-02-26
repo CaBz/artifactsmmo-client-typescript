@@ -1,11 +1,11 @@
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
 import * as Utils from "../Utils.js";
 
-export class CooldownWaiter {
+export class Waiter {
     constructor(private readonly characterGateway: CharacterGateway) {
     }
 
-    async waitForCooldown(): Promise<void> {
+    async wait(): Promise<void> {
         const result = await this.characterGateway.status();
 
         const remainingCooldown = result.isInCooldown() ? result.getRemainingCooldown() : 0;

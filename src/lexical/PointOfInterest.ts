@@ -21,6 +21,9 @@ export enum PointOfInterest {
     Workshop = 'workshop',
     Forge = 'forge',
 
+    TaskMasterMonsters = 'task_master_monsters',
+    TaskMasterItems = 'task_master_items',
+
     // Gathering
     Copper = 'copper', // 2,0 -- 1 // copper_rocks - copper_ore
     Iron = 'iron', // 1,7 -- 10 // iron_rocks - iron_ore
