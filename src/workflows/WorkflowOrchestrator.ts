@@ -206,16 +206,23 @@ export class WorkflowOrchestrator {
                 await this.tasker.getTask();
                 break;
 
-            case Action.ExchangeTask:
-                await this.tasker.exchangeTask();
-                break;
-
             case Action.ExecuteTask:
                 await this.executeTaskWorflow();
                 break;
 
+            case Action.TradeTask:
+                await this.tasker.tradeTask(
+                    (action as TradeTaskAction).code,
+                    (action as TradeTaskAction).quantity,
+                );
+                break;
+
             case Action.CompleteTask:
                 await this.tasker.completeTask();
+                break;
+
+            case Action.ExchangeTask:
+                await this.tasker.exchangeTask();
                 break;
 
             case Action.BankDepositAll:
@@ -320,12 +327,14 @@ export class WorkflowOrchestrator {
                         {action: Action.BankDepositAll},
                         {action: Action.BankWithdraw, code: task.task, quantity: -1},
 
-                        {action: Action.Move, coordinates: taskToPointOfInterest[task.task]},
-                        {action: Action.Gather, loops: (task.total - task.progress) },
-
+                        {action: Action.Move, coordinates: PointOfInterest.TaskMasterItems},
                         {action: Action.TradeTask, code: task.task, quantity: -1},
+
                         {action: Action.Move, coordinates: PointOfInterest.Bank2},
                         {action: Action.BankDepositAll},
+
+                        {action: Action.Move, coordinates: taskToPointOfInterest[task.task]},
+                        {action: Action.Gather, loops: (task.total - task.progress)},
                     ]
                 };
 

@@ -1,9 +1,9 @@
-import {loadEverything, readFileRaw} from "./DataLoader.js";
 import {Item} from "../entities/Item.js";
 import {MapTile} from "../entities/MapTile.js";
 import {Monster} from "../entities/Monster.js";
 import {Resource} from "../entities/Resource.js";
 import {promises as fs} from "fs";
+import {loadEverything, readFileRaw} from "./DataFileMerger.js";
 
 export class LexicalGenerator {
     static async generateAll() {
