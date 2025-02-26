@@ -45,7 +45,7 @@ export class Tasker {
         await this.waiter.wait();
 
         try {
-            await this.characterGateway.taskTrade(item, quantity);
+            await this.characterGateway.taskTrade(item, quantity === -1 ? 1 : quantity);
         } catch (e) {
             if (e instanceof ClientException) {
                 console.error(`${e.code}: ${e.message}`);
@@ -53,6 +53,10 @@ export class Tasker {
             }
 
             console.error((e as Error).message);
+        }
+
+        if (quantity === -1) {
+            await this.tradeTask(item, quantity);
         }
     }
 
