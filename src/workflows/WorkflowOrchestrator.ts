@@ -10,6 +10,8 @@ import {Character} from "../entities/Character.js";
 import {PointOfInterest} from "../lexical/PointOfInterest.js";
 import {Items} from "../lexical/Items.js";
 import * as Utils from "../Utils.js";
+import {Monsters} from "../lexical/Monsters.js";
+import {Recipe, Recipes} from "../lexical/Recipes.js";
 
 export interface MoveAction {
     action: Action.Move;
@@ -260,6 +262,11 @@ export class WorkflowOrchestrator {
                 Utils.errorHeadline('TASK PROGRESS COMPLETED');
                 return;
             }
+
+            if (character.isInventoryFull()) {
+                Utils.errorHeadline('TASK > CHARACTER FULL');
+                return;
+            }
         }
 
         for (let i=0; i<actions.length; i++) {
@@ -278,7 +285,40 @@ export class WorkflowOrchestrator {
             return
         }
 
-        if (!taskToPointOfInterest[task.task]) {
+        // This is garbagio? Move this to the PointOfInterest file?
+        const taskToAction: any = {
+            [Items.AshWood]:  PointOfInterest.Ash2,
+            [Items.SpruceWood]:  PointOfInterest.Spruce1,
+            [Items.BirchWood]:  PointOfInterest.Birch1,
+
+            [Items.CopperOre]:  PointOfInterest.Copper,
+            [Items.IronOre]:  PointOfInterest.Iron,
+
+            [Items.Sunflower]:  PointOfInterest.Sunflower,
+
+            [Items.Gudgeon]:  PointOfInterest.Gudgeon,
+
+            [Monsters.Chicken]: PointOfInterest.Chicken,
+            [Monsters.GreenSlime]: PointOfInterest.GreenSlime1,
+            [Monsters.YellowSlime]: PointOfInterest.YellowSlime1,
+            [Monsters.BlueSlime]: PointOfInterest.BlueSlime1,
+            [Monsters.RedSlime]: PointOfInterest.RedSlime1,
+        };
+
+
+        let recipe: Recipe;
+        try {
+            Recipes.getFor(task.task);
+        } catch {
+
+        }
+
+        // Figure out how to kickstart a gather + craft loop
+        if (recipe) {
+
+        }
+
+        if (!taskToAction[task.task]) {
             Utils.logHeadline(`CANNOT FIND POI FOR ${task.task}`);
 
             // Just fallbacking on a random workflow so something happens in case I sleep
@@ -286,55 +326,31 @@ export class WorkflowOrchestrator {
             return;
         }
 
-        /*
-        let recipe: Recipe;
-        try {
-            Recipes.getFor(task.task);
-        } catch {
-
-        }
-        */
+        const taskPoint = taskToAction[task.task];
 
         const actions: WorkflowAction[] = [];
 
-        let bankPoint: PointOfInterest = PointOfInterest.Bank1;
-        let taskMasterPoint: PointOfInterest = PointOfInterest.TaskMasterMonsters;
+        let subworkflow: SubworkflowAction;
 
         switch (task.type) {
             case 'items':
-                bankPoint = PointOfInterest.Bank2;
-                taskMasterPoint = PointOfInterest.TaskMasterItems;
-
-                // This is garbagio? Move this to the PointOfInterest file?
-                const taskToPointOfInterest: any = {
-                    [Items.AshWood]:  PointOfInterest.Ash2,
-                    [Items.SpruceWood]:  PointOfInterest.Spruce1,
-                    [Items.BirchWood]:  PointOfInterest.Birch1,
-
-                    [Items.CopperOre]:  PointOfInterest.Copper,
-                    [Items.IronOre]:  PointOfInterest.Iron,
-
-                    [Items.Sunflower]:  PointOfInterest.Sunflower,
-
-                    [Items.Gudgeon]:  PointOfInterest.Gudgeon,
-                };
-
-                const subworkflow: SubworkflowAction = {
+                subworkflow = {
                     action: Action.SubWorkflow,
                     condition: SubworkflowCondition.TaskCompleted,
                     actions: [
-                        {action: Action.Move, coordinates: PointOfInterest.Bank2},
-                        {action: Action.BankDepositAll},
-                        {action: Action.BankWithdraw, code: task.task, quantity: -1},
+                        { action: Action.Move, coordinates: PointOfInterest.Bank2 },
+                        { action: Action.BankDepositAll },
 
-                        {action: Action.Move, coordinates: PointOfInterest.TaskMasterItems},
-                        {action: Action.TradeTask, code: task.task, quantity: -1},
+                        // Steps for the "items" Task Action
+                        { action: Action.BankWithdraw, code: task.task, quantity: -1 },
+                        { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
+                        { action: Action.TradeTask, code: task.task, quantity: -1 },
 
-                        {action: Action.Move, coordinates: PointOfInterest.Bank2},
-                        {action: Action.BankDepositAll},
+                        { action: Action.Move, coordinates: PointOfInterest.Bank2 },
+                        { action: Action.BankDepositAll },
 
-                        {action: Action.Move, coordinates: taskToPointOfInterest[task.task]},
-                        {action: Action.Gather, loops: (task.total - task.progress)},
+                        { action: Action.Move, coordinates: taskPoint },
+                        { action: Action.Gather, loops: (task.total - task.progress) },
                     ]
                 };
 
@@ -342,20 +358,63 @@ export class WorkflowOrchestrator {
 
                 break;
             case 'monsters':
-                bankPoint = PointOfInterest.Bank1;
-                taskMasterPoint = PointOfInterest.TaskMasterMonsters;
+                actions.push({ action: Action.Move, coordinates: taskPoint });
+                subworkflow = {
+                    action: Action.SubWorkflow,
+                    condition: SubworkflowCondition.TaskCompleted,
+                    actions: [
+                        { action: Action.Rest },
+                        { action: Action.Fight, loops: 1 },
+                    ]
+                };
 
-                throw new Error('Not implemented');
+                actions.push(subworkflow);
+                break;
         }
 
-        actions.push({ action: Action.Move, coordinates: bankPoint });
-        actions.push({ action: Action.BankDepositAll});
-        actions.push({ action: Action.BankWithdraw, code: Items.TasksCoin, quantity: -1})
-        actions.push({ action: Action.Move, coordinates: taskMasterPoint });
-        actions.push({ action: Action.ExchangeTask });
-
-        Utils.logHeadline(`EXECUTE TASK > ${task.task}`);
-
+        Utils.logHeadline(`EXECUTE TASK > ${task.task} x${(task.total - task.progress)}`);
         await this.execute(actions);
+    }
+}
+
+enum TaskActionType {
+    Gather = 'gather',
+    Fight = 'fight',
+    Craft = 'craft',
+}
+
+interface GatherTaskAction {
+    type: TaskActionType.Gather;
+    gatherPoint: PointOfInterest;
+    bankPoint: PointOfInterest;
+}
+
+interface FightTaskAction {
+    type: TaskActionType.Fight;
+    fightPoint: PointOfInterest;
+    bankPoint: PointOfInterest;
+}
+
+interface CraftTaskAction {
+    type: TaskActionType.Craft;
+    workshopPoint: PointOfInterest;
+    bankPoint: PointOfInterest;
+
+    itemActions: TaskAction[];
+}
+
+type TaskAction = GatherTaskAction | FightTaskAction | CraftTaskAction;
+
+class TaskActionFactory {
+
+    // Notes: Just need to keep it to one nested level at most, the recursivity should take care of managing task delegation until there's nothing to do
+    // Gather tasks = Go somewhere, gather, come back, give, go to bank, drop shits, rinse & repeat until completed
+    // Craft tasks = Go to bank, drop all, withdraw what's needed, go to work station, craft, rinse & repeat until completed or lack of items
+        // if lack of items (resources) => trigger the gather tasks for a specific quantity for each items
+        // if lack of items (craft items) => trigger similar flow from step 1
+        // if lack of items (monster drops) => move to fight point, fight until enough drops
+
+    static createFor(task: string): TaskAction {
+        throw new Error('Not implemented');
     }
 }

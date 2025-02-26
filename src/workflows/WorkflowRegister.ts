@@ -26,6 +26,26 @@ export class WorkflowRegister {
             { action: Action.ExecuteTask },
             { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
             { action: Action.CompleteTask },
+            { action: Action.Move, coordinates: PointOfInterest.Bank2 },
+            { action: Action.BankDepositAll},
+            { action: Action.BankWithdraw, code: Items.TasksCoin, quantity: -1},
+            { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
+            { action: Action.ExchangeTask },
+        ]);
+
+        workflows.set('task-monsters', [
+            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
+            { action: Action.BankDepositAll },
+            { action: Action.Move, coordinates: PointOfInterest.TaskMasterMonsters },
+            { action: Action.GetTask },
+            { action: Action.ExecuteTask },
+            { action: Action.Move, coordinates: PointOfInterest.TaskMasterMonsters },
+            { action: Action.CompleteTask },
+            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
+            { action: Action.BankDepositAll},
+            { action: Action.BankWithdraw, code: Items.TasksCoin, quantity: -1},
+            { action: Action.Move, coordinates: PointOfInterest.TaskMasterMonsters },
+            { action: Action.ExchangeTask },
         ]);
 
         workflows.set('test', [
@@ -67,15 +87,27 @@ export class WorkflowRegister {
         });
 
         CraftableWeaponcrafting.forEach((item: Items) => {
-            workflows.set(`craft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Weapon, item, -1, true));
+            workflows.set(`craft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Weapon, item, -1, false));
+        });
+
+        CraftableWeaponcrafting.forEach((item: Items) => {
+            workflows.set(`recraft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Weapon, item, -1, true));
         });
 
         CraftableGearcrafting.forEach((item: Items) => {
-            workflows.set(`craft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Gear, item, -1, true));
+            workflows.set(`craft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Gear, item, -1, false));
+        });
+
+        CraftableGearcrafting.forEach((item: Items) => {
+            workflows.set(`recraft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Gear, item, -1, true));
         });
 
         CraftableJewelry.forEach((item: Items) => {
-            workflows.set(`craft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Jewel, item, -1, true));
+            workflows.set(`craft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Jewel, item, -1, false));
+        });
+
+        CraftableJewelry.forEach((item: Items) => {
+            workflows.set(`recraft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Jewel, item, -1, true));
         });
 
         CraftableWoodcutting.forEach((item: Items) => {
