@@ -1,9 +1,9 @@
-import {CharacterGateway} from "../gateways/CharacterGateway.js";
-import {PointOfInterest} from "../lexical/PointOfInterest.js";
+import {CharacterGateway} from "../../gateways/CharacterGateway.js";
+import {PointOfInterest} from "../../lexical/PointOfInterest.js";
 import {Waiter} from "./Waiter.js";
-import {MapCoordinates} from "../lexical/MapCoordinates.js";
-import * as Utils from "../Utils.js";
-import {ClientException} from "../gateways/ClientException.js";
+import {MapCoordinates} from "../../lexical/MapCoordinates.js";
+import * as Utils from "../../Utils.js";
+import {ClientException} from "../../gateways/ClientException.js";
 
 export class Mover {
     constructor(private readonly waiter: Waiter, private readonly characterGateway: CharacterGateway) {

@@ -1,5 +1,5 @@
-import {CharacterGateway} from "../gateways/CharacterGateway.js";
-import * as Utils from "../Utils.js";
+import {CharacterGateway} from "../../gateways/CharacterGateway.js";
+import * as Utils from "../../Utils.js";
 
 export class Waiter {
     constructor(private readonly characterGateway: CharacterGateway) {

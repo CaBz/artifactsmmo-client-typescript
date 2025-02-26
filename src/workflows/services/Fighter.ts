@@ -1,7 +1,7 @@
 import {Waiter} from "./Waiter.js";
-import {CharacterGateway} from "../gateways/CharacterGateway.js";
-import * as Utils from "../Utils.js";
-import {ClientException} from "../gateways/ClientException.js";
+import {CharacterGateway} from "../../gateways/CharacterGateway.js";
+import * as Utils from "../../Utils.js";
+import {ClientException} from "../../gateways/ClientException.js";
 
 export class Fighter {
     constructor(private readonly waiter: Waiter, private readonly characterGateway: CharacterGateway) {

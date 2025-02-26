@@ -1,8 +1,8 @@
-import {CharacterGateway} from "../gateways/CharacterGateway.js";
+import {CharacterGateway} from "../../gateways/CharacterGateway.js";
 import {Waiter} from "./Waiter.js";
-import * as Utils from "../Utils.js";
-import {ClientException} from "../gateways/ClientException.js";
-import {Items} from "../lexical/Items.js";
+import * as Utils from "../../Utils.js";
+import {ClientException} from "../../gateways/ClientException.js";
+import {Items} from "../../lexical/Items.js";
 
 export class Crafter {
     constructor(private readonly waiter: Waiter, private readonly characterGateway: CharacterGateway) {

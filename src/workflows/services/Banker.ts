@@ -1,9 +1,9 @@
 import {Waiter} from "./Waiter.js";
-import {CharacterGateway} from "../gateways/CharacterGateway.js";
-import {Items} from "../lexical/Items.js";
-import * as Utils from "../Utils.js";
-import {ClientException} from "../gateways/ClientException.js";
-import {ArtifactsClient} from "../gateways/ArtifactsClient.js";
+import {CharacterGateway} from "../../gateways/CharacterGateway.js";
+import {Items} from "../../lexical/Items.js";
+import * as Utils from "../../Utils.js";
+import {ClientException} from "../../gateways/ClientException.js";
+import {ArtifactsClient} from "../../gateways/ArtifactsClient.js";
 
 export class Banker {
     constructor(

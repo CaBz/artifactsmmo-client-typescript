@@ -1,3 +1,5 @@
+import {Skill} from "./Skill.js";
+
 export enum PointOfInterest {
     // Monsters
     Chicken = 'chicken',
@@ -58,6 +60,15 @@ export enum PointOfInterest {
     GrandExchange = 'grand_exchange'
 }
 
+export const Workstations = {
+    [Skill.Mining]: PointOfInterest.Forge,
+    [Skill.Woodcutting]: PointOfInterest.Workshop,
+    [Skill.Weaponcrafting]: PointOfInterest.Weapon,
+    [Skill.Gearcrafting]: PointOfInterest.Gear,
+    [Skill.Jewelrycrafting]: PointOfInterest.Jewel,
+    [Skill.Cooking]: PointOfInterest.Cooking,
+    [Skill.Alchemy]: PointOfInterest.Alchemy,
+}
 
 export const FightingPOIs: PointOfInterest[] = [
     PointOfInterest.Chicken,

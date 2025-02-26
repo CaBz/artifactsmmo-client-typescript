@@ -1,15 +1,15 @@
-import {Mover} from "../services/Mover.js";
-import {Gatherer} from "../services/Gatherer.js";
-import {Crafter} from "../services/Crafter.js";
-import {Banker} from "../services/Banker.js";
-import {Rester} from "../services/Rester.js";
-import {Fighter} from "../services/Fighter.js";
-import {Tasker} from "../services/Tasker.js";
+import {Mover} from "./services/Mover.js";
+import {Gatherer} from "./services/Gatherer.js";
+import {Crafter} from "./services/Crafter.js";
+import {Banker} from "./services/Banker.js";
+import {Rester} from "./services/Rester.js";
+import {Fighter} from "./services/Fighter.js";
+import {Tasker} from "./services/Tasker.js";
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
 import {Character} from "../entities/Character.js";
-import * as Utils from "../Utils.js";
 import {PointOfInterest} from "../lexical/PointOfInterest.js";
 import {Items} from "../lexical/Items.js";
+import * as Utils from "../Utils.js";
 
 export interface MoveAction {
     action: Action.Move;
@@ -274,6 +274,15 @@ export class WorkflowOrchestrator {
         // This is garbagio? Move this to the PointOfInterest file?
         const taskToPointOfInterest: any = {
             [Items.AshWood]:  PointOfInterest.Ash2,
+            [Items.SpruceWood]:  PointOfInterest.Spruce1,
+            [Items.BirchWood]:  PointOfInterest.Birch1,
+
+            [Items.CopperOre]:  PointOfInterest.Copper,
+            [Items.IronOre]:  PointOfInterest.Iron,
+
+            [Items.Sunflower]:  PointOfInterest.Sunflower,
+
+            [Items.Gudgeon]:  PointOfInterest.Gudgeon,
         };
 
         if (!taskToPointOfInterest[task.task]) {
@@ -283,6 +292,15 @@ export class WorkflowOrchestrator {
             await this.findWorkflowAndExecute('copper-craft', 1);
             return;
         }
+
+        /*
+        let recipe: Recipe;
+        try {
+            Recipes.getFor(task.task);
+        } catch {
+
+        }
+        */
 
         const actions: WorkflowAction[] = [];
 
@@ -298,7 +316,7 @@ export class WorkflowOrchestrator {
                     action: Action.SubWorkflow,
                     condition: SubworkflowCondition.TaskCompleted,
                     actions: [
-                        {action: Action.Move, coordinates: PointOfInterest.Bank1},
+                        {action: Action.Move, coordinates: PointOfInterest.Bank2},
                         {action: Action.BankDepositAll},
                         {action: Action.BankWithdraw, code: task.task, quantity: -1},
 
