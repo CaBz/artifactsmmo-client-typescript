@@ -15,11 +15,11 @@ export class Fighter {
             await this.characterGateway.fight();
         } catch (e) {
             if (e instanceof ClientException) {
-                console.error(`${e.code}: ${e.message}`);
+                Utils.errorHeadline(`${e.code}: ${e.message}`);
                 return;
             }
 
-            console.error((e as Error).message);
+            Utils.errorHeadline((e as Error).message);
         }
 
         if ((loops - 1) === 0) {

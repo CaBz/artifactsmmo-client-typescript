@@ -1,5 +1,6 @@
 import {ArtifactsClient} from "./ArtifactsClient.js";
 import {Character} from "../entities/Character.js";
+import * as Utils from "../Utils.js";
 
 export class CharacterGateway {
     constructor(private readonly client: ArtifactsClient, private readonly character: string) {
@@ -75,11 +76,17 @@ export class CharacterGateway {
         const character = new Character(result.character);
         const fight = result.fight;
 
-        console.log(`| FIGHT RESULT: ${fight.result} IN ${fight.turns} TURNS`);
-        console.log(`| GAINED +${fight.xp}xp`, `+${fight.gold}g`);
-        if (fight.drops.length > 0) {
-            console.log('| Drops', fight.drops);
+        Utils.errorHeadline(`RESULT > ${fight.result} x${fight.turns}`);
+        if (fight.result !== 'win')
+        {
+            return result;
         }
+
+        Utils.errorHeadline(`GAINED > +${fight.xp}xp`);
+        Utils.errorHeadline(`GAINED > +${fight.gold}g`);
+        fight.drops?.forEach((drop: any) => {
+            Utils.errorHeadline(`GAINED > ${drop.code} x${drop.quantity}`);
+        });
 
         character.logToConsole(['status', 'inventory']);
 

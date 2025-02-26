@@ -278,20 +278,6 @@ export class WorkflowOrchestrator {
             return
         }
 
-        // This is garbagio? Move this to the PointOfInterest file?
-        const taskToPointOfInterest: any = {
-            [Items.AshWood]:  PointOfInterest.Ash2,
-            [Items.SpruceWood]:  PointOfInterest.Spruce1,
-            [Items.BirchWood]:  PointOfInterest.Birch1,
-
-            [Items.CopperOre]:  PointOfInterest.Copper,
-            [Items.IronOre]:  PointOfInterest.Iron,
-
-            [Items.Sunflower]:  PointOfInterest.Sunflower,
-
-            [Items.Gudgeon]:  PointOfInterest.Gudgeon,
-        };
-
         if (!taskToPointOfInterest[task.task]) {
             Utils.logHeadline(`CANNOT FIND POI FOR ${task.task}`);
 
@@ -318,6 +304,20 @@ export class WorkflowOrchestrator {
             case 'items':
                 bankPoint = PointOfInterest.Bank2;
                 taskMasterPoint = PointOfInterest.TaskMasterItems;
+
+                // This is garbagio? Move this to the PointOfInterest file?
+                const taskToPointOfInterest: any = {
+                    [Items.AshWood]:  PointOfInterest.Ash2,
+                    [Items.SpruceWood]:  PointOfInterest.Spruce1,
+                    [Items.BirchWood]:  PointOfInterest.Birch1,
+
+                    [Items.CopperOre]:  PointOfInterest.Copper,
+                    [Items.IronOre]:  PointOfInterest.Iron,
+
+                    [Items.Sunflower]:  PointOfInterest.Sunflower,
+
+                    [Items.Gudgeon]:  PointOfInterest.Gudgeon,
+                };
 
                 const subworkflow: SubworkflowAction = {
                     action: Action.SubWorkflow,

@@ -16,11 +16,11 @@ export class Tasker {
             await this.characterGateway.taskGet();
         } catch (e) {
             if (e instanceof ClientException) {
-                console.error(`${e.code}: ${e.message}`);
+                Utils.errorHeadline(`${e.code}: ${e.message}`);
                 return;
             }
 
-            console.error((e as Error).message);
+            Utils.errorHeadline((e as Error).message);
         }
     }
 
@@ -32,11 +32,11 @@ export class Tasker {
             await this.characterGateway.taskExchange();
         } catch (e) {
             if (e instanceof ClientException) {
-                console.error(`${e.code}: ${e.message}`);
+                Utils.errorHeadline(`${e.code}: ${e.message}`);
                 return;
             }
 
-            console.error((e as Error).message);
+            Utils.errorHeadline((e as Error).message);
         }
     }
 
@@ -48,11 +48,11 @@ export class Tasker {
             await this.characterGateway.taskTrade(item, quantity === -1 ? 1 : quantity);
         } catch (e) {
             if (e instanceof ClientException) {
-                console.error(`${e.code}: ${e.message}`);
+                Utils.errorHeadline(`${e.code}: ${e.message}`);
                 return;
             }
 
-            console.error((e as Error).message);
+            Utils.errorHeadline((e as Error).message);
         }
 
         if (quantity === -1) {
@@ -68,11 +68,11 @@ export class Tasker {
             await this.characterGateway.taskComplete();
         } catch (e) {
             if (e instanceof ClientException) {
-                console.error(`${e.code}: ${e.message}`);
+                Utils.errorHeadline(`${e.code}: ${e.message}`);
                 return;
             }
 
-            console.error((e as Error).message);
+            Utils.errorHeadline((e as Error).message);
         }
     }
 
@@ -84,11 +84,11 @@ export class Tasker {
             await this.characterGateway.taskCancel();
         } catch (e) {
             if (e instanceof ClientException) {
-                console.error(`${e.code}: ${e.message}`);
+                Utils.errorHeadline(`${e.code}: ${e.message}`);
                 return;
             }
 
-            console.error((e as Error).message);
+            Utils.errorHeadline((e as Error).message);
         }
     }
 }
