@@ -65,25 +65,16 @@ export class WorkflowRegister {
 
         CraftableWeaponcrafting.forEach((item: Items) => {
             workflows.set(`craft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Weapon, item, -1, false));
-        });
-
-        CraftableWeaponcrafting.forEach((item: Items) => {
             workflows.set(`recraft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Weapon, item, -1, true));
         });
 
         CraftableGearcrafting.forEach((item: Items) => {
             workflows.set(`craft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Gear, item, -1, false));
-        });
-
-        CraftableGearcrafting.forEach((item: Items) => {
             workflows.set(`recraft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Gear, item, -1, true));
         });
 
         CraftableJewelry.forEach((item: Items) => {
             workflows.set(`craft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Jewel, item, -1, false));
-        });
-
-        CraftableJewelry.forEach((item: Items) => {
             workflows.set(`recraft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Jewel, item, -1, true));
         });
 
