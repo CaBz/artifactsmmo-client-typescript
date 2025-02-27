@@ -48,7 +48,7 @@ export const MapCoordinates: {[key: string]: Coordinates} = {
 
     // Plants
     [PointOfInterest.Sunflower]: { x: 2, y: 2 },
-    [PointOfInterest.Glowsteam]: { x: 1, y: 10 },
+    [PointOfInterest.Glowstem]: { x: 1, y: 10 },
     [PointOfInterest.Nettle]: { x: 7, y: 14 },
 
     // Fishes

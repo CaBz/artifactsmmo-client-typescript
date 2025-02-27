@@ -1,6 +1,12 @@
-import {PointOfInterest} from "../lexical/PointOfInterest.js";
+import {PointOfInterest, Workstations} from "../lexical/PointOfInterest.js";
 import {Items} from "../lexical/Items.js";
-import {Action, SubworkflowCondition, WorkflowAction} from "./WorkflowOrchestrator.js";
+import {
+    Action,
+    BankWithdrawActionCondition,
+    CraftActionConditions,
+    SubworkflowCondition,
+    WorkflowAction
+} from "./WorkflowOrchestrator.js";
 import {Recipe, Recipes, ResourceItem} from "../lexical/Recipes.js";
 
 export class WorkflowFactory {
@@ -44,15 +50,11 @@ export class WorkflowFactory {
         ];
     }
 
-    static bankWithdrawAndCraft(craftPoint: PointOfInterest, craftItem: Items, craftQuantity: number, recycle: boolean): WorkflowAction[] {
+    static withdrawAndCraft(craftPoint: PointOfInterest, craftItem: Items, craftQuantity: number, recycle: boolean): WorkflowAction[] {
         const recipe: Recipe = Recipes.getFor(craftItem);
 
         const withdrawActions: WorkflowAction[] = recipe.items.map((item: ResourceItem): WorkflowAction => {
-            return {
-                action: Action.BankWithdraw,
-                code: item.code,
-                quantity: item.quantity,
-            }
+            return { action: Action.BankWithdraw, code: item.code, quantity: item.quantity }
         });
 
         const result = [
@@ -68,5 +70,65 @@ export class WorkflowFactory {
         }
 
         return result;
+    }
+
+    static withdrawAndCraftManyAndEquip(craftItems: any, shouldSkipIHave: boolean): WorkflowAction[] {
+        const withdrawActions: WorkflowAction[] = [];
+        const craftActions: WorkflowAction[] = [];
+        const equipActions: WorkflowAction[] = [];
+
+        craftItems.forEach(([craftItem, quantity, equippableSlot]: any) => {
+            const recipe: Recipe = Recipes.getFor(craftItem);
+            const craftPoint: PointOfInterest = Workstations[recipe.skill]!;
+
+            withdrawActions.push({ action: Action.BankWithdraw, code: craftItem, quantity: quantity, condition: shouldSkipIHave ? BankWithdrawActionCondition.DoNotHave : undefined })
+            withdrawActions.push(...recipe.items.map((item: ResourceItem): WorkflowAction => {
+                return { action: Action.BankWithdraw, code: item.code, quantity: item.quantity }
+            }));
+
+            craftActions.push({ action: Action.Move, coordinates: craftPoint });
+            craftActions.push({ action: Action.Craft, code: craftItem, quantity: quantity, condition: shouldSkipIHave ? CraftActionConditions.DoNotHave : undefined });
+
+            if (Array.isArray(equippableSlot)) {
+                equippableSlot.forEach((slot) => {
+                    equipActions.push({action: Action.Equip, code: craftItem, quantity: 1, slot: slot});
+                })
+            } else {
+                equipActions.push({action: Action.Equip, code: craftItem, quantity: 1, slot: equippableSlot});
+            }
+        })
+
+        return [
+            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
+            { action: Action.BankDepositAll },
+            ...withdrawActions,
+            ...craftActions,
+            ...equipActions,
+            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
+            { action: Action.BankDepositAll },
+        ];
+    }
+
+    static withdrawAndEquip(craftItems: any): WorkflowAction[] {
+        const withdrawActions: WorkflowAction[] = [];
+        const equipActions: WorkflowAction[] = [];
+
+        craftItems.forEach(([craftItem, quantity, equippableSlot]: any) => {
+            withdrawActions.push({ action: Action.BankWithdraw, code: craftItem, quantity: quantity, condition: BankWithdrawActionCondition.DoNotHave });
+            if (Array.isArray(equippableSlot)) {
+                equippableSlot.forEach((slot) => {
+                    equipActions.push({action: Action.Equip, code: craftItem, quantity: 1, slot: slot});
+                })
+            } else {
+                equipActions.push({action: Action.Equip, code: craftItem, quantity: 1, slot: equippableSlot});
+            }
+        })
+
+        return [
+            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
+            { action: Action.BankDepositAll },
+            ...withdrawActions,
+            ...equipActions,
+        ];
     }
 }

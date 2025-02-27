@@ -6,7 +6,7 @@ import {Rester} from "./services/Rester.js";
 import {Fighter} from "./services/Fighter.js";
 import {Tasker} from "./services/Tasker.js";
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
-import {Character} from "../entities/Character.js";
+import {Character, EquippableSlot} from "../entities/Character.js";
 import {PointOfInterest} from "../lexical/PointOfInterest.js";
 import {Items} from "../lexical/Items.js";
 import * as Utils from "../Utils.js";
@@ -23,10 +23,15 @@ export interface GatherAction {
     loops: number;
 }
 
+export enum CraftActionConditions {
+    DoNotHave= 'do-not-have',
+}
+
 export interface CraftAction {
     action: Action.Craft;
     code: Items;
     quantity: number;
+    condition?: CraftActionConditions;
 }
 
 export interface RecycleAction {
@@ -35,14 +40,26 @@ export interface RecycleAction {
     quantity: number;
 }
 
+export interface EquipAction {
+    action: Action.Equip;
+    code: Items;
+    quantity: number;
+    slot: EquippableSlot;
+}
+
 export interface BankDepositAllAction {
     action: Action.BankDepositAll;
+}
+
+export enum BankWithdrawActionCondition {
+    DoNotHave = 'do-not-have',
 }
 
 export interface BankWithdrawAction {
     action: Action.BankWithdraw;
     code: Items;
     quantity: number;
+    condition?: BankWithdrawActionCondition;
 }
 
 export interface RestAction {
@@ -92,6 +109,7 @@ export type WorkflowAction =
     | GatherAction
     | CraftAction
     | RecycleAction
+    | EquipAction
     | RestAction
     | FightAction
     | GetTaskAction
@@ -108,6 +126,7 @@ export enum Action {
     Gather = 'gather',
     Craft = 'craft',
     Recycle = 'recycle',
+    Equip = 'equip',
     Rest = 'rest',
     Fight = 'fight',
     GetTask = 'get-task',
@@ -183,7 +202,8 @@ export class WorkflowOrchestrator {
             case Action.Craft:
                 await this.crafter.craft(
                     (action as CraftAction).code,
-                    (action as CraftAction).quantity
+                    (action as CraftAction).quantity,
+                    (action as CraftAction).condition,
                 );
                 break;
 
@@ -191,6 +211,14 @@ export class WorkflowOrchestrator {
                 await this.crafter.recycle(
                     (action as RecycleAction).code,
                     (action as RecycleAction).quantity
+                );
+                break;
+
+            case Action.Equip:
+                await this.crafter.equip(
+                    (action as EquipAction).code,
+                    (action as EquipAction).quantity,
+                    (action as EquipAction).slot,
                 );
                 break;
 
@@ -235,6 +263,7 @@ export class WorkflowOrchestrator {
                 await this.banker.withdraw(
                     (action as BankWithdrawAction).code,
                     (action as BankWithdrawAction).quantity,
+                    (action as BankWithdrawAction).condition,
                 )
                 break;
 
@@ -322,7 +351,12 @@ export class WorkflowOrchestrator {
             Utils.logHeadline(`CANNOT FIND POI FOR ${task.task}`);
 
             // Just fallbacking on a random workflow so something happens in case I sleep
-            await this.findWorkflowAndExecute('copper-craft', 1);
+            if (task.type === 'items') {
+                await this.findWorkflowAndExecute('copper-craft', -1);
+                return;
+            }
+
+            await this.findWorkflowAndExecute('fight-red_slime1', -1)
             return;
         }
 
@@ -330,11 +364,9 @@ export class WorkflowOrchestrator {
 
         const actions: WorkflowAction[] = [];
 
-        let subworkflow: SubworkflowAction;
-
         switch (task.type) {
             case 'items':
-                subworkflow = {
+                actions.push({
                     action: Action.SubWorkflow,
                     condition: SubworkflowCondition.TaskCompleted,
                     actions: [
@@ -352,23 +384,19 @@ export class WorkflowOrchestrator {
                         { action: Action.Move, coordinates: taskPoint },
                         { action: Action.Gather, loops: (task.total - task.progress) },
                     ]
-                };
-
-                actions.push(subworkflow);
+                });
 
                 break;
             case 'monsters':
                 actions.push({ action: Action.Move, coordinates: taskPoint });
-                subworkflow = {
+                actions.push({
                     action: Action.SubWorkflow,
                     condition: SubworkflowCondition.TaskCompleted,
                     actions: [
                         { action: Action.Rest },
                         { action: Action.Fight, loops: 1 },
                     ]
-                };
-
-                actions.push(subworkflow);
+                });
                 break;
         }
 

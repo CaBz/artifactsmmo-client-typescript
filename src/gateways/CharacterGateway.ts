@@ -62,6 +62,18 @@ export class CharacterGateway {
         }
     }
 
+    async equip(item: string, quantity: number, slot: string) {
+        const result = await this.client.equip(this.character, item, quantity, slot);
+        const character = new Character(result.character);
+
+        character.logToConsole(['status', 'gear', 'inventory']);
+
+        return {
+            ...result,
+            character,
+        }
+    }
+
     async rest() {
         const result = await this.client.rest(this.character);
         const character = new Character(result.character);
@@ -94,7 +106,7 @@ export class CharacterGateway {
     }
 
     async bankDeposit(item: string, quantity: number) {
-        const result = await this.client.bankDeposit(this.character, item, quantity);
+        const result = await this.client.bankDepositItem(this.character, item, quantity);
 
         //console.log(result);
 
@@ -102,7 +114,7 @@ export class CharacterGateway {
     }
 
     async bankWithdraw(item: string, quantity: number) {
-        const result = await this.client.bankWithdraw(this.character, item, quantity);
+        const result = await this.client.bankWithdrawItem(this.character, item, quantity);
 
         //console.log(result);
 

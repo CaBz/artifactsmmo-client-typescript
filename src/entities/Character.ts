@@ -1,4 +1,25 @@
 import {LINE} from "../Utils.js";
+import {Items} from "../lexical/Items.js";
+
+export enum EquippableSlot {
+    None = 'none',
+    Weapon = 'weapon',
+    Shield = 'shield',
+    Helmet = 'helmet',
+    BodyArmor = 'body_armor',
+    LegArmor = 'leg_armor',
+    Boots = 'boots',
+    Ring1 = 'ring1',
+    Ring2 = 'ring2',
+    Amulet = 'amulet',
+    Artifact1 = 'artifact1',
+    Artifact2 = 'artifact2',
+    Artifact3 = 'artifact3',
+    Utility1 = 'utility1',
+    Utility2 = 'utility2',
+    Bag = 'bag',
+    Rune = 'rune',
+}
 
 export class Character {
     constructor(private readonly data: any) {
@@ -38,6 +59,26 @@ export class Character {
 
     inventoryCount(): number {
         return this.data.inventory.reduce((total: number, inventory: any) => total + inventory.quantity, 0);
+    }
+
+    holdsHowManyOf(item: Items): number {
+        let result: number = 0;
+
+        const inventories = this.getInventory();
+        for (let i: number=0; i<inventories.length; i++) {
+            if (inventories[i].code === item) {
+                result += inventories[i].quantity;
+            }
+        }
+
+        const gears = ['weapon', 'rune', 'shield', 'helmet', 'body_armor', 'leg_armor', 'boots', 'ring1', 'ring2', 'amulet', 'artifact1', 'artifact2', 'artifact3', 'bag'];
+        for (let i:number = 0; i<gears.length; i++) {
+            if (this.data[`${gears[i]}_slot`] === item) {
+                result++;
+            }
+        }
+
+        return result;
     }
 
     getTask() {

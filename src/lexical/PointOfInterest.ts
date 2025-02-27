@@ -45,7 +45,7 @@ export enum PointOfInterest {
 
     Sunflower = 'sunflower', // 2,2 -- 1 // sunflower_field - sunflower
     Nettle = 'nettle', // 7,11 -- 20 // nettle - nettle_leaf
-    Glowsteam = 'glowsteam', // 1,10 -- 40 // glowstem - glowstem_leaf
+    Glowstem = 'glowstem', // 1,10 -- 40 // glowstem - glowstem_leaf
 
     Gudgeon = 'gudgeon', // 4,2 -- 1 // gudgeon_fishing_spot - gudgeon
     Shrimp = 'shrimp', // 5,2 -- 10 // shrimp_fishing_spot - shrimp
@@ -60,7 +60,7 @@ export enum PointOfInterest {
     GrandExchange = 'grand_exchange'
 }
 
-export const Workstations = {
+export const Workstations: any = {
     [Skill.Mining]: PointOfInterest.Forge,
     [Skill.Woodcutting]: PointOfInterest.Workshop,
     [Skill.Weaponcrafting]: PointOfInterest.Weapon,
@@ -101,7 +101,7 @@ export const GatheringPOIs = [
 
     [PointOfInterest.Sunflower, PointOfInterest.Bank1],
     [PointOfInterest.Nettle, PointOfInterest.Bank2],
-    [PointOfInterest.Glowsteam, PointOfInterest.Bank2],
+    [PointOfInterest.Glowstem, PointOfInterest.Bank2],
 
     [PointOfInterest.Gudgeon, PointOfInterest.Bank1],
     [PointOfInterest.Shrimp, PointOfInterest.Bank1],

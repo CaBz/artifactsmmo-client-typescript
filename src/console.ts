@@ -83,6 +83,10 @@ async function processCommand(commandName: string) {
             await container.client.getByEntityAndCode(commandName, consoleParams.shift())
             break;
 
+        case 'does-it-hold':
+            const character = await container.characterGateway.status();
+            console.log(character.holdsHowManyOf(consoleParams.shift() || ''));
+
         case 'merge-all-data': await DataFileMerger.mergeEverything(); break;
         case 'generate': await LexicalGenerator.generateAll(); break;
 

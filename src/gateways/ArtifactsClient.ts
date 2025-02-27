@@ -20,28 +20,49 @@ export class ArtifactsClient {
         return this.sendRequest('GET', `characters/${characterName}`);
     }
 
+    // https://api.artifactsmmo.com/docs/#/operations/action_move_my__name__action_move_post
     async move(characterName: string, x: number, y: number) {
         return this.sendCharacterAction(characterName, 'move', {x, y});
     }
 
-    async gather(characterName: string) {
-        return this.sendCharacterAction(characterName, 'gathering');
-    }
-
-    async craft(characterName: string, code: string, quantity: number) {
-        return this.sendCharacterAction(characterName, 'crafting', {code, quantity});
-    }
-
-    async recycle(characterName: string, code: string, quantity: number) {
-        return this.sendCharacterAction(characterName, 'recycling', {code, quantity});
-    }
-
+    // https://api.artifactsmmo.com/docs/#/operations/action_rest_my__name__action_rest_post
     async rest(characterName: string) {
         return this.sendCharacterAction(characterName, 'rest');
     }
 
+    // https://api.artifactsmmo.com/docs/#/operations/action_equip_item_my__name__action_equip_post
+    async equip(characterName: string, code: string, quantity: number, slot: string) {
+        return this.sendCharacterAction(characterName, 'equip', {code, quantity, slot});
+    }
+
+    // https://api.artifactsmmo.com/docs/#/operations/action_unequip_item_my__name__action_unequip_post
+    async unequip(characterName: string, quantity: number, slot: string) {
+        return this.sendCharacterAction(characterName, 'unequip', {quantity, slot});
+    }
+
+    // https://api.artifactsmmo.com/docs/#/operations/action_use_item_my__name__action_use_post
+    async use(characterName: string, code: string, quantity: number) {
+        return this.sendCharacterAction(characterName, 'use', {code, quantity});
+    }
+
+    // https://api.artifactsmmo.com/docs/#/operations/action_fight_my__name__action_fight_post
     async fight(characterName: string) {
         return this.sendCharacterAction(characterName, 'fight');
+    }
+
+    // https://api.artifactsmmo.com/docs/#/operations/action_gathering_my__name__action_gathering_post
+    async gather(characterName: string) {
+        return this.sendCharacterAction(characterName, 'gathering');
+    }
+
+    // https://api.artifactsmmo.com/docs/#/operations/action_crafting_my__name__action_crafting_post
+    async craft(characterName: string, code: string, quantity: number) {
+        return this.sendCharacterAction(characterName, 'crafting', {code, quantity});
+    }
+
+    // https://api.artifactsmmo.com/docs/#/operations/action_recycling_my__name__action_recycling_post
+    async recycle(characterName: string, code: string, quantity: number) {
+        return this.sendCharacterAction(characterName, 'recycling', {code, quantity});
     }
 
     async sendCharacterAction(characterName: string, actionName: string, body?: any) {
@@ -72,12 +93,39 @@ export class ArtifactsClient {
         return this.sendRequest('GET', `my/bank/items?item_code=${code}`);
     }
 
-    async bankDeposit(characterName: string, code: string, quantity: number) {
+    // https://api.artifactsmmo.com/docs/#/operations/action_deposit_bank_my__name__action_bank_deposit_post
+    async bankDepositItem(characterName: string, code: string, quantity: number) {
         return this.sendCharacterAction(characterName, 'bank/deposit', {code, quantity});
     }
 
-    async bankWithdraw(characterName: string, code: string, quantity: number) {
+    // https://api.artifactsmmo.com/docs/#/operations/action_deposit_bank_gold_my__name__action_bank_deposit_gold_post
+    async bankDepositGold(characterName: string, quantity: number) {
+        return this.sendCharacterAction(characterName, 'bank/deposit/gold', {quantity});
+    }
+
+    // https://api.artifactsmmo.com/docs/#/operations/action_withdraw_bank_my__name__action_bank_withdraw_post
+    async bankWithdrawItem(characterName: string, code: string, quantity: number) {
         return this.sendCharacterAction(characterName, 'bank/withdraw', {code, quantity});
+    }
+
+    // https://api.artifactsmmo.com/docs/#/operations/action_withdraw_bank_gold_my__name__action_bank_withdraw_gold_post
+    async bankWithdrawGold(characterName: string, quantity: number) {
+        return this.sendCharacterAction(characterName, 'bank/withdraw/gold', {quantity});
+    }
+
+    // https://api.artifactsmmo.com/docs/#/operations/action_buy_bank_expansion_my__name__action_bank_buy_expansion_post
+    async bankBuyExpansion(characterName: string) {
+        return this.sendCharacterAction(characterName, 'bank/buy_expansion');
+    }
+
+    // https://api.artifactsmmo.com/docs/#/operations/action_npc_buy_item_my__name__action_npc_buy_post
+    async npcBuyItem(characterName: string, code: string, quantity: number) {
+        return this.sendCharacterAction(characterName, 'npc/buy', {code, quantity});
+    }
+
+    // https://api.artifactsmmo.com/docs/#/operations/action_npc_sell_item_my__name__action_npc_sell_post
+    async npcBuySell(characterName: string, code: string, quantity: number) {
+        return this.sendCharacterAction(characterName, 'npc/sell', {code, quantity});
     }
 
     async taskGet(characterName: string) {

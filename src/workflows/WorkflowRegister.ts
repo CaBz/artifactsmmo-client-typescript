@@ -10,6 +10,8 @@ import {
 } from "../lexical/CraftableItems.js";
 import {Action, WorkflowAction} from "./WorkflowOrchestrator.js";
 import {WorkflowFactory} from "./WorkflowFactory.js";
+import {Recipes} from "../lexical/Recipes.js";
+import {EquippableSlot} from "../entities/Character.js";
 
 export class WorkflowRegister {
     static create(): Map<string, WorkflowAction[]> {
@@ -18,35 +20,10 @@ export class WorkflowRegister {
         WorkflowRegister.registerForGathering(workflows);
         WorkflowRegister.registerForMonsters(workflows);
         WorkflowRegister.registerForCrafting(workflows);
+        WorkflowRegister.registerForTasks(workflows);
         WorkflowRegister.registerForOthers(workflows);
+        WorkflowRegister.registerForSets(workflows);
 
-        workflows.set('task-items', [
-            { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
-            { action: Action.GetTask },
-            { action: Action.ExecuteTask },
-            { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
-            { action: Action.CompleteTask },
-            { action: Action.Move, coordinates: PointOfInterest.Bank2 },
-            { action: Action.BankDepositAll},
-            { action: Action.BankWithdraw, code: Items.TasksCoin, quantity: -1},
-            { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
-            { action: Action.ExchangeTask },
-        ]);
-
-        workflows.set('task-monsters', [
-            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
-            { action: Action.BankDepositAll },
-            { action: Action.Move, coordinates: PointOfInterest.TaskMasterMonsters },
-            { action: Action.GetTask },
-            { action: Action.ExecuteTask },
-            { action: Action.Move, coordinates: PointOfInterest.TaskMasterMonsters },
-            { action: Action.CompleteTask },
-            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
-            { action: Action.BankDepositAll},
-            { action: Action.BankWithdraw, code: Items.TasksCoin, quantity: -1},
-            { action: Action.Move, coordinates: PointOfInterest.TaskMasterMonsters },
-            { action: Action.ExchangeTask },
-        ]);
 
         workflows.set('test', [
             { action: Action.ExecuteTask },
@@ -83,44 +60,74 @@ export class WorkflowRegister {
 
     private static registerForCrafting(workflows: Map<string, WorkflowAction[]>) {
         CraftableMining.forEach((item: Items) => {
-            workflows.set(`craft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Forge, item, -1, false));
+            workflows.set(`craft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Forge, item, -1, false));
         });
 
         CraftableWeaponcrafting.forEach((item: Items) => {
-            workflows.set(`craft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Weapon, item, -1, false));
+            workflows.set(`craft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Weapon, item, -1, false));
         });
 
         CraftableWeaponcrafting.forEach((item: Items) => {
-            workflows.set(`recraft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Weapon, item, -1, true));
+            workflows.set(`recraft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Weapon, item, -1, true));
         });
 
         CraftableGearcrafting.forEach((item: Items) => {
-            workflows.set(`craft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Gear, item, -1, false));
+            workflows.set(`craft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Gear, item, -1, false));
         });
 
         CraftableGearcrafting.forEach((item: Items) => {
-            workflows.set(`recraft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Gear, item, -1, true));
+            workflows.set(`recraft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Gear, item, -1, true));
         });
 
         CraftableJewelry.forEach((item: Items) => {
-            workflows.set(`craft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Jewel, item, -1, false));
+            workflows.set(`craft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Jewel, item, -1, false));
         });
 
         CraftableJewelry.forEach((item: Items) => {
-            workflows.set(`recraft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Jewel, item, -1, true));
+            workflows.set(`recraft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Jewel, item, -1, true));
         });
 
         CraftableWoodcutting.forEach((item: Items) => {
-            workflows.set(`craft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Workshop, item, -1, false));
+            workflows.set(`craft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Workshop, item, -1, false));
         });
 
         CraftableCooking.forEach((item: Items) => {
-            workflows.set(`craft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Cooking, item, -1, false));
+            workflows.set(`craft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Cooking, item, -1, false));
         });
 
         CraftableAlchemy.forEach((item: Items) => {
-            workflows.set(`craft-${item}`, WorkflowFactory.bankWithdrawAndCraft(PointOfInterest.Alchemy, item, -1, false));
+            workflows.set(`craft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Alchemy, item, -1, false));
         });
+    }
+
+    private static registerForTasks(workflows: Map<string, WorkflowAction[]>) {
+        workflows.set('task-items', [
+            { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
+            { action: Action.GetTask },
+            { action: Action.ExecuteTask },
+            { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
+            { action: Action.CompleteTask },
+            { action: Action.Move, coordinates: PointOfInterest.Bank2 },
+            { action: Action.BankDepositAll},
+            { action: Action.BankWithdraw, code: Items.TasksCoin, quantity: -1},
+            { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
+            { action: Action.ExchangeTask },
+        ]);
+
+        workflows.set('task-monsters', [
+            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
+            { action: Action.BankDepositAll },
+            { action: Action.Move, coordinates: PointOfInterest.TaskMasterMonsters },
+            { action: Action.GetTask },
+            { action: Action.ExecuteTask },
+            { action: Action.Move, coordinates: PointOfInterest.TaskMasterMonsters },
+            { action: Action.CompleteTask },
+            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
+            { action: Action.BankDepositAll},
+            { action: Action.BankWithdraw, code: Items.TasksCoin, quantity: -1},
+            { action: Action.Move, coordinates: PointOfInterest.TaskMasterMonsters },
+            { action: Action.ExchangeTask },
+        ]);
     }
 
     private static registerForOthers(workflows: Map<string, WorkflowAction[]>) {
@@ -129,6 +136,22 @@ export class WorkflowRegister {
             { action: Action.Move, coordinates: PointOfInterest.Bank1 },
             { action: Action.BankDepositAll },
         ]);
+    }
+
+    private static registerForSets(workflows: Map<string, WorkflowAction[]>) {
+        const copperSet = [
+            [Items.StickyDagger, 1, EquippableSlot.Weapon],
+            [Items.CopperDagger, 1, EquippableSlot.Weapon],
+            [Items.CopperBoots, 1, EquippableSlot.Boots],
+            [Items.CopperHelmet, 1, EquippableSlot.Helmet],
+            [Items.WoodenShield, 1, EquippableSlot.Shield],
+            [Items.CopperArmor, 1, EquippableSlot.BodyArmor],
+            [Items.CopperLegsArmor, 1, EquippableSlot.LegArmor],
+            [Items.CopperRing, 2, [EquippableSlot.Ring1, EquippableSlot.Ring2]],
+            [Items.LifeAmulet, 1, EquippableSlot.Amulet],
+        ];
+        workflows.set('copper-set', WorkflowFactory.withdrawAndCraftManyAndEquip(copperSet, true));
+        workflows.set('equip-copper-set', WorkflowFactory.withdrawAndEquip(copperSet));
     }
 }
 
