@@ -14,7 +14,7 @@ import {Monsters} from "../lexical/Monsters.js";
 import {Recipes} from "../lexical/Recipes.js";
 
 export enum MoveActionCondition {
-    TaskNotCompleted = 'task-not-completed',
+    InventoryNotFull = 'inventory-not-full',
 }
 
 export interface MoveAction {
@@ -190,13 +190,42 @@ export class WorkflowOrchestrator {
         await this.findWorkflowAndExecute(name, loops - 1);
     }
 
-    async execute(actions: WorkflowAction[]): Promise<void> {
+    private async execute(actions: WorkflowAction[]): Promise<void> {
         for (var i=0; i<actions.length; i++) {
             await this.dispatchAction(actions[i]!);
         }
     }
 
-    async dispatchAction(action: WorkflowAction) {
+    private async executeWithCondition(actions: WorkflowAction[], condition: string): Promise<void> {
+        if (condition === SubworkflowCondition.InventoryFull) {
+            const character: Character = await this.characterGateway.status();
+            if (character.isInventoryFull()) {
+                Utils.errorHeadline('CHARACTER FULL');
+                return;
+            }
+        }
+
+        if (condition === SubworkflowCondition.TaskCompleted) {
+            const character: Character = await this.characterGateway.status();
+            if (character.isTaskCompleted()) {
+                Utils.errorHeadline('TASK PROGRESS COMPLETED');
+                return;
+            }
+
+            if (character.isInventoryFull()) {
+                Utils.errorHeadline('TASK > CHARACTER FULL');
+                return;
+            }
+        }
+
+        for (let i=0; i<actions.length; i++) {
+            await this.dispatchAction(actions[i]!);
+        }
+
+        await this.executeWithCondition(actions, condition);
+    }
+
+    private async dispatchAction(action: WorkflowAction) {
         switch (action.action) {
             case Action.Move:
                 await this.mover.moveToPointOfInterest(
@@ -292,35 +321,6 @@ export class WorkflowOrchestrator {
         }
     }
 
-    async executeWithCondition(actions: WorkflowAction[], condition: string): Promise<void> {
-        if (condition === SubworkflowCondition.InventoryFull) {
-            const character: Character = await this.characterGateway.status();
-            if (character.isInventoryFull()) {
-                Utils.errorHeadline('CHARACTER FULL');
-                return;
-            }
-        }
-
-        if (condition === SubworkflowCondition.TaskCompleted) {
-            const character: Character = await this.characterGateway.status();
-            if (character.isTaskCompleted()) {
-                Utils.errorHeadline('TASK PROGRESS COMPLETED');
-                return;
-            }
-
-            if (character.isInventoryFull()) {
-                Utils.errorHeadline('TASK > CHARACTER FULL');
-                return;
-            }
-        }
-
-        for (let i=0; i<actions.length; i++) {
-            await this.dispatchAction(actions[i]!);
-        }
-
-        await this.executeWithCondition(actions, condition);
-    }
-
     private async executeTaskWorflow() {
         const character: Character = await this.characterGateway.status();
         const task = character.getTask();
@@ -344,7 +344,7 @@ export class WorkflowOrchestrator {
                 case 'YourBoiBob':
                     return this.findWorkflowAndExecute('gather-birch1', -1);
                 case 'Ginette':
-                    return this.findWorkflowAndExecute('gather-glowstem', -1);
+                    return this.findWorkflowAndExecute('copper-craft', -1);
                 case 'BigBooty':
                     return this.findWorkflowAndExecute('gather-trout', -1);
             }
@@ -378,7 +378,7 @@ export class WorkflowOrchestrator {
                         { action: Action.BankDepositAll },
                         { action: Action.BankWithdraw, code: task.task, quantity: -1 },
 
-                        { action: Action.Move, coordinates: taskPoint, condition: MoveActionCondition.TaskNotCompleted },
+                        { action: Action.Move, coordinates: taskPoint, condition: MoveActionCondition.InventoryNotFull },
                         { action: Action.GatherForTask }, // Need to fix this for better dynamically complex recipes
 
                         ...recipeActions,

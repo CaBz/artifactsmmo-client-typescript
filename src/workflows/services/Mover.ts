@@ -12,15 +12,11 @@ export class Mover {
     }
 
     async moveToPointOfInterest(name: PointOfInterest, condition?: MoveActionCondition): Promise<void> {
-        if (condition === MoveActionCondition.TaskNotCompleted) {
+        if (condition === MoveActionCondition.InventoryNotFull) {
             const character: Character = await this.characterGateway.status();
-            const task = character.getTask();
-            if (task) {
-                const value = task.total - task.progress - character.holdsHowManyOf(task.task);
-                if (value <= 0) {
-                    Utils.errorHeadline('SKIP MOVING FOR TASK');
-                    return;
-                }
+            if (character.isInventoryFull()) {
+                Utils.errorHeadline('SKIP MOVING - FULL');
+                return;
             }
         }
 
