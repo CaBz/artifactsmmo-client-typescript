@@ -1,6 +1,7 @@
 import { Character } from "../entities/Character.js";
 import {ClientException} from "./ClientException.js";
 import {MapTile} from "../entities/MapTile.js";
+import * as Utils from "../Utils.js";
 
 export class ArtifactsClient {
     private serverUrl: string;
@@ -157,7 +158,30 @@ export class ArtifactsClient {
         return map;
     }
 
+    async getAllOf(entity: string): Promise<any> {
+        const result = [];
+
+        console.log(`Fetching ${entity} - page 1/?`);
+        let response = await this.sendRequestWithoutData('GET', `${entity}?size=100&page=1`);
+        result.push(...response.data);
+
+        while (response.page < response.pages) {
+            console.log(`Fetching ${entity} - page ${response.page+1}/${response.pages}`);
+            await Utils.sleep(1000);
+
+            response = await this.sendRequestWithoutData('GET', `${entity}?size=100&page=${response.page + 1}`);
+            result.push(...response.data);
+        }
+
+        return result;
+    }
+
     private async sendRequest(method: string, path: string | undefined, body?: any) {
+        const result = await this.sendRequestWithoutData(method, path, body);
+        return result.data;
+    }
+
+    private async sendRequestWithoutData(method: string, path: string | undefined, body?: any) {
         const url = (`${this.serverUrl}/${path || ''}`);
         const options = {
             method,
@@ -188,6 +212,6 @@ export class ArtifactsClient {
             throw new ClientException(result.error.code, result.error.message);
         }
 
-        return result.data;
+        return result;
     }
 }

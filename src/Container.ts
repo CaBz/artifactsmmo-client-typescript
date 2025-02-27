@@ -16,6 +16,7 @@ import {MapTile} from "./entities/MapTile.js";
 import {Monster} from "./entities/Monster.js";
 import {Resource} from "./entities/Resource.js";
 import {LexicalGenerator} from "./generators/LexicalGenerator.js";
+import {DataFetcher} from "./generators/DataFetcher.js";
 
 export class Container {
     static async create(charactName: string): Promise<Container> {
@@ -33,6 +34,7 @@ export class Container {
     async initialize(): Promise<void> {
         await this.registerSets();
         this.registerGateways();
+        this.registerGenerators();
         this.registerServices();
         this.registerWorkflows();
         this.registerWorkflowOrchestrator();
@@ -61,6 +63,14 @@ export class Container {
 
     get resources(): Map<string, Resource> {
         return this.instances.get('resources');
+    }
+
+    private async registerGenerators(): Promise<void> {
+        this.instances.set('data-fetcher', new DataFetcher(this.client, 'data'));
+    }
+
+    get dataFetcher(): DataFetcher {
+        return this.instances.get('data-fetcher');
     }
 
     private registerGateways(): void {

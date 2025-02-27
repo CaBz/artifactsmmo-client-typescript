@@ -72,7 +72,7 @@ export class WorkflowFactory {
         return result;
     }
 
-    static withdrawAndCraftManyAndEquip(craftItems: any): WorkflowAction[] {
+    static withdrawAndCraftManyAndEquip(craftItems: any, equip?: boolean): WorkflowAction[] {
         const withdrawActions: WorkflowAction[] = [];
         const craftActions: WorkflowAction[] = [];
         const equipActions: WorkflowAction[] = [];
@@ -89,13 +89,15 @@ export class WorkflowFactory {
             craftActions.push({ action: Action.Move, coordinates: craftPoint });
             craftActions.push({ action: Action.Craft, code: craftItem, quantity: quantity, condition: CraftActionConditions.DoNotHave });
 
-            if (Array.isArray(equippableSlot)) {
-                equippableSlot.forEach((slot) => {
-                    equipActions.push({action: Action.Unequip, quantity: 1, slot: slot});
-                    equipActions.push({action: Action.Equip, code: craftItem, quantity: 1, slot: slot});
-                })
-            } else {
-                equipActions.push({action: Action.Equip, code: craftItem, quantity: 1, slot: equippableSlot});
+            if (equip) {
+                if (Array.isArray(equippableSlot)) {
+                    equippableSlot.forEach((slot) => {
+                        equipActions.push({action: Action.Unequip, quantity: 1, slot: slot});
+                        equipActions.push({action: Action.Equip, code: craftItem, quantity: 1, slot: slot});
+                    })
+                } else {
+                    equipActions.push({action: Action.Equip, code: craftItem, quantity: 1, slot: equippableSlot});
+                }
             }
         })
 
@@ -122,6 +124,7 @@ export class WorkflowFactory {
                     equipActions.push({action: Action.Equip, code: craftItem, quantity: 1, slot: slot});
                 })
             } else {
+                equipActions.push({action: Action.Unequip, quantity: 1, slot: equippableSlot});
                 equipActions.push({action: Action.Equip, code: craftItem, quantity: 1, slot: equippableSlot});
             }
         })
@@ -131,6 +134,7 @@ export class WorkflowFactory {
             { action: Action.BankDepositAll },
             ...withdrawActions,
             ...equipActions,
+            { action: Action.BankDepositAll },
         ];
     }
 }

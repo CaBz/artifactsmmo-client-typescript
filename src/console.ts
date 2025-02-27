@@ -3,7 +3,6 @@ import {Container} from "./Container.js";
 import {Items} from "./lexical/Items.js";
 import * as Utils from "./Utils.js";
 import {LexicalGenerator} from "./generators/LexicalGenerator.js";
-import {DataFileMerger} from "./generators/DataFileMerger.js";
 
 const consoleParams = process.argv;
 consoleParams.shift(); // process name
@@ -104,8 +103,10 @@ async function processCommand(commandName: string) {
             const character = await container.characterGateway.status();
             console.log(character.holdsHowManyOf(consoleParams.shift() || ''));
 
-        case 'merge-all-data': await DataFileMerger.mergeEverything(); break;
+        case 'refresh-dataset': await container.dataFetcher.fetchAndSaveEverything(); break;
         case 'generate': await LexicalGenerator.generateAll(); break;
+
+
 
         default:
             console.error('Put a proper command name');

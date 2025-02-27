@@ -3,7 +3,7 @@ import {MapTile} from "../entities/MapTile.js";
 import {Monster} from "../entities/Monster.js";
 import {Resource} from "../entities/Resource.js";
 import {promises as fs} from "fs";
-import {loadEverything, readFileRaw} from "./DataFileMerger.js";
+import * as Utils from "../Utils.js";
 
 export class LexicalGenerator {
     static async generateAll() {
@@ -101,11 +101,11 @@ export class LexicalGenerator {
         })
         console.log(`Total recipes: ${countRecipes}`);
 
-        const recipesTemplate = await readFileRaw('data/templates/Recipes.ts');
+        const recipesTemplate = await Utils.readFileRaw('data/templates/Recipes.ts');
         fileContent = recipesTemplate.replace('//{PLACEHOLDER}', placeholderRecipes);
         await fs.writeFile(`${lexicalFilePath}/Recipes.ts`, fileContent, 'utf8');
 
-        const craftableItemsTemplate = await readFileRaw('data/templates/CraftableItems.ts');
+        const craftableItemsTemplate = await Utils.readFileRaw('data/templates/CraftableItems.ts');
         fileContent = craftableItemsTemplate;
         Object.entries(placeholderCraftable).forEach(([key, placeholder]: [string, string]) => {
             console.log(`//{PLACEHOLDER_${key.toUpperCase()}}`)
@@ -196,7 +196,7 @@ export class LexicalGenerator {
     }
 
     static async loadData() {
-        const allData = await loadEverything();
+        const allData = await Utils.readFile('data/everything.json');
 
         const items: Map<string, Item> = new Map();
         const maps: MapTile[] = [];

@@ -11953,6 +11953,1141 @@
       "tradeable": true
     }
   ],
+  "monsters": [
+    {
+      "name": "Bandit Lizard",
+      "code": "bandit_lizard",
+      "level": 25,
+      "hp": 780,
+      "attack_fire": 40,
+      "attack_earth": 0,
+      "attack_water": 40,
+      "attack_air": 0,
+      "res_fire": -5,
+      "res_earth": 25,
+      "res_water": -5,
+      "res_air": 25,
+      "critical_strike": 5,
+      "effects": [
+        {
+          "code": "poison",
+          "value": 20
+        }
+      ],
+      "min_gold": 0,
+      "max_gold": 15,
+      "drops": [
+        {
+          "code": "bandit_armor",
+          "rate": 600,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "lizard_eye",
+          "rate": 10,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "lizard_skin",
+          "rate": 10,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "dreadful_book",
+          "rate": 1500,
+          "min_quantity": 1,
+          "max_quantity": 1
+        }
+      ]
+    },
+    {
+      "name": "Bat",
+      "code": "bat",
+      "level": 38,
+      "hp": 2000,
+      "attack_fire": 0,
+      "attack_earth": 0,
+      "attack_water": 80,
+      "attack_air": 80,
+      "res_fire": 5,
+      "res_earth": 5,
+      "res_water": 5,
+      "res_air": -20,
+      "critical_strike": 5,
+      "effects": [
+        {
+          "code": "poison",
+          "value": 50
+        }
+      ],
+      "min_gold": 0,
+      "max_gold": 17,
+      "drops": [
+        {
+          "code": "bat_wing",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        }
+      ]
+    },
+    {
+      "name": "Blue Slime",
+      "code": "blue_slime",
+      "level": 6,
+      "hp": 120,
+      "attack_fire": 0,
+      "attack_earth": 0,
+      "attack_water": 15,
+      "attack_air": 0,
+      "res_fire": 0,
+      "res_earth": 0,
+      "res_water": 25,
+      "res_air": 0,
+      "critical_strike": 0,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 5,
+      "drops": [
+        {
+          "code": "blue_slimeball",
+          "rate": 10,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "apple",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 1
+        }
+      ]
+    },
+    {
+      "name": "Chicken",
+      "code": "chicken",
+      "level": 1,
+      "hp": 60,
+      "attack_fire": 0,
+      "attack_earth": 0,
+      "attack_water": 4,
+      "attack_air": 0,
+      "res_fire": 0,
+      "res_earth": 0,
+      "res_water": 0,
+      "res_air": 0,
+      "critical_strike": 0,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 3,
+      "drops": [
+        {
+          "code": "raw_chicken",
+          "rate": 10,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "egg",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "feather",
+          "rate": 8,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "golden_egg",
+          "rate": 1000,
+          "min_quantity": 1,
+          "max_quantity": 1
+        }
+      ]
+    },
+    {
+      "name": "Cow",
+      "code": "cow",
+      "level": 8,
+      "hp": 280,
+      "attack_fire": 0,
+      "attack_earth": 0,
+      "attack_water": 0,
+      "attack_air": 21,
+      "res_fire": 0,
+      "res_earth": -30,
+      "res_water": 30,
+      "res_air": 0,
+      "critical_strike": 0,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 7,
+      "drops": [
+        {
+          "code": "raw_beef",
+          "rate": 6,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "milk_bucket",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        },
+        {
+          "code": "cowhide",
+          "rate": 8,
+          "min_quantity": 1,
+          "max_quantity": 2
+        }
+      ]
+    },
+    {
+      "name": "Cultist Acolyte",
+      "code": "cultist_acolyte",
+      "level": 33,
+      "hp": 1500,
+      "attack_fire": 0,
+      "attack_earth": 65,
+      "attack_water": 0,
+      "attack_air": 65,
+      "res_fire": -10,
+      "res_earth": 10,
+      "res_water": -10,
+      "res_air": 40,
+      "critical_strike": 5,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 15,
+      "drops": [
+        {
+          "code": "magic_stone",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        },
+        {
+          "code": "cursed_book",
+          "rate": 20,
+          "min_quantity": 1,
+          "max_quantity": 2
+        }
+      ]
+    },
+    {
+      "name": "Cultist Emperor",
+      "code": "cultist_emperor",
+      "level": 35,
+      "hp": 1750,
+      "attack_fire": 0,
+      "attack_earth": 40,
+      "attack_water": 40,
+      "attack_air": 90,
+      "res_fire": 20,
+      "res_earth": 10,
+      "res_water": 0,
+      "res_air": -10,
+      "critical_strike": 5,
+      "effects": [
+        {
+          "code": "healing",
+          "value": 5
+        }
+      ],
+      "min_gold": 0,
+      "max_gold": 18,
+      "drops": [
+        {
+          "code": "malefic_cloth",
+          "rate": 20,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "malefic_crystal",
+          "rate": 2000,
+          "min_quantity": 1,
+          "max_quantity": 1
+        }
+      ]
+    },
+    {
+      "name": "Cursed Tree",
+      "code": "cursed_tree",
+      "level": 34,
+      "hp": 1550,
+      "attack_fire": 0,
+      "attack_earth": 0,
+      "attack_water": 130,
+      "attack_air": 0,
+      "res_fire": 5,
+      "res_earth": -5,
+      "res_water": -5,
+      "res_air": 5,
+      "critical_strike": 20,
+      "effects": [
+        {
+          "code": "lifesteal",
+          "value": 5
+        }
+      ],
+      "min_gold": 0,
+      "max_gold": 15,
+      "drops": [
+        {
+          "code": "cursed_wood",
+          "rate": 10,
+          "min_quantity": 1,
+          "max_quantity": 2
+        }
+      ]
+    },
+    {
+      "name": "Cyclops",
+      "code": "cyclops",
+      "level": 25,
+      "hp": 630,
+      "attack_fire": 0,
+      "attack_earth": 90,
+      "attack_water": 0,
+      "attack_air": 20,
+      "res_fire": -20,
+      "res_earth": 20,
+      "res_water": 10,
+      "res_air": 0,
+      "critical_strike": 5,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 12,
+      "drops": [
+        {
+          "code": "cyclops_eye",
+          "rate": 6,
+          "min_quantity": 1,
+          "max_quantity": 1
+        }
+      ]
+    },
+    {
+      "name": "Death Knight",
+      "code": "death_knight",
+      "level": 28,
+      "hp": 820,
+      "attack_fire": 28,
+      "attack_earth": 28,
+      "attack_water": 28,
+      "attack_air": 28,
+      "res_fire": -5,
+      "res_earth": -5,
+      "res_water": -5,
+      "res_air": -5,
+      "critical_strike": 5,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 12,
+      "drops": [
+        {
+          "code": "death_knight_sword",
+          "rate": 600,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "red_cloth",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        }
+      ]
+    },
+    {
+      "name": "Demon",
+      "code": "demon",
+      "level": 30,
+      "hp": 900,
+      "attack_fire": 90,
+      "attack_earth": 0,
+      "attack_water": 0,
+      "attack_air": 0,
+      "res_fire": 20,
+      "res_earth": 0,
+      "res_water": -10,
+      "res_air": 0,
+      "critical_strike": 5,
+      "effects": [
+        {
+          "code": "burn",
+          "value": 20
+        }
+      ],
+      "min_gold": 0,
+      "max_gold": 20,
+      "drops": [
+        {
+          "code": "demon_horn",
+          "rate": 10,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "piece_of_obsidian",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        }
+      ]
+    },
+    {
+      "name": "Efreet Sultan",
+      "code": "efreet_sultan",
+      "level": 45,
+      "hp": 3600,
+      "attack_fire": 70,
+      "attack_earth": 0,
+      "attack_water": 0,
+      "attack_air": 70,
+      "res_fire": 50,
+      "res_earth": 0,
+      "res_water": 50,
+      "res_air": 0,
+      "critical_strike": 5,
+      "effects": [
+        {
+          "code": "burn",
+          "value": 20
+        }
+      ],
+      "min_gold": 0,
+      "max_gold": 30,
+      "drops": [
+        {
+          "code": "efreet_cloth",
+          "rate": 10,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "book_from_hell",
+          "rate": 1000,
+          "min_quantity": 1,
+          "max_quantity": 1
+        }
+      ]
+    },
+    {
+      "name": "Flying Serpent",
+      "code": "flying_serpent",
+      "level": 12,
+      "hp": 360,
+      "attack_fire": 0,
+      "attack_earth": 0,
+      "attack_water": 0,
+      "attack_air": 34,
+      "res_fire": -20,
+      "res_earth": 0,
+      "res_water": -20,
+      "res_air": 40,
+      "critical_strike": 5,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 8,
+      "drops": [
+        {
+          "code": "flying_wing",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        },
+        {
+          "code": "serpent_skin",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        },
+        {
+          "code": "forest_ring",
+          "rate": 200,
+          "min_quantity": 1,
+          "max_quantity": 1
+        }
+      ]
+    },
+    {
+      "name": "Goblin",
+      "code": "goblin",
+      "level": 35,
+      "hp": 1650,
+      "attack_fire": 0,
+      "attack_earth": 0,
+      "attack_water": 0,
+      "attack_air": 170,
+      "res_fire": 10,
+      "res_earth": 30,
+      "res_water": -20,
+      "res_air": -20,
+      "critical_strike": 5,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 15,
+      "drops": [
+        {
+          "code": "goblin_tooth",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        },
+        {
+          "code": "goblin_eye",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        }
+      ]
+    },
+    {
+      "name": "Goblin Wolfrider",
+      "code": "goblin_wolfrider",
+      "level": 40,
+      "hp": 2650,
+      "attack_fire": 0,
+      "attack_earth": 145,
+      "attack_water": 0,
+      "attack_air": 0,
+      "res_fire": 10,
+      "res_earth": -5,
+      "res_water": 10,
+      "res_air": 10,
+      "critical_strike": 5,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 25,
+      "drops": [
+        {
+          "code": "broken_sword",
+          "rate": 16,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "wolfrider_hair",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        }
+      ]
+    },
+    {
+      "name": "Green Slime",
+      "code": "green_slime",
+      "level": 4,
+      "hp": 80,
+      "attack_fire": 0,
+      "attack_earth": 0,
+      "attack_water": 0,
+      "attack_air": 12,
+      "res_fire": 0,
+      "res_earth": 0,
+      "res_water": 0,
+      "res_air": 25,
+      "critical_strike": 0,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 5,
+      "drops": [
+        {
+          "code": "green_slimeball",
+          "rate": 10,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "apple",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 1
+        }
+      ]
+    },
+    {
+      "name": "Hellhound",
+      "code": "hellhound",
+      "level": 40,
+      "hp": 3250,
+      "attack_fire": 90,
+      "attack_earth": 50,
+      "attack_water": 0,
+      "attack_air": 0,
+      "res_fire": -20,
+      "res_earth": 10,
+      "res_water": -20,
+      "res_air": 10,
+      "critical_strike": 5,
+      "effects": [
+        {
+          "code": "burn",
+          "value": 10
+        }
+      ],
+      "min_gold": 0,
+      "max_gold": 25,
+      "drops": [
+        {
+          "code": "hellhound_hair",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        },
+        {
+          "code": "raw_hellhound_meat",
+          "rate": 5,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "hellhound_bone",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        }
+      ]
+    },
+    {
+      "name": "Highwayman",
+      "code": "highwayman",
+      "level": 15,
+      "hp": 380,
+      "attack_fire": 0,
+      "attack_earth": 0,
+      "attack_water": 0,
+      "attack_air": 25,
+      "res_fire": 10,
+      "res_earth": 10,
+      "res_water": -10,
+      "res_air": -10,
+      "critical_strike": 35,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 8,
+      "drops": [
+        {
+          "code": "highwayman_dagger",
+          "rate": 200,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "green_cloth",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        }
+      ]
+    },
+    {
+      "name": "Imp",
+      "code": "imp",
+      "level": 28,
+      "hp": 1750,
+      "attack_fire": 0,
+      "attack_earth": 45,
+      "attack_water": 0,
+      "attack_air": 0,
+      "res_fire": 10,
+      "res_earth": 60,
+      "res_water": 10,
+      "res_air": 10,
+      "critical_strike": 5,
+      "effects": [
+        {
+          "code": "burn",
+          "value": 15
+        }
+      ],
+      "min_gold": 0,
+      "max_gold": 12,
+      "drops": [
+        {
+          "code": "demoniac_dust",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        },
+        {
+          "code": "piece_of_obsidian",
+          "rate": 70,
+          "min_quantity": 1,
+          "max_quantity": 2
+        }
+      ]
+    },
+    {
+      "name": "Lich",
+      "code": "lich",
+      "level": 30,
+      "hp": 1450,
+      "attack_fire": 60,
+      "attack_earth": 60,
+      "attack_water": 0,
+      "attack_air": 0,
+      "res_fire": 24,
+      "res_earth": 24,
+      "res_water": 18,
+      "res_air": 18,
+      "critical_strike": 5,
+      "effects": [
+        {
+          "code": "reconstitution",
+          "value": 20
+        }
+      ],
+      "min_gold": 0,
+      "max_gold": 15,
+      "drops": [
+        {
+          "code": "life_crystal",
+          "rate": 2000,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "lich_crown",
+          "rate": 600,
+          "min_quantity": 1,
+          "max_quantity": 1
+        }
+      ]
+    },
+    {
+      "name": "Mushmush",
+      "code": "mushmush",
+      "level": 10,
+      "hp": 350,
+      "attack_fire": 16,
+      "attack_earth": 0,
+      "attack_water": 16,
+      "attack_air": 0,
+      "res_fire": 20,
+      "res_earth": 20,
+      "res_water": 0,
+      "res_air": -30,
+      "critical_strike": 5,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 7,
+      "drops": [
+        {
+          "code": "mushroom",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        },
+        {
+          "code": "forest_ring",
+          "rate": 200,
+          "min_quantity": 1,
+          "max_quantity": 1
+        }
+      ]
+    },
+    {
+      "name": "Ogre",
+      "code": "ogre",
+      "level": 20,
+      "hp": 650,
+      "attack_fire": 0,
+      "attack_earth": 80,
+      "attack_water": 0,
+      "attack_air": 0,
+      "res_fire": -20,
+      "res_earth": 30,
+      "res_water": 0,
+      "res_air": 0,
+      "critical_strike": 5,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 10,
+      "drops": [
+        {
+          "code": "ogre_eye",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        },
+        {
+          "code": "ogre_skin",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        },
+        {
+          "code": "wooden_club",
+          "rate": 200,
+          "min_quantity": 1,
+          "max_quantity": 1
+        }
+      ]
+    },
+    {
+      "name": "Orc",
+      "code": "orc",
+      "level": 38,
+      "hp": 1600,
+      "attack_fire": 100,
+      "attack_earth": 0,
+      "attack_water": 0,
+      "attack_air": 100,
+      "res_fire": -20,
+      "res_earth": 20,
+      "res_water": -20,
+      "res_air": 20,
+      "critical_strike": 10,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 17,
+      "drops": [
+        {
+          "code": "orc_skin",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        }
+      ]
+    },
+    {
+      "name": "Owlbear",
+      "code": "owlbear",
+      "level": 30,
+      "hp": 1100,
+      "attack_fire": 0,
+      "attack_earth": 0,
+      "attack_water": 80,
+      "attack_air": 0,
+      "res_fire": 0,
+      "res_earth": -20,
+      "res_water": 45,
+      "res_air": 0,
+      "critical_strike": 5,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 15,
+      "drops": [
+        {
+          "code": "owlbear_hair",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        },
+        {
+          "code": "owlbear_claw",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        }
+      ]
+    },
+    {
+      "name": "Pig",
+      "code": "pig",
+      "level": 19,
+      "hp": 480,
+      "attack_fire": 0,
+      "attack_earth": 0,
+      "attack_water": 30,
+      "attack_air": 0,
+      "res_fire": 0,
+      "res_earth": -10,
+      "res_water": 40,
+      "res_air": 0,
+      "critical_strike": 30,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 8,
+      "drops": [
+        {
+          "code": "pig_skin",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        }
+      ]
+    },
+    {
+      "name": "Red Slime",
+      "code": "red_slime",
+      "level": 7,
+      "hp": 120,
+      "attack_fire": 18,
+      "attack_earth": 0,
+      "attack_water": 0,
+      "attack_air": 0,
+      "res_fire": 25,
+      "res_earth": 0,
+      "res_water": 0,
+      "res_air": 0,
+      "critical_strike": 0,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 5,
+      "drops": [
+        {
+          "code": "red_slimeball",
+          "rate": 10,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "apple",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 1
+        }
+      ]
+    },
+    {
+      "name": "Rosenblood",
+      "code": "rosenblood",
+      "level": 40,
+      "hp": 3000,
+      "attack_fire": 150,
+      "attack_earth": 0,
+      "attack_water": 0,
+      "attack_air": 0,
+      "res_fire": 0,
+      "res_earth": 50,
+      "res_water": 50,
+      "res_air": 50,
+      "critical_strike": 5,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 30,
+      "drops": [
+        {
+          "code": "sanguine_edge_of_rosen",
+          "rate": 600,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "rosenblood_elixir",
+          "rate": 160,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "topaz_book",
+          "rate": 2000,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "ruby_book",
+          "rate": 2000,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "emerald_book",
+          "rate": 2000,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "sapphire_book",
+          "rate": 2000,
+          "min_quantity": 1,
+          "max_quantity": 1
+        }
+      ]
+    },
+    {
+      "name": "Skeleton",
+      "code": "skeleton",
+      "level": 18,
+      "hp": 480,
+      "attack_fire": 26,
+      "attack_earth": 18,
+      "attack_water": 0,
+      "attack_air": 0,
+      "res_fire": 30,
+      "res_earth": 0,
+      "res_water": -10,
+      "res_air": -10,
+      "critical_strike": 5,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 8,
+      "drops": [
+        {
+          "code": "skeleton_bone",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        },
+        {
+          "code": "skeleton_skull",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 1
+        }
+      ]
+    },
+    {
+      "name": "Spider",
+      "code": "spider",
+      "level": 20,
+      "hp": 550,
+      "attack_fire": 40,
+      "attack_earth": 0,
+      "attack_water": 40,
+      "attack_air": 0,
+      "res_fire": 0,
+      "res_earth": 5,
+      "res_water": -30,
+      "res_air": 5,
+      "critical_strike": 5,
+      "effects": [
+        {
+          "code": "poison",
+          "value": 20
+        }
+      ],
+      "min_gold": 0,
+      "max_gold": 10,
+      "drops": [
+        {
+          "code": "old_boots",
+          "rate": 200,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "spider_leg",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        }
+      ]
+    },
+    {
+      "name": "Vampire",
+      "code": "vampire",
+      "level": 24,
+      "hp": 680,
+      "attack_fire": 20,
+      "attack_earth": 0,
+      "attack_water": 0,
+      "attack_air": 50,
+      "res_fire": 0,
+      "res_earth": -15,
+      "res_water": -15,
+      "res_air": 30,
+      "critical_strike": 35,
+      "effects": [
+        {
+          "code": "lifesteal",
+          "value": 10
+        }
+      ],
+      "min_gold": 0,
+      "max_gold": 10,
+      "drops": [
+        {
+          "code": "vampire_blood",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        },
+        {
+          "code": "vampire_tooth",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        }
+      ]
+    },
+    {
+      "name": "Wolf",
+      "code": "wolf",
+      "level": 15,
+      "hp": 400,
+      "attack_fire": 0,
+      "attack_earth": 0,
+      "attack_water": 12,
+      "attack_air": 12,
+      "res_fire": -10,
+      "res_earth": -10,
+      "res_water": 10,
+      "res_air": 10,
+      "critical_strike": 50,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 8,
+      "drops": [
+        {
+          "code": "wolf_ears",
+          "rate": 200,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "raw_wolf_meat",
+          "rate": 6,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "wolf_bone",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        },
+        {
+          "code": "wolf_hair",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 2
+        }
+      ]
+    },
+    {
+      "name": "Yellow Slime",
+      "code": "yellow_slime",
+      "level": 2,
+      "hp": 70,
+      "attack_fire": 0,
+      "attack_earth": 8,
+      "attack_water": 0,
+      "attack_air": 0,
+      "res_fire": 0,
+      "res_earth": 25,
+      "res_water": 0,
+      "res_air": 0,
+      "critical_strike": 0,
+      "effects": [],
+      "min_gold": 0,
+      "max_gold": 5,
+      "drops": [
+        {
+          "code": "yellow_slimeball",
+          "rate": 10,
+          "min_quantity": 1,
+          "max_quantity": 1
+        },
+        {
+          "code": "apple",
+          "rate": 12,
+          "min_quantity": 1,
+          "max_quantity": 1
+        }
+      ]
+    }
+  ],
   "maps": [
     {
       "name": "Forest",
@@ -14211,13 +15346,10 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_cultistemperor1",
+      "skin": "forest_cultis1",
       "x": -1,
       "y": 12,
-      "content": {
-        "type": "monster",
-        "code": "cultist_emperor"
-      }
+      "content": null
     },
     {
       "name": "Forest",
@@ -14704,1141 +15836,6 @@
       "x": 11,
       "y": 15,
       "content": null
-    }
-  ],
-  "monsters": [
-    {
-      "name": "Bandit Lizard",
-      "code": "bandit_lizard",
-      "level": 25,
-      "hp": 780,
-      "attack_fire": 40,
-      "attack_earth": 0,
-      "attack_water": 40,
-      "attack_air": 0,
-      "res_fire": -5,
-      "res_earth": 25,
-      "res_water": -5,
-      "res_air": 25,
-      "critical_strike": 5,
-      "effects": [
-        {
-          "code": "poison",
-          "value": 20
-        }
-      ],
-      "min_gold": 0,
-      "max_gold": 15,
-      "drops": [
-        {
-          "code": "bandit_armor",
-          "rate": 600,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "lizard_eye",
-          "rate": 10,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "lizard_skin",
-          "rate": 10,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "dreadful_book",
-          "rate": 1500,
-          "min_quantity": 1,
-          "max_quantity": 1
-        }
-      ]
-    },
-    {
-      "name": "Bat",
-      "code": "bat",
-      "level": 38,
-      "hp": 2000,
-      "attack_fire": 0,
-      "attack_earth": 0,
-      "attack_water": 80,
-      "attack_air": 80,
-      "res_fire": 5,
-      "res_earth": 5,
-      "res_water": 5,
-      "res_air": -20,
-      "critical_strike": 5,
-      "effects": [
-        {
-          "code": "poison",
-          "value": 50
-        }
-      ],
-      "min_gold": 0,
-      "max_gold": 17,
-      "drops": [
-        {
-          "code": "bat_wing",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        }
-      ]
-    },
-    {
-      "name": "Blue Slime",
-      "code": "blue_slime",
-      "level": 6,
-      "hp": 120,
-      "attack_fire": 0,
-      "attack_earth": 0,
-      "attack_water": 15,
-      "attack_air": 0,
-      "res_fire": 0,
-      "res_earth": 0,
-      "res_water": 25,
-      "res_air": 0,
-      "critical_strike": 0,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 5,
-      "drops": [
-        {
-          "code": "blue_slimeball",
-          "rate": 10,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "apple",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 1
-        }
-      ]
-    },
-    {
-      "name": "Chicken",
-      "code": "chicken",
-      "level": 1,
-      "hp": 60,
-      "attack_fire": 0,
-      "attack_earth": 0,
-      "attack_water": 4,
-      "attack_air": 0,
-      "res_fire": 0,
-      "res_earth": 0,
-      "res_water": 0,
-      "res_air": 0,
-      "critical_strike": 0,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 3,
-      "drops": [
-        {
-          "code": "raw_chicken",
-          "rate": 10,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "egg",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "feather",
-          "rate": 8,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "golden_egg",
-          "rate": 1000,
-          "min_quantity": 1,
-          "max_quantity": 1
-        }
-      ]
-    },
-    {
-      "name": "Cow",
-      "code": "cow",
-      "level": 8,
-      "hp": 280,
-      "attack_fire": 0,
-      "attack_earth": 0,
-      "attack_water": 0,
-      "attack_air": 21,
-      "res_fire": 0,
-      "res_earth": -30,
-      "res_water": 30,
-      "res_air": 0,
-      "critical_strike": 0,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 7,
-      "drops": [
-        {
-          "code": "raw_beef",
-          "rate": 6,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "milk_bucket",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        },
-        {
-          "code": "cowhide",
-          "rate": 8,
-          "min_quantity": 1,
-          "max_quantity": 2
-        }
-      ]
-    },
-    {
-      "name": "Cultist Acolyte",
-      "code": "cultist_acolyte",
-      "level": 33,
-      "hp": 1500,
-      "attack_fire": 0,
-      "attack_earth": 65,
-      "attack_water": 0,
-      "attack_air": 65,
-      "res_fire": -10,
-      "res_earth": 10,
-      "res_water": -10,
-      "res_air": 40,
-      "critical_strike": 5,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 15,
-      "drops": [
-        {
-          "code": "magic_stone",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        },
-        {
-          "code": "cursed_book",
-          "rate": 20,
-          "min_quantity": 1,
-          "max_quantity": 2
-        }
-      ]
-    },
-    {
-      "name": "Cultist Emperor",
-      "code": "cultist_emperor",
-      "level": 35,
-      "hp": 1750,
-      "attack_fire": 0,
-      "attack_earth": 40,
-      "attack_water": 40,
-      "attack_air": 90,
-      "res_fire": 20,
-      "res_earth": 10,
-      "res_water": 0,
-      "res_air": -10,
-      "critical_strike": 5,
-      "effects": [
-        {
-          "code": "healing",
-          "value": 5
-        }
-      ],
-      "min_gold": 0,
-      "max_gold": 18,
-      "drops": [
-        {
-          "code": "malefic_cloth",
-          "rate": 20,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "malefic_crystal",
-          "rate": 2000,
-          "min_quantity": 1,
-          "max_quantity": 1
-        }
-      ]
-    },
-    {
-      "name": "Cursed Tree",
-      "code": "cursed_tree",
-      "level": 34,
-      "hp": 1550,
-      "attack_fire": 0,
-      "attack_earth": 0,
-      "attack_water": 130,
-      "attack_air": 0,
-      "res_fire": 5,
-      "res_earth": -5,
-      "res_water": -5,
-      "res_air": 5,
-      "critical_strike": 20,
-      "effects": [
-        {
-          "code": "lifesteal",
-          "value": 5
-        }
-      ],
-      "min_gold": 0,
-      "max_gold": 15,
-      "drops": [
-        {
-          "code": "cursed_wood",
-          "rate": 10,
-          "min_quantity": 1,
-          "max_quantity": 2
-        }
-      ]
-    },
-    {
-      "name": "Cyclops",
-      "code": "cyclops",
-      "level": 25,
-      "hp": 630,
-      "attack_fire": 0,
-      "attack_earth": 90,
-      "attack_water": 0,
-      "attack_air": 20,
-      "res_fire": -20,
-      "res_earth": 20,
-      "res_water": 10,
-      "res_air": 0,
-      "critical_strike": 5,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 12,
-      "drops": [
-        {
-          "code": "cyclops_eye",
-          "rate": 6,
-          "min_quantity": 1,
-          "max_quantity": 1
-        }
-      ]
-    },
-    {
-      "name": "Death Knight",
-      "code": "death_knight",
-      "level": 28,
-      "hp": 820,
-      "attack_fire": 28,
-      "attack_earth": 28,
-      "attack_water": 28,
-      "attack_air": 28,
-      "res_fire": -5,
-      "res_earth": -5,
-      "res_water": -5,
-      "res_air": -5,
-      "critical_strike": 5,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 12,
-      "drops": [
-        {
-          "code": "death_knight_sword",
-          "rate": 600,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "red_cloth",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        }
-      ]
-    },
-    {
-      "name": "Demon",
-      "code": "demon",
-      "level": 30,
-      "hp": 900,
-      "attack_fire": 90,
-      "attack_earth": 0,
-      "attack_water": 0,
-      "attack_air": 0,
-      "res_fire": 20,
-      "res_earth": 0,
-      "res_water": -10,
-      "res_air": 0,
-      "critical_strike": 5,
-      "effects": [
-        {
-          "code": "burn",
-          "value": 20
-        }
-      ],
-      "min_gold": 0,
-      "max_gold": 20,
-      "drops": [
-        {
-          "code": "demon_horn",
-          "rate": 10,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "piece_of_obsidian",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        }
-      ]
-    },
-    {
-      "name": "Efreet Sultan",
-      "code": "efreet_sultan",
-      "level": 45,
-      "hp": 3600,
-      "attack_fire": 70,
-      "attack_earth": 0,
-      "attack_water": 0,
-      "attack_air": 70,
-      "res_fire": 50,
-      "res_earth": 0,
-      "res_water": 50,
-      "res_air": 0,
-      "critical_strike": 5,
-      "effects": [
-        {
-          "code": "burn",
-          "value": 20
-        }
-      ],
-      "min_gold": 0,
-      "max_gold": 30,
-      "drops": [
-        {
-          "code": "efreet_cloth",
-          "rate": 10,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "book_from_hell",
-          "rate": 1000,
-          "min_quantity": 1,
-          "max_quantity": 1
-        }
-      ]
-    },
-    {
-      "name": "Flying Serpent",
-      "code": "flying_serpent",
-      "level": 12,
-      "hp": 360,
-      "attack_fire": 0,
-      "attack_earth": 0,
-      "attack_water": 0,
-      "attack_air": 34,
-      "res_fire": -20,
-      "res_earth": 0,
-      "res_water": -20,
-      "res_air": 40,
-      "critical_strike": 5,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 8,
-      "drops": [
-        {
-          "code": "flying_wing",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        },
-        {
-          "code": "serpent_skin",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        },
-        {
-          "code": "forest_ring",
-          "rate": 200,
-          "min_quantity": 1,
-          "max_quantity": 1
-        }
-      ]
-    },
-    {
-      "name": "Goblin",
-      "code": "goblin",
-      "level": 35,
-      "hp": 1650,
-      "attack_fire": 0,
-      "attack_earth": 0,
-      "attack_water": 0,
-      "attack_air": 170,
-      "res_fire": 10,
-      "res_earth": 30,
-      "res_water": -20,
-      "res_air": -20,
-      "critical_strike": 5,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 15,
-      "drops": [
-        {
-          "code": "goblin_tooth",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        },
-        {
-          "code": "goblin_eye",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        }
-      ]
-    },
-    {
-      "name": "Goblin Wolfrider",
-      "code": "goblin_wolfrider",
-      "level": 40,
-      "hp": 2650,
-      "attack_fire": 0,
-      "attack_earth": 145,
-      "attack_water": 0,
-      "attack_air": 0,
-      "res_fire": 10,
-      "res_earth": -5,
-      "res_water": 10,
-      "res_air": 10,
-      "critical_strike": 5,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 25,
-      "drops": [
-        {
-          "code": "broken_sword",
-          "rate": 16,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "wolfrider_hair",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        }
-      ]
-    },
-    {
-      "name": "Green Slime",
-      "code": "green_slime",
-      "level": 4,
-      "hp": 80,
-      "attack_fire": 0,
-      "attack_earth": 0,
-      "attack_water": 0,
-      "attack_air": 12,
-      "res_fire": 0,
-      "res_earth": 0,
-      "res_water": 0,
-      "res_air": 25,
-      "critical_strike": 0,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 5,
-      "drops": [
-        {
-          "code": "green_slimeball",
-          "rate": 10,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "apple",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 1
-        }
-      ]
-    },
-    {
-      "name": "Hellhound",
-      "code": "hellhound",
-      "level": 40,
-      "hp": 3250,
-      "attack_fire": 90,
-      "attack_earth": 50,
-      "attack_water": 0,
-      "attack_air": 0,
-      "res_fire": -20,
-      "res_earth": 10,
-      "res_water": -20,
-      "res_air": 10,
-      "critical_strike": 5,
-      "effects": [
-        {
-          "code": "burn",
-          "value": 10
-        }
-      ],
-      "min_gold": 0,
-      "max_gold": 25,
-      "drops": [
-        {
-          "code": "hellhound_hair",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        },
-        {
-          "code": "raw_hellhound_meat",
-          "rate": 5,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "hellhound_bone",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        }
-      ]
-    },
-    {
-      "name": "Highwayman",
-      "code": "highwayman",
-      "level": 15,
-      "hp": 380,
-      "attack_fire": 0,
-      "attack_earth": 0,
-      "attack_water": 0,
-      "attack_air": 25,
-      "res_fire": 10,
-      "res_earth": 10,
-      "res_water": -10,
-      "res_air": -10,
-      "critical_strike": 35,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 8,
-      "drops": [
-        {
-          "code": "highwayman_dagger",
-          "rate": 200,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "green_cloth",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        }
-      ]
-    },
-    {
-      "name": "Imp",
-      "code": "imp",
-      "level": 28,
-      "hp": 1750,
-      "attack_fire": 0,
-      "attack_earth": 45,
-      "attack_water": 0,
-      "attack_air": 0,
-      "res_fire": 10,
-      "res_earth": 60,
-      "res_water": 10,
-      "res_air": 10,
-      "critical_strike": 5,
-      "effects": [
-        {
-          "code": "burn",
-          "value": 15
-        }
-      ],
-      "min_gold": 0,
-      "max_gold": 12,
-      "drops": [
-        {
-          "code": "demoniac_dust",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        },
-        {
-          "code": "piece_of_obsidian",
-          "rate": 70,
-          "min_quantity": 1,
-          "max_quantity": 2
-        }
-      ]
-    },
-    {
-      "name": "Lich",
-      "code": "lich",
-      "level": 30,
-      "hp": 1450,
-      "attack_fire": 60,
-      "attack_earth": 60,
-      "attack_water": 0,
-      "attack_air": 0,
-      "res_fire": 24,
-      "res_earth": 24,
-      "res_water": 18,
-      "res_air": 18,
-      "critical_strike": 5,
-      "effects": [
-        {
-          "code": "reconstitution",
-          "value": 20
-        }
-      ],
-      "min_gold": 0,
-      "max_gold": 15,
-      "drops": [
-        {
-          "code": "life_crystal",
-          "rate": 2000,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "lich_crown",
-          "rate": 600,
-          "min_quantity": 1,
-          "max_quantity": 1
-        }
-      ]
-    },
-    {
-      "name": "Mushmush",
-      "code": "mushmush",
-      "level": 10,
-      "hp": 350,
-      "attack_fire": 16,
-      "attack_earth": 0,
-      "attack_water": 16,
-      "attack_air": 0,
-      "res_fire": 20,
-      "res_earth": 20,
-      "res_water": 0,
-      "res_air": -30,
-      "critical_strike": 5,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 7,
-      "drops": [
-        {
-          "code": "mushroom",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        },
-        {
-          "code": "forest_ring",
-          "rate": 200,
-          "min_quantity": 1,
-          "max_quantity": 1
-        }
-      ]
-    },
-    {
-      "name": "Ogre",
-      "code": "ogre",
-      "level": 20,
-      "hp": 650,
-      "attack_fire": 0,
-      "attack_earth": 80,
-      "attack_water": 0,
-      "attack_air": 0,
-      "res_fire": -20,
-      "res_earth": 30,
-      "res_water": 0,
-      "res_air": 0,
-      "critical_strike": 5,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 10,
-      "drops": [
-        {
-          "code": "ogre_eye",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        },
-        {
-          "code": "ogre_skin",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        },
-        {
-          "code": "wooden_club",
-          "rate": 200,
-          "min_quantity": 1,
-          "max_quantity": 1
-        }
-      ]
-    },
-    {
-      "name": "Orc",
-      "code": "orc",
-      "level": 38,
-      "hp": 1600,
-      "attack_fire": 100,
-      "attack_earth": 0,
-      "attack_water": 0,
-      "attack_air": 100,
-      "res_fire": -20,
-      "res_earth": 20,
-      "res_water": -20,
-      "res_air": 20,
-      "critical_strike": 10,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 17,
-      "drops": [
-        {
-          "code": "orc_skin",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        }
-      ]
-    },
-    {
-      "name": "Owlbear",
-      "code": "owlbear",
-      "level": 30,
-      "hp": 1100,
-      "attack_fire": 0,
-      "attack_earth": 0,
-      "attack_water": 80,
-      "attack_air": 0,
-      "res_fire": 0,
-      "res_earth": -20,
-      "res_water": 45,
-      "res_air": 0,
-      "critical_strike": 5,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 15,
-      "drops": [
-        {
-          "code": "owlbear_hair",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        },
-        {
-          "code": "owlbear_claw",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        }
-      ]
-    },
-    {
-      "name": "Pig",
-      "code": "pig",
-      "level": 19,
-      "hp": 480,
-      "attack_fire": 0,
-      "attack_earth": 0,
-      "attack_water": 30,
-      "attack_air": 0,
-      "res_fire": 0,
-      "res_earth": -10,
-      "res_water": 40,
-      "res_air": 0,
-      "critical_strike": 30,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 8,
-      "drops": [
-        {
-          "code": "pig_skin",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        }
-      ]
-    },
-    {
-      "name": "Red Slime",
-      "code": "red_slime",
-      "level": 7,
-      "hp": 120,
-      "attack_fire": 18,
-      "attack_earth": 0,
-      "attack_water": 0,
-      "attack_air": 0,
-      "res_fire": 25,
-      "res_earth": 0,
-      "res_water": 0,
-      "res_air": 0,
-      "critical_strike": 0,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 5,
-      "drops": [
-        {
-          "code": "red_slimeball",
-          "rate": 10,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "apple",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 1
-        }
-      ]
-    },
-    {
-      "name": "Rosenblood",
-      "code": "rosenblood",
-      "level": 40,
-      "hp": 3000,
-      "attack_fire": 150,
-      "attack_earth": 0,
-      "attack_water": 0,
-      "attack_air": 0,
-      "res_fire": 0,
-      "res_earth": 50,
-      "res_water": 50,
-      "res_air": 50,
-      "critical_strike": 5,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 30,
-      "drops": [
-        {
-          "code": "sanguine_edge_of_rosen",
-          "rate": 600,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "rosenblood_elixir",
-          "rate": 160,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "topaz_book",
-          "rate": 2000,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "ruby_book",
-          "rate": 2000,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "emerald_book",
-          "rate": 2000,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "sapphire_book",
-          "rate": 2000,
-          "min_quantity": 1,
-          "max_quantity": 1
-        }
-      ]
-    },
-    {
-      "name": "Skeleton",
-      "code": "skeleton",
-      "level": 18,
-      "hp": 480,
-      "attack_fire": 26,
-      "attack_earth": 18,
-      "attack_water": 0,
-      "attack_air": 0,
-      "res_fire": 30,
-      "res_earth": 0,
-      "res_water": -10,
-      "res_air": -10,
-      "critical_strike": 5,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 8,
-      "drops": [
-        {
-          "code": "skeleton_bone",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        },
-        {
-          "code": "skeleton_skull",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 1
-        }
-      ]
-    },
-    {
-      "name": "Spider",
-      "code": "spider",
-      "level": 20,
-      "hp": 550,
-      "attack_fire": 40,
-      "attack_earth": 0,
-      "attack_water": 40,
-      "attack_air": 0,
-      "res_fire": 0,
-      "res_earth": 5,
-      "res_water": -30,
-      "res_air": 5,
-      "critical_strike": 5,
-      "effects": [
-        {
-          "code": "poison",
-          "value": 20
-        }
-      ],
-      "min_gold": 0,
-      "max_gold": 10,
-      "drops": [
-        {
-          "code": "old_boots",
-          "rate": 200,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "spider_leg",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        }
-      ]
-    },
-    {
-      "name": "Vampire",
-      "code": "vampire",
-      "level": 24,
-      "hp": 680,
-      "attack_fire": 20,
-      "attack_earth": 0,
-      "attack_water": 0,
-      "attack_air": 50,
-      "res_fire": 0,
-      "res_earth": -15,
-      "res_water": -15,
-      "res_air": 30,
-      "critical_strike": 35,
-      "effects": [
-        {
-          "code": "lifesteal",
-          "value": 10
-        }
-      ],
-      "min_gold": 0,
-      "max_gold": 10,
-      "drops": [
-        {
-          "code": "vampire_blood",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        },
-        {
-          "code": "vampire_tooth",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        }
-      ]
-    },
-    {
-      "name": "Wolf",
-      "code": "wolf",
-      "level": 15,
-      "hp": 400,
-      "attack_fire": 0,
-      "attack_earth": 0,
-      "attack_water": 12,
-      "attack_air": 12,
-      "res_fire": -10,
-      "res_earth": -10,
-      "res_water": 10,
-      "res_air": 10,
-      "critical_strike": 50,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 8,
-      "drops": [
-        {
-          "code": "wolf_ears",
-          "rate": 200,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "raw_wolf_meat",
-          "rate": 6,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "wolf_bone",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        },
-        {
-          "code": "wolf_hair",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 2
-        }
-      ]
-    },
-    {
-      "name": "Yellow Slime",
-      "code": "yellow_slime",
-      "level": 2,
-      "hp": 70,
-      "attack_fire": 0,
-      "attack_earth": 8,
-      "attack_water": 0,
-      "attack_air": 0,
-      "res_fire": 0,
-      "res_earth": 25,
-      "res_water": 0,
-      "res_air": 0,
-      "critical_strike": 0,
-      "effects": [],
-      "min_gold": 0,
-      "max_gold": 5,
-      "drops": [
-        {
-          "code": "yellow_slimeball",
-          "rate": 10,
-          "min_quantity": 1,
-          "max_quantity": 1
-        },
-        {
-          "code": "apple",
-          "rate": 12,
-          "min_quantity": 1,
-          "max_quantity": 1
-        }
-      ]
     }
   ],
   "resources": [
@@ -16469,6 +16466,690 @@
           "max_quantity": 1
         }
       ]
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Fish Merchant",
+      "code": "fish_merchant",
+      "description": "I buy and sell fishing-related items.",
+      "type": "merchant"
+    },
+    {
+      "name": "Gemstone Merchant",
+      "code": "gemstone_merchant",
+      "description": "I buy and sell mining-related items.",
+      "type": "merchant"
+    },
+    {
+      "name": "Herbal Merchant",
+      "code": "herbal_merchant",
+      "description": "I buy and sell alchimist-related items.",
+      "type": "merchant"
+    },
+    {
+      "name": "Nomadic Merchant",
+      "code": "nomadic_merchant",
+      "description": "I buy and sell things of varying values.",
+      "type": "merchant"
+    },
+    {
+      "name": "Rune Vendor",
+      "code": "rune_vendor",
+      "description": "I sell runes for golds.",
+      "type": "merchant"
+    },
+    {
+      "name": "Timber Merchant",
+      "code": "timber_merchant",
+      "description": "I buy and sell woodcutting-related items.",
+      "type": "merchant"
+    }
+  ],
+  "tasks_rewards": [
+    {
+      "code": "astralyte_crystal",
+      "rate": 8,
+      "min_quantity": 1,
+      "max_quantity": 2
+    },
+    {
+      "code": "bag_of_gold",
+      "rate": 33,
+      "min_quantity": 1,
+      "max_quantity": 1
+    },
+    {
+      "code": "diamond",
+      "rate": 200,
+      "min_quantity": 1,
+      "max_quantity": 1
+    },
+    {
+      "code": "emerald",
+      "rate": 100,
+      "min_quantity": 1,
+      "max_quantity": 1
+    },
+    {
+      "code": "enchanted_fabric",
+      "rate": 10,
+      "min_quantity": 1,
+      "max_quantity": 2
+    },
+    {
+      "code": "jasper_crystal",
+      "rate": 3,
+      "min_quantity": 1,
+      "max_quantity": 2
+    },
+    {
+      "code": "magical_cure",
+      "rate": 3,
+      "min_quantity": 1,
+      "max_quantity": 2
+    },
+    {
+      "code": "ruby",
+      "rate": 100,
+      "min_quantity": 1,
+      "max_quantity": 1
+    },
+    {
+      "code": "sapphire",
+      "rate": 100,
+      "min_quantity": 1,
+      "max_quantity": 1
+    },
+    {
+      "code": "small_bag_of_gold",
+      "rate": 20,
+      "min_quantity": 1,
+      "max_quantity": 1
+    },
+    {
+      "code": "topaz",
+      "rate": 100,
+      "min_quantity": 1,
+      "max_quantity": 1
+    }
+  ],
+  "events": [
+    {
+      "name": "Bandit Camp",
+      "code": "bandit_camp",
+      "maps": [
+        {
+          "x": 4,
+          "y": 5
+        },
+        {
+          "x": -3,
+          "y": -5
+        },
+        {
+          "x": -1,
+          "y": -4
+        },
+        {
+          "x": 10,
+          "y": 0
+        }
+      ],
+      "skin": "forest_event_lizard1",
+      "duration": 120,
+      "rate": 1000,
+      "content": {
+        "type": "monster",
+        "code": "bandit_lizard"
+      }
+    },
+    {
+      "name": "Cult of Darkness",
+      "code": "cult_of_darkness",
+      "maps": [
+        {
+          "x": -1,
+          "y": 12
+        }
+      ],
+      "skin": "forest_cultistemperor1",
+      "duration": 90,
+      "rate": 2000,
+      "content": {
+        "type": "monster",
+        "code": "cultist_emperor"
+      }
+    },
+    {
+      "name": "Cursed Forest",
+      "code": "cursed_tree",
+      "maps": [
+        {
+          "x": 5,
+          "y": 6
+        },
+        {
+          "x": 4,
+          "y": 7
+        },
+        {
+          "x": 5,
+          "y": 8
+        }
+      ],
+      "skin": "forest_cursed_tree1",
+      "duration": 120,
+      "rate": 2000,
+      "content": {
+        "type": "monster",
+        "code": "cursed_tree"
+      }
+    },
+    {
+      "name": "Fish Merchant",
+      "code": "fish_merchant",
+      "maps": [
+        {
+          "x": 2,
+          "y": 5
+        }
+      ],
+      "skin": "forest_village6_fish_merchant",
+      "duration": 60,
+      "rate": 1500,
+      "content": {
+        "type": "npc",
+        "code": "fish_merchant"
+      }
+    },
+    {
+      "name": "Gemstone Merchant",
+      "code": "gemstone_merchant",
+      "maps": [
+        {
+          "x": 6,
+          "y": -1
+        }
+      ],
+      "skin": "forest_road13_gemstone_merchant",
+      "duration": 60,
+      "rate": 1500,
+      "content": {
+        "type": "npc",
+        "code": "gemstone_merchant"
+      }
+    },
+    {
+      "name": "Herbal Merchant",
+      "code": "herbal_merchant",
+      "maps": [
+        {
+          "x": 7,
+          "y": -1
+        }
+      ],
+      "skin": "forest_road14_herbal_merchant",
+      "duration": 60,
+      "rate": 1500,
+      "content": {
+        "type": "npc",
+        "code": "herbal_merchant"
+      }
+    },
+    {
+      "name": "Magic Apparition",
+      "code": "magic_apparition",
+      "maps": [
+        {
+          "x": -4,
+          "y": 14
+        },
+        {
+          "x": 3,
+          "y": 11
+        },
+        {
+          "x": 9,
+          "y": 12
+        }
+      ],
+      "skin": "forest_magictree1",
+      "duration": 60,
+      "rate": 1500,
+      "content": {
+        "type": "resource",
+        "code": "magic_tree"
+      }
+    },
+    {
+      "name": "Nomadic Merchant",
+      "code": "nomadic_merchant",
+      "maps": [
+        {
+          "x": 3,
+          "y": 2
+        }
+      ],
+      "skin": "forest_village2_nomadic_merchant",
+      "duration": 60,
+      "rate": 1500,
+      "content": {
+        "type": "npc",
+        "code": "nomadic_merchant"
+      }
+    },
+    {
+      "name": "Portal (Demon)",
+      "code": "portal_demon",
+      "maps": [
+        {
+          "x": -1,
+          "y": 5
+        },
+        {
+          "x": -3,
+          "y": 7
+        },
+        {
+          "x": -4,
+          "y": 9
+        }
+      ],
+      "skin": "forest_portal",
+      "duration": 120,
+      "rate": 1000,
+      "content": {
+        "type": "monster",
+        "code": "demon"
+      }
+    },
+    {
+      "name": "Portal (Efreet)",
+      "code": "portal_efreet_sultan",
+      "maps": [
+        {
+          "x": -4,
+          "y": 6
+        },
+        {
+          "x": -3,
+          "y": 11
+        },
+        {
+          "x": 5,
+          "y": 14
+        }
+      ],
+      "skin": "forest_portal2",
+      "duration": 120,
+      "rate": 2000,
+      "content": {
+        "type": "monster",
+        "code": "efreet_sultan"
+      }
+    },
+    {
+      "name": "Rosenblood",
+      "code": "rosenblood",
+      "maps": [
+        {
+          "x": 0,
+          "y": 13
+        }
+      ],
+      "skin": "forest_rosenblood1",
+      "duration": 120,
+      "rate": 2000,
+      "content": {
+        "type": "monster",
+        "code": "rosenblood"
+      }
+    },
+    {
+      "name": "Strange Apparition",
+      "code": "strange_apparition",
+      "maps": [
+        {
+          "x": -4,
+          "y": 12
+        },
+        {
+          "x": 3,
+          "y": 12
+        },
+        {
+          "x": 9,
+          "y": 11
+        }
+      ],
+      "skin": "forest_strangerocks1",
+      "duration": 60,
+      "rate": 1500,
+      "content": {
+        "type": "resource",
+        "code": "strange_rocks"
+      }
+    },
+    {
+      "name": "Timber Merchant",
+      "code": "timber_merchant",
+      "maps": [
+        {
+          "x": 2,
+          "y": 4
+        }
+      ],
+      "skin": "forest_village5_timber_merchant",
+      "duration": 60,
+      "rate": 1500,
+      "content": {
+        "type": "npc",
+        "code": "timber_merchant"
+      }
+    }
+  ],
+  "effects": [
+    {
+      "name": "Alchemy",
+      "code": "alchemy",
+      "description": "Reduces cooldown by x% when a character harvest a plant.",
+      "type": "equipment",
+      "subtype": "gathering"
+    },
+    {
+      "name": "Antipoison",
+      "code": "antipoison",
+      "description": "At the beginning of the turn, if the character has at least one poison on him, removes x poison damage.",
+      "type": "combat",
+      "subtype": "other"
+    },
+    {
+      "name": "Air Attack",
+      "code": "attack_air",
+      "description": "Adds x Air Attack to its stats when equipped.",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Earth Attack",
+      "code": "attack_earth",
+      "description": "Adds x Earth Attack to its stats when equipped.",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Fire Attack",
+      "code": "attack_fire",
+      "description": "Adds x Fire Attack to its stats when equipped.",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Water Attack",
+      "code": "attack_water",
+      "description": "Adds x Water Attack to its stats when equipped.",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Boost Damage Air",
+      "code": "boost_dmg_air",
+      "description": "Add x% air damage at the start of the fight and for the duration of the fight.",
+      "type": "combat",
+      "subtype": "buff"
+    },
+    {
+      "name": "Boost Damage Earth",
+      "code": "boost_dmg_earth",
+      "description": "Add x% earth damage at the start of the fight and for the duration of the fight.",
+      "type": "combat",
+      "subtype": "buff"
+    },
+    {
+      "name": "Boost Damage Fire",
+      "code": "boost_dmg_fire",
+      "description": "Add x% fire damage at the start of the fight and for the duration of the fight.",
+      "type": "combat",
+      "subtype": "buff"
+    },
+    {
+      "name": "Boost Damage Water",
+      "code": "boost_dmg_water",
+      "description": "Add x% water damage at the start of the fight and for the duration of the fight.",
+      "type": "combat",
+      "subtype": "buff"
+    },
+    {
+      "name": "Boost HP",
+      "code": "boost_hp",
+      "description": "Add xHP at the start of the fight and for the duration of the fight.",
+      "type": "combat",
+      "subtype": "buff"
+    },
+    {
+      "name": "Boost Resistance Air",
+      "code": "boost_res_air",
+      "description": "Gives x% air resistance at the start of fight.",
+      "type": "combat",
+      "subtype": "buff"
+    },
+    {
+      "name": "Boost Resistance Earth",
+      "code": "boost_res_earth",
+      "description": "Gives x% earth resistance at the start of fight.",
+      "type": "combat",
+      "subtype": "buff"
+    },
+    {
+      "name": "Boost Resistance Fire",
+      "code": "boost_res_fire",
+      "description": "Gives x% fire resistance at the start of fight.",
+      "type": "combat",
+      "subtype": "buff"
+    },
+    {
+      "name": "Boost Resistance Water",
+      "code": "boost_res_water",
+      "description": "Gives x% water resistance at the start of fight.",
+      "type": "combat",
+      "subtype": "buff"
+    },
+    {
+      "name": "Burn",
+      "code": "burn",
+      "description": "On your first turn, apply a burn effect of x% of your attack of all elements. The damage is applied each turn and decreases by 10% each time. It is impossible to block.",
+      "type": "combat",
+      "subtype": "special"
+    },
+    {
+      "name": "Critical Strike",
+      "code": "critical_strike",
+      "description": "Adds x% Critical Strike to its stats when equipped. Critical strikes adds 50% extra damage to an attack (1.5x). ",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Damage",
+      "code": "dmg",
+      "description": "Adds x% Damage to its stats when equipped.",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Air Damage",
+      "code": "dmg_air",
+      "description": "Adds x% Air Damage to its stats when equipped.",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Earth Damage",
+      "code": "dmg_earth",
+      "description": "Adds x% Earth Damage to its stats when equipped.",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Fire Damage",
+      "code": "dmg_fire",
+      "description": "Adds x% Fire Damage to its stats when equipped.",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Water Damage",
+      "code": "dmg_water",
+      "description": "Adds x% Water Damage to its stats when equipped.",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Fishing",
+      "code": "fishing",
+      "description": "Reduces cooldown by x% when a character is fishing.",
+      "type": "equipment",
+      "subtype": "gathering"
+    },
+    {
+      "name": "Gold",
+      "code": "gold",
+      "description": "Adds x gold in your inventory.",
+      "type": "consumable",
+      "subtype": "gold"
+    },
+    {
+      "name": "Haste",
+      "code": "haste",
+      "description": "Adds x Haste to its stats when equipped. The haste reduces the cooldown of a fight. ",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Heal",
+      "code": "heal",
+      "description": "Heal xHP when the item is used.",
+      "type": "consumable",
+      "subtype": "heal"
+    },
+    {
+      "name": "Healing",
+      "code": "healing",
+      "description": "Every 3 played turns, restores x% of HP at the start of the turn.\n",
+      "type": "combat",
+      "subtype": "special"
+    },
+    {
+      "name": "Hit points",
+      "code": "hp",
+      "description": "Adds x HP to its stats when equipped.",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Inventory Space",
+      "code": "inventory_space",
+      "description": "Adds x to the maximum number of items in the inventory when equipped.",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Lifesteal",
+      "code": "lifesteal",
+      "description": "Restores x% of the total attack of all elements in HP after a critical strike.",
+      "type": "combat",
+      "subtype": "special"
+    },
+    {
+      "name": "Mining",
+      "code": "mining",
+      "description": "Reduces cooldown by x% when a character mines a resource.",
+      "type": "equipment",
+      "subtype": "gathering"
+    },
+    {
+      "name": "Poison",
+      "code": "poison",
+      "description": "At the start of his first turn, apply a poison of x on one of your opponents. Loses xHP per turn, damage cannot be dodged.",
+      "type": "combat",
+      "subtype": "special"
+    },
+    {
+      "name": "Prospecting",
+      "code": "prospecting",
+      "description": "Adds x Prospecting to its stats when equipped. Each PP increases your chance of obtaining drops. (1% extra per 10 PP)",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Reconstitution",
+      "code": "reconstitution",
+      "description": "At the beginning of the turn x, regains all HP.",
+      "type": "combat",
+      "subtype": "special"
+    },
+    {
+      "name": "Air Resistance",
+      "code": "res_air",
+      "description": "Adds x% Air Res to its stats when equipped.",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Earth Resistance",
+      "code": "res_earth",
+      "description": "Adds x% Earth Res to its stats when equipped.",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Fire Resistance",
+      "code": "res_fire",
+      "description": "Adds x% Fire Res to its stats when equipped.",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Water Resistance",
+      "code": "res_water",
+      "description": "Adds x% Water Res to its stats when equipped.",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Restore",
+      "code": "restore",
+      "description": "Restores xHP at the start of the turn if the player has lost more than 50% of his health points.",
+      "type": "combat",
+      "subtype": "heal"
+    },
+    {
+      "name": "Teleport X",
+      "code": "teleport_x",
+      "description": "Teleports to position (X) x when the item is used.",
+      "type": "consumable",
+      "subtype": "teleport"
+    },
+    {
+      "name": "Teleport Y",
+      "code": "teleport_y",
+      "description": "Teleports to position (Y) x when the item is used.",
+      "type": "consumable",
+      "subtype": "teleport"
+    },
+    {
+      "name": "Wisdom",
+      "code": "wisdom",
+      "description": "Adds x Wisdom to its stats when equipped. Each point of wisdom increases your xp in combat. (1% extra per 10 wisdom)",
+      "type": "equipment",
+      "subtype": "stat"
+    },
+    {
+      "name": "Woodcutting",
+      "code": "woodcutting",
+      "description": "Reduces cooldown by x% when a character logs a tree.",
+      "type": "equipment",
+      "subtype": "gathering"
     }
   ]
 }

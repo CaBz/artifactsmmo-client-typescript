@@ -153,7 +153,7 @@ export class WorkflowRegister {
             [Items.WoodenShield, 1, EquippableSlot.Shield],
             [Items.CopperRing, 2, [EquippableSlot.Ring1, EquippableSlot.Ring2]],
         ];
-        workflows.set('craft-level1-set', WorkflowFactory.withdrawAndCraftManyAndEquip(level1Set));
+        workflows.set('craft-level1-set', WorkflowFactory.withdrawAndCraftManyAndEquip(level1Set, false));
         workflows.set('equip-level1-set', WorkflowFactory.withdrawAndEquip(level1Set));
 
         const level5Set = [
@@ -166,7 +166,7 @@ export class WorkflowRegister {
             [Items.LifeAmulet, 1, EquippableSlot.Amulet],
             [Items.CopperRing, 2, [EquippableSlot.Ring1, EquippableSlot.Ring2]],
         ];
-        workflows.set('craft-level5-set', WorkflowFactory.withdrawAndCraftManyAndEquip(level5Set));
+        workflows.set('craft-level5-set', WorkflowFactory.withdrawAndCraftManyAndEquip(level5Set, false));
         workflows.set('equip-level5-set', WorkflowFactory.withdrawAndEquip(level5Set));
 
         const level10Set = [
@@ -179,7 +179,7 @@ export class WorkflowRegister {
             [Items.LifeAmulet, 1, EquippableSlot.Amulet],
             [Items.IronRing, 2, [EquippableSlot.Ring1, EquippableSlot.Ring2]],
         ];
-        workflows.set('craft-level10-set', WorkflowFactory.withdrawAndCraftManyAndEquip(level10Set));
+        workflows.set('craft-level10-set', WorkflowFactory.withdrawAndCraftManyAndEquip(level10Set, false));
         workflows.set('equip-level10-set', WorkflowFactory.withdrawAndEquip(level10Set));
     }
 }
