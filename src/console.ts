@@ -60,6 +60,14 @@ async function processCommand(commandName: string) {
             break;
 
         case 'monster':
+            const tmp = [];
+            container.monsters.forEach((monster) => {
+                tmp.push(monster);
+            });
+            tmp.sort((a, b) => a.level - b.level);
+            tmp.forEach((monster) => {
+                console.log(monster.name, monster.level);
+            });
             break;
 
         case 'move':
