@@ -74,6 +74,18 @@ export class CharacterGateway {
         }
     }
 
+    async unequip(quantity: number, slot: string) {
+        const result = await this.client.unequip(this.character, quantity, slot);
+        const character = new Character(result.character);
+
+        character.logToConsole(['status', 'gear', 'inventory']);
+
+        return {
+            ...result,
+            character,
+        }
+    }
+
     async rest() {
         const result = await this.client.rest(this.character);
         const character = new Character(result.character);
@@ -123,10 +135,15 @@ export class CharacterGateway {
 
     async taskGet() {
         const result = await this.client.taskGet(this.character);
+        const character = new Character(result.character);
+        character.logToConsole(['status', 'inventory', 'task']);
 
         //console.log(result);
 
-        return result;
+        return {
+            ...result,
+            character,
+        }
     }
 
     async taskExchange() {
@@ -143,25 +160,40 @@ export class CharacterGateway {
 
     async taskTrade(item: string, quantity: number) {
         const result = await this.client.taskTrade(this.character, item, quantity);
+        const character = new Character(result.character);
+        character.logToConsole(['inventory', 'task']);
 
         //console.log(result);
 
-        return result;
+        return {
+            ...result,
+            character,
+        }
     }
 
     async taskComplete() {
         const result = await this.client.taskComplete(this.character);
+        const character = new Character(result.character);
+        character.logToConsole(['status', 'inventory']);
 
         //console.log(result);
 
-        return result;
+        return {
+            ...result,
+            character,
+        }
     }
 
     async taskCancel() {
         const result = await this.client.taskCancel(this.character);
+        const character = new Character(result.character);
+        character.logToConsole(['status', 'inventory']);
 
         //console.log(result);
 
-        return result;
+        return {
+            ...result,
+            character,
+        }
     }
 }

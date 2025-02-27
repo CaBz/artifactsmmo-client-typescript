@@ -3,7 +3,8 @@ import {Items} from "../lexical/Items.js";
 import {
     CraftableAlchemy,
     CraftableCooking,
-    CraftableGearcrafting, CraftableJewelry,
+    CraftableGearcrafting,
+    CraftableJewelry,
     CraftableMining,
     CraftableWeaponcrafting,
     CraftableWoodcutting
@@ -22,11 +23,6 @@ export class WorkflowRegister {
         WorkflowRegister.registerForTasks(workflows);
         WorkflowRegister.registerForOthers(workflows);
         WorkflowRegister.registerForSets(workflows);
-
-
-        workflows.set('test', [
-            { action: Action.ExecuteTask },
-        ]);
 
         return workflows;
     }
@@ -123,26 +119,67 @@ export class WorkflowRegister {
 
     private static registerForOthers(workflows: Map<string, WorkflowAction[]>) {
         workflows.set('dump-bank', [
-            // Move to bank and dump everything
+            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
+            { action: Action.BankDepositAll },
+        ]);
+        workflows.set('unequip-dump-bank', [
+            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Weapon },
+            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Shield },
+            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Helmet },
+            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.BodyArmor },
+            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.LegArmor },
+            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Boots },
+            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Ring1 },
+            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Ring2 },
+            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Amulet },
+            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Artifact1 },
+            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Artifact2 },
+            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Artifact3 },
+            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Utility1 },
+            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Utility2 },
+            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Bag },
+            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Rune },
             { action: Action.Move, coordinates: PointOfInterest.Bank1 },
             { action: Action.BankDepositAll },
         ]);
     }
 
     private static registerForSets(workflows: Map<string, WorkflowAction[]>) {
-        const copperSet = [
-            [Items.StickyDagger, 1, EquippableSlot.Weapon],
+        const level1Set = [
             [Items.CopperDagger, 1, EquippableSlot.Weapon],
             [Items.CopperBoots, 1, EquippableSlot.Boots],
             [Items.CopperHelmet, 1, EquippableSlot.Helmet],
             [Items.WoodenShield, 1, EquippableSlot.Shield],
-            [Items.CopperArmor, 1, EquippableSlot.BodyArmor],
-            [Items.CopperLegsArmor, 1, EquippableSlot.LegArmor],
             [Items.CopperRing, 2, [EquippableSlot.Ring1, EquippableSlot.Ring2]],
-            [Items.LifeAmulet, 1, EquippableSlot.Amulet],
         ];
-        workflows.set('copper-set', WorkflowFactory.withdrawAndCraftManyAndEquip(copperSet, true));
-        workflows.set('equip-copper-set', WorkflowFactory.withdrawAndEquip(copperSet));
+        workflows.set('craft-level1-set', WorkflowFactory.withdrawAndCraftManyAndEquip(level1Set));
+        workflows.set('equip-level1-set', WorkflowFactory.withdrawAndEquip(level1Set));
+
+        const level5Set = [
+            [Items.StickyDagger, 1, EquippableSlot.Weapon],
+            [Items.CopperBoots, 1, EquippableSlot.Boots],
+            [Items.CopperHelmet, 1, EquippableSlot.Helmet],
+            [Items.CopperLegsArmor, 1, EquippableSlot.LegArmor],
+            [Items.CopperArmor, 1, EquippableSlot.BodyArmor],
+            [Items.WoodenShield, 1, EquippableSlot.Shield],
+            [Items.LifeAmulet, 1, EquippableSlot.Amulet],
+            [Items.CopperRing, 2, [EquippableSlot.Ring1, EquippableSlot.Ring2]],
+        ];
+        workflows.set('craft-level5-set', WorkflowFactory.withdrawAndCraftManyAndEquip(level5Set));
+        workflows.set('equip-level5-set', WorkflowFactory.withdrawAndEquip(level5Set));
+
+        const level10Set = [
+            [Items.IronSword, 1, EquippableSlot.Weapon],
+            [Items.IronBoots, 1, EquippableSlot.Boots],
+            [Items.IronHelm, 1, EquippableSlot.Helmet],
+            [Items.IronLegsArmor, 1, EquippableSlot.LegArmor],
+            [Items.IronArmor, 1, EquippableSlot.BodyArmor],
+            [Items.SlimeShield, 1, EquippableSlot.Shield],
+            [Items.LifeAmulet, 1, EquippableSlot.Amulet],
+            [Items.IronRing, 2, [EquippableSlot.Ring1, EquippableSlot.Ring2]],
+        ];
+        workflows.set('craft-level10-set', WorkflowFactory.withdrawAndCraftManyAndEquip(level10Set));
+        workflows.set('equip-level10-set', WorkflowFactory.withdrawAndEquip(level10Set));
     }
 }
 

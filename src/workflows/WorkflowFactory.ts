@@ -72,7 +72,7 @@ export class WorkflowFactory {
         return result;
     }
 
-    static withdrawAndCraftManyAndEquip(craftItems: any, shouldSkipIHave: boolean): WorkflowAction[] {
+    static withdrawAndCraftManyAndEquip(craftItems: any): WorkflowAction[] {
         const withdrawActions: WorkflowAction[] = [];
         const craftActions: WorkflowAction[] = [];
         const equipActions: WorkflowAction[] = [];
@@ -81,16 +81,17 @@ export class WorkflowFactory {
             const recipe: Recipe = Recipes.getFor(craftItem);
             const craftPoint: PointOfInterest = Workstations[recipe.skill]!;
 
-            withdrawActions.push({ action: Action.BankWithdraw, code: craftItem, quantity: quantity, condition: shouldSkipIHave ? BankWithdrawActionCondition.DoNotHave : undefined })
+            withdrawActions.push({ action: Action.BankWithdraw, code: craftItem, quantity: quantity, condition: BankWithdrawActionCondition.DoNotHave })
             withdrawActions.push(...recipe.items.map((item: ResourceItem): WorkflowAction => {
                 return { action: Action.BankWithdraw, code: item.code, quantity: item.quantity }
             }));
 
             craftActions.push({ action: Action.Move, coordinates: craftPoint });
-            craftActions.push({ action: Action.Craft, code: craftItem, quantity: quantity, condition: shouldSkipIHave ? CraftActionConditions.DoNotHave : undefined });
+            craftActions.push({ action: Action.Craft, code: craftItem, quantity: quantity, condition: CraftActionConditions.DoNotHave });
 
             if (Array.isArray(equippableSlot)) {
                 equippableSlot.forEach((slot) => {
+                    equipActions.push({action: Action.Unequip, quantity: 1, slot: slot});
                     equipActions.push({action: Action.Equip, code: craftItem, quantity: 1, slot: slot});
                 })
             } else {
@@ -117,6 +118,7 @@ export class WorkflowFactory {
             withdrawActions.push({ action: Action.BankWithdraw, code: craftItem, quantity: quantity, condition: BankWithdrawActionCondition.DoNotHave });
             if (Array.isArray(equippableSlot)) {
                 equippableSlot.forEach((slot) => {
+                    equipActions.push({action: Action.Unequip, quantity: 1, slot: slot});
                     equipActions.push({action: Action.Equip, code: craftItem, quantity: 1, slot: slot});
                 })
             } else {

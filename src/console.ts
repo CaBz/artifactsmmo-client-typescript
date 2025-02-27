@@ -2,15 +2,15 @@ import {PointOfInterest} from "./lexical/PointOfInterest.js";
 import {Container} from "./Container.js";
 import {Items} from "./lexical/Items.js";
 import * as Utils from "./Utils.js";
-import {LexicalGenerator} from "./services/LexicalGenerator.js";
-import {DataFileMerger} from "./services/DataFileMerger.js";
+import {LexicalGenerator} from "./generators/LexicalGenerator.js";
+import {DataFileMerger} from "./generators/DataFileMerger.js";
 
 const consoleParams = process.argv;
 consoleParams.shift(); // process name
 consoleParams.shift(); // file name
 
 const characterName = consoleParams.shift()!
-const container = new Container(characterName);
+const container = await Container.create(characterName);
 
 const commandName: string = consoleParams.shift() || 'character-status';
 
@@ -53,6 +53,15 @@ async function processCommand(commandName: string) {
             await container.gatherer.gather(+(consoleParams.shift() || -1));
             break;
 
+        case 'swap':
+            const code = (consoleParams.shift() || '') as Items;
+            await container.banker.withdraw(code, 1);
+            await container.equipper.swap(code);
+            break;
+
+        case 'monster':
+            break;
+
         case 'move':
             await container.mover.moveToCoordinates(+(consoleParams.shift() || -1000), +(consoleParams.shift() || -1000));
             break;
@@ -91,7 +100,7 @@ async function processCommand(commandName: string) {
         case 'generate': await LexicalGenerator.generateAll(); break;
 
         default:
-            console.error('\n\n!!!! Need to put a proper command name dudelino !!!\n\n\n');
+            console.error('Put a proper command name');
             break;
     }
 }

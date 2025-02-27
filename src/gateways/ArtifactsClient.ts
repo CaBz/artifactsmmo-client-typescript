@@ -180,6 +180,7 @@ export class ArtifactsClient {
             result = await response.json();
         } catch (error) {
             console.error(error);
+            console.log(response);
             throw error;
         }
 

@@ -4,7 +4,7 @@ import * as Utils from "../../Utils.js";
 import {ClientException} from "../../gateways/ClientException.js";
 import {Items} from "../../lexical/Items.js";
 import {CraftActionConditions} from "../WorkflowOrchestrator.js";
-import {Character, EquippableSlot} from "../../entities/Character.js";
+import {Character} from "../../entities/Character.js";
 
 export class Crafter {
     constructor(private readonly waiter: Waiter, private readonly characterGateway: CharacterGateway) {
@@ -58,29 +58,5 @@ export class Crafter {
         if (quantity === -1) {
             await this.recycle(item, quantity);
         }
-    }
-
-    // @TODO: This doesn't belong here
-    async equip(item: Items, quantity: number, slot: EquippableSlot): Promise<void> {
-        Utils.logHeadline(`EQUIP > ${item} x${quantity} - ${slot}`);
-        if (slot === EquippableSlot.None) {
-            Utils.errorHeadline(`SKIP EQUIP > ${item}`);
-            return;
-        }
-
-        await this.waiter.wait();
-
-        try {
-            await this.characterGateway.equip(item, quantity, slot);
-        } catch (e) {
-            if (e instanceof ClientException) {
-                Utils.errorHeadline(`${e.code}: ${e.message}`);
-                return;
-            }
-
-            Utils.errorHeadline((e as Error).message);
-        }
-
-        return;
     }
 }

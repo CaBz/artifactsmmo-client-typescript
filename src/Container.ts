@@ -10,15 +10,57 @@ import {ArtifactsClient} from "./gateways/ArtifactsClient.js";
 import {CharacterGateway} from "./gateways/CharacterGateway.js";
 import {WorkflowAction, WorkflowOrchestrator} from "./workflows/WorkflowOrchestrator.js";
 import {WorkflowRegister} from "./workflows/WorkflowRegister.js";
+import {Equipper} from "./workflows/services/Equipper.js";
+import {Item} from "./entities/Item.js";
+import {MapTile} from "./entities/MapTile.js";
+import {Monster} from "./entities/Monster.js";
+import {Resource} from "./entities/Resource.js";
+import {LexicalGenerator} from "./generators/LexicalGenerator.js";
 
 export class Container {
+    static async create(charactName: string): Promise<Container> {
+        const container = new Container(charactName);
+        await container.initialize();
+
+        return container;
+    }
+
     private instances: Map<string, any> = new Map<string, any>();
 
     constructor(private readonly characterName: string) {
+    }
+
+    async initialize(): Promise<void> {
+        await this.registerSets();
         this.registerGateways();
         this.registerServices();
         this.registerWorkflows();
         this.registerWorkflowOrchestrator();
+    }
+
+    private async registerSets(): Promise<void> {
+        const data: any = await LexicalGenerator.loadData();
+
+        this.instances.set('items', data[0]);
+        this.instances.set('maps', data[1]);
+        this.instances.set('monsters', data[2]);
+        this.instances.set('resources', data[3]);
+    }
+
+    get items(): Map<string, Item> {
+        return this.instances.get('items');
+    }
+
+    get maps(): MapTile[] {
+        return this.instances.get('maps');
+    }
+
+    get monsters(): Map<string, Monster> {
+        return this.instances.get('monsters');
+    }
+
+    get resources(): Map<string, Resource> {
+        return this.instances.get('resources');
     }
 
     private registerGateways(): void {
@@ -39,6 +81,7 @@ export class Container {
         this.instances.set('mover', new Mover(this.waiter, this.characterGateway));
         this.instances.set('gatherer', new Gatherer(this.waiter, this.characterGateway));
         this.instances.set('crafter', new Crafter(this.waiter, this.characterGateway));
+        this.instances.set('equipper', new Equipper(this.waiter, this.characterGateway, this.items));
         this.instances.set('banker', new Banker(this.waiter, this.characterGateway, this.client));
         this.instances.set('rester', new Rester(this.waiter, this.characterGateway));
         this.instances.set('fighter', new Fighter(this.waiter, this.characterGateway));
@@ -58,6 +101,10 @@ export class Container {
 
     get crafter(): Crafter {
         return this.instances.get('crafter');
+    }
+
+    get equipper(): Equipper {
+        return this.instances.get('equipper');
     }
 
     get banker(): Banker {
@@ -84,6 +131,7 @@ export class Container {
                 this.mover,
                 this.gatherer,
                 this.crafter,
+                this.equipper,
                 this.banker,
                 this.rester,
                 this.fighter,

@@ -12,6 +12,8 @@ import {Items} from "../lexical/Items.js";
 import * as Utils from "../Utils.js";
 import {Monsters} from "../lexical/Monsters.js";
 import {Recipes} from "../lexical/Recipes.js";
+import {WorkflowRegister} from "./WorkflowRegister.js";
+import {Equipper} from "./services/Equipper.js";
 
 export enum MoveActionCondition {
     InventoryNotFull = 'inventory-not-full',
@@ -52,6 +54,12 @@ export interface RecycleAction {
 export interface EquipAction {
     action: Action.Equip;
     code: Items;
+    quantity: number;
+    slot: EquippableSlot;
+}
+
+export interface UnequipAction {
+    action: Action.Unequip;
     quantity: number;
     slot: EquippableSlot;
 }
@@ -120,6 +128,7 @@ export type WorkflowAction =
     | CraftAction
     | RecycleAction
     | EquipAction
+    | UnequipAction
     | RestAction
     | FightAction
     | GetTaskAction
@@ -138,6 +147,7 @@ export enum Action {
     Craft = 'craft',
     Recycle = 'recycle',
     Equip = 'equip',
+    Unequip = 'unequip',
     Rest = 'rest',
     Fight = 'fight',
     GetTask = 'get-task',
@@ -157,6 +167,7 @@ export class WorkflowOrchestrator {
         private readonly mover: Mover,
         private readonly gatherer: Gatherer,
         private readonly crafter: Crafter,
+        private readonly equipper: Equipper,
         private readonly banker: Banker,
         private readonly rester: Rester,
         private readonly fighter: Fighter,
@@ -167,15 +178,13 @@ export class WorkflowOrchestrator {
 
     async findWorkflowAndExecute(name: string, loops: number): Promise<void> {
         if (!this.workflows.has(name)) {
-            console.error('\n\n!!!! Need to put a proper workflow name dudelino !!!\n\n\n');
+            console.error(`Put a proper workflow name from ${WorkflowRegister.name}`);
             return;
         }
 
         const workflowActions = this.workflows.get(name);
-        // console.log(workflowActions);
-
         if (!workflowActions || workflowActions.length === 0) {
-            console.error('\n\n!!!! Need to put a proper workflow name dudelino !!!\n\n\n');
+            console.error(`Put a proper workflow name from ${WorkflowRegister.name}`);
             return;
         }
 
@@ -207,6 +216,8 @@ export class WorkflowOrchestrator {
 
         if (condition === SubworkflowCondition.TaskCompleted) {
             const character: Character = await this.characterGateway.status();
+            character.logToConsole(['inventory,task']);
+
             if (character.isTaskCompleted()) {
                 Utils.errorHeadline('TASK PROGRESS COMPLETED');
                 return;
@@ -260,10 +271,17 @@ export class WorkflowOrchestrator {
                 break;
 
             case Action.Equip:
-                await this.crafter.equip(
+                await this.equipper.equip(
                     (action as EquipAction).code,
                     (action as EquipAction).quantity,
                     (action as EquipAction).slot,
+                );
+                break;
+
+            case Action.Unequip:
+                await this.equipper.unequip(
+                    (action as UnequipAction).quantity,
+                    (action as UnequipAction).slot,
                 );
                 break;
 
