@@ -483,6 +483,8 @@ const TaskToAction: any = {
     [Items.AshPlank]:  PointOfInterest.Ash2,
     [Items.SpruceWood]:  PointOfInterest.Spruce1,
     [Items.SprucePlank]:  PointOfInterest.Spruce1,
+    [Items.DeadWood]:  PointOfInterest.DeadTree1,
+    [Items.DeadWoodPlank]:  PointOfInterest.DeadTree1,
     [Items.BirchWood]:  PointOfInterest.Birch1,
     [Items.MapleWood]:  PointOfInterest.Maple1,
 
@@ -508,4 +510,7 @@ const TaskToAction: any = {
     [Monsters.BlueSlime]: PointOfInterest.BlueSlime1,
     [Monsters.RedSlime]: PointOfInterest.RedSlime1,
     [Monsters.Cow]: PointOfInterest.Cow,
+    [Monsters.Mushmush]: PointOfInterest.Mushmush1,
+    [Monsters.FlyingSerpent]: PointOfInterest.FlyingSerpent1,
+    [Monsters.Wolf]: PointOfInterest.Wolf1,
 };

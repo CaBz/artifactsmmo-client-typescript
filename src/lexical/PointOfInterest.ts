@@ -12,6 +12,13 @@ export enum PointOfInterest {
     BlueSlime2 = 'blue_slime2',
     RedSlime1 = 'red_slime1',
     RedSlime2 = 'red_slime2',
+    Mushmush1 = 'mushmush1',
+    Mushmush2 = 'mushmush2',
+    FlyingSerpent1 = 'flying_serpent1',
+    FlyingSerpent2 = 'flying_serpent2',
+    Highwayman = 'highwayman',
+    Wolf1 = 'wolf1',
+    Wolf2 = 'wolf2',
 
     // Crafting
     Cooking = 'cooking',
@@ -39,6 +46,8 @@ export enum PointOfInterest {
     Spruce2 = 'spruce2', // 1,9 -- 10 // spruce_tree - spruce_wood
     Birch1 = 'birch1', // 3,5 -- 20 // birch_tree - birch_wood
     Birch2 = 'birch2', // -1,6 -- 20 // birch_tree - birch_wood
+    DeadTree1 = 'dead_tree1',
+    DeadTree2 = 'dead_tree2',
     Magic = 'magic', // 3,11 -- 35 // magic_tree -magic_wood
     Maple1 = 'maple1', // 4,14 -- 40 // maple_tree - maple_wood
     Maple2 = 'maple12', // 1,13 -- 40 // maple_tree - maple_wood
@@ -72,7 +81,6 @@ export const Workstations: any = {
 
 export const FightingPOIs: PointOfInterest[] = [
     PointOfInterest.Chicken,
-    PointOfInterest.Cow,
     PointOfInterest.GreenSlime1,
     PointOfInterest.GreenSlime2,
     PointOfInterest.YellowSlime1,
@@ -81,6 +89,14 @@ export const FightingPOIs: PointOfInterest[] = [
     PointOfInterest.BlueSlime2,
     PointOfInterest.RedSlime1,
     PointOfInterest.RedSlime2,
+    PointOfInterest.Cow,
+    PointOfInterest.Mushmush1,
+    PointOfInterest.Mushmush2,
+    PointOfInterest.FlyingSerpent1,
+    PointOfInterest.FlyingSerpent2,
+    PointOfInterest.Highwayman,
+    PointOfInterest.Wolf1,
+    PointOfInterest.Wolf2,
 ];
 
 export const GatheringPOIs = [
@@ -96,6 +112,8 @@ export const GatheringPOIs = [
     [PointOfInterest.Spruce2, PointOfInterest.Bank2],
     [PointOfInterest.Birch1, PointOfInterest.Bank1],
     [PointOfInterest.Birch2, PointOfInterest.Bank1],
+    [PointOfInterest.DeadTree1, PointOfInterest.Bank2],
+    [PointOfInterest.DeadTree2, PointOfInterest.Bank1],
     [PointOfInterest.Maple1, PointOfInterest.Bank2],
     [PointOfInterest.Maple2, PointOfInterest.Bank2],
 

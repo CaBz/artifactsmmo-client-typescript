@@ -8,7 +8,6 @@ export interface Coordinates {
 export const MapCoordinates: {[key: string]: Coordinates} = {
     // Monster
     [PointOfInterest.Chicken]: { x: 0, y: 1 }, //lv.1
-    [PointOfInterest.Cow]: { x: 0, y: 2 }, //lv.1
     [PointOfInterest.YellowSlime1]: { x: 4, y: -1 }, //lv.2
     [PointOfInterest.YellowSlime2]: { x: 0, y: 1 }, //lv.2
     [PointOfInterest.GreenSlime1]: { x: 3, y: -2 }, //lv.4
@@ -17,6 +16,14 @@ export const MapCoordinates: {[key: string]: Coordinates} = {
     [PointOfInterest.BlueSlime2]: { x: 0, y: -2 }, //lv.6
     [PointOfInterest.RedSlime1]: { x: 1, y: -1 }, //lv.7
     [PointOfInterest.RedSlime2]: { x: 2, y: -2 }, //lv.7
+    [PointOfInterest.Cow]: { x: 0, y: 2 }, //lv.8
+    [PointOfInterest.Mushmush1]: { x: 5, y: 3 }, //lv.10
+    [PointOfInterest.Mushmush2]: { x: 6, y: 4 }, //lv.10
+    [PointOfInterest.FlyingSerpent1]: { x: 5, y: 4 }, //lv.12
+    [PointOfInterest.FlyingSerpent2]: { x: 7, y: 4 }, //lv.12
+    [PointOfInterest.Highwayman]: { x: 2, y: 8 }, //lv.15
+    [PointOfInterest.Wolf1]: { x: -2, y: 1 }, //lv.15
+    [PointOfInterest.Wolf2]: { x: -3, y: 0 }, //lv.15
 
     // Crafting
     [PointOfInterest.Cooking]: { x: 1, y: 1 },
@@ -42,6 +49,8 @@ export const MapCoordinates: {[key: string]: Coordinates} = {
     [PointOfInterest.Spruce2]: { x: 1, y: 9 }, // 10
     [PointOfInterest.Birch1]: { x: 3, y: 5 }, // 20 - BEST
     [PointOfInterest.Birch2]: { x: -1, y: 6 }, // 20
+    [PointOfInterest.DeadTree1]: { x: 9, y: 8 }, // 30 - BEST
+    [PointOfInterest.DeadTree2]: { x: 9, y: 6 }, // 30
     [PointOfInterest.Magic]: { x: 3, y: 11 }, // 35 - Event? Move around?
     [PointOfInterest.Maple1]: { x: 4, y: 14 }, // 40 - BEST
     [PointOfInterest.Maple2]: { x: 1, y: 13 }, // 40

@@ -33,6 +33,7 @@ export class WorkflowRegister {
 
         workflows.set('ash-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Ash1, PointOfInterest.Bank1, PointOfInterest.Workshop, Items.AshPlank, Items.AshWood));
         workflows.set('spruce-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Spruce1, PointOfInterest.Bank1, PointOfInterest.Workshop, Items.SprucePlank, Items.SpruceWood));
+        workflows.set('dead-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.DeadTree2, PointOfInterest.Bank1, PointOfInterest.Workshop, Items.DeadWoodPlank, Items.DeadWood));
 
         workflows.set('sunflower-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Sunflower, PointOfInterest.Bank1, PointOfInterest.Alchemy, Items.SmallHealthPotion, Items.Sunflower));
 
