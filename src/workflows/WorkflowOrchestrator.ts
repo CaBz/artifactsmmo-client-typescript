@@ -11,16 +11,25 @@ import {PointOfInterest, Workstations} from "../lexical/PointOfInterest.js";
 import {Items} from "../lexical/Items.js";
 import * as Utils from "../Utils.js";
 import {Monsters} from "../lexical/Monsters.js";
-import {Recipe, Recipes} from "../lexical/Recipes.js";
+import {Recipes} from "../lexical/Recipes.js";
+
+export enum MoveActionCondition {
+    TaskNotCompleted = 'task-not-completed',
+}
 
 export interface MoveAction {
     action: Action.Move;
     coordinates: PointOfInterest;
+    condition?: MoveActionCondition;
 }
 
 export interface GatherAction {
     action: Action.Gather;
     loops: number;
+}
+
+export interface GatherForTaskAction {
+    action: Action.GatherForTask;
 }
 
 export enum CraftActionConditions {
@@ -107,6 +116,7 @@ export enum SubworkflowCondition {
 export type WorkflowAction =
     MoveAction
     | GatherAction
+    | GatherForTaskAction
     | CraftAction
     | RecycleAction
     | EquipAction
@@ -124,6 +134,7 @@ export type WorkflowAction =
 export enum Action {
     Move = 'move',
     Gather = 'gather',
+    GatherForTask = 'gather-for-task',
     Craft = 'craft',
     Recycle = 'recycle',
     Equip = 'equip',
@@ -189,7 +200,8 @@ export class WorkflowOrchestrator {
         switch (action.action) {
             case Action.Move:
                 await this.mover.moveToPointOfInterest(
-                    (action as MoveAction).coordinates
+                    (action as MoveAction).coordinates,
+                    (action as MoveAction).condition,
                 );
                 break;
 
@@ -197,6 +209,10 @@ export class WorkflowOrchestrator {
                 await this.gatherer.gather(
                     (action as GatherAction).loops
                 );
+                break;
+
+            case Action.GatherForTask:
+                await this.gatherer.gatherForTask();
                 break;
 
             case Action.Craft:
@@ -362,8 +378,8 @@ export class WorkflowOrchestrator {
                         { action: Action.BankDepositAll },
                         { action: Action.BankWithdraw, code: task.task, quantity: -1 },
 
-                        { action: Action.Move, coordinates: taskPoint },
-                        { action: Action.Gather, loops: -1 },
+                        { action: Action.Move, coordinates: taskPoint, condition: MoveActionCondition.TaskNotCompleted },
+                        { action: Action.GatherForTask }, // Need to fix this for better dynamically complex recipes
 
                         ...recipeActions,
 
