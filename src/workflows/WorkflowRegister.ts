@@ -10,7 +10,6 @@ import {
 } from "../lexical/CraftableItems.js";
 import {Action, WorkflowAction} from "./WorkflowOrchestrator.js";
 import {WorkflowFactory} from "./WorkflowFactory.js";
-import {Recipes} from "../lexical/Recipes.js";
 import {EquippableSlot} from "../entities/Character.js";
 
 export class WorkflowRegister {
