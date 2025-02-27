@@ -306,34 +306,13 @@ export class WorkflowOrchestrator {
     }
 
     private async executeTaskWorflow() {
-        const character = await this.characterGateway.status();
+        const character: Character = await this.characterGateway.status();
         const task = character.getTask();
 
         if (!task) {
             Utils.errorHeadline(`EXECUTE TASK > NO TASK!`);
             return
         }
-
-        // This is garbagio? Move this to the PointOfInterest file?
-        const taskToAction: any = {
-            [Items.AshWood]:  PointOfInterest.Ash2,
-            [Items.SpruceWood]:  PointOfInterest.Spruce1,
-            [Items.BirchWood]:  PointOfInterest.Birch1,
-
-            [Items.CopperOre]:  PointOfInterest.Copper,
-            [Items.IronOre]:  PointOfInterest.Iron,
-
-            [Items.Sunflower]:  PointOfInterest.Sunflower,
-
-            [Items.Gudgeon]:  PointOfInterest.Gudgeon,
-
-            [Monsters.Chicken]: PointOfInterest.Chicken,
-            [Monsters.GreenSlime]: PointOfInterest.GreenSlime1,
-            [Monsters.YellowSlime]: PointOfInterest.YellowSlime1,
-            [Monsters.BlueSlime]: PointOfInterest.BlueSlime1,
-            [Monsters.RedSlime]: PointOfInterest.RedSlime1,
-        };
-
 
         let recipe: Recipe;
         try {
@@ -347,20 +326,28 @@ export class WorkflowOrchestrator {
 
         }
 
-        if (!taskToAction[task.task]) {
+        // FALLBACK WORKFLOW, so the bot is doing something!
+        if (!TaskToAction[task.task]) {
             Utils.logHeadline(`CANNOT FIND POI FOR ${task.task}`);
 
-            // Just fallbacking on a random workflow so something happens in case I sleep
-            if (task.type === 'items') {
-                await this.findWorkflowAndExecute('copper-craft', -1);
-                return;
+            switch(character.name) {
+                case 'Richard_CDL':
+                    return this.findWorkflowAndExecute('fight-cow', -1);
+                case 'PatatePoil':
+                    return this.findWorkflowAndExecute('iron-craft', -1);
+                case 'YourBoiBob':
+                    return this.findWorkflowAndExecute('gather-birch1', -1);
+                case 'Ginette':
+                    return this.findWorkflowAndExecute('gather-glowstem', -1);
+                case 'BigBooty':
+                    return this.findWorkflowAndExecute('gather-trout', -1);
             }
 
-            await this.findWorkflowAndExecute('fight-red_slime1', -1)
+            await this.findWorkflowAndExecute('copper-craft', -1);
             return;
         }
 
-        const taskPoint = taskToAction[task.task];
+        const taskPoint = TaskToAction[task.task];
 
         const actions: WorkflowAction[] = [];
 
@@ -372,17 +359,13 @@ export class WorkflowOrchestrator {
                     actions: [
                         { action: Action.Move, coordinates: PointOfInterest.Bank2 },
                         { action: Action.BankDepositAll },
-
-                        // Steps for the "items" Task Action
                         { action: Action.BankWithdraw, code: task.task, quantity: -1 },
-                        { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
-                        { action: Action.TradeTask, code: task.task, quantity: -1 },
-
-                        { action: Action.Move, coordinates: PointOfInterest.Bank2 },
-                        { action: Action.BankDepositAll },
 
                         { action: Action.Move, coordinates: taskPoint },
                         { action: Action.Gather, loops: (task.total - task.progress) },
+
+                        { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
+                        { action: Action.TradeTask, code: task.task, quantity: -1 },
                     ]
                 });
 
@@ -446,3 +429,34 @@ class TaskActionFactory {
         throw new Error('Not implemented');
     }
 }
+
+// Temporary mappings until I figure out a better S O L U T I O N
+const TaskToAction: any = {
+    [Items.CopperOre]:  PointOfInterest.Copper,
+    [Items.IronOre]:  PointOfInterest.Iron,
+    [Items.Coal]:  PointOfInterest.Coal,
+    [Items.GoldOre]:  PointOfInterest.Gold,
+    [Items.Mithril]:  PointOfInterest.Mithril,
+
+    [Items.AshWood]:  PointOfInterest.Ash2,
+    [Items.SpruceWood]:  PointOfInterest.Spruce1,
+    [Items.BirchWood]:  PointOfInterest.Birch1,
+    [Items.MapleWood]:  PointOfInterest.Maple1,
+
+    [Items.Sunflower]:  PointOfInterest.Sunflower,
+    [Items.NettleLeaf]:  PointOfInterest.Nettle,
+    [Items.GlowstemLeaf]:  PointOfInterest.Glowstem,
+
+    [Items.Gudgeon]:  PointOfInterest.Gudgeon,
+    [Items.Shrimp]:  PointOfInterest.Shrimp,
+    [Items.Trout]:  PointOfInterest.Trout,
+    [Items.Bass]:  PointOfInterest.Bass,
+    [Items.Salmon]:  PointOfInterest.Salmon2,
+
+    [Monsters.Chicken]: PointOfInterest.Chicken,
+    [Monsters.GreenSlime]: PointOfInterest.GreenSlime1,
+    [Monsters.YellowSlime]: PointOfInterest.YellowSlime1,
+    [Monsters.BlueSlime]: PointOfInterest.BlueSlime1,
+    [Monsters.RedSlime]: PointOfInterest.RedSlime1,
+    [Monsters.Cow]: PointOfInterest.Cow,
+};

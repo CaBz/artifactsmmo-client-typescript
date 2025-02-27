@@ -25,6 +25,10 @@ export class Character {
     constructor(private readonly data: any) {
     }
 
+    get name(): string {
+        return this.data.name;
+    }
+
     isInCooldown(): boolean {
         return this.getRemainingCooldown() > 0;
     }
