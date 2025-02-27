@@ -44,6 +44,7 @@ export class WorkflowRegister {
         workflows.set('gudgeon-cook', WorkflowFactory.gatherAndCraft(PointOfInterest.Gudgeon, PointOfInterest.Bank1, PointOfInterest.Cooking, Items.CookedGudgeon, Items.Gudgeon));
         workflows.set('shrimp-cook', WorkflowFactory.gatherAndCraft(PointOfInterest.Shrimp, PointOfInterest.Bank1, PointOfInterest.Cooking, Items.CookedShrimp, Items.Shrimp));
         workflows.set('trout-cook', WorkflowFactory.gatherAndCraft(PointOfInterest.Trout, PointOfInterest.Bank2, PointOfInterest.Cooking, Items.CookedTrout, Items.Trout));
+        workflows.set('bass-cook', WorkflowFactory.gatherAndCraft(PointOfInterest.Bass, PointOfInterest.Bank2, PointOfInterest.Cooking, Items.CookedBass, Items.Bass));
 
 
         GatheringPOIs.forEach((pointOfInterests: PointOfInterest[]) => {

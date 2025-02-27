@@ -7,7 +7,7 @@ import {Fighter} from "./services/Fighter.js";
 import {Tasker} from "./services/Tasker.js";
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
 import {Character, EquippableSlot} from "../entities/Character.js";
-import {PointOfInterest} from "../lexical/PointOfInterest.js";
+import {PointOfInterest, Workstations} from "../lexical/PointOfInterest.js";
 import {Items} from "../lexical/Items.js";
 import * as Utils from "../Utils.js";
 import {Monsters} from "../lexical/Monsters.js";
@@ -314,17 +314,7 @@ export class WorkflowOrchestrator {
             return
         }
 
-        let recipe: Recipe;
-        try {
-            Recipes.getFor(task.task);
-        } catch {
-
-        }
-
-        // Figure out how to kickstart a gather + craft loop
-        if (recipe) {
-
-        }
+        const remainingTask = (task.total - task.progress);
 
         // FALLBACK WORKFLOW, so the bot is doing something!
         if (!TaskToAction[task.task]) {
@@ -353,6 +343,17 @@ export class WorkflowOrchestrator {
 
         switch (task.type) {
             case 'items':
+                const recipeActions: WorkflowAction[] = [];
+                try {
+                    const recipe = Recipes.getFor(task.task);
+                    const craftPoint: PointOfInterest = Workstations[recipe.skill]!;
+                    recipeActions.push({ action: Action.Move, coordinates: craftPoint })
+                    recipeActions.push({ action: Action.Craft, code: task.task, quantity: remainingTask, condition: CraftActionConditions.DoNotHave })
+                } catch {
+
+                }
+
+
                 actions.push({
                     action: Action.SubWorkflow,
                     condition: SubworkflowCondition.TaskCompleted,
@@ -362,7 +363,9 @@ export class WorkflowOrchestrator {
                         { action: Action.BankWithdraw, code: task.task, quantity: -1 },
 
                         { action: Action.Move, coordinates: taskPoint },
-                        { action: Action.Gather, loops: (task.total - task.progress) },
+                        { action: Action.Gather, loops: -1 },
+
+                        ...recipeActions,
 
                         { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
                         { action: Action.TradeTask, code: task.task, quantity: -1 },
@@ -433,25 +436,37 @@ class TaskActionFactory {
 // Temporary mappings until I figure out a better S O L U T I O N
 const TaskToAction: any = {
     [Items.CopperOre]:  PointOfInterest.Copper,
+    [Items.Copper]:  PointOfInterest.Copper,
     [Items.IronOre]:  PointOfInterest.Iron,
+    [Items.Iron]:  PointOfInterest.Iron,
     [Items.Coal]:  PointOfInterest.Coal,
     [Items.GoldOre]:  PointOfInterest.Gold,
+    [Items.Gold]:  PointOfInterest.Gold,
+    [Items.MithrilOre]:  PointOfInterest.Mithril,
     [Items.Mithril]:  PointOfInterest.Mithril,
 
     [Items.AshWood]:  PointOfInterest.Ash2,
+    [Items.AshPlank]:  PointOfInterest.Ash2,
     [Items.SpruceWood]:  PointOfInterest.Spruce1,
+    [Items.SprucePlank]:  PointOfInterest.Spruce1,
     [Items.BirchWood]:  PointOfInterest.Birch1,
     [Items.MapleWood]:  PointOfInterest.Maple1,
 
     [Items.Sunflower]:  PointOfInterest.Sunflower,
+    [Items.SmallHealthPotion]:  PointOfInterest.Sunflower,
     [Items.NettleLeaf]:  PointOfInterest.Nettle,
     [Items.GlowstemLeaf]:  PointOfInterest.Glowstem,
 
     [Items.Gudgeon]:  PointOfInterest.Gudgeon,
+    [Items.CookedGudgeon]:  PointOfInterest.Gudgeon,
     [Items.Shrimp]:  PointOfInterest.Shrimp,
+    [Items.CookedShrimp]:  PointOfInterest.Shrimp,
     [Items.Trout]:  PointOfInterest.Trout,
+    [Items.CookedTrout]:  PointOfInterest.Trout,
     [Items.Bass]:  PointOfInterest.Bass,
+    [Items.CookedBass]:  PointOfInterest.Bass,
     [Items.Salmon]:  PointOfInterest.Salmon2,
+    [Items.CookedSalmon]:  PointOfInterest.Salmon2,
 
     [Monsters.Chicken]: PointOfInterest.Chicken,
     [Monsters.GreenSlime]: PointOfInterest.GreenSlime1,

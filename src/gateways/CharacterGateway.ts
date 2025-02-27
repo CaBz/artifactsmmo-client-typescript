@@ -131,10 +131,14 @@ export class CharacterGateway {
 
     async taskExchange() {
         const result = await this.client.taskExchange(this.character);
+        const character = new Character(result.character);
+        character.logToConsole(['status', 'inventory']);
 
         //console.log(result);
-
-        return result;
+        return {
+            character,
+            ...result,
+        };
     }
 
     async taskTrade(item: string, quantity: number) {
