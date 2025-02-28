@@ -58,16 +58,21 @@ export class Simulator {
 
     async simulateAgainstAllMonsters(): Promise<void> {
         await this.loadCharacter();
-        await this.monsters.forEach(async (monster) => {
-            await this.simulateAgainst(monster.code, false);
+
+        // async function called inside a non-awaitable iterator - GG!
+        // I'm going to keep this easter egg and regret it when I'll try to debug why it's not working
+        // Happy friday
+        this.monsters.forEach((monster) => {
+            this.simulateAgainst(monster.code, false);
         })
     }
 
     private executeFight(attackName: any, attackerStats: any, defenderName: any, defenderStats: any, withLogs: boolean): number {
         let tmp;
 
-        let turn = 1;
+        let turn = 0;
         while (attackerStats.hp > 0 && attackerStats.hp > 0) {
+            turn++;
             this.fight(turn, attackName, attackerStats, defenderName, defenderStats, withLogs);
 
             tmp = attackName;
@@ -77,8 +82,6 @@ export class Simulator {
             tmp = attackerStats;
             attackerStats = defenderStats;
             defenderStats = tmp;
-
-            turn ++;
         }
 
         return turn;
@@ -93,32 +96,36 @@ export class Simulator {
             const attackerElementalDmg = attackerStats[`dmg_${element}`];
             const attackerDmg = attackerStats[`dmg`];
 
-            // Critical strike gives you a chance to perform a strike that will perform 1.5x the total attack.
-            const isCrit = (Math.random() * 100) < attackerStats.critical_strike;
-
             // Here's the formula for calculating the effects of damage: Attack * (Damage * 0.01)
             let attack = attackerElementalAttack + (attackerElementalAttack * ((attackerElementalDmg + attackerDmg) * 0.01));
-            attack = attack * (isCrit ? 1.5 : 1)
+
+            // Critical strike gives you a chance to perform a strike that will perform 1.5x the total attack.
+            const isCrit = (Math.random() * 100) < attackerStats.critical_strike;
+            attack = attack * (isCrit ? 1.5 : 1); // Do we need to floor attack before?
+            attack = Math.floor(attack); // Important
 
             // Here's the formula for calculating the effects of damage reduction: Attack * (Resistance * 0.01)
             let resistance = attack * (defenderResistance * 0.01);
+            resistance = Math.floor(resistance); // Important
 
-            // Here's the formula to calculate the chance of blocking in % format: (Resistance / 10)
-            const isBlocked = (Math.random() * 100) < (resistance / 10);
-
+            // Attack is the basic stats. Each attack removes one hit point from its opponent.
             let damage = attack - resistance;
-            damage = damage = Math.round(damage);
+            damage = damage = Math.floor(damage); // Important
 
+            // No damage = Not worth to consider it as an attack
             if (damage <= 0) {
                 return;
             }
 
+            // @TBC: This formula seems weird
+            // Here's the formula to calculate the chance of blocking in % format: (Resistance / 10)
+            const isBlocked = (Math.random() * 100) < (resistance / 10);
             if (isBlocked) {
                 if (!withLogs) {
                     return;
                 }
 
-                console.warn(`[TURN ${turn}] ${attackerName} (${attackerStats.hp}hp) was blocked by ${defenderName} (${defenderStats.hp}hp)`);
+                console.info(`[TURN ${turn}] ${attackerName} (${attackerStats.hp}hp) was blocked by ${defenderName} (${defenderStats.hp}hp)`);
                 return
             }
 
@@ -158,40 +165,43 @@ export class Simulator {
 }
 
 /*
-Fight start: Character HP: 420/420, Monster HP: 400/400
+Fight start: Character HP: 425/425, Monster HP: 400/400
 Turn 1: The character used earth attack and dealt 33 damage. (Monster HP: 367/400)
-Turn 2: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 403/420)
-Turn 2: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 386/420)
+Turn 2: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 408/425)
+Turn 2: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 391/425)
 Turn 3: The character used earth attack and dealt 33 damage. (Monster HP: 334/400)
-Turn 4: The monster used water attack and dealt 11 damage. (Character HP: 375/420)
-Turn 4: The monster used air attack and dealt 11 damage. (Character HP: 364/420)
+Turn 4: The monster used water attack and dealt 11 damage. (Character HP: 380/425)
+Turn 4: The monster used air attack and dealt 11 damage. (Character HP: 369/425)
 Turn 5: The character used earth attack and dealt 33 damage. (Monster HP: 301/400)
-Turn 6: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 347/420)
-Turn 6: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 330/420)
+Turn 6: The monster used water attack and dealt 11 damage. (Character HP: 358/425)
+Turn 6: The monster used air attack and dealt 11 damage. (Character HP: 347/425)
 Turn 7: The character used earth attack and dealt 33 damage. (Monster HP: 268/400)
-Turn 8: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 313/420)
-Turn 8: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 296/420)
+Turn 8: The monster used water attack and dealt 11 damage. (Character HP: 336/425)
+Turn 8: The monster used air attack and dealt 11 damage. (Character HP: 325/425)
 Turn 9: The character used earth attack and dealt 33 damage. (Monster HP: 235/400)
-Turn 10: The monster used water attack and dealt 11 damage. (Character HP: 285/420)
-Turn 10: The monster used air attack and dealt 11 damage. (Character HP: 274/420)
+Turn 10: The monster used water attack and dealt 11 damage. (Character HP: 314/425)
+Turn 10: The monster used air attack and dealt 11 damage. (Character HP: 303/425)
 Turn 11: The character used earth attack and dealt 33 damage. (Monster HP: 202/400)
-Turn 12: The monster used water attack and dealt 11 damage. (Character HP: 263/420)
-Turn 12: The monster used air attack and dealt 11 damage. (Character HP: 252/420)
+Turn 12: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 286/425)
+Turn 12: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 269/425)
 Turn 13: The character used earth attack and dealt 33 damage. (Monster HP: 169/400)
-Turn 14: The monster used water attack and dealt 11 damage. (Character HP: 241/420)
-Turn 14: The monster used air attack and dealt 11 damage. (Character HP: 230/420)
+Turn 14: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 252/425)
+Turn 14: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 235/425)
 Turn 15: The character used earth attack and dealt 33 damage. (Monster HP: 136/400)
-Turn 16: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 213/420)
-Turn 16: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 196/420)
+Turn 16: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 218/425)
+Turn 16: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 201/425)
 Turn 17: The character used earth attack and dealt 33 damage. (Monster HP: 103/400)
-Turn 18: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 179/420)
-Turn 18: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 162/420)
+Turn 18: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 184/425)
+Turn 18: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 167/425)
 Turn 19: The character used earth attack and dealt 33 damage. (Monster HP: 70/400)
-Turn 20: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 145/420)
-Turn 20: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 128/420)
+Turn 20: The monster used water attack and dealt 11 damage. (Character HP: 156/425)
+Turn 20: The monster used air attack and dealt 11 damage. (Character HP: 145/425)
 Turn 21: The character used earth attack and dealt 33 damage. (Monster HP: 37/400)
-Turn 22: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 111/420)
-Turn 22: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 94/420)
-Turn 23: The character used earth attack and dealt 50 damage (Critical strike). (Monster HP: 0/400)
-Fight result: win. (Character HP: 94/420, Monster HP: 0/400)
+Turn 22: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 128/425)
+Turn 22: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 111/425)
+Turn 23: The character used earth attack and dealt 33 damage. (Monster HP: 4/400)
+Turn 24: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 94/425)
+Turn 24: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 77/425)
+Turn 25: The character used earth attack and dealt 33 damage. (Monster HP: 0/400)
+Fight result: win. (Character HP: 77/425, Monster HP: 0/400)
 */
