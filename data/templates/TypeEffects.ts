@@ -4,7 +4,7 @@ export const GatheringEffects: Effects[] = [/*{PLACEHOLDER_GATHERING}*/];
 
 export const OtherEffects: Effects[] = [/*{PLACEHOLDER_OTHER}*/];
 
-export const TypeEffects: Effects[] = [/*{PLACEHOLDER_STAT}*/];
+export const StatEffects: Effects[] = [/*{PLACEHOLDER_STAT}*/];
 
 export const BuffEffects: Effects[] = [/*{PLACEHOLDER_BUFF}*/];
 

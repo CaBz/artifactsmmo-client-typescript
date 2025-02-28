@@ -25,6 +25,7 @@ export class Simulator {
         const aggregatedStats = {
 
         }
+        StatEffects
 
         this.character.getStats().forEach((stat) => {
             aggregatedStats[stat.code] = stat.value;
