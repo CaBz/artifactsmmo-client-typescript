@@ -109,7 +109,13 @@ async function processCommand(commandName: string) {
         case 'generate': await LexicalGenerator.generateAll(); break;
 
         case 'simulate':
-            await container.simulator.simulateAgainst((consoleParams.shift() || '') as Monsters);
+            const monsterCode = (consoleParams.shift() || '') as Monsters;
+            const loops = +(consoleParams.shift() || 1);
+            if (loops === 1) {
+                await container.simulator.simulateAgainst(monsterCode);
+            } else {
+                await container.simulator.simulateAgainstFor(monsterCode, loops);
+            }
             break;
         case 'simulate-all':
             await container.simulator.simulateAgainstAllMonsters();

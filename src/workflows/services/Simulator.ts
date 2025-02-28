@@ -20,7 +20,7 @@ export class Simulator {
         }
     }
 
-    async simulateAgainst(code: Monsters, withLogs?: boolean): Promise<void> {
+    async simulateAgainst(code: Monsters, withLogs?: boolean): Promise<boolean> {
         await this.loadCharacter();
         const monster: Monster = this.monsters.get(code)!;
 
@@ -45,15 +45,34 @@ export class Simulator {
             console.log(Utils.LINE);
         }
 
-        if (characterStats.hp > 0 && turns < 100) {
-            Utils.logHeadline(`${this.character.name} lv.${this.character.level} (${characterStats.hp}hp) won against ${monster.name} lv.${monster.level} (${monsterStats.hp}hp) in ${turns} turns!`);
+        let fightResult = `${this.character.name} (${characterStats.hp.toString().padStart(4, ' ')}hp) vs`;
+        fightResult = `${fightResult} ${monster.name.padEnd(16, ' ')} (${monsterStats.hp.toString().padStart(4, ' ')}hp) =>`;
+        fightResult = `${fightResult} lv.${this.character.level} vs lv.${monster.level.toString().padStart(2, ' ')} =`;
+
+        const fightWon = characterStats.hp > 0 && turns < 100;
+        if (fightWon) {
+            Utils.logHeadline(`${fightResult}  WIN - ${turns.toString().padStart(3, ' ')} TURNS`);
         } else {
-            Utils.errorHeadline(`${this.character.name} lv.${this.character.level} (${characterStats.hp}hp) lost against ${monster.name} lv.${monster.level} (${monsterStats.hp}hp) in ${turns} turns!`)
+            Utils.errorHeadline(`${fightResult} LOSS - ${turns.toString().padStart(3, ' ')} TURNS`)
         }
 
         if (withLogs === undefined ? true : withLogs) {
             this.logFighterDetails(this.character, characterStats, monster, monsterStats);
         }
+
+        return fightWon;
+    }
+
+    async simulateAgainstFor(code: Monsters, loops: number): Promise<void> {
+        let wins: number = 0;
+
+        for (let i=0; i<loops; i++) {
+            if (await this.simulateAgainst(code, false)) {
+                wins++;
+            }
+        }
+
+        console.log(`Success rate: ${Math.round(((wins > 0 ? wins : 1) / loops) * 10000) / 100}%`);
     }
 
     async simulateAgainstAllMonsters(): Promise<void> {
