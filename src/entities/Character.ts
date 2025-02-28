@@ -30,6 +30,10 @@ export class Character {
         return this.data.name;
     }
 
+    get level(): string {
+        return this.data.level;
+    }
+
     isInCooldown(): boolean {
         return this.getRemainingCooldown() > 0;
     }
@@ -182,7 +186,7 @@ export class Character {
 
         const remainingCooldown = this.getRemainingCooldown();
 
-        const namePart = `[Lv.${this.data.level}] ${this.data.name}`;
+        const namePart = `[Lv.${this.level}] ${this.name}`;
         const coordinates = `x:${this.data.x} y:${this.data.y}`;
         const xpPart = `${this.data.xp}/${this.data.max_xp}xp`;
         const hpPart = `${this.data.hp}/${this.data.max_hp}hp`;

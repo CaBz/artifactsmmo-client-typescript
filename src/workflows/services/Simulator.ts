@@ -27,7 +27,7 @@ export class Simulator {
         const characterStats: any = this.getEntityStats(this.character);
         const monsterStats: any = this.getEntityStats(monster);
 
-        if (withLogs === true) {
+        if (withLogs === undefined ? true : withLogs) {
             console.log(Utils.LINE);
             Utils.logHeadline(`SIMULATION FIGHT`);
             console.log(Utils.LINE);
@@ -38,20 +38,22 @@ export class Simulator {
             characterStats,
             monster.name,
             monsterStats,
-            withLogs === true
+            withLogs === undefined ? true : withLogs
         );
 
-        if (withLogs === true) {
+        if (withLogs === undefined ? true : withLogs) {
             console.log(Utils.LINE);
         }
 
         if (characterStats.hp > 0 && turns < 100) {
-            Utils.logHeadline(`${this.character.name} (${characterStats.hp}hp) won against ${monster.name} (${monsterStats.hp}hp) in ${turns} turns!`);
+            Utils.logHeadline(`${this.character.name} lv.${this.character.level} (${characterStats.hp}hp) won against ${monster.name} lv.${monster.level} (${monsterStats.hp}hp) in ${turns} turns!`);
         } else {
-            Utils.errorHeadline(`${this.character.name} (${characterStats.hp}hp) lost against ${monster.name} (${monsterStats.hp}hp) in ${turns} turns!`)
+            Utils.errorHeadline(`${this.character.name} lv.${this.character.level} (${characterStats.hp}hp) lost against ${monster.name} lv.${monster.level} (${monsterStats.hp}hp) in ${turns} turns!`)
         }
 
-        //this.logFighterDetails(this.character, characterStats, monster, monsterStats);
+        if (withLogs === undefined ? true : withLogs) {
+            this.logFighterDetails(this.character, characterStats, monster, monsterStats);
+        }
     }
 
     async simulateAgainstAllMonsters(): Promise<void> {
@@ -96,16 +98,16 @@ export class Simulator {
 
             // Here's the formula for calculating the effects of damage: Attack * (Damage * 0.01)
             let attack = attackerElementalAttack + (attackerElementalAttack * ((attackerElementalDmg + attackerDmg) * 0.01));
-            attack = Math.round(attack) * (isCrit ? 1.5 : 1)
+            attack = attack * (isCrit ? 1.5 : 1)
 
             // Here's the formula for calculating the effects of damage reduction: Attack * (Resistance * 0.01)
             let resistance = attack * (defenderResistance * 0.01);
-            resistance = Math.round(resistance);
 
             // Here's the formula to calculate the chance of blocking in % format: (Resistance / 10)
-            const isBlocked = (Math.random() * 100) < Math.round(resistance / 10);
+            const isBlocked = (Math.random() * 100) < (resistance / 10);
 
             let damage = attack - resistance;
+            damage = damage = Math.round(damage);
 
             if (damage <= 0) {
                 return;
@@ -127,7 +129,7 @@ export class Simulator {
             }
 
             const logger = isCrit ? console.error : console.log;
-            logger(`[TURN ${turn}] ${attackerName} (${attackerStats.hp}hp) deals ${damage} dmg to ${defenderName} (${defenderStats.hp}hp)`);
+            logger(`[TURN ${turn}] ${attackerName} (${attackerStats.hp}hp) deals ${damage} ${element} to ${defenderName} (${defenderStats.hp}hp)`);
 
         });
     }
@@ -156,15 +158,40 @@ export class Simulator {
 }
 
 /*
-Fight start: Character HP: 395/395, Monster HP: 70/70
-Turn 1: The character used earth attack and dealt 22 damage. (Monster HP: 48/70)
-Turn 2: The monster used earth attack and dealt 7 damage. (Character HP: 388/395)
-Turn 3: The character used earth attack and dealt 22 damage. (Monster HP: 26/70)
-Turn 4: The monster used earth attack and dealt 7 damage. (Character HP: 381/395)
-Turn 5: The character used earth attack and dealt 22 damage. (Monster HP: 4/70)
-Turn 6: The monster used earth attack and dealt 7 damage. (Character HP: 374/395)
-Turn 7: The monster blocked earth attack.
-Turn 8: The monster used earth attack and dealt 7 damage. (Character HP: 367/395)
-Turn 9: The character used earth attack and dealt 22 damage. (Monster HP: 0/70)
-Fight result: win. (Character HP: 367/395, Monster HP: 0/70)
+Fight start: Character HP: 420/420, Monster HP: 400/400
+Turn 1: The character used earth attack and dealt 33 damage. (Monster HP: 367/400)
+Turn 2: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 403/420)
+Turn 2: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 386/420)
+Turn 3: The character used earth attack and dealt 33 damage. (Monster HP: 334/400)
+Turn 4: The monster used water attack and dealt 11 damage. (Character HP: 375/420)
+Turn 4: The monster used air attack and dealt 11 damage. (Character HP: 364/420)
+Turn 5: The character used earth attack and dealt 33 damage. (Monster HP: 301/400)
+Turn 6: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 347/420)
+Turn 6: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 330/420)
+Turn 7: The character used earth attack and dealt 33 damage. (Monster HP: 268/400)
+Turn 8: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 313/420)
+Turn 8: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 296/420)
+Turn 9: The character used earth attack and dealt 33 damage. (Monster HP: 235/400)
+Turn 10: The monster used water attack and dealt 11 damage. (Character HP: 285/420)
+Turn 10: The monster used air attack and dealt 11 damage. (Character HP: 274/420)
+Turn 11: The character used earth attack and dealt 33 damage. (Monster HP: 202/400)
+Turn 12: The monster used water attack and dealt 11 damage. (Character HP: 263/420)
+Turn 12: The monster used air attack and dealt 11 damage. (Character HP: 252/420)
+Turn 13: The character used earth attack and dealt 33 damage. (Monster HP: 169/400)
+Turn 14: The monster used water attack and dealt 11 damage. (Character HP: 241/420)
+Turn 14: The monster used air attack and dealt 11 damage. (Character HP: 230/420)
+Turn 15: The character used earth attack and dealt 33 damage. (Monster HP: 136/400)
+Turn 16: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 213/420)
+Turn 16: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 196/420)
+Turn 17: The character used earth attack and dealt 33 damage. (Monster HP: 103/400)
+Turn 18: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 179/420)
+Turn 18: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 162/420)
+Turn 19: The character used earth attack and dealt 33 damage. (Monster HP: 70/400)
+Turn 20: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 145/420)
+Turn 20: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 128/420)
+Turn 21: The character used earth attack and dealt 33 damage. (Monster HP: 37/400)
+Turn 22: The monster used water attack and dealt 17 damage (Critical strike). (Character HP: 111/420)
+Turn 22: The monster used air attack and dealt 17 damage (Critical strike). (Character HP: 94/420)
+Turn 23: The character used earth attack and dealt 50 damage (Critical strike). (Monster HP: 0/400)
+Fight result: win. (Character HP: 94/420, Monster HP: 0/400)
 */

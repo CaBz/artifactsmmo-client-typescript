@@ -51,9 +51,10 @@ export const MapCoordinates: {[key: string]: Coordinates} = {
     [PointOfInterest.Birch2]: { x: -1, y: 6 }, // 20
     [PointOfInterest.DeadTree1]: { x: 9, y: 8 }, // 30 - BEST
     [PointOfInterest.DeadTree2]: { x: 9, y: 6 }, // 30
-    [PointOfInterest.Magic]: { x: 3, y: 11 }, // 35 - Event? Move around?
     [PointOfInterest.Maple1]: { x: 4, y: 14 }, // 40 - BEST
     [PointOfInterest.Maple2]: { x: 1, y: 13 }, // 40
+
+    [PointOfInterest.Magic]: { x: 9, y: 12 }, // 35 - Event? Move around?
 
     // Plants
     [PointOfInterest.Sunflower]: { x: 2, y: 2 },
