@@ -11,7 +11,7 @@ export const OtherEffects: Effects[] = [
     Effects.Antipoison,
 ];
 
-export const TypeEffects: Effects[] = [
+export const StatEffects: Effects[] = [
     Effects.AirAttack,
     Effects.EarthAttack,
     Effects.FireAttack,
