@@ -21,7 +21,7 @@ export class LexicalGenerator {
         // -----------
         // ITEMS
         // -----------
-        const craftableItems = {
+        const craftables = {
             mining: [],
             woodcutting: [],
             fishing: [],
@@ -37,7 +37,7 @@ export class LexicalGenerator {
             fileContent += `    ${item.nameForEnum} = '${item.code}',\n`;
 
             if (item.isCraftable) {
-                craftableItems[item.skillToCraft].push(item);
+                craftables[item.skillToCraft].push(item);
             }
         });
         fileContent += '}\n';
@@ -46,14 +46,14 @@ export class LexicalGenerator {
         // -----------
         // RECIPES & CRAFTABLE ITEMS
         // -----------
-        craftableItems.mining.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
-        craftableItems.woodcutting.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
-        craftableItems.fishing.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
-        craftableItems.weaponcrafting.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
-        craftableItems.gearcrafting.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
-        craftableItems.jewelrycrafting.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
-        craftableItems.cooking.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
-        craftableItems.alchemy.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
+        craftables.mining.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
+        craftables.woodcutting.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
+        craftables.fishing.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
+        craftables.weaponcrafting.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
+        craftables.gearcrafting.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
+        craftables.jewelrycrafting.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
+        craftables.cooking.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
+        craftables.alchemy.sort((a: Item, b: Item) => (a.levelToCraft - b.levelToCraft) || a.name.localeCompare(b.name));
 
         let placeholderRecipes: string = '';
         const placeholderCraftable = {
@@ -70,7 +70,7 @@ export class LexicalGenerator {
 
         let countRecipes = 0;
         const SPACES = `            `;
-        Object.entries(craftableItems).forEach(([key, craftItems]: [string, Item[]]) => {
+        Object.entries(craftables).forEach(([key, craftItems]: [string, Item[]]) => {
             placeholderRecipes += `${SPACES}// ${key.toUpperCase()}\n`;
 
             craftItems.forEach((item: Item) => {
@@ -95,12 +95,11 @@ export class LexicalGenerator {
         fileContent = recipesTemplate.replace('//{PLACEHOLDER}', placeholderRecipes);
         await fs.writeFile(`${lexicalFilePath}/Recipes.ts`, fileContent, 'utf8');
 
-        const craftableItemsTemplate = await Utils.readFileRaw('data/templates/CraftableItems.ts');
-        fileContent = craftableItemsTemplate;
+        fileContent = await Utils.readFileRaw('data/templates/Craftables.ts');
         Object.entries(placeholderCraftable).forEach(([key, placeholder]: [string, string]) => {
             fileContent = fileContent.replace(`/*{PLACEHOLDER_${key.toUpperCase()}}*/`, placeholder + '\n');
         });
-        await fs.writeFile(`${lexicalFilePath}/CraftableItems.ts`, fileContent, 'utf8');
+        await fs.writeFile(`${lexicalFilePath}/Craftables.ts`, fileContent, 'utf8');
 
         // -----------
         // MONSTERS

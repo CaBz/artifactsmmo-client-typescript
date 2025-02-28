@@ -8,7 +8,7 @@ import {
     CraftableMining,
     CraftableWeaponcrafting,
     CraftableWoodcutting
-} from "../lexical/CraftableItems.js";
+} from "../lexical/Craftables.js";
 import {Action, WorkflowAction} from "./WorkflowOrchestrator.js";
 import {WorkflowFactory} from "./WorkflowFactory.js";
 import {EquippableSlot} from "../entities/Character.js";
