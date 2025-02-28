@@ -4,6 +4,7 @@ import {Monster} from "../entities/Monster.js";
 import {Resource} from "../entities/Resource.js";
 import {promises as fs} from "fs";
 import * as Utils from "../Utils.js";
+import {Effect} from "../entities/Effect.js";
 
 export class LexicalGenerator {
     static async generateAll() {
@@ -15,6 +16,7 @@ export class LexicalGenerator {
         const maps: MapTile[] = data[1];
         const monsters: Map<string, Monster> = data[2];
         const resources: Map<string, Resource> = data[3];
+        const effects: Map<string, Effect> = data[4];
 
         // -----------
         // ITEMS
@@ -69,15 +71,10 @@ export class LexicalGenerator {
         let countRecipes = 0;
         const SPACES = `            `;
         Object.entries(craftableItems).forEach(([key, craftItems]: [string, Item[]]) => {
-            console.log('-----------------------------------');
-            console.log(key.toUpperCase());
-            console.log('-----------------------------------');
-
             placeholderRecipes += `${SPACES}// ${key.toUpperCase()}\n`;
 
             craftItems.forEach((item: Item) => {
                 countRecipes++;
-                console.log(`* [${item.levelToCraft}] ${item.code} -> x${item.quantityCrafted}`);
 
                 placeholderRecipes += `${SPACES}case Items.${item.nameForEnum}:\n`;
                 placeholderRecipes += `${SPACES}    return RecipeFactory.${key}(${item.levelToCraft}, [\n`;
@@ -86,20 +83,13 @@ export class LexicalGenerator {
 
                 item.itemsToCraft.forEach((dataItem: any) => {
                     const item = items.get(dataItem.code)!;
-                    console.log(`    - ${item.code} x${dataItem.quantity} -> ${item.type}${item.subType ? ` / ${item.subType}` : ''}`);
-
-
                     placeholderRecipes += `${SPACES}        {code: Items.${item.nameForEnum}, quantity: ${dataItem.quantity}},\n`;
                 });
 
                 placeholderRecipes += `${SPACES}    ]);\n`
-                console.log();
             })
             placeholderRecipes += '\n';
-
-            console.log();
         })
-        console.log(`Total recipes: ${countRecipes}`);
 
         const recipesTemplate = await Utils.readFileRaw('data/templates/Recipes.ts');
         fileContent = recipesTemplate.replace('//{PLACEHOLDER}', placeholderRecipes);
@@ -108,10 +98,19 @@ export class LexicalGenerator {
         const craftableItemsTemplate = await Utils.readFileRaw('data/templates/CraftableItems.ts');
         fileContent = craftableItemsTemplate;
         Object.entries(placeholderCraftable).forEach(([key, placeholder]: [string, string]) => {
-            console.log(`//{PLACEHOLDER_${key.toUpperCase()}}`)
             fileContent = fileContent.replace(`/*{PLACEHOLDER_${key.toUpperCase()}}*/`, placeholder + '\n');
         });
         await fs.writeFile(`${lexicalFilePath}/CraftableItems.ts`, fileContent, 'utf8');
+
+        // -----------
+        // MONSTERS
+        // -----------
+        fileContent = 'export enum Monsters {\n';
+        monsters.forEach((monster) => {
+            fileContent += `    ${monster.nameForEnum} = '${monster.code}',\n`;
+        });
+        fileContent += '}\n';
+        await fs.writeFile(`${lexicalFilePath}/Monsters.ts`, fileContent, 'utf8');
 
         // -----------
         // RESOURCES
@@ -124,14 +123,30 @@ export class LexicalGenerator {
         await fs.writeFile(`${lexicalFilePath}/Resources.ts`, fileContent, 'utf8');
 
         // -----------
-        // MONSTERS
+        // EFFECTS
         // -----------
-        fileContent = 'export enum Monsters {\n';
-        monsters.forEach((monster) => {
-            fileContent += `    ${monster.nameForEnum} = '${monster.code}',\n`;
+
+        const placeholderEffects: { [key: string]: string; } = { };
+
+        fileContent = 'export enum Effects {\n';
+        effects.forEach((effect) => {
+            if (!placeholderEffects[effect.subtype]) {
+                placeholderEffects[effect.subtype] = '';
+            }
+
+            placeholderEffects[effect.subtype] += `\n    Effects.${effect.nameForEnum},`;
+
+            fileContent += `    ${effect.nameForEnum} = '${effect.code}',\n`;
         });
         fileContent += '}\n';
-        await fs.writeFile(`${lexicalFilePath}/Monsters.ts`, fileContent, 'utf8');
+        await fs.writeFile(`${lexicalFilePath}/Effects.ts`, fileContent, 'utf8');
+
+        fileContent = await Utils.readFileRaw('data/templates/TypeEffects.ts');
+        Object.entries(placeholderEffects).forEach(([key, value]) => {
+            fileContent = fileContent.replace(`/*{PLACEHOLDER_${key.toUpperCase()}}*/`, value + '\n');
+        });
+
+        await fs.writeFile(`${lexicalFilePath}/TypeEffects.ts`, fileContent, 'utf8');
 
         return;
         // -----------
@@ -202,6 +217,7 @@ export class LexicalGenerator {
         const maps: MapTile[] = [];
         const monsters: Map<string, Monster> = new Map();
         const resources: Map<string, Resource> = new Map();
+        const effects: Map<string, Effect> = new Map();
 
         for (let i=0; i<allData.items.length; i++) {
             const item = new Item(allData.items[i]);
@@ -223,6 +239,11 @@ export class LexicalGenerator {
             resources.set(resource.code, resource);
         }
 
-        return [items, maps, monsters, resources];
+        for (let i=0; i<allData.effects.length; i++) {
+            const effect = new Effect(allData.effects[i]);
+            effects.set(effect.code, effect);
+        }
+
+        return [items, maps, monsters, resources, effects];
     }
 }

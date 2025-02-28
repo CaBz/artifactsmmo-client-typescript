@@ -1,4 +1,4 @@
-export enum Skill {
+export enum Skills {
     Mining = 'mining',
     Woodcutting = 'woodcutting',
     Fishing = 'fishing',

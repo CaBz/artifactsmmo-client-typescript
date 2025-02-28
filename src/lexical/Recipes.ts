@@ -1,4 +1,4 @@
-import {Skill} from "./Skill.js";
+import {Skills} from "./Skills.js";
 import {Items} from "./Items.js";
 
 
@@ -8,7 +8,7 @@ export interface ResourceItem {
 }
 
 export interface Recipe {
-    skill: Skill,
+    skill: Skills,
     level: Number,
     items: ResourceItem[],
 }
@@ -1625,34 +1625,34 @@ export class Recipes {
 
 export class RecipeFactory {
     static mining(level: number, items: ResourceItem[]): Recipe {
-        return { skill: Skill.Mining, level, items, };
+        return { skill: Skills.Mining, level, items, };
     }
 
     static woodcutting(level: number, items: ResourceItem[]): Recipe {
-        return { skill: Skill.Woodcutting, level, items, };
+        return { skill: Skills.Woodcutting, level, items, };
     }
 
     static fishing(level: number, items: ResourceItem[]): Recipe {
-        return { skill: Skill.Fishing, level, items, };
+        return { skill: Skills.Fishing, level, items, };
     }
 
     static weaponcrafting(level: number, items: ResourceItem[]): Recipe {
-        return { skill: Skill.Weaponcrafting, level, items, };
+        return { skill: Skills.Weaponcrafting, level, items, };
     }
 
     static gearcrafting(level: number, items: ResourceItem[]): Recipe {
-        return { skill: Skill.Gearcrafting, level, items, };
+        return { skill: Skills.Gearcrafting, level, items, };
     }
 
     static jewelrycrafting(level: number, items: ResourceItem[]): Recipe {
-        return { skill: Skill.Jewelrycrafting, level, items, };
+        return { skill: Skills.Jewelrycrafting, level, items, };
     }
 
     static cooking(level: number, items: ResourceItem[]): Recipe {
-        return { skill: Skill.Cooking, level, items, };
+        return { skill: Skills.Cooking, level, items, };
     }
 
     static alchemy(level: number, items: ResourceItem[]): Recipe {
-        return { skill: Skill.Alchemy, level, items, };
+        return { skill: Skills.Alchemy, level, items, };
     }
 }

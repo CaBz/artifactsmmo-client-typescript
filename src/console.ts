@@ -3,6 +3,7 @@ import {Container} from "./Container.js";
 import {Items} from "./lexical/Items.js";
 import * as Utils from "./Utils.js";
 import {LexicalGenerator} from "./generators/LexicalGenerator.js";
+import {Monsters} from "./lexical/Monsters.js";
 
 const consoleParams = process.argv;
 consoleParams.shift(); // process name
@@ -101,13 +102,15 @@ async function processCommand(commandName: string) {
 
         case 'does-it-hold':
             const character = await container.characterGateway.status();
-            console.log(character.holdsHowManyOf(consoleParams.shift() || ''));
+            console.log(character.holdsHowManyOf((consoleParams.shift() || '') as Items));
+            break;
 
         case 'refresh-dataset': await container.dataFetcher.fetchAndSaveEverything(); break;
         case 'generate': await LexicalGenerator.generateAll(); break;
 
-
-
+        case 'simulate':
+            await container.simulator.simulateAgainst((consoleParams.shift() || '') as Monsters);
+            break;
         default:
             console.error('Put a proper command name');
             break;

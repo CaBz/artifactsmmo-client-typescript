@@ -101,6 +101,10 @@ export class WorkflowRegister {
             { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
             { action: Action.ExchangeTask },
         ]);
+        workflows.set('task-items-complete', [
+            { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
+            { action: Action.CompleteTask },
+        ]);
 
         workflows.set('task-monsters', [
             { action: Action.Move, coordinates: PointOfInterest.Bank1 },
@@ -115,6 +119,11 @@ export class WorkflowRegister {
             { action: Action.BankWithdraw, code: Items.TasksCoin, quantity: -1},
             { action: Action.Move, coordinates: PointOfInterest.TaskMasterMonsters },
             { action: Action.ExchangeTask },
+        ]);
+
+        workflows.set('task-monsters-complete', [
+            { action: Action.Move, coordinates: PointOfInterest.TaskMasterMonsters },
+            { action: Action.CompleteTask },
         ]);
     }
 
@@ -170,7 +179,6 @@ export class WorkflowRegister {
         workflows.set('equip-level5-set', WorkflowFactory.withdrawAndEquip(level5Set));
 
         const level10Set = [
-            [Items.IronSword, 1, EquippableSlot.Weapon],
             [Items.IronBoots, 1, EquippableSlot.Boots],
             [Items.IronHelm, 1, EquippableSlot.Helmet],
             [Items.IronLegsArmor, 1, EquippableSlot.LegArmor],
@@ -179,8 +187,38 @@ export class WorkflowRegister {
             [Items.LifeAmulet, 1, EquippableSlot.Amulet],
             [Items.IronRing, 2, [EquippableSlot.Ring1, EquippableSlot.Ring2]],
         ];
-        workflows.set('craft-level10-set', WorkflowFactory.withdrawAndCraftManyAndEquip(level10Set, false));
-        workflows.set('equip-level10-set', WorkflowFactory.withdrawAndEquip(level10Set));
+
+        const level10EarthSet = [
+            [Items.IronSword, 1, EquippableSlot.Weapon],
+            ...level10Set,
+        ];
+
+        workflows.set('craft-level10-earth-set', WorkflowFactory.withdrawAndCraftManyAndEquip(level10EarthSet, false));
+        workflows.set('equip-level10-earth-set', WorkflowFactory.withdrawAndEquip(level10EarthSet));
+
+        const level10AirSet = [
+            [Items.IronDagger, 1, EquippableSlot.Weapon],
+            ...level10Set,
+        ];
+
+        workflows.set('craft-level10-air-set', WorkflowFactory.withdrawAndCraftManyAndEquip(level10AirSet, false));
+        workflows.set('equip-level10-air-set', WorkflowFactory.withdrawAndEquip(level10AirSet));
+
+        const level10FireSet = [
+            [Items.FireBow, 1, EquippableSlot.Weapon],
+            ...level10Set,
+        ];
+
+        workflows.set('craft-level10-fire-set', WorkflowFactory.withdrawAndCraftManyAndEquip(level10FireSet, false));
+        workflows.set('equip-level10-fire-set', WorkflowFactory.withdrawAndEquip(level10FireSet));
+
+        const level10WaterSet = [
+            [Items.GreaterWoodenStaff, 1, EquippableSlot.Weapon],
+            ...level10Set,
+        ];
+
+        workflows.set('craft-level10-water-set', WorkflowFactory.withdrawAndCraftManyAndEquip(level10WaterSet, false));
+        workflows.set('equip-level10-water-set', WorkflowFactory.withdrawAndEquip(level10WaterSet));
     }
 }
 

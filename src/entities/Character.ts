@@ -41,6 +41,10 @@ export class Character {
         return timeDifference > 0 ? timeDifference : 0;
     }
 
+    get raw() {
+        return this.data;
+    }
+
     getHp() {
         return { hp: this.data.hp, max_hp: this.data.max_hp };
     }
@@ -83,6 +87,39 @@ export class Character {
         }
 
         return result;
+    }
+
+    getStats() {
+        const stats = ['speed', 'haste', 'wisdom', 'prospecting', 'critical_strike', 'dmg'];
+
+        return stats.map((stat) => { return {code: stat, value: this.data[stat]}; });
+    }
+
+    getElements() {
+        const stats = [];
+        const elements = ['fire', 'earth', 'water', 'air'];
+
+        elements.forEach((element) => {
+            stats.push(`attack_${element}`);
+            stats.push(`dmg_${element}`);
+            stats.push(`res_${element}`);
+        });
+
+        return stats.map((stat) => { return {code: stat, value: this.data[stat]}; });
+    }
+
+    getEquippedGears() {
+        const result = [];
+        const gears = ['weapon', 'rune', 'shield', 'helmet', 'body_armor', 'leg_armor', 'boots', 'ring1', 'ring2', 'amulet', 'artifact1', 'artifact2', 'artifact3', 'bag'];
+        for (let i:number = 0; i<gears.length; i++) {
+            if (!this.data[`${gears[i]}_slot`]) {
+                continue;
+            }
+
+            result.push(this.data[`${gears[i]}_slot`]);
+        }
+
+        return result
     }
 
     getTask() {
@@ -164,10 +201,8 @@ export class Character {
     logStats() {
         console.log('|                STATS               |');
         console.log(LINE);
-        const stats = ['speed', 'haste', 'wisdom', 'prospecting'];
-        stats.forEach((stat) => {
-            const value = this.data[stat].toString();
-            console.log(`| ${stat.padEnd(16, ' ')} | ${value.padStart(15, ' ')} |`)
+        this.getStats().forEach((stat) => {
+            console.log(`| ${stat.code.padEnd(16, ' ')} | ${stat.value.toString().padStart(15, ' ')} |`)
         });
         console.log(LINE);
     }

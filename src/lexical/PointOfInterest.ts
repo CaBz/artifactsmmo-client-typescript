@@ -1,4 +1,4 @@
-import {Skill} from "./Skill.js";
+import {Skills} from "./Skills.js";
 
 export enum PointOfInterest {
     // Monsters
@@ -70,13 +70,13 @@ export enum PointOfInterest {
 }
 
 export const Workstations: any = {
-    [Skill.Mining]: PointOfInterest.Forge,
-    [Skill.Woodcutting]: PointOfInterest.Workshop,
-    [Skill.Weaponcrafting]: PointOfInterest.Weapon,
-    [Skill.Gearcrafting]: PointOfInterest.Gear,
-    [Skill.Jewelrycrafting]: PointOfInterest.Jewel,
-    [Skill.Cooking]: PointOfInterest.Cooking,
-    [Skill.Alchemy]: PointOfInterest.Alchemy,
+    [Skills.Mining]: PointOfInterest.Forge,
+    [Skills.Woodcutting]: PointOfInterest.Workshop,
+    [Skills.Weaponcrafting]: PointOfInterest.Weapon,
+    [Skills.Gearcrafting]: PointOfInterest.Gear,
+    [Skills.Jewelrycrafting]: PointOfInterest.Jewel,
+    [Skills.Cooking]: PointOfInterest.Cooking,
+    [Skills.Alchemy]: PointOfInterest.Alchemy,
 }
 
 export const FightingPOIs: PointOfInterest[] = [

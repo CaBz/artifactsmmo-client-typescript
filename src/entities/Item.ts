@@ -45,4 +45,8 @@ export class Item {
     get quantityCrafted(): number {
         return this.data.craft?.quantity;
     }
+
+    get effects() {
+        return this.data.effects;
+    }
 }

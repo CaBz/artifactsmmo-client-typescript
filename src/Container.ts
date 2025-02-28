@@ -17,6 +17,8 @@ import {Monster} from "./entities/Monster.js";
 import {Resource} from "./entities/Resource.js";
 import {LexicalGenerator} from "./generators/LexicalGenerator.js";
 import {DataFetcher} from "./generators/DataFetcher.js";
+import {Simulator} from "./workflows/services/Simulator.js";
+import {Effect} from "./entities/Effect.js";
 
 export class Container {
     static async create(charactName: string): Promise<Container> {
@@ -47,6 +49,7 @@ export class Container {
         this.instances.set('maps', data[1]);
         this.instances.set('monsters', data[2]);
         this.instances.set('resources', data[3]);
+        this.instances.set('effects', data[4]);
     }
 
     get items(): Map<string, Item> {
@@ -65,7 +68,11 @@ export class Container {
         return this.instances.get('resources');
     }
 
-    private async registerGenerators(): Promise<void> {
+    get effects(): Map<string, Effect> {
+        return this.instances.get('effects');
+    }
+
+    private registerGenerators(): void {
         this.instances.set('data-fetcher', new DataFetcher(this.client, 'data'));
     }
 
@@ -96,6 +103,7 @@ export class Container {
         this.instances.set('rester', new Rester(this.waiter, this.characterGateway));
         this.instances.set('fighter', new Fighter(this.waiter, this.characterGateway));
         this.instances.set('tasker', new Tasker(this.waiter, this.characterGateway));
+        this.instances.set('simulator', new Simulator(this.characterGateway, this.items, this.monsters, this.effects));
     }
     get waiter(): Waiter {
         return this.instances.get('waiter');
@@ -131,6 +139,10 @@ export class Container {
 
     get tasker(): Tasker {
         return this.instances.get('tasker');
+    }
+
+    get simulator(): Simulator {
+        return this.instances.get('simulator');
     }
 
     private registerWorkflowOrchestrator() {
