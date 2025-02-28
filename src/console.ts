@@ -111,6 +111,9 @@ async function processCommand(commandName: string) {
         case 'simulate':
             await container.simulator.simulateAgainst((consoleParams.shift() || '') as Monsters);
             break;
+        case 'simulate-all':
+            await container.simulator.simulateAgainstAllMonsters();
+            break;
         default:
             console.error('Put a proper command name');
             break;

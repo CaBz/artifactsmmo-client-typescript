@@ -1,3 +1,5 @@
+import {StatEffects} from "../lexical/TypeEffects.js";
+
 export class Monster {
     constructor(private readonly data: any) {
     }
@@ -16,5 +18,11 @@ export class Monster {
 
     get level(): number {
         return this.data.level;
+    }
+
+    getAllStats() {
+        return StatEffects.map((stat) => {
+            { return {code: stat, value: this.data[stat] ?? 0}; }
+        });
     }
 }

@@ -1,5 +1,6 @@
 import {LINE} from "../Utils.js";
 import {Items} from "../lexical/Items.js";
+import {StatEffects} from "../lexical/TypeEffects.js";
 
 export enum EquippableSlot {
     None = 'none',
@@ -89,21 +90,16 @@ export class Character {
         return result;
     }
 
-    getStats() {
-        const stats = ['speed', 'haste', 'wisdom', 'prospecting', 'critical_strike', 'dmg'];
+    getAllStats() {
+        return StatEffects.map((stat) => {
+            const value = stat === 'hp' ? this.data.max_hp : this.data[stat];
 
-        return stats.map((stat) => { return {code: stat, value: this.data[stat]}; });
+            return {code: stat, value: value ?? 0};
+        });
     }
 
-    getElements() {
-        const stats = [];
-        const elements = ['fire', 'earth', 'water', 'air'];
-
-        elements.forEach((element) => {
-            stats.push(`attack_${element}`);
-            stats.push(`dmg_${element}`);
-            stats.push(`res_${element}`);
-        });
+    getStats() {
+        const stats = ['speed', 'haste', 'wisdom', 'prospecting', 'critical_strike', 'dmg'];
 
         return stats.map((stat) => { return {code: stat, value: this.data[stat]}; });
     }

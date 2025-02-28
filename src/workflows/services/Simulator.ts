@@ -1,52 +1,17 @@
 import {CharacterGateway} from "../../gateways/CharacterGateway.js";
-import {Item} from "../../entities/Item.js";
 import {Monster} from "../../entities/Monster.js";
 import {Character} from "../../entities/Character.js";
 import {Monsters} from "../../lexical/Monsters.js";
-import {Effect} from "../../entities/Effect.js";
-import {Items} from "../../lexical/Items.js";
+import {StatEffects} from "../../lexical/TypeEffects.js";
+import * as Utils from "../../Utils.js";
 
 export class Simulator {
     private character: Character;
 
     constructor(
         private readonly characterGateway: CharacterGateway,
-        private readonly items: Map<string, Item>,
         private readonly monsters: Map<string, Monster>,
-        private readonly effects: Map<string, Effect>
     ) {
-    }
-
-    async simulateAgainst(monster: Monsters): Promise<void> {
-        await this.loadCharacter();
-
-        this.character.logToConsole(['stats', 'elements']);
-
-        const aggregatedStats = {
-
-        }
-        StatEffects
-
-        this.character.getStats().forEach((stat) => {
-            aggregatedStats[stat.code] = stat.value;
-        });
-
-        this.character.getElements().forEach((stat) => {
-            if (!aggregatedStats[stat.code]) {
-                aggregatedStats[stat.code] = 0;
-            }
-
-            aggregatedStats[stat.code] += stat.value;
-        });
-
-        console.log(aggregatedStats);
-
-        // const equippedGears = this.character.getEquippedGears().map((gear) => this.items.get(gear));
-        // equippedGears.forEach((gear: any) => {
-        //     console.log(gear.code, gear.effects);
-        // });
-
-        //console.log(this.monsters.get(monster));
     }
 
     async loadCharacter(): Promise<void> {
@@ -55,7 +20,151 @@ export class Simulator {
         }
     }
 
-    private async getAllStatEffects(): Promise<string[]> {
-        return this.effects
+    async simulateAgainst(code: Monsters, withLogs?: boolean): Promise<void> {
+        await this.loadCharacter();
+        const monster: Monster = this.monsters.get(code)!;
+
+        const characterStats: any = this.getEntityStats(this.character);
+        const monsterStats: any = this.getEntityStats(monster);
+
+        if (withLogs === true) {
+            console.log(Utils.LINE);
+            Utils.logHeadline(`SIMULATION FIGHT`);
+            console.log(Utils.LINE);
+        }
+
+        const turns = this.executeFight(
+            this.character.name,
+            characterStats,
+            monster.name,
+            monsterStats,
+            withLogs === true
+        );
+
+        if (withLogs === true) {
+            console.log(Utils.LINE);
+        }
+
+        if (characterStats.hp > 0 && turns < 100) {
+            Utils.logHeadline(`${this.character.name} (${characterStats.hp}hp) won against ${monster.name} (${monsterStats.hp}hp) in ${turns} turns!`);
+        } else {
+            Utils.errorHeadline(`${this.character.name} (${characterStats.hp}hp) lost against ${monster.name} (${monsterStats.hp}hp) in ${turns} turns!`)
+        }
+
+        //this.logFighterDetails(this.character, characterStats, monster, monsterStats);
     }
+
+    async simulateAgainstAllMonsters(): Promise<void> {
+        await this.loadCharacter();
+        await this.monsters.forEach(async (monster) => {
+            await this.simulateAgainst(monster.code, false);
+        })
+    }
+
+    private executeFight(attackName: any, attackerStats: any, defenderName: any, defenderStats: any, withLogs: boolean): number {
+        let tmp;
+
+        let turn = 1;
+        while (attackerStats.hp > 0 && attackerStats.hp > 0) {
+            this.fight(turn, attackName, attackerStats, defenderName, defenderStats, withLogs);
+
+            tmp = attackName;
+            attackName = defenderName;
+            defenderName = tmp;
+
+            tmp = attackerStats;
+            attackerStats = defenderStats;
+            defenderStats = tmp;
+
+            turn ++;
+        }
+
+        return turn;
+    }
+
+    private fight(turn: number, attackerName: any, attackerStats: any, defenderName: any, defenderStats: any, withLogs: boolean) {
+        const elements = ['air', 'earth', 'fire', 'water'];
+
+        elements.forEach((element) => {
+            const defenderResistance = defenderStats[`res_${element}`];
+            const attackerElementalAttack = attackerStats[`attack_${element}`];
+            const attackerElementalDmg = attackerStats[`dmg_${element}`];
+            const attackerDmg = attackerStats[`dmg`];
+
+            // Critical strike gives you a chance to perform a strike that will perform 1.5x the total attack.
+            const isCrit = (Math.random() * 100) < attackerStats.critical_strike;
+
+            // Here's the formula for calculating the effects of damage: Attack * (Damage * 0.01)
+            let attack = attackerElementalAttack + (attackerElementalAttack * ((attackerElementalDmg + attackerDmg) * 0.01));
+            attack = Math.round(attack) * (isCrit ? 1.5 : 1)
+
+            // Here's the formula for calculating the effects of damage reduction: Attack * (Resistance * 0.01)
+            let resistance = attack * (defenderResistance * 0.01);
+            resistance = Math.round(resistance);
+
+            // Here's the formula to calculate the chance of blocking in % format: (Resistance / 10)
+            const isBlocked = (Math.random() * 100) < Math.round(resistance / 10);
+
+            let damage = attack - resistance;
+
+            if (damage <= 0) {
+                return;
+            }
+
+            if (isBlocked) {
+                if (!withLogs) {
+                    return;
+                }
+
+                console.warn(`[TURN ${turn}] ${attackerName} (${attackerStats.hp}hp) was blocked by ${defenderName} (${defenderStats.hp}hp)`);
+                return
+            }
+
+            defenderStats.hp -= damage;
+
+            if (!withLogs) {
+                return;
+            }
+
+            const logger = isCrit ? console.error : console.log;
+            logger(`[TURN ${turn}] ${attackerName} (${attackerStats.hp}hp) deals ${damage} dmg to ${defenderName} (${defenderStats.hp}hp)`);
+
+        });
+    }
+
+    private logFighterDetails(attacker, attackerStats, defender, defenderStats) {
+        console.log(Utils.LINE);
+        Utils.errorHeadline(`${attacker.name.padEnd(15, ' ')} vs ${defender.name.padStart(15, ' ')}`);
+        console.log(Utils.LINE);
+
+        StatEffects.forEach((stat) => {
+            Utils.logHeadline(`${stat.padEnd(15, ' ')}: ${attackerStats[stat].toString().padEnd(6, ' ')} vs ${defenderStats[stat].toString().padStart(6, ' ')}`);
+        });
+        console.log(Utils.LINE);
+    }
+
+    private getEntityStats(entity: any) {
+        const entityStats = {};
+
+        entity.getAllStats().forEach((stat) => {
+            entityStats[stat.code] = stat.value;
+        });
+
+        return entityStats;
+    }
+
 }
+
+/*
+Fight start: Character HP: 395/395, Monster HP: 70/70
+Turn 1: The character used earth attack and dealt 22 damage. (Monster HP: 48/70)
+Turn 2: The monster used earth attack and dealt 7 damage. (Character HP: 388/395)
+Turn 3: The character used earth attack and dealt 22 damage. (Monster HP: 26/70)
+Turn 4: The monster used earth attack and dealt 7 damage. (Character HP: 381/395)
+Turn 5: The character used earth attack and dealt 22 damage. (Monster HP: 4/70)
+Turn 6: The monster used earth attack and dealt 7 damage. (Character HP: 374/395)
+Turn 7: The monster blocked earth attack.
+Turn 8: The monster used earth attack and dealt 7 damage. (Character HP: 367/395)
+Turn 9: The character used earth attack and dealt 22 damage. (Monster HP: 0/70)
+Fight result: win. (Character HP: 367/395, Monster HP: 0/70)
+*/

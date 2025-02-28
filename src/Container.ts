@@ -103,7 +103,7 @@ export class Container {
         this.instances.set('rester', new Rester(this.waiter, this.characterGateway));
         this.instances.set('fighter', new Fighter(this.waiter, this.characterGateway));
         this.instances.set('tasker', new Tasker(this.waiter, this.characterGateway));
-        this.instances.set('simulator', new Simulator(this.characterGateway, this.items, this.monsters, this.effects));
+        this.instances.set('simulator', new Simulator(this.characterGateway, this.monsters));
     }
     get waiter(): Waiter {
         return this.instances.get('waiter');
