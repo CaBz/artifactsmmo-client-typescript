@@ -14,6 +14,7 @@ import {Monsters} from "../lexical/Monsters.js";
 import {Recipes} from "../lexical/Recipes.js";
 import {WorkflowRegister} from "./WorkflowRegister.js";
 import {Equipper} from "./services/Equipper.js";
+import {WorkflowGenerator} from "./WorkflowGenerator.js";
 
 export enum MoveActionCondition {
     InventoryNotFull = 'inventory-not-full',
@@ -172,20 +173,19 @@ export class WorkflowOrchestrator {
         private readonly rester: Rester,
         private readonly fighter: Fighter,
         private readonly tasker: Tasker,
-        private readonly workflows: Map<string, WorkflowAction[]>,
+        private readonly staticWorkflows: Map<string, WorkflowAction[]>,
+        private readonly workflowGenerator: WorkflowGenerator,
     ) {
     }
 
     async findWorkflowAndExecute(name: string, loops: number): Promise<void> {
-        if (!this.workflows.has(name)) {
-            console.error(`Put a proper workflow name from ${WorkflowRegister.name}`);
-            return;
-        }
-
-        const workflowActions = this.workflows.get(name);
+        let workflowActions = this.staticWorkflows.get(name);
         if (!workflowActions || workflowActions.length === 0) {
-            console.error(`Put a proper workflow name from ${WorkflowRegister.name}`);
-            return;
+            workflowActions = this.workflowGenerator.generate(name);
+            if (!workflowActions || workflowActions.length === 0) {
+                console.error(`Put a proper workflow name from ${WorkflowRegister.name}`);
+                return;
+            }
         }
 
         Utils.logHeadline(`WORKFLOW: ${name}`);

@@ -19,6 +19,7 @@ import {LexicalGenerator} from "./generators/LexicalGenerator.js";
 import {DataLoader} from "./generators/DataLoader.js";
 import {Simulator} from "./workflows/services/Simulator.js";
 import {Effect} from "./entities/Effect.js";
+import {WorkflowGenerator} from "./workflows/WorkflowGenerator.js";
 
 export class Container {
     static async create(charactName: string): Promise<Container> {
@@ -147,6 +148,7 @@ export class Container {
     }
 
     private registerWorkflowOrchestrator() {
+        this.instances.set('workflow-generator', new WorkflowGenerator(this.items));
         this.instances.set(
             'workflow-orchestrator',
             new WorkflowOrchestrator(
@@ -160,8 +162,13 @@ export class Container {
                 this.fighter,
                 this.tasker,
                 this.workflows,
+                this.workflowGenerator,
             )
         );
+    }
+
+    get workflowGenerator(): WorkflowGenerator {
+        return this.instances.get('workflow-generator');
     }
 
     get workflowOrhcestrator(): WorkflowOrchestrator {

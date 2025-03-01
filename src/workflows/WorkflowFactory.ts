@@ -112,11 +112,11 @@ export class WorkflowFactory {
         ];
     }
 
-    static withdrawAndEquip(craftItems: any): WorkflowAction[] {
+    static withdrawAndEquip(items: any): WorkflowAction[] {
         const withdrawActions: WorkflowAction[] = [];
         const equipActions: WorkflowAction[] = [];
 
-        craftItems.forEach(([craftItem, quantity, equippableSlot]: any) => {
+        items.forEach(([craftItem, quantity, equippableSlot]: any) => {
             withdrawActions.push({ action: Action.BankWithdraw, code: craftItem, quantity: quantity, condition: BankWithdrawActionCondition.DoNotHave });
             if (Array.isArray(equippableSlot)) {
                 equippableSlot.forEach((slot) => {

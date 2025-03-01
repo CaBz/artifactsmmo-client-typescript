@@ -1,3 +1,5 @@
+import {EquippableSlot} from "./Character.js";
+
 export class Item {
     constructor(private readonly data: any) {
     }
@@ -27,7 +29,19 @@ export class Item {
     }
 
     get isEquippable(): boolean {
-        return !['resource', 'currency'].includes(this.type);
+        return !['resource', 'currency', 'consumables'].includes(this.type);
+    }
+
+    get equippableSlot(): EquippableSlot {
+        if (!this.isEquippable) {
+            return EquippableSlot.None;
+        }
+
+        if (['ring', 'artifact', 'utility'].includes(this.type)) {
+            return `${this.type}1` as EquippableSlot;
+        }
+
+        return this.type as EquippableSlot
     }
 
     get craft() {

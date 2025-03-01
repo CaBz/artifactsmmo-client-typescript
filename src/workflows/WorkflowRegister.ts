@@ -157,6 +157,10 @@ export class WorkflowRegister {
     }
 
     private static registerForSets(workflows: Map<string, WorkflowAction[]>) {
+        /*Equippables.forEach((item: Items) => {
+            workflows.set(`equip-${item.code}`)
+        });*/
+
         const level1Set = [
             [Items.CopperDagger, 1, EquippableSlot.Weapon],
             [Items.CopperBoots, 1, EquippableSlot.Boots],
