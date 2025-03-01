@@ -11,6 +11,8 @@ export class Rester {
         Utils.logHeadline(`REST`);
         await this.waiter.wait();
 
+        // @TODO: Add logic to check inventory for consumables instead of resting - Resting should be last resort
+
         try {
             await this.characterGateway.rest();
         } catch (e) {

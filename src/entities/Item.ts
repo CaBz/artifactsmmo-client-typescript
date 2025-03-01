@@ -26,6 +26,10 @@ export class Item {
         return !!this.data.craft;
     }
 
+    get isEquippable(): boolean {
+        return !['resource', 'currency'].includes(this.type);
+    }
+
     get craft() {
         return this.data.craft;
     }

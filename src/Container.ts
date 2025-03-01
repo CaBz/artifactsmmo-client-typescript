@@ -16,7 +16,7 @@ import {MapTile} from "./entities/MapTile.js";
 import {Monster} from "./entities/Monster.js";
 import {Resource} from "./entities/Resource.js";
 import {LexicalGenerator} from "./generators/LexicalGenerator.js";
-import {DataFetcher} from "./generators/DataFetcher.js";
+import {DataLoader} from "./generators/DataLoader.js";
 import {Simulator} from "./workflows/services/Simulator.js";
 import {Effect} from "./entities/Effect.js";
 
@@ -34,50 +34,51 @@ export class Container {
     }
 
     async initialize(): Promise<void> {
-        await this.registerSets();
         this.registerGateways();
-        this.registerGenerators();
+        await this.registerGeneratorsAndSets();
+
         this.registerServices();
         this.registerWorkflows();
         this.registerWorkflowOrchestrator();
     }
 
-    private async registerSets(): Promise<void> {
-        const data: any = await LexicalGenerator.loadData();
+    private async registerGeneratorsAndSets(): Promise<void> {
+        this.instances.set('data-loader', new DataLoader(this.client, 'data', 'everything.json'));
+        this.instances.set('data', await this.dataLoader.loadData());
 
-        this.instances.set('items', data[0]);
-        this.instances.set('maps', data[1]);
-        this.instances.set('monsters', data[2]);
-        this.instances.set('resources', data[3]);
-        this.instances.set('effects', data[4]);
+        this.instances.set('lexical-generator', new LexicalGenerator(this.data, 'data/templates', 'src/lexical'));
+    }
+
+    get dataLoader(): DataLoader {
+        return this.instances.get('data-loader');
+    }
+
+    get data() {
+        return this.instances.get('data');
     }
 
     get items(): Map<string, Item> {
-        return this.instances.get('items');
+        return this.data.items;
     }
 
     get maps(): MapTile[] {
-        return this.instances.get('maps');
+        return this.data.maps;
     }
 
     get monsters(): Map<string, Monster> {
-        return this.instances.get('monsters');
+        return this.data.monsters;
     }
 
     get resources(): Map<string, Resource> {
-        return this.instances.get('resources');
+        return this.data.resources;
     }
 
     get effects(): Map<string, Effect> {
-        return this.instances.get('effects');
+        return this.data.effects;
     }
 
-    private registerGenerators(): void {
-        this.instances.set('data-fetcher', new DataFetcher(this.client, 'data'));
-    }
-
-    get dataFetcher(): DataFetcher {
-        return this.instances.get('data-fetcher');
+    get lexicalGenerator(): LexicalGenerator {
+        return this.instances.get('lexical-generator');
     }
 
     private registerGateways(): void {

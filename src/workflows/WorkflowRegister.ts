@@ -24,6 +24,8 @@ export class WorkflowRegister {
         WorkflowRegister.registerForOthers(workflows);
         WorkflowRegister.registerForSets(workflows);
 
+        // @TODO: Add a workflow for each equippable item -> go to bank, withdraw item, equip
+
         return workflows;
     }
 

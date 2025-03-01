@@ -28,8 +28,7 @@ export const CraftableWoodcutting: Items[] = [
     Items.MapleSap,
 ];
 
-export const CraftableFishing: Items[] = [
-];
+export const CraftableFishing: Items[] = [/*{PLACEHOLDER_FISHING}*/];
 
 export const CraftableWeaponcrafting: Items[] = [
     Items.CopperDagger,
@@ -260,4 +259,15 @@ export const CraftableAlchemy: Items[] = [
     Items.FireResPotion,
     Items.HealthBoostPotion,
     Items.WaterResPotion,
+];
+
+export const Craftables: Items[] = [
+    ...CraftableMining,
+    ...CraftableWoodcutting,
+    ...CraftableFishing,
+    ...CraftableWeaponcrafting,
+    ...CraftableGearcrafting,
+    ...CraftableJewelry,
+    ...CraftableCooking,
+    ...CraftableAlchemy,
 ];

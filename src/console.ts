@@ -105,8 +105,8 @@ async function processCommand(commandName: string) {
             console.log(character.holdsHowManyOf((consoleParams.shift() || '') as Items));
             break;
 
-        case 'refresh-dataset': await container.dataFetcher.fetchAndSaveEverything(); break;
-        case 'generate': await LexicalGenerator.generateAll(); break;
+        case 'refresh-dataset': await container.dataLoader.saveDataSets(); break;
+        case 'generate': await container.lexicalGenerator.generateAll(); break;
 
         case 'simulate':
             const monsterCode = (consoleParams.shift() || '') as Monsters;

@@ -15,3 +15,14 @@ export const CraftableJewelry: Items[] = [/*{PLACEHOLDER_JEWELRYCRAFTING}*/];
 export const CraftableCooking: Items[] = [/*{PLACEHOLDER_COOKING}*/];
 
 export const CraftableAlchemy: Items[] = [/*{PLACEHOLDER_ALCHEMY}*/];
+
+export const Craftables: Items[] = [
+    ...CraftableMining,
+    ...CraftableWoodcutting,
+    ...CraftableFishing,
+    ...CraftableWeaponcrafting,
+    ...CraftableGearcrafting,
+    ...CraftableJewelry,
+    ...CraftableCooking,
+    ...CraftableAlchemy,
+];

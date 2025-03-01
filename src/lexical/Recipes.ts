@@ -16,442 +16,6 @@ export interface Recipe {
 export class Recipes {
     static getFor(item: Items): Recipe {
         switch (item) {
-            // MINING
-            case Items.Copper:
-                return RecipeFactory.mining(1, [
-                    {code: Items.CopperOre, quantity: 10},
-                ]);
-            case Items.Iron:
-                return RecipeFactory.mining(10, [
-                    {code: Items.IronOre, quantity: 10},
-                ]);
-            case Items.Emerald:
-                return RecipeFactory.mining(20, [
-                    {code: Items.EmeraldStone, quantity: 10},
-                ]);
-            case Items.Ruby:
-                return RecipeFactory.mining(20, [
-                    {code: Items.RubyStone, quantity: 10},
-                ]);
-            case Items.Sapphire:
-                return RecipeFactory.mining(20, [
-                    {code: Items.SapphireStone, quantity: 10},
-                ]);
-            case Items.Steel:
-                return RecipeFactory.mining(20, [
-                    {code: Items.IronOre, quantity: 3},
-                    {code: Items.Coal, quantity: 7},
-                ]);
-            case Items.Topaz:
-                return RecipeFactory.mining(20, [
-                    {code: Items.TopazStone, quantity: 10},
-                ]);
-            case Items.Gold:
-                return RecipeFactory.mining(30, [
-                    {code: Items.GoldOre, quantity: 10},
-                ]);
-            case Items.Obsidian:
-                return RecipeFactory.mining(30, [
-                    {code: Items.PieceofObsidian, quantity: 4},
-                ]);
-            case Items.Diamond:
-                return RecipeFactory.mining(35, [
-                    {code: Items.DiamondStone, quantity: 10},
-                ]);
-            case Items.Strangold:
-                return RecipeFactory.mining(35, [
-                    {code: Items.GoldOre, quantity: 4},
-                    {code: Items.StrangeOre, quantity: 6},
-                ]);
-            case Items.Mithril:
-                return RecipeFactory.mining(40, [
-                    {code: Items.MithrilOre, quantity: 10},
-                ]);
-
-            // WOODCUTTING
-            case Items.AshPlank:
-                return RecipeFactory.woodcutting(1, [
-                    {code: Items.AshWood, quantity: 10},
-                ]);
-            case Items.SprucePlank:
-                return RecipeFactory.woodcutting(10, [
-                    {code: Items.SpruceWood, quantity: 10},
-                ]);
-            case Items.HardwoodPlank:
-                return RecipeFactory.woodcutting(20, [
-                    {code: Items.AshWood, quantity: 4},
-                    {code: Items.BirchWood, quantity: 6},
-                ]);
-            case Items.DeadWoodPlank:
-                return RecipeFactory.woodcutting(30, [
-                    {code: Items.DeadWood, quantity: 10},
-                ]);
-            case Items.Sap:
-                return RecipeFactory.woodcutting(30, [
-                    {code: Items.AshWood, quantity: 5},
-                    {code: Items.SpruceWood, quantity: 5},
-                    {code: Items.DeadWood, quantity: 5},
-                ]);
-            case Items.CursedPlank:
-                return RecipeFactory.woodcutting(35, [
-                    {code: Items.CursedWood, quantity: 10},
-                ]);
-            case Items.MagicSap:
-                return RecipeFactory.woodcutting(35, [
-                    {code: Items.MagicWood, quantity: 15},
-                ]);
-            case Items.MagicalPlank:
-                return RecipeFactory.woodcutting(35, [
-                    {code: Items.DeadWood, quantity: 4},
-                    {code: Items.MagicWood, quantity: 6},
-                ]);
-            case Items.MaplePlank:
-                return RecipeFactory.woodcutting(40, [
-                    {code: Items.MapleWood, quantity: 10},
-                ]);
-            case Items.MapleSap:
-                return RecipeFactory.woodcutting(40, [
-                    {code: Items.MapleWood, quantity: 15},
-                ]);
-
-            // FISHING
-
-            // WEAPONCRAFTING
-            case Items.CopperDagger:
-                return RecipeFactory.weaponcrafting(1, [
-                    {code: Items.Copper, quantity: 6},
-                ]);
-            case Items.WoodenStaff:
-                return RecipeFactory.weaponcrafting(1, [
-                    {code: Items.WoodenStick, quantity: 1},
-                    {code: Items.AshWood, quantity: 4},
-                ]);
-            case Items.FireStaff:
-                return RecipeFactory.weaponcrafting(5, [
-                    {code: Items.RedSlimeball, quantity: 2},
-                    {code: Items.AshPlank, quantity: 5},
-                ]);
-            case Items.StickyDagger:
-                return RecipeFactory.weaponcrafting(5, [
-                    {code: Items.Copper, quantity: 5},
-                    {code: Items.GreenSlimeball, quantity: 2},
-                ]);
-            case Items.StickySword:
-                return RecipeFactory.weaponcrafting(5, [
-                    {code: Items.YellowSlimeball, quantity: 2},
-                    {code: Items.Copper, quantity: 5},
-                ]);
-            case Items.WaterBow:
-                return RecipeFactory.weaponcrafting(5, [
-                    {code: Items.BlueSlimeball, quantity: 2},
-                    {code: Items.AshPlank, quantity: 5},
-                ]);
-            case Items.FireBow:
-                return RecipeFactory.weaponcrafting(10, [
-                    {code: Items.SprucePlank, quantity: 6},
-                    {code: Items.RedSlimeball, quantity: 2},
-                ]);
-            case Items.GreaterWoodenStaff:
-                return RecipeFactory.weaponcrafting(10, [
-                    {code: Items.SprucePlank, quantity: 6},
-                    {code: Items.BlueSlimeball, quantity: 2},
-                ]);
-            case Items.IronAxe:
-                return RecipeFactory.weaponcrafting(10, [
-                    {code: Items.SprucePlank, quantity: 2},
-                    {code: Items.Iron, quantity: 8},
-                    {code: Items.JasperCrystal, quantity: 1},
-                ]);
-            case Items.IronDagger:
-                return RecipeFactory.weaponcrafting(10, [
-                    {code: Items.Iron, quantity: 6},
-                    {code: Items.Feather, quantity: 2},
-                ]);
-            case Items.IronPickaxe:
-                return RecipeFactory.weaponcrafting(10, [
-                    {code: Items.SprucePlank, quantity: 2},
-                    {code: Items.Iron, quantity: 8},
-                    {code: Items.JasperCrystal, quantity: 1},
-                ]);
-            case Items.IronSword:
-                return RecipeFactory.weaponcrafting(10, [
-                    {code: Items.Iron, quantity: 6},
-                    {code: Items.Feather, quantity: 2},
-                ]);
-            case Items.LeatherGloves:
-                return RecipeFactory.weaponcrafting(10, [
-                    {code: Items.AshPlank, quantity: 2},
-                    {code: Items.Cowhide, quantity: 8},
-                    {code: Items.JasperCrystal, quantity: 1},
-                ]);
-            case Items.SpruceFishingRod:
-                return RecipeFactory.weaponcrafting(10, [
-                    {code: Items.SprucePlank, quantity: 8},
-                    {code: Items.Iron, quantity: 2},
-                    {code: Items.JasperCrystal, quantity: 1},
-                ]);
-            case Items.MultislimesSword:
-                return RecipeFactory.weaponcrafting(15, [
-                    {code: Items.Iron, quantity: 5},
-                    {code: Items.RedSlimeball, quantity: 2},
-                    {code: Items.BlueSlimeball, quantity: 2},
-                    {code: Items.YellowSlimeball, quantity: 2},
-                    {code: Items.GreenSlimeball, quantity: 2},
-                    {code: Items.JasperCrystal, quantity: 1},
-                ]);
-            case Items.MushmushBow:
-                return RecipeFactory.weaponcrafting(15, [
-                    {code: Items.SprucePlank, quantity: 5},
-                    {code: Items.Wolfhair, quantity: 2},
-                    {code: Items.Mushroom, quantity: 4},
-                    {code: Items.JasperCrystal, quantity: 1},
-                ]);
-            case Items.Mushstaff:
-                return RecipeFactory.weaponcrafting(15, [
-                    {code: Items.SprucePlank, quantity: 5},
-                    {code: Items.Mushroom, quantity: 4},
-                    {code: Items.GreenCloth, quantity: 2},
-                    {code: Items.JasperCrystal, quantity: 1},
-                ]);
-            case Items.Battlestaff:
-                return RecipeFactory.weaponcrafting(20, [
-                    {code: Items.HardwoodPlank, quantity: 6},
-                    {code: Items.Steel, quantity: 4},
-                    {code: Items.WolfBone, quantity: 3},
-                    {code: Items.BlueSlimeball, quantity: 5},
-                ]);
-            case Items.ForestWhip:
-                return RecipeFactory.weaponcrafting(20, [
-                    {code: Items.GreenSlimeball, quantity: 2},
-                    {code: Items.Wolfhair, quantity: 5},
-                    {code: Items.OgreEye, quantity: 4},
-                    {code: Items.HardwoodPlank, quantity: 4},
-                ]);
-            case Items.HuntingBow:
-                return RecipeFactory.weaponcrafting(20, [
-                    {code: Items.HardwoodPlank, quantity: 5},
-                    {code: Items.GreenCloth, quantity: 4},
-                    {code: Items.OgreSkin, quantity: 3},
-                    {code: Items.PigSkin, quantity: 3},
-                ]);
-            case Items.SkullStaff:
-                return RecipeFactory.weaponcrafting(20, [
-                    {code: Items.SkeletonSkull, quantity: 1},
-                    {code: Items.SkeletonBone, quantity: 4},
-                    {code: Items.Steel, quantity: 5},
-                    {code: Items.HardwoodPlank, quantity: 5},
-                ]);
-            case Items.SteelBattleaxe:
-                return RecipeFactory.weaponcrafting(20, [
-                    {code: Items.Steel, quantity: 4},
-                    {code: Items.HardwoodPlank, quantity: 4},
-                    {code: Items.SkeletonBone, quantity: 4},
-                    {code: Items.Wolfhair, quantity: 4},
-                ]);
-            case Items.DreadfulStaff:
-                return RecipeFactory.weaponcrafting(25, [
-                    {code: Items.CyclopsEye, quantity: 4},
-                    {code: Items.VampireBlood, quantity: 5},
-                    {code: Items.HardwoodPlank, quantity: 6},
-                    {code: Items.JasperCrystal, quantity: 1},
-                ]);
-            case Items.SkullWand:
-                return RecipeFactory.weaponcrafting(25, [
-                    {code: Items.HardwoodPlank, quantity: 4},
-                    {code: Items.SkeletonSkull, quantity: 3},
-                    {code: Items.VampireTooth, quantity: 2},
-                    {code: Items.SpiderLeg, quantity: 3},
-                    {code: Items.JasperCrystal, quantity: 1},
-                ]);
-            case Items.VampireBow:
-                return RecipeFactory.weaponcrafting(25, [
-                    {code: Items.Steel, quantity: 4},
-                    {code: Items.VampireBlood, quantity: 4},
-                    {code: Items.SpiderLeg, quantity: 4},
-                    {code: Items.LizardEye, quantity: 2},
-                    {code: Items.MagicalCure, quantity: 1},
-                ]);
-            case Items.ElderwoodStaff:
-                return RecipeFactory.weaponcrafting(30, [
-                    {code: Items.DeadWoodPlank, quantity: 5},
-                    {code: Items.LizardSkin, quantity: 4},
-                    {code: Items.CyclopsEye, quantity: 5},
-                    {code: Items.RedCloth, quantity: 3},
-                    {code: Items.SkeletonSkull, quantity: 3},
-                ]);
-            case Items.EnchantedBow:
-                return RecipeFactory.weaponcrafting(30, [
-                    {code: Items.Gold, quantity: 8},
-                    {code: Items.SpiderLeg, quantity: 3},
-                    {code: Items.DemonHorn, quantity: 2},
-                    {code: Items.OgreEye, quantity: 4},
-                    {code: Items.RedCloth, quantity: 3},
-                ]);
-            case Items.GoldAxe:
-                return RecipeFactory.weaponcrafting(30, [
-                    {code: Items.DeadWoodPlank, quantity: 2},
-                    {code: Items.Gold, quantity: 7},
-                    {code: Items.Ruby, quantity: 1},
-                    {code: Items.MagicalCure, quantity: 2},
-                    {code: Items.RedCloth, quantity: 3},
-                ]);
-            case Items.GoldFishingRod:
-                return RecipeFactory.weaponcrafting(30, [
-                    {code: Items.DeadWoodPlank, quantity: 2},
-                    {code: Items.Gold, quantity: 7},
-                    {code: Items.Sapphire, quantity: 1},
-                    {code: Items.MagicalCure, quantity: 2},
-                    {code: Items.OwlbearClaw, quantity: 3},
-                ]);
-            case Items.GoldPickaxe:
-                return RecipeFactory.weaponcrafting(30, [
-                    {code: Items.DeadWoodPlank, quantity: 2},
-                    {code: Items.Gold, quantity: 7},
-                    {code: Items.Topaz, quantity: 1},
-                    {code: Items.MagicalCure, quantity: 2},
-                    {code: Items.DemonHorn, quantity: 2},
-                ]);
-            case Items.GoldSword:
-                return RecipeFactory.weaponcrafting(30, [
-                    {code: Items.Gold, quantity: 8},
-                    {code: Items.VampireBlood, quantity: 4},
-                    {code: Items.RedCloth, quantity: 3},
-                    {code: Items.DemonHorn, quantity: 2},
-                    {code: Items.DeadWoodPlank, quantity: 3},
-                ]);
-            case Items.GoldenGloves:
-                return RecipeFactory.weaponcrafting(30, [
-                    {code: Items.DeadWoodPlank, quantity: 7},
-                    {code: Items.Obsidian, quantity: 2},
-                    {code: Items.Emerald, quantity: 1},
-                    {code: Items.MagicalCure, quantity: 2},
-                    {code: Items.DemoniacDust, quantity: 3},
-                ]);
-            case Items.GreaterDreadfulStaff:
-                return RecipeFactory.weaponcrafting(30, [
-                    {code: Items.DeadWoodPlank, quantity: 5},
-                    {code: Items.DreadfulStaff, quantity: 1},
-                    {code: Items.OgreEye, quantity: 4},
-                    {code: Items.CyclopsEye, quantity: 5},
-                    {code: Items.RedCloth, quantity: 3},
-                ]);
-            case Items.ObsidianBattleaxe:
-                return RecipeFactory.weaponcrafting(30, [
-                    {code: Items.Obsidian, quantity: 7},
-                    {code: Items.DeadWoodPlank, quantity: 4},
-                    {code: Items.LizardSkin, quantity: 3},
-                    {code: Items.CyclopsEye, quantity: 3},
-                    {code: Items.DemoniacDust, quantity: 3},
-                ]);
-            case Items.CursedSceptre:
-                return RecipeFactory.weaponcrafting(35, [
-                    {code: Items.MagicalPlank, quantity: 8},
-                    {code: Items.CursedBook, quantity: 3},
-                    {code: Items.MagicStone, quantity: 3},
-                    {code: Items.MaleficCloth, quantity: 3},
-                    {code: Items.Diamond, quantity: 1},
-                    {code: Items.MagicalCure, quantity: 2},
-                ]);
-            case Items.DiamondSword:
-                return RecipeFactory.weaponcrafting(35, [
-                    {code: Items.MagicalPlank, quantity: 7},
-                    {code: Items.GoblinEye, quantity: 3},
-                    {code: Items.SpiderLeg, quantity: 3},
-                    {code: Items.MagicStone, quantity: 3},
-                    {code: Items.Diamond, quantity: 1},
-                    {code: Items.MagicalCure, quantity: 2},
-                ]);
-            case Items.DreadfulBattleaxe:
-                return RecipeFactory.weaponcrafting(35, [
-                    {code: Items.MagicalPlank, quantity: 7},
-                    {code: Items.LizardEye, quantity: 4},
-                    {code: Items.GoblinEye, quantity: 3},
-                    {code: Items.GoblinTooth, quantity: 3},
-                    {code: Items.JasperCrystal, quantity: 3},
-                ]);
-            case Items.MagicBow:
-                return RecipeFactory.weaponcrafting(35, [
-                    {code: Items.MagicalPlank, quantity: 7},
-                    {code: Items.MagicStone, quantity: 3},
-                    {code: Items.LizardSkin, quantity: 3},
-                    {code: Items.Wolfhair, quantity: 3},
-                    {code: Items.Sapphire, quantity: 1},
-                    {code: Items.MagicalCure, quantity: 2},
-                ]);
-            case Items.StrangoldSword:
-                return RecipeFactory.weaponcrafting(35, [
-                    {code: Items.Strangold, quantity: 7},
-                    {code: Items.GoblinTooth, quantity: 3},
-                    {code: Items.DemoniacDust, quantity: 3},
-                    {code: Items.MagicStone, quantity: 4},
-                    {code: Items.MagicalCure, quantity: 2},
-                ]);
-            case Items.BladeofHell:
-                return RecipeFactory.weaponcrafting(40, [
-                    {code: Items.Strangold, quantity: 9},
-                    {code: Items.EfreetCloth, quantity: 3},
-                    {code: Items.BrokenSword, quantity: 1},
-                    {code: Items.BookfromHell, quantity: 1},
-                    {code: Items.OrcSkin, quantity: 6},
-                ]);
-            case Items.Bloodblade:
-                return RecipeFactory.weaponcrafting(40, [
-                    {code: Items.Mithril, quantity: 8},
-                    {code: Items.GoblinTooth, quantity: 5},
-                    {code: Items.WolfriderHair, quantity: 4},
-                    {code: Items.BrokenSword, quantity: 1},
-                    {code: Items.AstralyteCrystal, quantity: 2},
-                ]);
-            case Items.BowfromHell:
-                return RecipeFactory.weaponcrafting(40, [
-                    {code: Items.MagicalPlank, quantity: 8},
-                    {code: Items.EfreetCloth, quantity: 3},
-                    {code: Items.DemonHorn, quantity: 3},
-                    {code: Items.BookfromHell, quantity: 1},
-                    {code: Items.DemoniacDust, quantity: 4},
-                ]);
-            case Items.DemoniacDagger:
-                return RecipeFactory.weaponcrafting(40, [
-                    {code: Items.Strangold, quantity: 8},
-                    {code: Items.EfreetCloth, quantity: 3},
-                    {code: Items.Obsidian, quantity: 4},
-                    {code: Items.BookfromHell, quantity: 1},
-                    {code: Items.CursedBook, quantity: 4},
-                ]);
-            case Items.HellStaff:
-                return RecipeFactory.weaponcrafting(40, [
-                    {code: Items.CursedPlank, quantity: 8},
-                    {code: Items.EfreetCloth, quantity: 3},
-                    {code: Items.Obsidian, quantity: 4},
-                    {code: Items.BookfromHell, quantity: 1},
-                    {code: Items.DemoniacDust, quantity: 4},
-                ]);
-            case Items.LightningSword:
-                return RecipeFactory.weaponcrafting(40, [
-                    {code: Items.MaplePlank, quantity: 7},
-                    {code: Items.GoblinEye, quantity: 5},
-                    {code: Items.HellhoundHair, quantity: 4},
-                    {code: Items.BrokenSword, quantity: 1},
-                    {code: Items.MagicalCure, quantity: 3},
-                ]);
-            case Items.MithrilSword:
-                return RecipeFactory.weaponcrafting(40, [
-                    {code: Items.Mithril, quantity: 7},
-                    {code: Items.MagicStone, quantity: 3},
-                    {code: Items.BatWing, quantity: 4},
-                    {code: Items.WolfriderHair, quantity: 3},
-                    {code: Items.BrokenSword, quantity: 1},
-                    {code: Items.AstralyteCrystal, quantity: 2},
-                ]);
-            case Items.Wrathsword:
-                return RecipeFactory.weaponcrafting(40, [
-                    {code: Items.Mithril, quantity: 7},
-                    {code: Items.OrcSkin, quantity: 5},
-                    {code: Items.BatWing, quantity: 4},
-                    {code: Items.BrokenSword, quantity: 1},
-                    {code: Items.MagicalCure, quantity: 3},
-                ]);
-
             // GEARCRAFTING
             case Items.CopperBoots:
                 return RecipeFactory.gearcrafting(1, [
@@ -1450,71 +1014,6 @@ export class Recipes {
                     {code: Items.AstralyteCrystal, quantity: 2},
                 ]);
 
-            // COOKING
-            case Items.CookedChicken:
-                return RecipeFactory.cooking(1, [
-                    {code: Items.RawChicken, quantity: 1},
-                ]);
-            case Items.CookedGudgeon:
-                return RecipeFactory.cooking(1, [
-                    {code: Items.Gudgeon, quantity: 1},
-                ]);
-            case Items.CookedBeef:
-                return RecipeFactory.cooking(5, [
-                    {code: Items.RawBeef, quantity: 1},
-                ]);
-            case Items.FriedEggs:
-                return RecipeFactory.cooking(5, [
-                    {code: Items.Egg, quantity: 2},
-                ]);
-            case Items.Cheese:
-                return RecipeFactory.cooking(10, [
-                    {code: Items.MilkBucket, quantity: 1},
-                ]);
-            case Items.CookedShrimp:
-                return RecipeFactory.cooking(10, [
-                    {code: Items.Shrimp, quantity: 1},
-                ]);
-            case Items.CookedWolfMeat:
-                return RecipeFactory.cooking(15, [
-                    {code: Items.RawWolfMeat, quantity: 1},
-                ]);
-            case Items.MushroomSoup:
-                return RecipeFactory.cooking(15, [
-                    {code: Items.Mushroom, quantity: 2},
-                ]);
-            case Items.ApplePie:
-                return RecipeFactory.cooking(20, [
-                    {code: Items.Apple, quantity: 2},
-                    {code: Items.Egg, quantity: 1},
-                ]);
-            case Items.CookedTrout:
-                return RecipeFactory.cooking(20, [
-                    {code: Items.Trout, quantity: 1},
-                ]);
-            case Items.CookedBass:
-                return RecipeFactory.cooking(30, [
-                    {code: Items.Bass, quantity: 1},
-                ]);
-            case Items.CookedHellhoundMeat:
-                return RecipeFactory.cooking(40, [
-                    {code: Items.RawHellhoundMeat, quantity: 1},
-                ]);
-            case Items.CookedSalmon:
-                return RecipeFactory.cooking(40, [
-                    {code: Items.Salmon, quantity: 1},
-                ]);
-            case Items.FishSoup:
-                return RecipeFactory.cooking(40, [
-                    {code: Items.MilkBucket, quantity: 1},
-                    {code: Items.Salmon, quantity: 1},
-                    {code: Items.Trout, quantity: 1},
-                ]);
-            case Items.MapleSyrup:
-                return RecipeFactory.cooking(40, [
-                    {code: Items.MapleSap, quantity: 2},
-                ]);
-
             // ALCHEMY
             case Items.SmallHealthPotion:
                 return RecipeFactory.alchemy(5, [
@@ -1614,6 +1113,505 @@ export class Recipes {
                     {code: Items.BlueSlimeball, quantity: 2},
                     {code: Items.MapleSap, quantity: 1},
                     {code: Items.GlowstemLeaf, quantity: 1},
+                ]);
+
+            // COOKING
+            case Items.CookedChicken:
+                return RecipeFactory.cooking(1, [
+                    {code: Items.RawChicken, quantity: 1},
+                ]);
+            case Items.CookedGudgeon:
+                return RecipeFactory.cooking(1, [
+                    {code: Items.Gudgeon, quantity: 1},
+                ]);
+            case Items.CookedBeef:
+                return RecipeFactory.cooking(5, [
+                    {code: Items.RawBeef, quantity: 1},
+                ]);
+            case Items.FriedEggs:
+                return RecipeFactory.cooking(5, [
+                    {code: Items.Egg, quantity: 2},
+                ]);
+            case Items.Cheese:
+                return RecipeFactory.cooking(10, [
+                    {code: Items.MilkBucket, quantity: 1},
+                ]);
+            case Items.CookedShrimp:
+                return RecipeFactory.cooking(10, [
+                    {code: Items.Shrimp, quantity: 1},
+                ]);
+            case Items.CookedWolfMeat:
+                return RecipeFactory.cooking(15, [
+                    {code: Items.RawWolfMeat, quantity: 1},
+                ]);
+            case Items.MushroomSoup:
+                return RecipeFactory.cooking(15, [
+                    {code: Items.Mushroom, quantity: 2},
+                ]);
+            case Items.ApplePie:
+                return RecipeFactory.cooking(20, [
+                    {code: Items.Apple, quantity: 2},
+                    {code: Items.Egg, quantity: 1},
+                ]);
+            case Items.CookedTrout:
+                return RecipeFactory.cooking(20, [
+                    {code: Items.Trout, quantity: 1},
+                ]);
+            case Items.CookedBass:
+                return RecipeFactory.cooking(30, [
+                    {code: Items.Bass, quantity: 1},
+                ]);
+            case Items.CookedHellhoundMeat:
+                return RecipeFactory.cooking(40, [
+                    {code: Items.RawHellhoundMeat, quantity: 1},
+                ]);
+            case Items.CookedSalmon:
+                return RecipeFactory.cooking(40, [
+                    {code: Items.Salmon, quantity: 1},
+                ]);
+            case Items.FishSoup:
+                return RecipeFactory.cooking(40, [
+                    {code: Items.MilkBucket, quantity: 1},
+                    {code: Items.Salmon, quantity: 1},
+                    {code: Items.Trout, quantity: 1},
+                ]);
+            case Items.MapleSyrup:
+                return RecipeFactory.cooking(40, [
+                    {code: Items.MapleSap, quantity: 2},
+                ]);
+
+            // WOODCUTTING
+            case Items.AshPlank:
+                return RecipeFactory.woodcutting(1, [
+                    {code: Items.AshWood, quantity: 10},
+                ]);
+            case Items.SprucePlank:
+                return RecipeFactory.woodcutting(10, [
+                    {code: Items.SpruceWood, quantity: 10},
+                ]);
+            case Items.HardwoodPlank:
+                return RecipeFactory.woodcutting(20, [
+                    {code: Items.AshWood, quantity: 4},
+                    {code: Items.BirchWood, quantity: 6},
+                ]);
+            case Items.DeadWoodPlank:
+                return RecipeFactory.woodcutting(30, [
+                    {code: Items.DeadWood, quantity: 10},
+                ]);
+            case Items.Sap:
+                return RecipeFactory.woodcutting(30, [
+                    {code: Items.AshWood, quantity: 5},
+                    {code: Items.SpruceWood, quantity: 5},
+                    {code: Items.DeadWood, quantity: 5},
+                ]);
+            case Items.CursedPlank:
+                return RecipeFactory.woodcutting(35, [
+                    {code: Items.CursedWood, quantity: 10},
+                ]);
+            case Items.MagicSap:
+                return RecipeFactory.woodcutting(35, [
+                    {code: Items.MagicWood, quantity: 15},
+                ]);
+            case Items.MagicalPlank:
+                return RecipeFactory.woodcutting(35, [
+                    {code: Items.DeadWood, quantity: 4},
+                    {code: Items.MagicWood, quantity: 6},
+                ]);
+            case Items.MaplePlank:
+                return RecipeFactory.woodcutting(40, [
+                    {code: Items.MapleWood, quantity: 10},
+                ]);
+            case Items.MapleSap:
+                return RecipeFactory.woodcutting(40, [
+                    {code: Items.MapleWood, quantity: 15},
+                ]);
+
+            // WEAPONCRAFTING
+            case Items.CopperDagger:
+                return RecipeFactory.weaponcrafting(1, [
+                    {code: Items.Copper, quantity: 6},
+                ]);
+            case Items.WoodenStaff:
+                return RecipeFactory.weaponcrafting(1, [
+                    {code: Items.WoodenStick, quantity: 1},
+                    {code: Items.AshWood, quantity: 4},
+                ]);
+            case Items.FireStaff:
+                return RecipeFactory.weaponcrafting(5, [
+                    {code: Items.RedSlimeball, quantity: 2},
+                    {code: Items.AshPlank, quantity: 5},
+                ]);
+            case Items.StickyDagger:
+                return RecipeFactory.weaponcrafting(5, [
+                    {code: Items.Copper, quantity: 5},
+                    {code: Items.GreenSlimeball, quantity: 2},
+                ]);
+            case Items.StickySword:
+                return RecipeFactory.weaponcrafting(5, [
+                    {code: Items.YellowSlimeball, quantity: 2},
+                    {code: Items.Copper, quantity: 5},
+                ]);
+            case Items.WaterBow:
+                return RecipeFactory.weaponcrafting(5, [
+                    {code: Items.BlueSlimeball, quantity: 2},
+                    {code: Items.AshPlank, quantity: 5},
+                ]);
+            case Items.FireBow:
+                return RecipeFactory.weaponcrafting(10, [
+                    {code: Items.SprucePlank, quantity: 6},
+                    {code: Items.RedSlimeball, quantity: 2},
+                ]);
+            case Items.GreaterWoodenStaff:
+                return RecipeFactory.weaponcrafting(10, [
+                    {code: Items.SprucePlank, quantity: 6},
+                    {code: Items.BlueSlimeball, quantity: 2},
+                ]);
+            case Items.IronAxe:
+                return RecipeFactory.weaponcrafting(10, [
+                    {code: Items.SprucePlank, quantity: 2},
+                    {code: Items.Iron, quantity: 8},
+                    {code: Items.JasperCrystal, quantity: 1},
+                ]);
+            case Items.IronDagger:
+                return RecipeFactory.weaponcrafting(10, [
+                    {code: Items.Iron, quantity: 6},
+                    {code: Items.Feather, quantity: 2},
+                ]);
+            case Items.IronPickaxe:
+                return RecipeFactory.weaponcrafting(10, [
+                    {code: Items.SprucePlank, quantity: 2},
+                    {code: Items.Iron, quantity: 8},
+                    {code: Items.JasperCrystal, quantity: 1},
+                ]);
+            case Items.IronSword:
+                return RecipeFactory.weaponcrafting(10, [
+                    {code: Items.Iron, quantity: 6},
+                    {code: Items.Feather, quantity: 2},
+                ]);
+            case Items.LeatherGloves:
+                return RecipeFactory.weaponcrafting(10, [
+                    {code: Items.AshPlank, quantity: 2},
+                    {code: Items.Cowhide, quantity: 8},
+                    {code: Items.JasperCrystal, quantity: 1},
+                ]);
+            case Items.SpruceFishingRod:
+                return RecipeFactory.weaponcrafting(10, [
+                    {code: Items.SprucePlank, quantity: 8},
+                    {code: Items.Iron, quantity: 2},
+                    {code: Items.JasperCrystal, quantity: 1},
+                ]);
+            case Items.MultislimesSword:
+                return RecipeFactory.weaponcrafting(15, [
+                    {code: Items.Iron, quantity: 5},
+                    {code: Items.RedSlimeball, quantity: 2},
+                    {code: Items.BlueSlimeball, quantity: 2},
+                    {code: Items.YellowSlimeball, quantity: 2},
+                    {code: Items.GreenSlimeball, quantity: 2},
+                    {code: Items.JasperCrystal, quantity: 1},
+                ]);
+            case Items.MushmushBow:
+                return RecipeFactory.weaponcrafting(15, [
+                    {code: Items.SprucePlank, quantity: 5},
+                    {code: Items.Wolfhair, quantity: 2},
+                    {code: Items.Mushroom, quantity: 4},
+                    {code: Items.JasperCrystal, quantity: 1},
+                ]);
+            case Items.Mushstaff:
+                return RecipeFactory.weaponcrafting(15, [
+                    {code: Items.SprucePlank, quantity: 5},
+                    {code: Items.Mushroom, quantity: 4},
+                    {code: Items.GreenCloth, quantity: 2},
+                    {code: Items.JasperCrystal, quantity: 1},
+                ]);
+            case Items.Battlestaff:
+                return RecipeFactory.weaponcrafting(20, [
+                    {code: Items.HardwoodPlank, quantity: 6},
+                    {code: Items.Steel, quantity: 4},
+                    {code: Items.WolfBone, quantity: 3},
+                    {code: Items.BlueSlimeball, quantity: 5},
+                ]);
+            case Items.ForestWhip:
+                return RecipeFactory.weaponcrafting(20, [
+                    {code: Items.GreenSlimeball, quantity: 2},
+                    {code: Items.Wolfhair, quantity: 5},
+                    {code: Items.OgreEye, quantity: 4},
+                    {code: Items.HardwoodPlank, quantity: 4},
+                ]);
+            case Items.HuntingBow:
+                return RecipeFactory.weaponcrafting(20, [
+                    {code: Items.HardwoodPlank, quantity: 5},
+                    {code: Items.GreenCloth, quantity: 4},
+                    {code: Items.OgreSkin, quantity: 3},
+                    {code: Items.PigSkin, quantity: 3},
+                ]);
+            case Items.SkullStaff:
+                return RecipeFactory.weaponcrafting(20, [
+                    {code: Items.SkeletonSkull, quantity: 1},
+                    {code: Items.SkeletonBone, quantity: 4},
+                    {code: Items.Steel, quantity: 5},
+                    {code: Items.HardwoodPlank, quantity: 5},
+                ]);
+            case Items.SteelBattleaxe:
+                return RecipeFactory.weaponcrafting(20, [
+                    {code: Items.Steel, quantity: 4},
+                    {code: Items.HardwoodPlank, quantity: 4},
+                    {code: Items.SkeletonBone, quantity: 4},
+                    {code: Items.Wolfhair, quantity: 4},
+                ]);
+            case Items.DreadfulStaff:
+                return RecipeFactory.weaponcrafting(25, [
+                    {code: Items.CyclopsEye, quantity: 4},
+                    {code: Items.VampireBlood, quantity: 5},
+                    {code: Items.HardwoodPlank, quantity: 6},
+                    {code: Items.JasperCrystal, quantity: 1},
+                ]);
+            case Items.SkullWand:
+                return RecipeFactory.weaponcrafting(25, [
+                    {code: Items.HardwoodPlank, quantity: 4},
+                    {code: Items.SkeletonSkull, quantity: 3},
+                    {code: Items.VampireTooth, quantity: 2},
+                    {code: Items.SpiderLeg, quantity: 3},
+                    {code: Items.JasperCrystal, quantity: 1},
+                ]);
+            case Items.VampireBow:
+                return RecipeFactory.weaponcrafting(25, [
+                    {code: Items.Steel, quantity: 4},
+                    {code: Items.VampireBlood, quantity: 4},
+                    {code: Items.SpiderLeg, quantity: 4},
+                    {code: Items.LizardEye, quantity: 2},
+                    {code: Items.MagicalCure, quantity: 1},
+                ]);
+            case Items.ElderwoodStaff:
+                return RecipeFactory.weaponcrafting(30, [
+                    {code: Items.DeadWoodPlank, quantity: 5},
+                    {code: Items.LizardSkin, quantity: 4},
+                    {code: Items.CyclopsEye, quantity: 5},
+                    {code: Items.RedCloth, quantity: 3},
+                    {code: Items.SkeletonSkull, quantity: 3},
+                ]);
+            case Items.EnchantedBow:
+                return RecipeFactory.weaponcrafting(30, [
+                    {code: Items.Gold, quantity: 8},
+                    {code: Items.SpiderLeg, quantity: 3},
+                    {code: Items.DemonHorn, quantity: 2},
+                    {code: Items.OgreEye, quantity: 4},
+                    {code: Items.RedCloth, quantity: 3},
+                ]);
+            case Items.GoldAxe:
+                return RecipeFactory.weaponcrafting(30, [
+                    {code: Items.DeadWoodPlank, quantity: 2},
+                    {code: Items.Gold, quantity: 7},
+                    {code: Items.Ruby, quantity: 1},
+                    {code: Items.MagicalCure, quantity: 2},
+                    {code: Items.RedCloth, quantity: 3},
+                ]);
+            case Items.GoldFishingRod:
+                return RecipeFactory.weaponcrafting(30, [
+                    {code: Items.DeadWoodPlank, quantity: 2},
+                    {code: Items.Gold, quantity: 7},
+                    {code: Items.Sapphire, quantity: 1},
+                    {code: Items.MagicalCure, quantity: 2},
+                    {code: Items.OwlbearClaw, quantity: 3},
+                ]);
+            case Items.GoldPickaxe:
+                return RecipeFactory.weaponcrafting(30, [
+                    {code: Items.DeadWoodPlank, quantity: 2},
+                    {code: Items.Gold, quantity: 7},
+                    {code: Items.Topaz, quantity: 1},
+                    {code: Items.MagicalCure, quantity: 2},
+                    {code: Items.DemonHorn, quantity: 2},
+                ]);
+            case Items.GoldSword:
+                return RecipeFactory.weaponcrafting(30, [
+                    {code: Items.Gold, quantity: 8},
+                    {code: Items.VampireBlood, quantity: 4},
+                    {code: Items.RedCloth, quantity: 3},
+                    {code: Items.DemonHorn, quantity: 2},
+                    {code: Items.DeadWoodPlank, quantity: 3},
+                ]);
+            case Items.GoldenGloves:
+                return RecipeFactory.weaponcrafting(30, [
+                    {code: Items.DeadWoodPlank, quantity: 7},
+                    {code: Items.Obsidian, quantity: 2},
+                    {code: Items.Emerald, quantity: 1},
+                    {code: Items.MagicalCure, quantity: 2},
+                    {code: Items.DemoniacDust, quantity: 3},
+                ]);
+            case Items.GreaterDreadfulStaff:
+                return RecipeFactory.weaponcrafting(30, [
+                    {code: Items.DeadWoodPlank, quantity: 5},
+                    {code: Items.DreadfulStaff, quantity: 1},
+                    {code: Items.OgreEye, quantity: 4},
+                    {code: Items.CyclopsEye, quantity: 5},
+                    {code: Items.RedCloth, quantity: 3},
+                ]);
+            case Items.ObsidianBattleaxe:
+                return RecipeFactory.weaponcrafting(30, [
+                    {code: Items.Obsidian, quantity: 7},
+                    {code: Items.DeadWoodPlank, quantity: 4},
+                    {code: Items.LizardSkin, quantity: 3},
+                    {code: Items.CyclopsEye, quantity: 3},
+                    {code: Items.DemoniacDust, quantity: 3},
+                ]);
+            case Items.CursedSceptre:
+                return RecipeFactory.weaponcrafting(35, [
+                    {code: Items.MagicalPlank, quantity: 8},
+                    {code: Items.CursedBook, quantity: 3},
+                    {code: Items.MagicStone, quantity: 3},
+                    {code: Items.MaleficCloth, quantity: 3},
+                    {code: Items.Diamond, quantity: 1},
+                    {code: Items.MagicalCure, quantity: 2},
+                ]);
+            case Items.DiamondSword:
+                return RecipeFactory.weaponcrafting(35, [
+                    {code: Items.MagicalPlank, quantity: 7},
+                    {code: Items.GoblinEye, quantity: 3},
+                    {code: Items.SpiderLeg, quantity: 3},
+                    {code: Items.MagicStone, quantity: 3},
+                    {code: Items.Diamond, quantity: 1},
+                    {code: Items.MagicalCure, quantity: 2},
+                ]);
+            case Items.DreadfulBattleaxe:
+                return RecipeFactory.weaponcrafting(35, [
+                    {code: Items.MagicalPlank, quantity: 7},
+                    {code: Items.LizardEye, quantity: 4},
+                    {code: Items.GoblinEye, quantity: 3},
+                    {code: Items.GoblinTooth, quantity: 3},
+                    {code: Items.JasperCrystal, quantity: 3},
+                ]);
+            case Items.MagicBow:
+                return RecipeFactory.weaponcrafting(35, [
+                    {code: Items.MagicalPlank, quantity: 7},
+                    {code: Items.MagicStone, quantity: 3},
+                    {code: Items.LizardSkin, quantity: 3},
+                    {code: Items.Wolfhair, quantity: 3},
+                    {code: Items.Sapphire, quantity: 1},
+                    {code: Items.MagicalCure, quantity: 2},
+                ]);
+            case Items.StrangoldSword:
+                return RecipeFactory.weaponcrafting(35, [
+                    {code: Items.Strangold, quantity: 7},
+                    {code: Items.GoblinTooth, quantity: 3},
+                    {code: Items.DemoniacDust, quantity: 3},
+                    {code: Items.MagicStone, quantity: 4},
+                    {code: Items.MagicalCure, quantity: 2},
+                ]);
+            case Items.BladeofHell:
+                return RecipeFactory.weaponcrafting(40, [
+                    {code: Items.Strangold, quantity: 9},
+                    {code: Items.EfreetCloth, quantity: 3},
+                    {code: Items.BrokenSword, quantity: 1},
+                    {code: Items.BookfromHell, quantity: 1},
+                    {code: Items.OrcSkin, quantity: 6},
+                ]);
+            case Items.Bloodblade:
+                return RecipeFactory.weaponcrafting(40, [
+                    {code: Items.Mithril, quantity: 8},
+                    {code: Items.GoblinTooth, quantity: 5},
+                    {code: Items.WolfriderHair, quantity: 4},
+                    {code: Items.BrokenSword, quantity: 1},
+                    {code: Items.AstralyteCrystal, quantity: 2},
+                ]);
+            case Items.BowfromHell:
+                return RecipeFactory.weaponcrafting(40, [
+                    {code: Items.MagicalPlank, quantity: 8},
+                    {code: Items.EfreetCloth, quantity: 3},
+                    {code: Items.DemonHorn, quantity: 3},
+                    {code: Items.BookfromHell, quantity: 1},
+                    {code: Items.DemoniacDust, quantity: 4},
+                ]);
+            case Items.DemoniacDagger:
+                return RecipeFactory.weaponcrafting(40, [
+                    {code: Items.Strangold, quantity: 8},
+                    {code: Items.EfreetCloth, quantity: 3},
+                    {code: Items.Obsidian, quantity: 4},
+                    {code: Items.BookfromHell, quantity: 1},
+                    {code: Items.CursedBook, quantity: 4},
+                ]);
+            case Items.HellStaff:
+                return RecipeFactory.weaponcrafting(40, [
+                    {code: Items.CursedPlank, quantity: 8},
+                    {code: Items.EfreetCloth, quantity: 3},
+                    {code: Items.Obsidian, quantity: 4},
+                    {code: Items.BookfromHell, quantity: 1},
+                    {code: Items.DemoniacDust, quantity: 4},
+                ]);
+            case Items.LightningSword:
+                return RecipeFactory.weaponcrafting(40, [
+                    {code: Items.MaplePlank, quantity: 7},
+                    {code: Items.GoblinEye, quantity: 5},
+                    {code: Items.HellhoundHair, quantity: 4},
+                    {code: Items.BrokenSword, quantity: 1},
+                    {code: Items.MagicalCure, quantity: 3},
+                ]);
+            case Items.MithrilSword:
+                return RecipeFactory.weaponcrafting(40, [
+                    {code: Items.Mithril, quantity: 7},
+                    {code: Items.MagicStone, quantity: 3},
+                    {code: Items.BatWing, quantity: 4},
+                    {code: Items.WolfriderHair, quantity: 3},
+                    {code: Items.BrokenSword, quantity: 1},
+                    {code: Items.AstralyteCrystal, quantity: 2},
+                ]);
+            case Items.Wrathsword:
+                return RecipeFactory.weaponcrafting(40, [
+                    {code: Items.Mithril, quantity: 7},
+                    {code: Items.OrcSkin, quantity: 5},
+                    {code: Items.BatWing, quantity: 4},
+                    {code: Items.BrokenSword, quantity: 1},
+                    {code: Items.MagicalCure, quantity: 3},
+                ]);
+
+            // MINING
+            case Items.Copper:
+                return RecipeFactory.mining(1, [
+                    {code: Items.CopperOre, quantity: 10},
+                ]);
+            case Items.Iron:
+                return RecipeFactory.mining(10, [
+                    {code: Items.IronOre, quantity: 10},
+                ]);
+            case Items.Emerald:
+                return RecipeFactory.mining(20, [
+                    {code: Items.EmeraldStone, quantity: 10},
+                ]);
+            case Items.Ruby:
+                return RecipeFactory.mining(20, [
+                    {code: Items.RubyStone, quantity: 10},
+                ]);
+            case Items.Sapphire:
+                return RecipeFactory.mining(20, [
+                    {code: Items.SapphireStone, quantity: 10},
+                ]);
+            case Items.Steel:
+                return RecipeFactory.mining(20, [
+                    {code: Items.IronOre, quantity: 3},
+                    {code: Items.Coal, quantity: 7},
+                ]);
+            case Items.Topaz:
+                return RecipeFactory.mining(20, [
+                    {code: Items.TopazStone, quantity: 10},
+                ]);
+            case Items.Gold:
+                return RecipeFactory.mining(30, [
+                    {code: Items.GoldOre, quantity: 10},
+                ]);
+            case Items.Obsidian:
+                return RecipeFactory.mining(30, [
+                    {code: Items.PieceofObsidian, quantity: 4},
+                ]);
+            case Items.Diamond:
+                return RecipeFactory.mining(35, [
+                    {code: Items.DiamondStone, quantity: 10},
+                ]);
+            case Items.Strangold:
+                return RecipeFactory.mining(35, [
+                    {code: Items.GoldOre, quantity: 4},
+                    {code: Items.StrangeOre, quantity: 6},
+                ]);
+            case Items.Mithril:
+                return RecipeFactory.mining(40, [
+                    {code: Items.MithrilOre, quantity: 10},
                 ]);
 
 

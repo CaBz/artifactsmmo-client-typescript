@@ -2,6 +2,17 @@ import {Coordinates} from "../lexical/MapCoordinates.js";
 
 export class MapTile {
     constructor(private readonly data: any) {
+        /*
+        {
+            "name": "string",
+            "skin": "string",
+            "x": 0,
+            "y": 0,
+            "content": {
+                "type": "string",
+                "code": "string"
+        }
+        */
     }
 
     get name() {

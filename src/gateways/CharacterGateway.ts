@@ -1,6 +1,14 @@
 import {ArtifactsClient} from "./ArtifactsClient.js";
 import {Character} from "../entities/Character.js";
 import * as Utils from "../Utils.js";
+import {Cooldown} from "../entities/Cooldown.js";
+import {MapTile} from "../entities/MapTile.js";
+import {Item} from "../entities/Item.js";
+import {Fight} from "../entities/Fight.js";
+import {SkillInfo} from "../entities/SkillInfo.js";
+import {RecyclingInfo} from "../entities/RecyclingInfo.js";
+import {Task} from "../entities/Task.js";
+import {TaskRewards} from "../entities/TaskRewards.js";
 
 export class CharacterGateway {
     constructor(private readonly client: ArtifactsClient, private readonly character: string) {
@@ -21,45 +29,24 @@ export class CharacterGateway {
         const character = new Character(result.character);
 
         return {
-            ...result,
+            cooldown: new Cooldown(result.cooldown),
+            destination: new MapTile(result.destination),
             character,
         }
     }
 
-    async gather() {
-        const result = await this.client.gather(this.character);
+    async rest() {
+        const result = await this.client.rest(this.character);
         const character = new Character(result.character);
+        const cooldown = new Cooldown(result.cooldown);
 
-        character.logToConsole(['status', 'skills', 'inventory']);
+        character.logToConsole(['status']);
 
         return {
-            ...result,
+            cooldown,
+            hpRestored: result.hpRestored,
             character,
-        }
-    }
-
-    async craft(item: string, quantity: number) {
-        const result = await this.client.craft(this.character, item, quantity);
-        const character = new Character(result.character);
-
-        character.logToConsole(['status', 'skills', 'inventory']);
-
-        return {
-            ...result,
-            character,
-        }
-    }
-
-    async recycle(item: string, quantity: number) {
-        const result = await this.client.recycle(this.character, item, quantity);
-        const character = new Character(result.character);
-
-        character.logToConsole(['status', 'inventory']);
-
-        return {
-            ...result,
-            character,
-        }
+        };
     }
 
     async equip(item: string, quantity: number, slot: string) {
@@ -69,7 +56,9 @@ export class CharacterGateway {
         character.logToConsole(['status', 'gear', 'inventory']);
 
         return {
-            ...result,
+            cooldown: new Cooldown(result.cooldown),
+            slot: result.slot,
+            item: new Item(result.item),
             character,
         }
     }
@@ -81,24 +70,30 @@ export class CharacterGateway {
         character.logToConsole(['status', 'gear', 'inventory']);
 
         return {
-            ...result,
+            cooldown: new Cooldown(result.cooldown),
+            slot: result.slot,
+            item: new Item(result.item),
             character,
         }
     }
 
-    async rest() {
-        const result = await this.client.rest(this.character);
+    async use(item: string, quantity: number) {
+        const result = await this.client.use(this.character, item, quantity);
         const character = new Character(result.character);
 
-        character.logToConsole(['status']);
+        character.logToConsole(['status', 'inventory']);
 
-        return {...result, character};
+        return {
+            cooldown: new Cooldown(result.cooldown),
+            item: new Item(result.item),
+            character,
+        }
     }
 
     async fight() {
         const result = await this.client.fight(this.character);
         const character = new Character(result.character);
-        const fight = result.fight;
+        const fight = new Fight(result.fight);
 
         Utils.errorHeadline(`RESULT > ${fight.result} x${fight.turns}`);
         if (fight.result !== 'win')
@@ -114,23 +109,99 @@ export class CharacterGateway {
 
         character.logToConsole(['status', 'inventory']);
 
-        return result;
+        return {
+            cooldown: new Cooldown(result.cooldown),
+            fight,
+            character,
+        };
+    }
+
+    async gather() {
+        const result = await this.client.gather(this.character);
+        const character = new Character(result.character);
+        const details = new SkillInfo(result.details);
+
+        character.logToConsole(['status', 'skills', 'inventory']);
+        details.logToConsole();
+
+        return {
+            cooldown: new Cooldown(result.cooldown),
+            details,
+            character,
+        }
+    }
+
+    async craft(item: string, quantity: number) {
+        const result = await this.client.craft(this.character, item, quantity);
+        const character = new Character(result.character);
+        const details = new SkillInfo(result.details);
+
+        character.logToConsole(['status', 'skills', 'inventory']);
+        details.logToConsole();
+
+        return {
+            cooldown: new Cooldown(result.cooldown),
+            details,
+            character,
+        }
+    }
+
+    async recycle(item: string, quantity: number) {
+        const result = await this.client.recycle(this.character, item, quantity);
+        const character = new Character(result.character);
+        const details = new RecyclingInfo(result.details);
+
+        character.logToConsole(['status', 'inventory']);
+        details.logToConsole();
+
+        return {
+            cooldown: new Cooldown(result.cooldown),
+            details,
+            character,
+        }
+    }
+
+    // BANK ACTIONS
+    async bankDepositGold(quantity: number) {
+        const result = await this.client.bankDepositGold(this.character, quantity);
+
+        return {
+            cooldown: new Cooldown(result.cooldown),
+            bankGold: result.bank.quantity,
+            character: new Character(result),
+        };
     }
 
     async bankDeposit(item: string, quantity: number) {
         const result = await this.client.bankDepositItem(this.character, item, quantity);
 
-        //console.log(result);
-
-        return result;
+        return {
+            cooldown: new Cooldown(result.cooldown),
+            item: new Item(result.item),
+            bank: result.bank, // SimpleItemschema
+            character: new Character(result),
+        };
     }
 
     async bankWithdraw(item: string, quantity: number) {
         const result = await this.client.bankWithdrawItem(this.character, item, quantity);
 
-        //console.log(result);
+        return {
+            cooldown: new Cooldown(result.cooldown),
+            item: new Item(result.item),
+            bank: result.bank, // SimpleItemschema
+            character: new Character(result),
+        };
+    }
 
-        return result;
+    async bankWithdrawGold(quantity: number) {
+        const result = await this.client.bankWithdrawGold(this.character, quantity);
+
+        return {
+            cooldown: new Cooldown(result.cooldown),
+            bankGold: result.bank.quantity,
+            character: new Character(result),
+        };
     }
 
     async taskGet() {
@@ -138,10 +209,9 @@ export class CharacterGateway {
         const character = new Character(result.character);
         character.logToConsole(['status', 'inventory', 'task']);
 
-        //console.log(result);
-
         return {
-            ...result,
+            cooldown: new Cooldown(result.cooldown),
+            task: new Task(result.task),
             character,
         }
     }
@@ -149,12 +219,15 @@ export class CharacterGateway {
     async taskExchange() {
         const result = await this.client.taskExchange(this.character);
         const character = new Character(result.character);
-        character.logToConsole(['status', 'inventory']);
+        const rewards = new TaskRewards(result.rewards);
 
-        //console.log(result);
+        character.logToConsole(['status', 'inventory']);
+        rewards.logToConsole();
+
         return {
+            cooldown: new Cooldown(result.cooldown),
+            rewards,
             character,
-            ...result,
         };
     }
 
@@ -163,25 +236,26 @@ export class CharacterGateway {
         const character = new Character(result.character);
         character.logToConsole(['inventory', 'task']);
 
-        //console.log(result);
-
         return {
-            ...result,
+            cooldown: new Cooldown(result.cooldown),
+            trade: result.trade,
             character,
-        }
+        };
     }
 
     async taskComplete() {
         const result = await this.client.taskComplete(this.character);
         const character = new Character(result.character);
-        character.logToConsole(['status', 'inventory']);
+        const rewards = new TaskRewards(result.rewards);
 
-        //console.log(result);
+        character.logToConsole(['status', 'inventory']);
+        rewards.logToConsole();
 
         return {
-            ...result,
+            cooldown: new Cooldown(result.cooldown),
+            rewards,
             character,
-        }
+        };
     }
 
     async taskCancel() {
@@ -189,10 +263,8 @@ export class CharacterGateway {
         const character = new Character(result.character);
         character.logToConsole(['status', 'inventory']);
 
-        //console.log(result);
-
         return {
-            ...result,
+            cooldown: new Cooldown(result.cooldown),
             character,
         }
     }
