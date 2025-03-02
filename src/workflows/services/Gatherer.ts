@@ -10,7 +10,11 @@ export class Gatherer {
 
     async gather(loops: number): Promise<void> {
         Utils.logHeadline(`GATHER > ${loops}`);
-        await this.waiter.wait();
+        const character: Character = await this.waiter.wait();
+        if (character.isInventoryFull()) {
+            Utils.errorHeadline('SKIP - Inventory Full')
+            return;
+        }
 
         try {
             await this.characterGateway.gather();

@@ -37,7 +37,7 @@ export class Simulator {
         console.log();
 
         const bank: any = {};
-        (await this.client.getBank(true)).forEach((bankItem: any) => {
+        (await this.client.getBank()).forEach((bankItem: any) => {
             bank[bankItem.code] = bankItem.quantity;
         });
 

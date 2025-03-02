@@ -323,16 +323,19 @@ export class Character {
     }
 
     logTask(): void {
-        Utils.logHeadline(Utils.formatForMiddle('TASK', 34));
-        console.log(Utils.LINE);
-
         const task = this.data.task;
         if (task === '') {
-            Utils.logHeadline('No Tasks');
             return;
         }
 
-        Utils.logHeadline(`Task: ${this.data.task} (${this.data.task_type}) -> ${this.data.task_progress}/${this.data.task_total}`);
+        const remaining = this.data.task_total - this.data.task_progress;
+
+        Utils.logHeadline(Utils.formatForMiddle(`TASK ${this.data.task_progress}/${this.data.task_total}`, 34));
+        console.log(Utils.LINE);
+
+        const taskWord: string = this.data.task_type === 'items' ? 'Give' : 'Kill'
+
+        Utils.logHeadline(`${taskWord}: ${this.data.task} -> ${remaining} left`);
 
         console.log(Utils.LINE);
     }

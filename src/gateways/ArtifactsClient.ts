@@ -70,12 +70,8 @@ export class ArtifactsClient {
         return this.sendRequest('POST', `my/${characterName}/action/${actionName}`, body);
     }
 
-    async getBank(withItems?: any) {
-        if (withItems) {
-            return this.sendRequest('GET', 'my/bank/items?size=100');
-        }
-
-        return this.sendRequest('GET', 'my/bank');
+    async getBank() {
+        return this.getAllOf('my/bank/items')
     }
 
     async bankQuery(code: string) {
