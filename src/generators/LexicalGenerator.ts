@@ -4,6 +4,7 @@ import {Resource} from "../entities/Resource.js";
 import {promises as fs} from "fs";
 import * as Utils from "../Utils.js";
 import {Effect} from "../entities/Effect.js";
+import {Merchant} from "../entities/Merchant.js";
 
 export class LexicalGenerator {
     constructor(
@@ -21,6 +22,7 @@ export class LexicalGenerator {
         await this.generateResources();
         await this.generateEffects();
         await this.generateMaps();
+        await this.generateNpcs();
 
         return;
     }
@@ -234,5 +236,14 @@ export class LexicalGenerator {
                     break;
             }
         }*/
+    }
+
+    private async generateNpcs() {
+        let fileContent = 'export enum Merchants {\n';
+        this.data.npcs.forEach((npc: Merchant) => {
+            fileContent += `    ${npc.nameForEnum} = '${npc.code}',\n`;
+        });
+        fileContent += '}\n';
+        await fs.writeFile(`${this.lexicalFolder}/Merchants.ts`, fileContent, 'utf8');
     }
 }

@@ -1,5 +1,6 @@
 import {EquippableSlot} from "../lexical/EquippableSlot.js";
 import {Effects} from "../lexical/Effects.js";
+import {Items} from "../lexical/Items.js";
 
 export enum ItemType {
     Resource = 'resource',
@@ -37,11 +38,11 @@ export class Item {
         return this.name.replaceAll(/[^a-zA-Z0-9]/g, '');
     }
 
-    get code(): string {
+    get code(): Items {
         return this.data.code;
     }
 
-    get level(): string {
+    get level(): number {
         return this.data.level;
     }
 

@@ -10,34 +10,38 @@ export class ItemUser {
     constructor(private readonly waiter: Waiter, private readonly characterGateway: CharacterGateway) {
     }
 
-    async use(item: Items, quantity: number, condition?: UseItemActionCondition) {
+    async use(item: Items, quantity: number, condition?: UseItemActionCondition): Promise<Character> {
         const realQuantity: number = quantity === -1 ? 1 : quantity;
 
         Utils.logHeadline(`USE > ${item} x${quantity}`);
         const character: Character = await this.waiter.wait();
+
         if (condition === UseItemActionCondition.FullHP && character.isFullHealth()) {
             Utils.errorHeadline(`SKIP - Full Health`);
-            return;
+            return character;
         }
 
         if (character.holdsHowManyOf(item) < realQuantity) {
             Utils.errorHeadline(`SKIP - Does Not Have`);
-            return;
+            return character;
         }
 
         try {
-            await this.characterGateway.use(item, realQuantity);
+            const useResult: any = await this.characterGateway.use(item, realQuantity);
+            return useResult.character;
         } catch (e) {
             if (e instanceof ClientException) {
                 Utils.errorHeadline(`${e.code}: ${e.message}`);
-                return;
+                return character;
             }
 
             Utils.errorHeadline((e as Error).message);
         }
 
         if (quantity === -1) {
-            await this.use(item, quantity);
+            return this.use(item, quantity);
         }
+
+        return character;
     }
 }

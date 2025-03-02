@@ -24,9 +24,7 @@ export class Rester {
             return character;
         }
 
-        // await this.restoreFromConsumables(character);
-
-        // @TODO: Add logic to check inventory for consumables instead of resting - Resting should be last resort
+        await this.restoreFromConsumables(character);
 
         try {
             const result = await this.characterGateway.rest();
@@ -48,16 +46,22 @@ export class Rester {
         const consumables: Item[] = [];
 
         inventory.forEach((inventoryItem: any) => {
-            const item = this.items.get(inventoryItem);
-            if (item?.isConsumable) {
+            const item: Item = this.items.get(inventoryItem)!;
+            if (item?.isConsumable && item.getEffectValueFor(Effects.Heal) > 0) {
                 consumables.push(item);
             }
         });
 
-        consumables.sort((a, b) => a.getEffectValueFor(Effects.Heal) - b.getEffectValueFor(Effects.Heal));
+        if (consumables.length === 0) {
+            return;
+        }
 
-        consumables.forEach((consumable) => {
-            console.log(`${consumable.name} => ${consumable.getEffectValueFor(Effects.Heal)}`)
-        });
+        consumables.sort((a: Item, b: Item) => a.level - b.level);
+
+        const firstConsumable: Item = consumables.shift()!;
+        character = await this.itemUser.use(firstConsumable.code, 1);
+        if (!character.isFullHealth()) {
+            await this.restoreFromConsumables(character);
+        }
     }
 }

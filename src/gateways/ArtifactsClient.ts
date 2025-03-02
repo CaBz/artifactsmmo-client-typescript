@@ -159,14 +159,22 @@ export class ArtifactsClient {
     }
 
     async getNpcItems(code: string) {
-        let response: any;
-        try {
-            response = await this.sendRequest('GET', `npcs/${code}/items`);
-        } catch (e: any) {
-            console.error(`${e.code}: ${e.message}`);
-        }
+        let data: any = await this.sendRequest('GET', `npcs/${code}/items`);
 
-        console.dir(response, { depth: null })
+        const tableHeads = `| ${Utils.formatForMiddle('Item', 20)} | ${Utils.formatForMiddle('Buy', 7)} | ${Utils.formatForMiddle('Sell', 7)} |`;
+        const lineSeparator = `|${'-'.repeat(tableHeads.length - 2)}|`;
+
+        console.log(lineSeparator);
+        console.log(`| ${Utils.formatForMiddle(`${code} items`, tableHeads.length - 4)} |`);
+        console.log(lineSeparator);
+        console.log(tableHeads);
+        console.log(lineSeparator);
+
+        data.forEach((datum: any) => {
+            Utils.logHeadline(`${datum.code.padEnd(20, ' ')} | ${(datum.buy_price || 0).toString().padStart(6, ' ')}g | ${(datum.sell_price || 0).toString().padStart(6, ' ')}g`)
+        });
+
+        console.log(lineSeparator);
     }
 
     async getAllOf(entity: string): Promise<any> {

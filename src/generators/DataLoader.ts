@@ -5,6 +5,7 @@ import {MapTile} from "../entities/MapTile.js";
 import {Monster} from "../entities/Monster.js";
 import {Resource} from "../entities/Resource.js";
 import {Effect} from "../entities/Effect.js";
+import {Merchant} from "../entities/Merchant.js";
 
 export class DataLoader {
     private dataSets: string[] = [
@@ -57,7 +58,7 @@ export class DataLoader {
             monsters: new Map<string, Monster>(),
             maps: [],
             resources: new Map<string, Resource>(),
-            npcs: [],
+            npcs: new Map<string, Merchant>(),
             tasks_list: [],
             tasks_rewards: [],
             events: [],
@@ -89,6 +90,11 @@ export class DataLoader {
         for (let i=0; i<allData.effects.length; i++) {
             const effect = new Effect(allData.effects[i]);
             result.effects.set(effect.code, effect);
+        }
+
+        for (let i=0; i<allData.npcs.length; i++) {
+            const merchant = new Merchant(allData.npcs[i]);
+            result.npcs.set(merchant.code, merchant);
         }
 
         return result;
