@@ -239,11 +239,14 @@ export class LexicalGenerator {
     }
 
     private async generateNpcs() {
+        let allMerchants = '\nexport const AllMerchants: Merchants[] = [\n';
         let fileContent = 'export enum Merchants {\n';
         this.data.npcs.forEach((npc: Merchant) => {
             fileContent += `    ${npc.nameForEnum} = '${npc.code}',\n`;
+            allMerchants += `    Merchants.${npc.nameForEnum},\n`;
         });
-        fileContent += '}\n';
+        allMerchants += '];\n';
+        fileContent += '}\n' + allMerchants;
         await fs.writeFile(`${this.lexicalFolder}/Merchants.ts`, fileContent, 'utf8');
     }
 }

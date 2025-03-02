@@ -5,6 +5,7 @@ import * as Utils from "./Utils.js";
 import {Monsters} from "./lexical/Monsters.js";
 import {EquippableSlot} from "./lexical/EquippableSlot.js";
 import {Recipes} from "./lexical/Recipes.js";
+import {AllMerchants, Merchants} from "./lexical/Merchants.js";
 
 const consoleParams = process.argv;
 consoleParams.shift(); // process name
@@ -114,7 +115,9 @@ async function processCommand(commandName: string) {
             break;
 
         case 'npc-items':
-            await container.client.getNpcItems(consoleParams.shift() || '');
+            AllMerchants.forEach((merchantCode: string) => {
+                container.client.getNpcItems(merchantCode);
+            });
             break;
 
         case 'does-it-hold':
