@@ -52,7 +52,7 @@ export class Banker {
             const character: Character = await this.characterGateway.status();
             const heldItems: number = character.holdsHowManyOf(item);
             if (heldItems >= quantity) {
-                Utils.errorHeadline(`ALREADY HAS ${item} x${heldItems} - SKIP`);
+                Utils.errorHeadline(`SKIP - Already Has`);
                 return;
             }
         }
@@ -90,7 +90,7 @@ export class Banker {
         try {
             const result = await this.client.getBank(withItems);
             result.sort((a: any, b: any) => a.code.localeCompare(b.code));
-            console.dir(result, { depth: null })
+            this.logBankItems(result);
         } catch (e) {
             if (e instanceof ClientException) {
                 Utils.errorHeadline(`${e.code}: ${e.message}`);
@@ -99,5 +99,15 @@ export class Banker {
 
             Utils.errorHeadline((e as Error).message);
         }
+    }
+
+    private logBankItems(bankItems: any[]): void {
+        Utils.logHeadline(`BANK STATUS`);
+
+        // bankItems.forEach((bankItem) => {
+        //     Utils.logHeadline(`${bankItem.code.padEnd(28, ' ')} ${bankItem.quantity.toString().padStart(5, ' ')}`);
+        // });
+
+        console.dir(bankItems, { depth: null });
     }
 }

@@ -20,6 +20,7 @@ import {DataLoader} from "./generators/DataLoader.js";
 import {Simulator} from "./workflows/services/Simulator.js";
 import {Effect} from "./entities/Effect.js";
 import {WorkflowGenerator} from "./workflows/WorkflowGenerator.js";
+import {ItemUser} from "./workflows/services/ItemUser.js";
 
 export class Container {
     static async create(charactName: string): Promise<Container> {
@@ -102,6 +103,7 @@ export class Container {
         this.instances.set('gatherer', new Gatherer(this.waiter, this.characterGateway));
         this.instances.set('crafter', new Crafter(this.waiter, this.characterGateway));
         this.instances.set('equipper', new Equipper(this.waiter, this.characterGateway, this.items));
+        this.instances.set('item-user', new ItemUser(this.waiter, this.characterGateway));
         this.instances.set('banker', new Banker(this.waiter, this.characterGateway, this.client));
         this.instances.set('rester', new Rester(this.waiter, this.characterGateway));
         this.instances.set('fighter', new Fighter(this.waiter, this.characterGateway));
@@ -126,6 +128,10 @@ export class Container {
 
     get equipper(): Equipper {
         return this.instances.get('equipper');
+    }
+
+    get itemUser(): ItemUser {
+        return this.instances.get('item-user');
     }
 
     get banker(): Banker {
@@ -158,6 +164,7 @@ export class Container {
                 this.gatherer,
                 this.crafter,
                 this.equipper,
+                this.itemUser,
                 this.banker,
                 this.rester,
                 this.fighter,

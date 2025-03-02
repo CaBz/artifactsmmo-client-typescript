@@ -24,7 +24,7 @@ export class Equipper {
     async equip(item: Items, quantity: number, slot: EquippableSlot): Promise<void> {
         Utils.logHeadline(`EQUIP > ${item} x${quantity} - ${slot}`);
         if (slot === EquippableSlot.None) {
-            Utils.errorHeadline(`SKIP EQUIP > ${item}`);
+            Utils.errorHeadline(`SKIP - Not Equippable`);
             return;
         }
 
@@ -47,7 +47,7 @@ export class Equipper {
     async unequip(quantity: number, slot: EquippableSlot): Promise<void> {
         Utils.logHeadline(`UNEQUIP > ${slot} x${quantity}`);
         if (slot === EquippableSlot.None) {
-            Utils.errorHeadline(`SKIP EQUIP > ${slot}`);
+            Utils.errorHeadline(`SKIP - Not Unequippable`);
             return;
         }
 

@@ -36,7 +36,7 @@ export class Gatherer {
         const character: Character = await this.characterGateway.status();
         const task = character.getTask();
         if (!task) {
-            Utils.errorHeadline('NO TASKS!');
+            Utils.errorHeadline('SKIP - No Tasks');
             return;
         }
 

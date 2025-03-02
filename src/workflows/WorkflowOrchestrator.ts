@@ -6,7 +6,7 @@ import {Rester} from "./services/Rester.js";
 import {Fighter} from "./services/Fighter.js";
 import {Tasker} from "./services/Tasker.js";
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
-import {Character, EquippableSlot} from "../entities/Character.js";
+import {Character} from "../entities/Character.js";
 import {PointOfInterest, Workstations} from "../lexical/PointOfInterest.js";
 import {Items} from "../lexical/Items.js";
 import * as Utils from "../Utils.js";
@@ -15,6 +15,8 @@ import {Recipes} from "../lexical/Recipes.js";
 import {WorkflowRegister} from "./WorkflowRegister.js";
 import {Equipper} from "./services/Equipper.js";
 import {WorkflowGenerator} from "./WorkflowGenerator.js";
+import {ItemUser} from "./services/ItemUser.js";
+import {EquippableSlot} from "../lexical/EquippableSlot.js";
 
 export enum MoveActionCondition {
     InventoryNotFull = 'inventory-not-full',
@@ -63,6 +65,17 @@ export interface UnequipAction {
     action: Action.Unequip;
     quantity: number;
     slot: EquippableSlot;
+}
+
+export enum UseItemActionCondition {
+    FullHP = 'full-hp',
+}
+
+export interface UseItemAction {
+    action: Action.UseItem;
+    code: Items;
+    quantity: number;
+    condition?: UseItemActionCondition;
 }
 
 export interface BankDepositAllAction {
@@ -130,6 +143,7 @@ export type WorkflowAction =
     | RecycleAction
     | EquipAction
     | UnequipAction
+    | UseItemAction
     | RestAction
     | FightAction
     | GetTaskAction
@@ -149,6 +163,7 @@ export enum Action {
     Recycle = 'recycle',
     Equip = 'equip',
     Unequip = 'unequip',
+    UseItem = 'use-item',
     Rest = 'rest',
     Fight = 'fight',
     GetTask = 'get-task',
@@ -169,6 +184,7 @@ export class WorkflowOrchestrator {
         private readonly gatherer: Gatherer,
         private readonly crafter: Crafter,
         private readonly equipper: Equipper,
+        private readonly itemUser: ItemUser,
         private readonly banker: Banker,
         private readonly rester: Rester,
         private readonly fighter: Fighter,
@@ -282,6 +298,14 @@ export class WorkflowOrchestrator {
                 await this.equipper.unequip(
                     (action as UnequipAction).quantity,
                     (action as UnequipAction).slot,
+                );
+                break;
+
+            case Action.UseItem:
+                await this.itemUser.use(
+                    (action as UseItemAction).code,
+                    (action as UseItemAction).quantity,
+                    (action as UseItemAction).condition,
                 );
                 break;
 

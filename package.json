@@ -13,6 +13,7 @@
     "typescript-eslint": "^8.24.1"
   },
   "scripts": {
-    "console": "node --no-warnings --loader ts-node/esm --env-file=.env src/console.ts"
+    "console": "node --no-warnings --loader ts-node/esm --env-file=.env src/console.ts",
+    "bank": "yarn console Dummy bank-status"
   }
 }

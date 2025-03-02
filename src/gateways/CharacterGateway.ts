@@ -39,12 +39,14 @@ export class CharacterGateway {
         const result = await this.client.rest(this.character);
         const character = new Character(result.character);
         const cooldown = new Cooldown(result.cooldown);
+        const hpRestored: number = result.hp_restored;
 
+        Utils.errorHeadline(`GAINED > +${hpRestored}hp`);
         character.logToConsole(['status']);
 
         return {
             cooldown,
-            hpRestored: result.hpRestored,
+            hpRestored,
             character,
         };
     }

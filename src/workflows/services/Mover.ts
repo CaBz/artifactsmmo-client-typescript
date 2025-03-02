@@ -15,7 +15,7 @@ export class Mover {
         if (condition === MoveActionCondition.InventoryNotFull) {
             const character: Character = await this.characterGateway.status();
             if (character.isInventoryFull()) {
-                Utils.errorHeadline('SKIP MOVING - FULL');
+                Utils.errorHeadline('SKIP - Inventory Full');
                 return;
             }
         }
@@ -30,7 +30,13 @@ export class Mover {
 
     async moveToCoordinates(x: number, y: number, name?: PointOfInterest): Promise<void> {
         Utils.logHeadline(`MOVE x:${x} y:${y} (${name})`);
-        await this.waiter.wait();
+        const character: Character = await this.waiter.wait();
+        const currentCoordinates = character.getCoordinates();
+
+        if (currentCoordinates.x === x && currentCoordinates.y === y) {
+            Utils.errorHeadline('SKIP - Already Here');
+            return;
+        }
 
         try {
             await this.characterGateway.move(x, y);

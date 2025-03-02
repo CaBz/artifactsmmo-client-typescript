@@ -10,7 +10,11 @@ export class Rester {
 
     async rest(): Promise<Character> {
         Utils.logHeadline(`REST`);
-        await this.waiter.wait();
+        const character: Character = await this.waiter.wait();
+        if (character.isFullHealth()) {
+            Utils.errorHeadline(`SKIP - Full Health`);
+            return character;
+        }
 
         // @TODO: Add logic to check inventory for consumables instead of resting - Resting should be last resort
 
@@ -20,12 +24,12 @@ export class Rester {
         } catch (e) {
             if (e instanceof ClientException) {
                 Utils.errorHeadline(`${e.code}: ${e.message}`);
-                return undefined;
+                return character;
             }
 
             Utils.errorHeadline((e as Error).message);
         }
 
-        return undefined;
+        return character;
     }
 }

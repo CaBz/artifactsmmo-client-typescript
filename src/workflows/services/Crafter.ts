@@ -11,13 +11,15 @@ export class Crafter {
     }
 
     async craft(item: Items, quantity: number, condition?: CraftActionConditions): Promise<void> {
-        Utils.logHeadline(`CRAFT > ${item} x${quantity}`);
+        const realQuantity: number = quantity === -1 ? 1 : quantity;
+
+        Utils.logHeadline(`CRAFT > ${item} x${realQuantity}`);
 
         if (condition === CraftActionConditions.DoNotHave) {
             const character: Character = await this.characterGateway.status();
             const heldItems: number = character.holdsHowManyOf(item);
-            if (heldItems >= quantity) {
-                Utils.errorHeadline(`ALREADY HAS ${item} x${heldItems} - SKIP`);
+            if (heldItems >= realQuantity) {
+                Utils.errorHeadline(`SKIP - Already Has`);
                 return;
             }
         }
@@ -25,7 +27,7 @@ export class Crafter {
         await this.waiter.wait();
 
         try {
-            await this.characterGateway.craft(item, quantity === -1 ? 1 : quantity);
+            await this.characterGateway.craft(item, realQuantity);
         } catch (e) {
             if (e instanceof ClientException) {
                 Utils.errorHeadline(`${e.code}: ${e.message}`);

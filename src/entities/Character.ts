@@ -1,6 +1,7 @@
 import {LINE} from "../Utils.js";
 import {Items} from "../lexical/Items.js";
 import {StatEffects} from "../lexical/TypeEffects.js";
+import {Coordinates} from "../lexical/MapCoordinates.js";
 
 export class Character {
     constructor(private readonly data: any) {
@@ -38,12 +39,12 @@ export class Character {
         return this.data.max_hp;
     }
 
-    getHp() {
-        return { hp: this.data.hp, max_hp: this.data.max_hp };
+    isFullHealth() {
+        return this.hp === this.maxHp;
     }
 
-    getXp() {
-        return { level: this.data.level, xp: this.data.xp, max_xp: this.data.max_xp };
+    getCoordinates(): Coordinates {
+        return {x: this.data.x, y: this.data.y };
     }
 
     getInventory() {
