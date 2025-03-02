@@ -70,18 +70,6 @@ export class ArtifactsClient {
         return this.sendRequest('POST', `my/${characterName}/action/${actionName}`, body);
     }
 
-    async getByEntityAndCode(entity: any, code?: any) {
-        let response;
-        try {
-            const path = code ? `${entity}/${code}` : entity;
-            response = await this.sendRequest('GET', path);
-        } catch (e) {
-            console.error(`${e.code}: ${e.message}`);
-        }
-
-        console.dir(response, { depth: null })
-    }
-
     async getBank(withItems?: any) {
         if (withItems) {
             return this.sendRequest('GET', 'my/bank/items?size=100');
@@ -158,8 +146,31 @@ export class ArtifactsClient {
         return map;
     }
 
+    async getByEntityAndCode(entity: any, code?: any) {
+        let response: any;
+        try {
+            const path = code ? `${entity}/${code}` : entity;
+            response = await this.sendRequest('GET', path);
+        } catch (e: any) {
+            console.error(`${e.code}: ${e.message}`);
+        }
+
+        console.dir(response, { depth: null })
+    }
+
+    async getNpcItems(code: string) {
+        let response: any;
+        try {
+            response = await this.sendRequest('GET', `npcs/${code}/items`);
+        } catch (e: any) {
+            console.error(`${e.code}: ${e.message}`);
+        }
+
+        console.dir(response, { depth: null })
+    }
+
     async getAllOf(entity: string): Promise<any> {
-        const result = [];
+        const result: any = [];
 
         console.log(`Fetching ${entity} - page 1/?`);
         let response = await this.sendRequestWithoutData('GET', `${entity}?size=100&page=1`);
@@ -177,13 +188,13 @@ export class ArtifactsClient {
     }
 
     private async sendRequest(method: string, path: string | undefined, body?: any) {
-        const result = await this.sendRequestWithoutData(method, path, body);
+        const result: any = await this.sendRequestWithoutData(method, path, body);
         return result.data;
     }
 
     private async sendRequestWithoutData(method: string, path: string | undefined, body?: any) {
-        const url = (`${this.serverUrl}/${path || ''}`);
-        const options = {
+        const url: string = `${this.serverUrl}/${path || ''}`;
+        const options: any = {
             method,
             headers: {
                 'Content-Type': 'application/json',
@@ -197,8 +208,8 @@ export class ArtifactsClient {
             options.body = JSON.stringify(body);
         }
 
-        let response;
-        let result;
+        let response: any;
+        let result: any;
         try {
             response = await fetch(url, options);
             result = await response.json();

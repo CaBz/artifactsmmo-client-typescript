@@ -1,4 +1,5 @@
 import {EquippableSlot} from "../lexical/EquippableSlot.js";
+import {Effects} from "../lexical/Effects.js";
 
 export enum ItemType {
     Resource = 'resource',
@@ -100,7 +101,26 @@ export class Item {
         return this.data.craft?.quantity;
     }
 
-    get effects() {
+    get effects(): any[] {
         return this.data.effects;
+    }
+
+    private _calculatedEffects: any = {}
+
+    getEffectValueFor(name: Effects) {
+        if (this._calculatedEffects[name]) {
+            return this._calculatedEffects[name]
+        }
+
+        let value: number = 0;
+        this.effects.forEach((effect) => {
+            if (name === effect.code) {
+                value += effect.value;
+            }
+        });
+
+        this._calculatedEffects[name] = value;
+
+        return value;
     }
 }

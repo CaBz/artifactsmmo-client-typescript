@@ -91,6 +91,10 @@ async function processCommand(commandName: string) {
             await container.rester.rest();
             break;
 
+        case 'rest-consume':
+            await container.rester.restoreFromConsumables(await container.characterGateway.status());
+            break;
+
         case 'fight':
             await container.fighter.fight(+(consoleParams.shift() || 1))
             break;
@@ -107,6 +111,10 @@ async function processCommand(commandName: string) {
         case 'monsters':
         case 'tasks':
             await container.client.getByEntityAndCode(commandName, consoleParams.shift())
+            break;
+
+        case 'npc-items':
+            await container.client.getNpcItems(consoleParams.shift() || '');
             break;
 
         case 'does-it-hold':

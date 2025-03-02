@@ -73,6 +73,7 @@ export class Banker {
             const character: Character = await this.characterGateway.status();
             const heldItems: number = character.holdsHowManyOf(item);
             if (heldItems >= quantity) {
+                Utils.logHeadline(`BANK WITHDRAW > ${item} x${quantity}`);
                 Utils.errorHeadline(`SKIP - Already Has`);
                 return;
             }
