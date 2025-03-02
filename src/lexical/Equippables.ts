@@ -260,29 +260,6 @@ export const EquippableUtilities: Items[] = [
     Items.WaterResPotion,
 ];
 
-export const EquippableConsumables: Items[] = [
-    Items.Apple,
-    Items.ApplePie,
-    Items.BagofGold,
-    Items.Cheese,
-    Items.CookedBass,
-    Items.CookedBeef,
-    Items.CookedChicken,
-    Items.CookedGudgeon,
-    Items.CookedHellhoundMeat,
-    Items.CookedSalmon,
-    Items.CookedShrimp,
-    Items.CookedTrout,
-    Items.CookedWolfMeat,
-    Items.FishSoup,
-    Items.FriedEggs,
-    Items.MapleSyrup,
-    Items.MushroomSoup,
-    Items.RecallPotion,
-    Items.SmallBagofGold,
-    Items.SouthBankPotion,
-];
-
 export const EquippableBag: Items[] = [
     Items.Backpack,
     Items.Satchel,
@@ -300,6 +277,5 @@ export const Equippables: Items[] = [
     ...EquippableArtifacts,
     ...EquippableRunes,
     ...EquippableUtilities,
-    ...EquippableConsumables,
     ...EquippableBag,
 ];

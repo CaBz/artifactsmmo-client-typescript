@@ -41,11 +41,13 @@ export class Tasker {
     }
 
     async tradeTask(item: Items, quantity: number): Promise<void> {
-        Utils.logHeadline(`TRADE TASK > ${item} x${quantity}`);
+        const realQuantity: number = quantity === -1 ? 1 : quantity;
+
+        Utils.logHeadline(`TRADE TASK > ${item} x${realQuantity}`);
         await this.waiter.wait();
 
         try {
-            await this.characterGateway.taskTrade(item, quantity === -1 ? 1 : quantity);
+            await this.characterGateway.taskTrade(item, realQuantity);
         } catch (e) {
             if (e instanceof ClientException) {
                 Utils.errorHeadline(`${e.code}: ${e.message}`);

@@ -22,8 +22,6 @@ export const EquippableRunes: Items[] = [/*{PLACEHOLDER_RUNE}*/];
 
 export const EquippableUtilities: Items[] = [/*{PLACEHOLDER_UTILITY}*/];
 
-export const EquippableConsumables: Items[] = [/*{PLACEHOLDER_CONSUMABLE}*/];
-
 export const EquippableBag: Items[] = [/*{PLACEHOLDER_BAG}*/];
 
 export const Equippables: Items[] = [
@@ -38,6 +36,5 @@ export const Equippables: Items[] = [
     ...EquippableArtifacts,
     ...EquippableRunes,
     ...EquippableUtilities,
-    ...EquippableConsumables,
     ...EquippableBag,
 ];

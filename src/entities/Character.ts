@@ -27,12 +27,12 @@ export class Character {
         return timeDifference > 0 ? timeDifference : 0;
     }
 
-    get raw() {
-        return this.data;
-    }
-
     get hp() {
         return this.data.hp;
+    }
+
+    get gold() {
+        return this.data.gold;
     }
 
     get maxHp() {

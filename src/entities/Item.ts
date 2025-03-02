@@ -1,7 +1,31 @@
 import {EquippableSlot} from "../lexical/EquippableSlot.js";
 
+export enum ItemType {
+    Resource = 'resource',
+    Currency = 'currency',
+    Consumable = 'consumable',
+}
+
 export class Item {
     constructor(private readonly data: any) {
+        /*
+        {
+            "name": "Leather Legs Armor",
+            "code": "leather_legs_armor",
+            "level": 10,
+            "type": "leg_armor",
+            "subtype": "",
+            "description": "",
+            "effects": [ { "code": "string", "value": 0 } ],
+            "craft": {
+                "skill": "gearcrafting",
+                "level": 10,
+                "items": [ { "code": "string", "quantity": 0 } ],
+                quantity: 0
+            },
+            "tradeable": true
+        }
+        */
     }
 
     get name(): string {
@@ -28,12 +52,20 @@ export class Item {
         return this.data.subtype;
     }
 
+    get isTradeable(): boolean {
+        return this.data.tradeable;
+    }
+
     get isCraftable(): boolean {
         return !!this.data.craft;
     }
 
     get isEquippable(): boolean {
-        return !['resource', 'currency', 'consumables'].includes(this.type);
+        return ![ItemType.Resource, ItemType.Currency, ItemType.Consumable].includes(this.type as ItemType);
+    }
+
+    get isConsumable(): boolean {
+        return this.type === ItemType.Consumable;
     }
 
     get equippableSlot(): EquippableSlot {

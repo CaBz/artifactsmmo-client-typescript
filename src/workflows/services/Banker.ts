@@ -16,8 +16,10 @@ export class Banker {
     }
 
     async depositAll(): Promise<void> {
-        const character = await this.characterGateway.status();
+        const character: Character = await this.characterGateway.status();
         const inventories = character.getInventory();
+
+        await this.depositGold(character.gold);
 
         let inventory;
         for (let i=0; i<inventories.length; i++) {
@@ -27,6 +29,23 @@ export class Banker {
             }
 
             await this.depositItem(inventory.code, inventory.quantity);
+        }
+    }
+
+    async depositGold(quantity: number): Promise<void> {
+        Utils.logHeadline(`BANK DEPOSIT > x${quantity}g`);
+
+        await this.waiter.wait();
+
+        try {
+            await this.characterGateway.bankDepositGold(quantity);
+        } catch (e) {
+            if (e instanceof ClientException) {
+                Utils.errorHeadline(`${e.code}: ${e.message}`);
+                return;
+            }
+
+            Utils.errorHeadline((e as Error).message);
         }
     }
 

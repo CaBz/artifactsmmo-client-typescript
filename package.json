@@ -14,6 +14,12 @@
   },
   "scripts": {
     "console": "node --no-warnings --loader ts-node/esm --env-file=.env src/console.ts",
-    "bank": "yarn console Dummy bank-status"
+    "bank": "yarn console Dummy bank-status",
+
+    "cdl": "yarn console Richard_CDL",
+    "pp": "yarn console PatatePoil",
+    "bob": "yarn console YourBoiBob",
+    "ginette": "yarn console Ginette",
+    "bb": "yarn console BigBooty"
   }
 }
