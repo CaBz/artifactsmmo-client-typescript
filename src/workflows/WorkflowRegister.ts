@@ -11,7 +11,7 @@ import {
 } from "../lexical/Craftables.js";
 import {Action, WorkflowAction} from "./WorkflowOrchestrator.js";
 import {WorkflowFactory} from "./WorkflowFactory.js";
-import {EquippableSlot} from "../entities/Character.js";
+import {AllEquippableSlots, EquippableSlot, EquippableSlots} from "../lexical/EquippableSlot.js";
 
 export class WorkflowRegister {
     static create(): Map<string, WorkflowAction[]> {
@@ -132,33 +132,14 @@ export class WorkflowRegister {
             { action: Action.Move, coordinates: PointOfInterest.Bank1 },
             { action: Action.BankDepositAll },
         ]);
-        workflows.set('unequip-dump-bank', [
-            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Weapon },
-            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Shield },
-            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Helmet },
-            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.BodyArmor },
-            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.LegArmor },
-            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Boots },
-            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Ring1 },
-            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Ring2 },
-            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Amulet },
-            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Artifact1 },
-            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Artifact2 },
-            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Artifact3 },
-            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Utility1 },
-            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Utility2 },
-            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Bag },
-            { action: Action.Unequip, quantity: 1, slot: EquippableSlot.Rune },
-            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
-            { action: Action.BankDepositAll },
+        workflows.set('unequip-all', [
+            ... AllEquippableSlots.map((slot: EquippableSlot): WorkflowAction => {
+                return { action: Action.Unequip, quantity: 1, slot: slot };
+            }),
         ]);
     }
 
     private static registerForSets(workflows: Map<string, WorkflowAction[]>) {
-        /*Equippables.forEach((item: Items) => {
-            workflows.set(`equip-${item.code}`)
-        });*/
-
         const level1Set = [
             [Items.CopperDagger, 1, EquippableSlot.Weapon],
             [Items.CopperBoots, 1, EquippableSlot.Boots],

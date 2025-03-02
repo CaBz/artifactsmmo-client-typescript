@@ -36,11 +36,11 @@ export class WorkflowFactory {
 
     static fightUntilFull(monsterPoint: PointOfInterest): WorkflowAction[] {
         return [
-            { action: Action.Move, coordinates: monsterPoint },
             {
                 action: Action.SubWorkflow,
                 condition: SubworkflowCondition.InventoryFull,
                 actions: [
+                    { action: Action.Move, coordinates: monsterPoint },
                     { action: Action.Rest },
                     { action: Action.Fight, loops: 1 },
                 ],
@@ -57,7 +57,7 @@ export class WorkflowFactory {
             return { action: Action.BankWithdraw, code: item.code, quantity: item.quantity }
         });
 
-        const result = [
+        const result: WorkflowAction[] = [
             { action: Action.Move, coordinates: PointOfInterest.Bank1 },
             { action: Action.BankDepositAll },
             ...withdrawActions,

@@ -2,8 +2,8 @@ import {PointOfInterest} from "./lexical/PointOfInterest.js";
 import {Container} from "./Container.js";
 import {Items} from "./lexical/Items.js";
 import * as Utils from "./Utils.js";
-import {LexicalGenerator} from "./generators/LexicalGenerator.js";
 import {Monsters} from "./lexical/Monsters.js";
+import {EquippableSlot} from "./lexical/EquippableSlot.js";
 
 const consoleParams = process.argv;
 consoleParams.shift(); // process name
@@ -18,11 +18,13 @@ try {
     await processCommand(commandName);
 } catch (e) {
     console.log();
-    console.error(`UNHANDLED EXCEPTION: ${e.message}`);
+    //console.error(`UNHANDLED EXCEPTION: ${e.message}`);
+    console.error(e);
     console.log();
 }
 
 async function processCommand(commandName: string) {
+    let code: any;
     switch (commandName) {
         case 'workflow':
             console.log(Utils.LINE);
@@ -38,7 +40,7 @@ async function processCommand(commandName: string) {
             break;
 
         case 'bank-status':
-            await container.banker.getStatus(!!consoleParams.shift());
+            await container.banker.getStatus(true);
             break;
 
         case 'bank-withdraw':
@@ -54,18 +56,18 @@ async function processCommand(commandName: string) {
             break;
 
         case 'swap':
-            const code = (consoleParams.shift() || '') as Items;
+            code = (consoleParams.shift() || '') as Items;
             await container.banker.withdraw(code, 1);
             await container.equipper.swap(code);
             break;
 
         case 'monster':
-            const tmp = [];
+            const tmp: any = [];
             container.monsters.forEach((monster) => {
                 tmp.push(monster);
             });
-            tmp.sort((a, b) => a.level - b.level);
-            tmp.forEach((monster) => {
+            tmp.sort((a: any, b: any) => a.level - b.level);
+            tmp.forEach((monster: any) => {
                 console.log(monster.name, monster.level);
             });
             break;
@@ -109,16 +111,25 @@ async function processCommand(commandName: string) {
         case 'generate': await container.lexicalGenerator.generateAll(); break;
 
         case 'simulate':
-            const monsterCode = (consoleParams.shift() || '') as Monsters;
+            code = (consoleParams.shift() || '') as Monsters;
             const loops = +(consoleParams.shift() || 1);
             if (loops === 1) {
-                await container.simulator.simulateAgainst(monsterCode, 'details');
+                await container.simulator.simulateAgainst(code, 'details');
             } else {
-                await container.simulator.simulateAgainstFor(monsterCode, loops);
+                await container.simulator.simulateAgainstFor(code, loops);
             }
             break;
         case 'simulate-all':
             await container.simulator.simulateAgainstAllMonsters();
+            break;
+        case 'simulate-equipment':
+            await container.simulator.simulateWithItemCodeAgainst((consoleParams.shift() || '') as Monsters, (consoleParams.shift() || '') as Items);
+            break;
+        case 'simulate-best':
+            await container.simulator.findBestUsableEquippableSlot((consoleParams.shift() || '') as Monsters, (consoleParams.shift() || '') as EquippableSlot);
+            break;
+        case 'simulate-best-all':
+            await container.simulator.findBestUsableEquippables((consoleParams.shift() || '') as Monsters);
             break;
         case 'analyze-fight':
             await container.simulator.analyzeFightTurn((consoleParams.shift() || '') as Monsters);

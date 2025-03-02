@@ -2,26 +2,6 @@ import {LINE} from "../Utils.js";
 import {Items} from "../lexical/Items.js";
 import {StatEffects} from "../lexical/TypeEffects.js";
 
-export enum EquippableSlot {
-    None = 'none',
-    Weapon = 'weapon',
-    Shield = 'shield',
-    Helmet = 'helmet',
-    BodyArmor = 'body_armor',
-    LegArmor = 'leg_armor',
-    Boots = 'boots',
-    Ring1 = 'ring1',
-    Ring2 = 'ring2',
-    Amulet = 'amulet',
-    Artifact1 = 'artifact1',
-    Artifact2 = 'artifact2',
-    Artifact3 = 'artifact3',
-    Utility1 = 'utility1',
-    Utility2 = 'utility2',
-    Bag = 'bag',
-    Rune = 'rune',
-}
-
 export class Character {
     constructor(private readonly data: any) {
     }
@@ -48,6 +28,14 @@ export class Character {
 
     get raw() {
         return this.data;
+    }
+
+    get hp() {
+        return this.data.hp;
+    }
+
+    get maxHp() {
+        return this.data.max_hp;
     }
 
     getHp() {
@@ -92,6 +80,17 @@ export class Character {
         }
 
         return result;
+    }
+
+    hasEquipped(item: Items): boolean {
+        const gears = ['weapon', 'rune', 'shield', 'helmet', 'body_armor', 'leg_armor', 'boots', 'ring1', 'ring2', 'amulet', 'artifact1', 'artifact2', 'artifact3', 'bag'];
+        for (let i:number = 0; i<gears.length; i++) {
+            if (this.data[`${gears[i]}_slot`] === item) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     getAllStats() {

@@ -4,13 +4,21 @@ import {Character} from "../../entities/Character.js";
 import {Monsters} from "../../lexical/Monsters.js";
 import {StatEffects} from "../../lexical/TypeEffects.js";
 import * as Utils from "../../Utils.js";
+import {Item} from "../../entities/Item.js";
+import {Items} from "../../lexical/Items.js";
+import {Equippables} from "../../lexical/Equippables.js";
+import {EquippableSlot, EquippableSlots} from "../../lexical/EquippableSlot.js";
+import {ArtifactsClient} from "../../gateways/ArtifactsClient.js";
+import {Recipes, ResourceItem} from "../../lexical/Recipes.js";
 
 export class Simulator {
-    private character: Character = undefined;
+    private character: Character;
 
     constructor(
+        private readonly client: ArtifactsClient,
         private readonly characterGateway: CharacterGateway,
         private readonly monsters: Map<string, Monster>,
+        private readonly items: Map<string, Item>,
     ) {
     }
 
@@ -20,12 +28,174 @@ export class Simulator {
         }
     }
 
+    async findBestUsableEquippables(code: Monsters) {
+        await this.loadCharacter();
+        const attackerStats = this.getEntityStats(this.character.getAllStats());
+        const values: any = this.calculateSimulationFor(attackerStats, code, 1000);
+
+        console.log(`Current equipped items: ${values.successRate}%`);
+        console.log();
+
+        const bank: any = {};
+        (await this.client.getBank(true)).forEach((bankItem: any) => {
+            bank[bankItem.code] = bankItem.quantity;
+        });
+
+        EquippableSlots.forEach((slot: EquippableSlot) => {
+            const result: any = this.simulateForEquipmentSlot(code, slot);
+
+            console.error(slot);
+            result.forEach((entry: any) => {
+                if (entry.successRate < values.successRate) {
+                    return;
+                }
+
+                if (this.character.hasEquipped(entry.item)) {
+                    return;
+                }
+
+                const item = this.items.get(entry.item)!;
+                const recipe = item.isCraftable ? Recipes.getFor(entry.item) : undefined;
+
+                const quantity: number = (bank[entry.item] || 0) + this.character.holdsHowManyOf(entry.item);
+                let isCraftable: boolean = item.isCraftable;
+                let recipeItems: string[] = [];
+                recipe?.items.forEach((recipeItem: ResourceItem) => {
+                    const bankQuantity = bank[recipeItem.code] || 0;
+                    recipeItems.push(`x${recipeItem.quantity} ${recipeItem.code}`);
+
+                    if (bankQuantity < recipeItem.quantity) {
+                        isCraftable = false;
+                        return
+                    }
+                });
+
+                const logger: any = quantity === 0 && !isCraftable ? console.error : console.log;
+                logger(`* [lv.${item.level.toString()}] ${item.code} = ${entry.successRate}% => Available [x${quantity}] | Craftable [${isCraftable ? 'Y' : 'N'}] ${recipeItems.join(', ')}`);
+            });
+            console.log();
+        });
+    }
+
+    async findBestUsableEquippableSlot(code: Monsters, slot: EquippableSlot) {
+        await this.loadCharacter();
+
+        const result: any = this.simulateForEquipmentSlot(code, slot);
+
+        console.log(result);
+    }
+
+    private simulateForEquipmentSlot(code: Monsters, slot: EquippableSlot) {
+        let result: any = [];
+        Equippables.forEach((itemCode: Items) => {
+            const item = this.items.get(itemCode)!;
+            if (item.equippableSlot !== slot) {
+                return;
+            }
+
+            if (this.character.level < item.level) {
+                return;
+            }
+
+            const values: any = this.simulateWithItemAgainst(code, item, 1000);
+
+            result.push({ item: item.code, level: item.level, successRate: values.successRate});
+        });
+
+        result.sort((a: any, b: any) => b.successRate - a.successRate);
+
+        return result;
+    }
+
     async simulateAgainst(code: Monsters, logLevel: string) {
         await this.loadCharacter();
-        const monster: Monster = this.monsters.get(code)!;
+        const attackerStats: any = this.getEntityStats(this.character.getAllStats());
 
-        const characterStats: any = this.getEntityStats(this.character.getAllStats());
-        const monsterStats: any = this.getEntityStats(monster.getAllStats());
+        const result: any = this.simulateWithStatsAgainst(attackerStats, code, logLevel);
+        console.log(result);
+    }
+
+    async simulateAgainstFor(code: Monsters, loops: number): Promise<void> {
+        await this.loadCharacter();
+        const attackerStats = this.getEntityStats(this.character.getAllStats());
+
+        const values: any = await this.calculateSimulationFor(attackerStats, code, loops);
+        console.log(
+            values.fights, 'Fights',
+            values.wins, 'Wins',
+            values.losses, 'Losses',
+            values.successRate, '%',
+            values.averageTurns, 'Turns',
+            values.averageAttackerHP, 'Char HP',
+            values.averageDefenderHP, 'Mob HP',
+        );
+    }
+
+    async simulateAgainstAllMonsters(): Promise<void> {
+        await this.loadCharacter();
+        const attackerStats: any = this.getEntityStats(this.character.getAllStats());
+
+        const monsters: Monster[] = Array.from(this.monsters.values());
+        monsters.sort((a, b) => a.level - b.level);
+
+        const numberFormatter = new Intl.NumberFormat('en-us', {minimumFractionDigits: 2});
+        const headline = `| ${Utils.formatForMiddle('Monster', 16)} | Lv. | Success % | Turns  | Avg. Atk. HP | Avg. Def. HP | ${Utils.formatForMiddle('Good Against', 23)} | ${Utils.formatForMiddle('Weak Against', 23)} |`;
+
+        console.log('-'.repeat(headline.length));
+        console.log(headline);
+        console.log('-'.repeat(headline.length));
+
+        let monster: Monster, values: any, logger: any, analyzes: any;
+        for (let i=0; i<monsters.length; i++) {
+            monster = monsters[i]!;
+            values = await this.calculateSimulationFor(attackerStats, monster.code as Monsters, 1000);
+            analyzes = await this.analyzeFightTurn(monster.code as Monsters);
+
+            logger = values.successRate === 100 ? console.info : console.error;
+            logger(
+                `| ${monster.name.padEnd(16)} | ${monster.level.toString().padStart(3)} | ${numberFormatter.format(values.successRate).padStart(8)}% | ${numberFormatter.format(values.averageTurns).padStart(6)} | ${numberFormatter.format(values.averageAttackerHP).padStart(12)} | ${numberFormatter.format(values.averageDefenderHP).padStart(12)} | ${analyzes.attack.goodAgainst.join(', ').padEnd(23, ' ')} | ${analyzes.defend.weakAgainst.join(', ').padEnd(23, ' ')} |`
+            );
+        }
+
+        console.log('-'.repeat(headline.length));
+    }
+
+    async simulateWithItemCodeAgainst(monsterCode: Monsters, itemCode: Items) {
+        await this.loadCharacter();
+
+        const item: Item = this.items.get(itemCode)!;
+        const values = await this.simulateWithItemAgainst(monsterCode, item, 1000);
+
+        console.log(values);
+    }
+
+    private simulateWithItemAgainst(monsterCode: Monsters, item: Item, fights: number) {
+        const equippedGears = this.character.getEquippedGears();
+
+        const stats = StatEffects.map((stat) => {
+            return {code: stat, value: 0};
+        })
+
+        const attackerStats: any = this.getEntityStats(stats);
+        attackerStats.hp += this.calculateCharacterHP();
+
+        equippedGears.forEach((itemCode: Items) => {
+            let equippedItem = this.items.get(itemCode)!;
+            if (equippedItem.equippableSlot === item.equippableSlot) {
+                equippedItem = item;
+            }
+
+            equippedItem.effects.forEach((effect: any) => {
+                attackerStats[effect.code] += effect.value;
+            });
+        });
+
+        return this.calculateSimulationFor(attackerStats, monsterCode, fights);
+    }
+
+    private simulateWithStatsAgainst(attackerStats: any, code: Monsters, logLevel: string) {
+        const monster: Monster = this.monsters.get(code)!;
+        const defenderStats: any = this.getEntityStats(monster.getAllStats());
 
         if (logLevel === 'details') {
             console.log(Utils.LINE);
@@ -35,9 +205,9 @@ export class Simulator {
 
         const turns = this.executeFight(
             this.character.name,
-            characterStats,
+            attackerStats,
             monster.name,
-            monsterStats,
+            defenderStats,
             logLevel === 'details'
         );
 
@@ -45,12 +215,12 @@ export class Simulator {
             console.log(Utils.LINE);
         }
 
-        let fightResult = `${this.character.name} (${characterStats.hp.toString().padStart(4, ' ')}hp) vs`;
-        fightResult = `${fightResult} ${monster.name.padEnd(16, ' ')} (${monsterStats.hp.toString().padStart(4, ' ')}hp) =>`;
-        fightResult = `${fightResult} lv.${this.character.level} vs lv.${monster.level.toString().padStart(2, ' ')} =`;
+        let fightResult = `${this.character.name} (${attackerStats.hp.toString().padStart(4, ' ')}hp) vs`;
+        fightResult = `${fightResult} ${monster.name.padEnd(16, ' ')} (${defenderStats.hp.toString().padStart(4, ' ')}hp) =>`;
+        fightResult = `${fightResult} vs lv.${monster.level.toString().padStart(2, ' ')} =`;
 
-        const won = characterStats.hp > 0 && turns < 100;
-        const result = {won, turns, characterHP: characterStats.hp, monsterHP: monsterStats.hp};
+        const won = attackerStats.hp > 0 && turns < 100;
+        const result = {won, turns, attackerHP: attackerStats.hp, defenderHP: defenderStats.hp};
         if (!['details', 'summary'].includes(logLevel)) {
             return result;
         }
@@ -62,38 +232,26 @@ export class Simulator {
         }
 
         if (logLevel === 'details') {
-            this.logFighterDetails(this.character, characterStats, monster, monsterStats);
+            this.logFighterDetails(this.character, attackerStats, monster, defenderStats);
         }
 
         return result;
     }
 
-    async simulateAgainstFor(code: Monsters, loops: number): Promise<void> {
-        const values = await this.calculateSimulationFor(code, loops);
-
-        console.log(
-            values.fights, 'Fights',
-            values.wins, 'Wins',
-            values.losses, 'Losses',
-            values.successRate, '%',
-            values.averageTurns, 'Turns',
-            values.averageCharacterHP, 'Char HP',
-            values.averageMonsterHP, 'Mob HP',
-        );
-    }
-
-    async calculateSimulationFor(code: Monsters, loops: number) {
-        let result;
-        let turns = 0,
-            characterHP = 0,
-            monsterHP = 0,
+    private calculateSimulationFor(attackerStats: any, code: Monsters, loops: number) {
+        let result: any,
+            clonedAttackerStats: any;
+        let turns: number = 0,
+            attackerHP: number = 0,
+            defenderHP: number = 0,
             wins: number = 0;
 
         for (let i=0; i<loops; i++) {
-            result = await this.simulateAgainst(code, 'none');
+            clonedAttackerStats = JSON.parse(JSON.stringify(attackerStats));
+            result = this.simulateWithStatsAgainst(clonedAttackerStats, code, 'none');
             turns += result.turns;
-            characterHP += result.characterHP;
-            monsterHP += result.monsterHP;
+            attackerHP += result.attackerHP;
+            defenderHP += result.defenderHP;
             wins += result.won ? 1 : 0;
         }
 
@@ -101,55 +259,27 @@ export class Simulator {
             fights: loops,
             wins,
             losses: loops - wins,
-            successRate: Math.round(((wins > 0 ? wins : 0) / loops) * 10000) / 100,
+            successRate: Math.round((wins / loops) * 10000) / 100,
             averageTurns: Math.round((turns / loops) * 100) / 100,
-            averageCharacterHP: Math.round((characterHP / loops) * 100) / 100,
-            averageMonsterHP: Math.round((monsterHP / loops) * 100) / 100,
+            averageAttackerHP: Math.round((attackerHP / loops) * 100) / 100,
+            averageDefenderHP: Math.round((defenderHP / loops) * 100) / 100,
         }
-    }
-
-    async simulateAgainstAllMonsters(): Promise<void> {
-        await this.loadCharacter();
-
-        const monsters: Monster[] = Array.from(this.monsters.values());
-        monsters.sort((a, b) => a.level - b.level);
-
-        const numberFormatter = new Intl.NumberFormat('en-us', {minimumFractionDigits: 2});
-        const headline = `| ${Utils.formatForMiddle('Monster', 16)} | Lv. | Success % | Turns |  Avg. HP | Avg. Mob HP | ${Utils.formatForMiddle('Good Against', 23)} | ${Utils.formatForMiddle('Weak Against', 23)} |`;
-
-        console.log('-'.repeat(headline.length));
-        console.log(headline);
-        console.log('-'.repeat(headline.length));
-
-        let monster: Monster, values, logger, analyzes;
-        for (let i=0; i<monsters.length; i++) {
-            monster = monsters[i]!;
-            values = await this.calculateSimulationFor(monster.code, 1000);
-            analyzes = await this.analyzeFightTurn(monster.code);
-
-            logger = values.successRate === 100 ? console.info : console.error;
-            logger(
-                `| ${monster.name.padEnd(16)} | ${monster.level.toString().padStart(3)} | ${numberFormatter.format(values.successRate).padStart(8)}% | ${numberFormatter.format(values.averageTurns).padStart(6)} | ${numberFormatter.format(values.averageCharacterHP).padStart(7)} | ${numberFormatter.format(values.averageMonsterHP).padStart(11)} | ${analyzes.attack.goodAgainst.join(', ').padEnd(23, ' ')} | ${analyzes.defend.weakAgainst.join(', ').padEnd(23, ' ')} |`
-            );
-        }
-
-        console.log('-'.repeat(headline.length));
     }
 
     async analyzeFightTurn(code: Monsters): Promise<void> {
         await this.loadCharacter();
         const monster: Monster = this.monsters.get(code)!;
 
-        const characterStats: any = this.getEntityStats(StatEffects.map((stat) => {
+        const attackerStats: any = this.getEntityStats(StatEffects.map((stat) => {
             const value = stat.startsWith('attack') ? 1000 : 0;
             return {code: stat, value};
         }));
         const monsterStats: any = this.getEntityStats(monster.getAllStats());
 
-        const characterAgainstMonster = this.fight(1, 'Dummy', characterStats, monster.name, monsterStats, false);
-        const monsterAgainstCharacter = this.fight(1, monster.name, monsterStats, 'Dummy', characterStats, false);
+        const characterAgainstMonster = this.fight(1, 'Dummy', attackerStats, monster.name, monsterStats, false);
+        const monsterAgainstCharacter = this.fight(1, monster.name, monsterStats, 'Dummy', attackerStats, false);
 
-        const result = {
+        const result: any = {
             attack: {
                 goodAgainst: [],
                 weakAgainst: [],
@@ -160,8 +290,8 @@ export class Simulator {
             }
         }
 
-        const elements = ['air', 'earth', 'fire', 'water'];
-        elements.forEach((element) => {
+        const elements: string[] = ['air', 'earth', 'fire', 'water'];
+        elements.forEach((element: string) => {
             if (characterAgainstMonster[element].damage >= 1000) {
                 result.attack.goodAgainst.push(element);
             } else {
@@ -261,7 +391,23 @@ export class Simulator {
         };
     }
 
-    private logFighterDetails(attacker, attackerStats, defender, defenderStats) {
+    private calculateCharacterHP(): number {
+        let equipmentHp = 0;
+        this.character.getEquippedGears().forEach((itemCode: Items) => {
+            const item: Item = this.items.get(itemCode)!;
+            item.effects.forEach((effect: any) => {
+                if (effect.code !== 'hp') {
+                    return;
+                }
+
+                equipmentHp += effect.value;
+            });
+        });
+
+        return this.character.maxHp - equipmentHp;
+    }
+
+    private logFighterDetails(attacker: any, attackerStats: any, defender: any, defenderStats: any) {
         console.log(Utils.LINE);
         Utils.errorHeadline(`${attacker.name.padEnd(15, ' ')} vs ${defender.name.padStart(15, ' ')}`);
         console.log(Utils.LINE);
@@ -273,9 +419,9 @@ export class Simulator {
     }
 
     private getEntityStats(entity: any) {
-        const entityStats = {};
+        const entityStats: any = {};
 
-        entity.forEach((stat) => {
+        entity.forEach((stat: any) => {
             entityStats[stat.code] = stat.value;
         });
 

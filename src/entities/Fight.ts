@@ -46,7 +46,7 @@ export class Fight {
     }
 
     get turns(): number {
-        return this.data.result;
+        return this.data.turns;
     }
 
     get monsterBlockedHits() {

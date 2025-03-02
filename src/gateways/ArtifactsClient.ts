@@ -84,7 +84,7 @@ export class ArtifactsClient {
 
     async getBank(withItems?: any) {
         if (withItems) {
-            return this.sendRequest('GET', 'my/bank/items');
+            return this.sendRequest('GET', 'my/bank/items?size=100');
         }
 
         return this.sendRequest('GET', 'my/bank');

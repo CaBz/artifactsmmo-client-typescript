@@ -3,8 +3,8 @@ import {Waiter} from "./Waiter.js";
 import * as Utils from "../../Utils.js";
 import {ClientException} from "../../gateways/ClientException.js";
 import {Items} from "../../lexical/Items.js";
-import {EquippableSlot} from "../../entities/Character.js";
 import {Item} from "../../entities/Item.js";
+import {EquippableSlot} from "../../lexical/EquippableSlot.js";
 
 export class Equipper {
     constructor(private readonly waiter: Waiter, private readonly characterGateway: CharacterGateway, private readonly items: Map<string, Item>) {

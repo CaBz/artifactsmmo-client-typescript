@@ -1,4 +1,4 @@
-import {EquippableSlot} from "./Character.js";
+import {EquippableSlot} from "../lexical/EquippableSlot.js";
 
 export class Item {
     constructor(private readonly data: any) {
@@ -14,6 +14,10 @@ export class Item {
 
     get code(): string {
         return this.data.code;
+    }
+
+    get level(): string {
+        return this.data.level;
     }
 
     get type(): string {
