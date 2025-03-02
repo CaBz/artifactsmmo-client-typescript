@@ -13,11 +13,11 @@ export class ItemUser {
     async use(item: Items, quantity: number, condition?: UseItemActionCondition): Promise<Character> {
         const realQuantity: number = quantity === -1 ? 1 : quantity;
 
-        Utils.logHeadline(`USE > ${item} x${quantity}`);
-        const character: Character = await this.waiter.wait();
 
+        const character: Character = await this.waiter.wait();
         if (condition === UseItemActionCondition.FullHP && character.isFullHealth()) {
-            Utils.errorHeadline(`SKIP - Full Health`);
+            Utils.logHeadline(`USE > ${item} x${quantity}`);
+            Utils.errorHeadline(`USE > Skipped (Full HP)`);
             return character;
         }
 

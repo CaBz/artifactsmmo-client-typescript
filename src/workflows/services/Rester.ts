@@ -17,14 +17,15 @@ export class Rester {
     }
 
     async rest(): Promise<Character> {
-        Utils.logHeadline(`REST`);
-        const character: Character = await this.waiter.wait();
+        let character: Character = await this.waiter.wait();
         if (character.isFullHealth()) {
-            Utils.errorHeadline(`SKIP - Full Health`);
+            Utils.errorHeadline(`REST > Skipped (Full HP)`);
             return character;
         }
 
-        await this.restoreFromConsumables(character);
+        Utils.logHeadline(`REST`);
+
+        character = await this.restoreFromConsumables(character);
 
         try {
             const result = await this.characterGateway.rest();
@@ -41,19 +42,19 @@ export class Rester {
         return character;
     }
 
-    async restoreFromConsumables(character: Character) {
+    async restoreFromConsumables(character: Character): Promise<Character> {
         const inventory: any[] = character.getInventory();
         const consumables: Item[] = [];
 
         inventory.forEach((inventoryItem: any) => {
-            const item: Item = this.items.get(inventoryItem)!;
+            const item: Item = this.items.get(inventoryItem.code)!;
             if (item?.isConsumable && item.getEffectValueFor(Effects.Heal) > 0) {
                 consumables.push(item);
             }
         });
 
         if (consumables.length === 0) {
-            return;
+            return character;
         }
 
         consumables.sort((a: Item, b: Item) => a.level - b.level);
@@ -61,7 +62,10 @@ export class Rester {
         const firstConsumable: Item = consumables.shift()!;
         character = await this.itemUser.use(firstConsumable.code, 1);
         if (!character.isFullHealth()) {
-            await this.restoreFromConsumables(character);
+            character = await this.waiter.wait();
+            return this.restoreFromConsumables(character);
         }
+
+        return character
     }
 }

@@ -9,7 +9,7 @@ import {
     CraftableWeaponcrafting,
     CraftableWoodcutting
 } from "../lexical/Craftables.js";
-import {Action, WorkflowAction} from "./WorkflowOrchestrator.js";
+import {Action, MoveActionCondition, WorkflowAction} from "./WorkflowOrchestrator.js";
 import {WorkflowFactory} from "./WorkflowFactory.js";
 import {AllEquippableSlots, EquippableSlot} from "../lexical/EquippableSlot.js";
 
@@ -94,7 +94,7 @@ export class WorkflowRegister {
 
     private static registerForTasks(workflows: Map<string, WorkflowAction[]>) {
         workflows.set('task-items', [
-            { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
+            { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems, condition: MoveActionCondition.NoTasks },
             { action: Action.GetTask },
             { action: Action.ExecuteTask },
             { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
@@ -111,9 +111,7 @@ export class WorkflowRegister {
         ]);
 
         workflows.set('task-monsters', [
-            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
-            { action: Action.BankDepositAll },
-            { action: Action.Move, coordinates: PointOfInterest.TaskMasterMonsters },
+            { action: Action.Move, coordinates: PointOfInterest.TaskMasterMonsters, condition: MoveActionCondition.NoTasks },
             { action: Action.GetTask },
             { action: Action.ExecuteTask },
             { action: Action.Move, coordinates: PointOfInterest.TaskMasterMonsters },

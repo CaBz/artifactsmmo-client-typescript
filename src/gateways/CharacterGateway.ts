@@ -123,8 +123,8 @@ export class CharacterGateway {
         const character = new Character(result.character);
         const details = new SkillInfo(result.details);
 
-        character.logToConsole(['status', 'skills', 'inventory']);
         details.logToConsole();
+        character.logToConsole(['status', 'skills', 'inventory']);
 
         return {
             cooldown: new Cooldown(result.cooldown),
@@ -138,8 +138,8 @@ export class CharacterGateway {
         const character = new Character(result.character);
         const details = new SkillInfo(result.details);
 
-        character.logToConsole(['status', 'skills', 'inventory']);
         details.logToConsole();
+        character.logToConsole(['status', 'skills', 'inventory']);
 
         return {
             cooldown: new Cooldown(result.cooldown),
@@ -153,8 +153,8 @@ export class CharacterGateway {
         const character = new Character(result.character);
         const details = new RecyclingInfo(result.details);
 
-        character.logToConsole(['status', 'inventory']);
         details.logToConsole();
+        character.logToConsole(['status', 'inventory']);
 
         return {
             cooldown: new Cooldown(result.cooldown),
@@ -223,8 +223,8 @@ export class CharacterGateway {
         const character = new Character(result.character);
         const rewards = new TaskRewards(result.rewards);
 
-        character.logToConsole(['status', 'inventory']);
         rewards.logToConsole();
+        character.logToConsole(['status', 'inventory']);
 
         return {
             cooldown: new Cooldown(result.cooldown),
@@ -250,8 +250,8 @@ export class CharacterGateway {
         const character = new Character(result.character);
         const rewards = new TaskRewards(result.rewards);
 
-        character.logToConsole(['status', 'inventory']);
         rewards.logToConsole();
+        character.logToConsole(['status', 'inventory']);
 
         return {
             cooldown: new Cooldown(result.cooldown),

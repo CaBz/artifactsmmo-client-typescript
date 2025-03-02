@@ -12,29 +12,31 @@ export class Mover {
     }
 
     async moveToPointOfInterest(name: PointOfInterest, condition?: MoveActionCondition): Promise<void> {
-        if (condition === MoveActionCondition.InventoryNotFull) {
-            const character: Character = await this.characterGateway.status();
-            if (character.isInventoryFull()) {
-                Utils.errorHeadline('SKIP - Inventory Full');
-                return;
-            }
-        }
-
         const coordinates = MapCoordinates[name];
         if (!coordinates) {
             throw new Error(`COORDINATES NOT DEFINED FOR ${name}`);
         }
 
-        await this.moveToCoordinates(coordinates.x, coordinates.y, name);
+        await this.moveToCoordinates(coordinates.x, coordinates.y, name, condition);
     }
 
-    async moveToCoordinates(x: number, y: number, name?: PointOfInterest): Promise<void> {
+    async moveToCoordinates(x: number, y: number, name?: PointOfInterest, condition? :MoveActionCondition): Promise<void> {
         Utils.logHeadline(`MOVE x:${x} y:${y} (${name})`);
         const character: Character = await this.waiter.wait();
         const currentCoordinates = character.getCoordinates();
 
         if (currentCoordinates.x === x && currentCoordinates.y === y) {
             Utils.errorHeadline('SKIP - Already Here');
+            return;
+        }
+
+        if (condition === MoveActionCondition.InventoryNotFull && character.isInventoryFull()) {
+            Utils.errorHeadline('SKIP - Inventory Full');
+            return;
+        }
+
+        if (condition === MoveActionCondition.NoTasks && character.getTask() !== undefined) {
+            Utils.errorHeadline('SKIP - Has Task');
             return;
         }
 

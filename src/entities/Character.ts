@@ -330,7 +330,7 @@ export class Character {
 
         const remaining = this.data.task_total - this.data.task_progress;
 
-        Utils.logHeadline(Utils.formatForMiddle(`TASK ${this.data.task_progress}/${this.data.task_total}`, 34));
+        Utils.logHeadline(Utils.formatForMiddle(`TASK (${this.data.task_progress}/${this.data.task_total})`, 34));
         console.log(Utils.LINE);
 
         const taskWord: string = this.data.task_type === 'items' ? 'Give' : 'Kill'

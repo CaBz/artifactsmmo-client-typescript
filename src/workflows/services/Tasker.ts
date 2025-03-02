@@ -15,6 +15,7 @@ export class Tasker {
 
         if (character.getTask() !== undefined) {
             Utils.errorHeadline(`SKIP - Already Has`);
+            return;
         }
 
         try {

@@ -20,6 +20,7 @@ import {EquippableSlot} from "../lexical/EquippableSlot.js";
 
 export enum MoveActionCondition {
     InventoryNotFull = 'inventory-not-full',
+    NoTasks = 'no-tasks',
 }
 
 export interface MoveAction {
