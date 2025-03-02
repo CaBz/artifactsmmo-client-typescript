@@ -43,11 +43,18 @@ export class Crafter {
     }
 
     async recycle(item: Items, quantity: number): Promise<void> {
-        Utils.logHeadline(`RECYCLE > ${item} x${quantity}`);
-        await this.waiter.wait();
+        const realQuantity = quantity === -1 ? 1 : quantity;
+
+        Utils.logHeadline(`RECYCLE > ${item} x${realQuantity}`);
+        const character: Character = await this.waiter.wait();
+
+        if (character.holdsHowManyOf(item) < realQuantity) {
+            Utils.errorHeadline(`SKIP - Does Not Have`);
+            return;
+        }
 
         try {
-            await this.characterGateway.recycle(item, quantity === -1 ? 1 : quantity);
+            await this.characterGateway.recycle(item, realQuantity);
         } catch (e) {
             if (e instanceof ClientException) {
                 Utils.errorHeadline(`${e.code}: ${e.message}`);

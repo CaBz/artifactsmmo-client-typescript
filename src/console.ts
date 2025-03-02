@@ -4,6 +4,7 @@ import {Items} from "./lexical/Items.js";
 import * as Utils from "./Utils.js";
 import {Monsters} from "./lexical/Monsters.js";
 import {EquippableSlot} from "./lexical/EquippableSlot.js";
+import {Recipes} from "./lexical/Recipes.js";
 
 const consoleParams = process.argv;
 consoleParams.shift(); // process name
@@ -27,6 +28,8 @@ async function processCommand(commandName: string) {
     let code: any;
     switch (commandName) {
         case 'workflow':
+        case 'w':
+        case 'wf':
             console.log(Utils.LINE);
             await container.workflowOrhcestrator.findWorkflowAndExecute(
                 consoleParams.shift() || '', // name -> Workflows.ts
@@ -49,6 +52,10 @@ async function processCommand(commandName: string) {
 
         case 'map-status':
             await container.client.getMap(+(consoleParams.shift() || -1000), +(consoleParams.shift() || -1000));
+            break;
+
+        case 'recipe':
+            console.log(Recipes.getFor((consoleParams.shift() || '') as Items));
             break;
 
         case 'gather':

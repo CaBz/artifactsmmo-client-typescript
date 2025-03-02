@@ -19,7 +19,9 @@ export class Banker {
         const character: Character = await this.characterGateway.status();
         const inventories = character.getInventory();
 
-        await this.depositGold(character.gold);
+        if (character.gold > 0) {
+            await this.depositGold(character.gold);
+        }
 
         let inventory;
         for (let i=0; i<inventories.length; i++) {

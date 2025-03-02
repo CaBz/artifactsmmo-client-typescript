@@ -3,6 +3,7 @@ import {CharacterGateway} from "../../gateways/CharacterGateway.js";
 import * as Utils from "../../Utils.js";
 import {ClientException} from "../../gateways/ClientException.js";
 import {Items} from "../../lexical/Items.js";
+import {Character} from "../../entities/Character.js";
 
 export class Tasker {
     constructor(private readonly waiter: Waiter, private readonly characterGateway: CharacterGateway) {
@@ -10,7 +11,11 @@ export class Tasker {
 
     async getTask(): Promise<void> {
         Utils.logHeadline(`GET TASK`);
-        await this.waiter.wait();
+        const character: Character = await this.waiter.wait();
+
+        if (character.getTask() !== undefined) {
+            Utils.errorHeadline(`SKIP - Already Has`);
+        }
 
         try {
             await this.characterGateway.taskGet();

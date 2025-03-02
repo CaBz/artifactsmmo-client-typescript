@@ -1,4 +1,4 @@
-import {LINE} from "../Utils.js";
+import * as Utils from "../Utils.js";
 import {Items} from "../lexical/Items.js";
 import {StatEffects} from "../lexical/TypeEffects.js";
 import {Coordinates} from "../lexical/MapCoordinates.js";
@@ -13,18 +13,6 @@ export class Character {
 
     get level(): string {
         return this.data.level;
-    }
-
-    isInCooldown(): boolean {
-        return this.getRemainingCooldown() > 0;
-    }
-
-    getRemainingCooldown(): number {
-        const now = new Date();
-        const cooldownExpiration = new Date(this.data.cooldown_expiration);
-        const timeDifference = cooldownExpiration.getTime() - now.getTime();
-
-        return timeDifference > 0 ? timeDifference : 0;
     }
 
     get hp() {
@@ -43,12 +31,37 @@ export class Character {
         return this.hp === this.maxHp;
     }
 
+    isInCooldown(): boolean {
+        return this.getRemainingCooldown() > 0;
+    }
+
+    getRemainingCooldown(): number {
+        const now = new Date();
+        const cooldownExpiration = new Date(this.data.cooldown_expiration);
+        const timeDifference = cooldownExpiration.getTime() - now.getTime();
+
+        return timeDifference > 0 ? timeDifference : 0;
+    }
+
     getCoordinates(): Coordinates {
         return {x: this.data.x, y: this.data.y };
     }
 
     getInventory() {
-        return this.data.inventory;
+        const inventories: any[] = [];
+
+        let inventory;
+        for (let i = 0; i < this.data.inventory.length; i++) {
+            inventory = this.data.inventory[i];
+
+            if (inventory.quantity === 0) {
+                continue;
+            }
+
+            inventories.push(inventory);
+        }
+
+        return inventories;
     }
 
     isInventoryFull(): boolean {
@@ -61,6 +74,10 @@ export class Character {
 
     inventoryCount(): number {
         return this.data.inventory.reduce((total: number, inventory: any) => total + inventory.quantity, 0);
+    }
+
+    get maxInventory(): number {
+        return this.data.inventory_max_items;
     }
 
     holdsHowManyOf(item: Items): number {
@@ -145,7 +162,7 @@ export class Character {
     logToConsole(sections?: string[]): void {
         const allSections = sections === undefined;
 
-        console.log(LINE);
+        console.log(Utils.LINE);
 
         if (allSections || sections.includes('status')) {
             this.logStatus();
@@ -181,8 +198,8 @@ export class Character {
     }
 
     logStatus() {
-        console.log('|                STATUS              |');
-        console.log(LINE);
+        Utils.logHeadline(Utils.formatForMiddle('STATUS', 34));
+        console.log(Utils.LINE);
 
         const remainingCooldown = this.getRemainingCooldown();
 
@@ -195,23 +212,23 @@ export class Character {
         console.log(`| ${namePart.padEnd(20, ' ')} ${hpPart.padStart(13, ' ')} |`);
         console.log(`| ${goldPart.padEnd(12, ' ')} ${xpPart.padStart(21)} |`);
         console.log(`| ${coordinates.padEnd(9, ' ')} ${remainingCooldown.toString().padStart(22, ' ')}ms |`)
-        console.log(LINE);
+        console.log(Utils.LINE);
     }
 
     logStats() {
         console.log('|                STATS               |');
-        console.log(LINE);
+        console.log(Utils.LINE);
         this.getStats().forEach((stat) => {
             console.log(`| ${stat.code.padEnd(16, ' ')} | ${stat.value.toString().padStart(15, ' ')} |`)
         });
-        console.log(LINE);
+        console.log(Utils.LINE);
     }
 
     logElements() {
         const elements = ['fire', 'earth', 'water', 'air'];
 
-        console.log('|              ELEMENTS              |');
-        console.log(LINE);
+        Utils.logHeadline(Utils.formatForMiddle('ELEMENTS', 34));
+        console.log(Utils.LINE);
         console.log('| Element | Attack | Damage | Resist |');
         console.log('|---------|--------|--------|--------|');
         elements.forEach((element) => {
@@ -220,12 +237,12 @@ export class Character {
             const resistance = this.data[`res_${element}`].toString();
             console.log(`| ${element.padEnd(7, ' ')} | ${attack.padStart(6, ' ')} | ${damage.padStart(6, ' ')} | ${resistance.padStart(6, ' ')} |`);
         });
-        console.log(LINE);
+        console.log(Utils.LINE);
     }
 
     logSkills() {
-        console.log('|              SKILLS                |');
-        console.log(LINE);
+        Utils.logHeadline(Utils.formatForMiddle('SKILLS', 34));
+        console.log(Utils.LINE);
         console.log('| Name            | LVL |         XP |')
         console.log('|-----------------|-----|------------|')
 
@@ -243,12 +260,12 @@ export class Character {
 
             console.log(`| ${skill.padEnd(15, ' ')} | ${level.toString().padStart(3, ' ')} | ${xpProgress.padStart(10)} |`);
         });
-        console.log(LINE);
+        console.log(Utils.LINE);
     }
 
     logEquippedGear(): void {
-        console.log('|            EQUIPPED GEAR           |');
-        console.log(LINE);
+        Utils.logHeadline(Utils.formatForMiddle('EQUIPPED GEAR', 34));
+        console.log(Utils.LINE);
 
         const gears = ['weapon', 'rune', 'shield', 'helmet', 'body_armor', 'leg_armor', 'boots', 'ring1', 'ring2', 'amulet', 'artifact1', 'artifact2', 'artifact3', 'bag'];
         gears.forEach((gear) => {
@@ -259,12 +276,12 @@ export class Character {
 
             console.log(`| ${gear.padEnd(10, ' ')} | ${equipped.padEnd(21, ' ')} |`);
         })
-        console.log(LINE);
+        console.log(Utils.LINE);
     }
 
     logUtilities() {
-        console.log('|             UTILITIES              |');
-        console.log(LINE);
+        Utils.logHeadline(Utils.formatForMiddle('UTILITIES', 34));
+        console.log(Utils.LINE);
 
         this.logUtility(1);
         this.logUtility(2);
@@ -281,14 +298,18 @@ export class Character {
     }
 
     logInventories() {
-        console.log('|             INVENTORY              |');
-        console.log(LINE);
+        const usedSpaces = this.inventoryCount();
 
-        let countInventory = 0;
+        Utils.logHeadline(Utils.formatForMiddle(`INVENTORY (${usedSpaces}/${this.maxInventory})`, 34));
+        console.log(Utils.LINE);
+
+        if (usedSpaces === 0) {
+            return;
+        }
+
         let inventory;
         for (let i = 0; i < this.data.inventory.length; i++) {
             inventory = this.data.inventory[i];
-            countInventory += inventory.quantity
 
             if (inventory.quantity === 0) {
                 continue;
@@ -296,24 +317,19 @@ export class Character {
 
             console.log(`| ${inventory.slot.toString().padStart(2)} | ${inventory.code.padEnd(23, ' ')} | ${inventory.quantity.toString().padStart(3, ' ')} |`);
         }
-
-        console.log(LINE);
-
-        const totalItems = `${countInventory}/${this.data.inventory_max_items}`;
-        console.log(`| Total Items: ${totalItems.padStart(21, ' ')} |`);
-        console.log(LINE);
+        console.log(Utils.LINE);
     }
 
     logTask(): void {
-        console.log('|               TASK                 |');
-        console.log(LINE);
+        Utils.logHeadline(Utils.formatForMiddle('TASK', 34));
+        console.log(Utils.LINE);
 
         const task = this.data.task;
         if (task === '') {
-            console.log ('No tasks.');
+            Utils.logHeadline('No Tasks');
             return;
         }
 
-        console.log(`Task: ${this.data.task} (${this.data.task_type}) -> ${this.data.task_progress}/${this.data.task_total}`);
+        Utils.logHeadline(`Task: ${this.data.task} (${this.data.task_type}) -> ${this.data.task_progress}/${this.data.task_total}`);
     }
 }

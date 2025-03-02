@@ -12,7 +12,7 @@ export function formatForMiddle(cellContent: string, length: number): string {
     }
 
     const spaces = (length - cellContent.length) / 2;
-    return ' '.repeat(Math.ceil(spaces)) + cellContent + ' '.repeat(Math.floor(spaces));
+    return ' '.repeat(Math.floor(spaces)) + cellContent + ' '.repeat(Math.ceil(spaces));
 }
 
 export function errorHeadline(line: string): void {
