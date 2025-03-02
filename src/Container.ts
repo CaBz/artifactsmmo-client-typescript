@@ -35,12 +35,26 @@ export class Container {
     }
 
     async initialize(): Promise<void> {
+        // Order matters
         this.registerGateways();
         await this.registerGeneratorsAndSets();
 
         this.registerServices();
         this.registerWorkflows();
         this.registerWorkflowOrchestrator();
+    }
+
+    private registerGateways(): void {
+        this.instances.set('client', new ArtifactsClient());
+        this.instances.set('character-gateway', new CharacterGateway(this.client, this.characterName));
+    }
+
+    get client(): ArtifactsClient {
+        return this.instances.get('client');
+    }
+
+    get characterGateway(): CharacterGateway {
+        return this.instances.get('character-gateway');
     }
 
     private async registerGeneratorsAndSets(): Promise<void> {
@@ -80,19 +94,6 @@ export class Container {
 
     get lexicalGenerator(): LexicalGenerator {
         return this.instances.get('lexical-generator');
-    }
-
-    private registerGateways(): void {
-        this.instances.set('client', new ArtifactsClient());
-        this.instances.set('character-gateway', new CharacterGateway(this.client, this.characterName));
-    }
-
-    get client(): ArtifactsClient {
-        return this.instances.get('client');
-    }
-
-    get characterGateway(): CharacterGateway {
-        return this.instances.get('character-gateway');
     }
 
     private registerServices() {
@@ -148,7 +149,7 @@ export class Container {
     }
 
     private registerWorkflowOrchestrator() {
-        this.instances.set('workflow-generator', new WorkflowGenerator(this.items));
+        this.instances.set('workflow-generator', new WorkflowGenerator(this.characterGateway, this.items));
         this.instances.set(
             'workflow-orchestrator',
             new WorkflowOrchestrator(

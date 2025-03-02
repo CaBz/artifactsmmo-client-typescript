@@ -112,13 +112,16 @@ async function processCommand(commandName: string) {
             const monsterCode = (consoleParams.shift() || '') as Monsters;
             const loops = +(consoleParams.shift() || 1);
             if (loops === 1) {
-                await container.simulator.simulateAgainst(monsterCode);
+                await container.simulator.simulateAgainst(monsterCode, 'details');
             } else {
                 await container.simulator.simulateAgainstFor(monsterCode, loops);
             }
             break;
         case 'simulate-all':
             await container.simulator.simulateAgainstAllMonsters();
+            break;
+        case 'analyze-fight':
+            await container.simulator.analyzeFightTurn((consoleParams.shift() || '') as Monsters);
             break;
         default:
             console.error('Put a proper command name');

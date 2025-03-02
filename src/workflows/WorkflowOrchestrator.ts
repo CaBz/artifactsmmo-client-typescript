@@ -181,7 +181,7 @@ export class WorkflowOrchestrator {
     async findWorkflowAndExecute(name: string, loops: number): Promise<void> {
         let workflowActions = this.staticWorkflows.get(name);
         if (!workflowActions || workflowActions.length === 0) {
-            workflowActions = this.workflowGenerator.generate(name);
+            workflowActions = await this.workflowGenerator.generate(name);
             if (!workflowActions || workflowActions.length === 0) {
                 console.error(`Put a proper workflow name from ${WorkflowRegister.name}`);
                 return;

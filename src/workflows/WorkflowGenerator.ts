@@ -1,12 +1,15 @@
 import {WorkflowAction} from "./WorkflowOrchestrator.js";
 import {WorkflowFactory} from "./WorkflowFactory.js";
 import {Item} from "../entities/Item.js";
+import {CharacterGateway} from "../gateways/CharacterGateway.js";
 
 export class WorkflowGenerator {
-    constructor(private readonly items: Map<string, Item>) {
+    private character: CharacterGateway;
+
+    constructor(private readonly characterGateway: CharacterGateway, private readonly items: Map<string, Item>) {
     }
 
-    generate(name: string): WorkflowAction[] {
+    async generate(name: string): Promise<WorkflowAction[]> {
         const parts = name.split('-');
         if (parts.length < 2) {
             return [];
@@ -15,6 +18,8 @@ export class WorkflowGenerator {
         if (!parts[1] || parts[1] === '') {
             return [];
         }
+
+        this.character = this.characterGateway.status();
 
         switch(parts[0]) {
             case 'equip':

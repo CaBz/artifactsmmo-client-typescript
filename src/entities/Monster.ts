@@ -1,4 +1,5 @@
 import {StatEffects} from "../lexical/TypeEffects.js";
+import {LINE} from "../Utils.js";
 
 export class Monster {
     constructor(private readonly data: any) {

@@ -6,6 +6,15 @@ export function logHeadline(line: string): void {
     console.log(`| ${line.padEnd(34, ' ')} |`);
 }
 
+export function formatForMiddle(cellContent: string, length: number): string {
+    if (length - cellContent.length <= 1) {
+        return cellContent;
+    }
+
+    const spaces = (length - cellContent.length) / 2;
+    return ' '.repeat(Math.ceil(spaces)) + cellContent + ' '.repeat(Math.floor(spaces));
+}
+
 export function errorHeadline(line: string): void {
     console.error(`| ${line.padEnd(34, ' ')} |`);
 }
