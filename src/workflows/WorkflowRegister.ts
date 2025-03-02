@@ -11,7 +11,7 @@ import {
 } from "../lexical/Craftables.js";
 import {Action, WorkflowAction} from "./WorkflowOrchestrator.js";
 import {WorkflowFactory} from "./WorkflowFactory.js";
-import {AllEquippableSlots, EquippableSlot, EquippableSlots} from "../lexical/EquippableSlot.js";
+import {AllEquippableSlots, EquippableSlot} from "../lexical/EquippableSlot.js";
 
 export class WorkflowRegister {
     static create(): Map<string, WorkflowAction[]> {
@@ -30,10 +30,13 @@ export class WorkflowRegister {
     private static registerForGathering(workflows: Map<string, WorkflowAction[]>) {
         workflows.set('copper-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Copper, PointOfInterest.Bank1, PointOfInterest.Forge, Items.Copper, Items.CopperOre));
         workflows.set('iron-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Iron, PointOfInterest.Bank1, PointOfInterest.Forge, Items.Iron, Items.IronOre));
+        workflows.set('gold-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Gold, PointOfInterest.Bank1, PointOfInterest.Forge, Items.Gold, Items.GoldOre));
+        workflows.set('mithril-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Mithril, PointOfInterest.Bank2, PointOfInterest.Forge, Items.Mithril, Items.MithrilOre));
 
         workflows.set('ash-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Ash1, PointOfInterest.Bank1, PointOfInterest.Workshop, Items.AshPlank, Items.AshWood));
         workflows.set('spruce-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Spruce1, PointOfInterest.Bank1, PointOfInterest.Workshop, Items.SprucePlank, Items.SpruceWood));
         workflows.set('dead-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.DeadTree2, PointOfInterest.Bank1, PointOfInterest.Workshop, Items.DeadWoodPlank, Items.DeadWood));
+        workflows.set('maple-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Maple1, PointOfInterest.Bank2, PointOfInterest.Workshop, Items.MaplePlank, Items.MapleWood));
 
         workflows.set('sunflower-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Sunflower, PointOfInterest.Bank1, PointOfInterest.Alchemy, Items.SmallHealthPotion, Items.Sunflower));
 
@@ -41,6 +44,7 @@ export class WorkflowRegister {
         workflows.set('shrimp-cook', WorkflowFactory.gatherAndCraft(PointOfInterest.Shrimp, PointOfInterest.Bank1, PointOfInterest.Cooking, Items.CookedShrimp, Items.Shrimp));
         workflows.set('trout-cook', WorkflowFactory.gatherAndCraft(PointOfInterest.Trout, PointOfInterest.Bank2, PointOfInterest.Cooking, Items.CookedTrout, Items.Trout));
         workflows.set('bass-cook', WorkflowFactory.gatherAndCraft(PointOfInterest.Bass, PointOfInterest.Bank2, PointOfInterest.Cooking, Items.CookedBass, Items.Bass));
+        workflows.set('salmon-cook', WorkflowFactory.gatherAndCraft(PointOfInterest.Salmon1, PointOfInterest.Bank1, PointOfInterest.Cooking, Items.CookedSalmon, Items.Salmon));
 
 
         GatheringPOIs.forEach((pointOfInterests: PointOfInterest[]) => {
