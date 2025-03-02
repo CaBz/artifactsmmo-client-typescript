@@ -408,11 +408,11 @@ export class WorkflowOrchestrator {
 
                 break;
             case 'monsters':
-                actions.push({ action: Action.Move, coordinates: taskPoint });
                 actions.push({
                     action: Action.SubWorkflow,
                     condition: SubworkflowCondition.TaskCompleted,
                     actions: [
+                        { action: Action.Move, coordinates: taskPoint },
                         { action: Action.Rest },
                         { action: Action.Fight, loops: 1 },
                     ]

@@ -1536,10 +1536,13 @@
   },
   {
     "name": "Forest",
-    "skin": "forest_2",
+    "skin": "forest_cursed_tree1",
     "x": 5,
     "y": 6,
-    "content": null
+    "content": {
+      "type": "monster",
+      "code": "cursed_tree"
+    }
   },
   {
     "name": "Forest",
