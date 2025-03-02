@@ -232,7 +232,7 @@ export class WorkflowOrchestrator {
 
         if (condition === SubworkflowCondition.TaskCompleted) {
             const character: Character = await this.characterGateway.status();
-            character.logToConsole(['inventory', 'task']);
+            character.logToConsole(['task']);
 
             if (character.isTaskCompleted()) {
                 Utils.errorHeadline('TASK PROGRESS COMPLETED');

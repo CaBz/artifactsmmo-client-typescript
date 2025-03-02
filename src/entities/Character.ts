@@ -285,6 +285,8 @@ export class Character {
 
         this.logUtility(1);
         this.logUtility(2);
+
+        console.log(Utils.LINE);
     }
 
     logUtility(position: number): void {
@@ -331,5 +333,7 @@ export class Character {
         }
 
         Utils.logHeadline(`Task: ${this.data.task} (${this.data.task_type}) -> ${this.data.task_progress}/${this.data.task_total}`);
+
+        console.log(Utils.LINE);
     }
 }

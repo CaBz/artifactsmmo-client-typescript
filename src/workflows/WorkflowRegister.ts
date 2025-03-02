@@ -136,10 +136,17 @@ export class WorkflowRegister {
             { action: Action.Move, coordinates: PointOfInterest.Bank1 },
             { action: Action.BankDepositAll },
         ]);
+        workflows.set('db', [
+            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
+            { action: Action.BankDepositAll },
+        ]);
+
         workflows.set('unequip-all', [
             ... AllEquippableSlots.map((slot: EquippableSlot): WorkflowAction => {
                 return { action: Action.Unequip, quantity: 1, slot: slot };
             }),
+            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
+            { action: Action.BankDepositAll },
         ]);
     }
 

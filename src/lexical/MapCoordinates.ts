@@ -24,6 +24,7 @@ export const MapCoordinates: {[key: string]: Coordinates} = {
     [PointOfInterest.Highwayman]: { x: 2, y: 8 }, //lv.15
     [PointOfInterest.Wolf1]: { x: -2, y: 1 }, //lv.15
     [PointOfInterest.Wolf2]: { x: -3, y: 0 }, //lv.15
+    [PointOfInterest.Pig]: { x: -3, y: -3 }, //lv.19
 
     // Crafting
     [PointOfInterest.Cooking]: { x: 1, y: 1 },
