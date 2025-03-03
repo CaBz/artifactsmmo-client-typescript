@@ -23,23 +23,23 @@ export class Rester {
             return character;
         }
 
-        Utils.logHeadline(`REST`);
-
         character = await this.restoreFromConsumables(character);
 
         try {
-            const result = await this.characterGateway.rest();
+            const result: any = await this.characterGateway.rest();
+            Utils.logHeadline(`REST > +${result.hpRestored}hp`);
+
             return result.character;
         } catch (e) {
+            Utils.logHeadline(`REST > Failed`);
             if (e instanceof ClientException) {
                 Utils.errorHeadline(`${e.code}: ${e.message}`);
                 return character;
             }
 
             Utils.errorHeadline((e as Error).message);
+            return character;
         }
-
-        return character;
     }
 
     async restoreFromConsumables(character: Character): Promise<Character> {

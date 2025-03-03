@@ -10,13 +10,13 @@ export class Tasker {
     }
 
     async getTask(): Promise<void> {
-        Utils.logHeadline(`GET TASK`);
         const character: Character = await this.waiter.wait();
 
         if (character.getTask() !== undefined) {
-            Utils.errorHeadline(`SKIP - Already Has`);
+            Utils.errorHeadline(`GET TASK > SKIP`);
             return;
         }
+        Utils.logHeadline(`GET TASK`);
 
         try {
             await this.characterGateway.taskGet();

@@ -41,8 +41,8 @@ export class CharacterGateway {
         const cooldown = new Cooldown(result.cooldown);
         const hpRestored: number = result.hp_restored;
 
-        Utils.errorHeadline(`GAINED > +${hpRestored}hp`);
-        character.logToConsole(['status']);
+        // Utils.errorHeadline(`GAINED > +${hpRestored}hp`);
+        // character.logToConsole(['status']);
 
         return {
             cooldown,

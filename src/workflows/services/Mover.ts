@@ -21,24 +21,25 @@ export class Mover {
     }
 
     async moveToCoordinates(x: number, y: number, name?: PointOfInterest, condition? :MoveActionCondition): Promise<void> {
-        Utils.logHeadline(`MOVE x:${x} y:${y} (${name})`);
         const character: Character = await this.waiter.wait();
         const currentCoordinates = character.getCoordinates();
 
         if (currentCoordinates.x === x && currentCoordinates.y === y) {
-            Utils.errorHeadline('SKIP - Already Here');
+            // Utils.errorHeadline('SKIP - Already Here');
             return;
         }
 
         if (condition === MoveActionCondition.InventoryNotFull && character.isInventoryFull()) {
-            Utils.errorHeadline('SKIP - Inventory Full');
+            Utils.errorHeadline(`MOVE x:${x} y:${y} (${name}) [SKIP]`);
             return;
         }
 
         if (condition === MoveActionCondition.NoTasks && character.getTask() !== undefined) {
-            Utils.errorHeadline('SKIP - Has Task');
+            Utils.errorHeadline(`MOVE x:${x} y:${y} (${name}) [SKIP]`);
             return;
         }
+
+        Utils.logHeadline(`MOVE x:${x} y:${y} (${name})`);
 
         try {
             await this.characterGateway.move(x, y);

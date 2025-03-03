@@ -26,6 +26,8 @@ export class ItemUser {
             return character;
         }
 
+        Utils.logHeadline(`USE > ${item} x${quantity}`);
+
         try {
             const useResult: any = await this.characterGateway.use(item, realQuantity);
             return useResult.character;

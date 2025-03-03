@@ -104,6 +104,8 @@ export class WorkflowRegister {
             { action: Action.BankWithdraw, code: Items.TasksCoin, quantity: -1},
             { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
             { action: Action.ExchangeTask },
+            { action: Action.Move, coordinates: PointOfInterest.Bank2 },
+            { action: Action.BankDepositAll},
         ]);
         workflows.set('task-items-complete', [
             { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
@@ -121,6 +123,8 @@ export class WorkflowRegister {
             { action: Action.BankWithdraw, code: Items.TasksCoin, quantity: -1},
             { action: Action.Move, coordinates: PointOfInterest.TaskMasterMonsters },
             { action: Action.ExchangeTask },
+            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
+            { action: Action.BankDepositAll},
         ]);
 
         workflows.set('task-monsters-complete', [
