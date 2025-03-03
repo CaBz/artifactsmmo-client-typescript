@@ -205,13 +205,11 @@ export class WorkflowOrchestrator {
     async findWorkflowAndExecute(name: string, loops: number): Promise<void> {
         let workflowActions = this.staticWorkflows.get(name);
         if (!workflowActions || workflowActions.length === 0) {
-            workflowActions = await this.workflowGenerator.generate(name, loops);
+            workflowActions = await this.workflowGenerator.generate(name);
             if (!workflowActions || workflowActions.length === 0) {
                 console.error(`Put a proper workflow name from ${WorkflowRegister.name}`);
                 return;
             }
-
-            return;
         }
 
         Utils.logHeadline(`WORKFLOW: ${name}`);
@@ -396,15 +394,15 @@ export class WorkflowOrchestrator {
 
             switch(character.name) {
                 case 'Richard_CDL':
-                    return this.findWorkflowAndExecute('fight-cow', -1);
+                    return this.findWorkflowAndExecute('fight-pig', -1);
                 case 'PatatePoil':
                     return this.findWorkflowAndExecute('iron-craft', -1);
                 case 'YourBoiBob':
-                    return this.findWorkflowAndExecute('gather-birch1', -1);
+                    return this.findWorkflowAndExecute('iron-craft', -1);
                 case 'Ginette':
-                    return this.findWorkflowAndExecute('copper-craft', -1);
+                    return this.findWorkflowAndExecute('fight-pig', -1);
                 case 'BigBooty':
-                    return this.findWorkflowAndExecute('gather-trout', -1);
+                    return this.findWorkflowAndExecute('fight-cow', -1);
             }
 
             await this.findWorkflowAndExecute('copper-craft', -1);
