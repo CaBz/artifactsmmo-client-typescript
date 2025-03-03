@@ -6,6 +6,7 @@ import {ClientException} from "../../gateways/ClientException.js";
 import {ArtifactsClient} from "../../gateways/ArtifactsClient.js";
 import {BankWithdrawActionCondition} from "../WorkflowOrchestrator.js";
 import {Character} from "../../entities/Character.js";
+import {Recipe, ResourceItem} from "../../lexical/Recipes.js";
 
 export class Banker {
     constructor(
@@ -108,9 +109,9 @@ export class Banker {
         }
     }
 
-    async getStatus(withItems: boolean) {
+    async getStatus() {
         try {
-            const result = await this.client.getBank(withItems);
+            const result = await this.client.getBank();
             result.sort((a: any, b: any) => a.code.localeCompare(b.code));
             this.logBankItems(result);
         } catch (e) {
@@ -131,5 +132,36 @@ export class Banker {
         // });
 
         console.dir(bankItems, { depth: null });
+    }
+
+    async howManyTimesRecipeCanBeCraft(recipe: Recipe, maxInventory: number): Promise<number> {
+        // Get bank items
+        const bankItems: any[] = await this.client.getBank();
+
+        // Check character skill level vs recipe level?
+
+        // Figure out how many times we can do the recipe, assuming we have all items
+        const recipeRequiredItems: number = recipe.items.reduce((total: number, item: ResourceItem) => total + item.quantity, 0);
+        let recipeQuantity: number = Math.floor(maxInventory / recipeRequiredItems);
+
+        // Make sure we update the recipe times based on the minimum possible from available items in bank
+        const availableItems: any[] = [];
+        recipe.items.forEach((item: any) => {
+            bankItems.forEach((bankItem: any) => {
+                if (bankItem.code === item.code) {
+                    const bankRecipeQuantity: number = Math.floor(bankItem.quantity / item.quantity);
+                    recipeQuantity = Math.min(recipeQuantity, bankRecipeQuantity);
+                    availableItems.push(bankItem);
+                    return;
+                }
+            });
+        });
+
+        // Check if we have all recipe items in our bank
+        if (availableItems.length < recipe.items.length) {
+            return 0;
+        }
+
+        return recipeQuantity;
     }
 }

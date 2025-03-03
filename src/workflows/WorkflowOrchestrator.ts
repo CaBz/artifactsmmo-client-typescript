@@ -68,6 +68,11 @@ export interface UnequipAction {
     slot: EquippableSlot;
 }
 
+export interface SwapAction {
+    action: Action.Swap;
+    code: Items;
+}
+
 export enum UseItemActionCondition {
     FullHP = 'full-hp',
 }
@@ -144,6 +149,7 @@ export type WorkflowAction =
     | RecycleAction
     | EquipAction
     | UnequipAction
+    | SwapAction
     | UseItemAction
     | RestAction
     | FightAction
@@ -164,6 +170,7 @@ export enum Action {
     Recycle = 'recycle',
     Equip = 'equip',
     Unequip = 'unequip',
+    Swap = 'swap',
     UseItem = 'use-item',
     Rest = 'rest',
     Fight = 'fight',
@@ -198,11 +205,13 @@ export class WorkflowOrchestrator {
     async findWorkflowAndExecute(name: string, loops: number): Promise<void> {
         let workflowActions = this.staticWorkflows.get(name);
         if (!workflowActions || workflowActions.length === 0) {
-            workflowActions = await this.workflowGenerator.generate(name);
+            workflowActions = await this.workflowGenerator.generate(name, loops);
             if (!workflowActions || workflowActions.length === 0) {
                 console.error(`Put a proper workflow name from ${WorkflowRegister.name}`);
                 return;
             }
+
+            return;
         }
 
         Utils.logHeadline(`WORKFLOW: ${name}`);
@@ -299,6 +308,12 @@ export class WorkflowOrchestrator {
                 await this.equipper.unequip(
                     (action as UnequipAction).quantity,
                     (action as UnequipAction).slot,
+                );
+                break;
+
+            case Action.Swap:
+                await this.equipper.swap(
+                    (action as SwapAction).code,
                 );
                 break;
 

@@ -44,7 +44,7 @@ async function processCommand(commandName: string) {
             break;
 
         case 'bank-status':
-            await container.banker.getStatus(true);
+            await container.banker.getStatus();
             break;
 
         case 'bank-withdraw':

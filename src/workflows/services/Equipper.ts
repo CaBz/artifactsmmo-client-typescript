@@ -10,17 +10,6 @@ export class Equipper {
     constructor(private readonly waiter: Waiter, private readonly characterGateway: CharacterGateway, private readonly items: Map<string, Item>) {
     }
 
-    async swap(code: Items): Promise<void> {
-        const item = this.items.get(code);
-        if (!item) {
-            Utils.logHeadline(`${code} does not exist`);
-            return;
-        }
-
-        await this.unequip(1, item.type as EquippableSlot);
-        await this.equip(code, 1, item.type as EquippableSlot);
-    }
-
     async equip(item: Items, quantity: number, slot: EquippableSlot): Promise<void> {
         Utils.logHeadline(`EQUIP > ${item} x${quantity} - ${slot}`);
         if (slot === EquippableSlot.None) {
@@ -65,5 +54,16 @@ export class Equipper {
         }
 
         return;
+    }
+
+    async swap(code: Items): Promise<void> {
+        const item = this.items.get(code);
+        if (!item) {
+            Utils.logHeadline(`${code} does not exist`);
+            return;
+        }
+
+        await this.unequip(1, item.type as EquippableSlot);
+        await this.equip(code, 1, item.type as EquippableSlot);
     }
 }

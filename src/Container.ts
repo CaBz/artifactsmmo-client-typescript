@@ -155,7 +155,13 @@ export class Container {
     }
 
     private registerWorkflowOrchestrator() {
-        this.instances.set('workflow-generator', new WorkflowGenerator(this.characterGateway, this.items));
+        this.instances.set('workflow-generator', new WorkflowGenerator(
+            this.client,
+            this.characterGateway,
+            this.banker,
+            this.items,
+        ));
+
         this.instances.set(
             'workflow-orchestrator',
             new WorkflowOrchestrator(

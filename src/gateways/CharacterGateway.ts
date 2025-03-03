@@ -14,7 +14,7 @@ export class CharacterGateway {
     constructor(private readonly client: ArtifactsClient, private readonly character: string) {
     }
 
-    async status() {
+    async status(): Promise<Character> {
         const result = await this.client.getCharacterStatus(this.character);
         return new Character(result);
     }

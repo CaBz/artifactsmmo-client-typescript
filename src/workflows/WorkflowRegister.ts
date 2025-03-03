@@ -1,14 +1,5 @@
 import {FightingPOIs, GatheringPOIs, PointOfInterest} from "../lexical/PointOfInterest.js";
 import {Items} from "../lexical/Items.js";
-import {
-    CraftableAlchemy,
-    CraftableCooking,
-    CraftableGearcrafting,
-    CraftableJewelry,
-    CraftableMining,
-    CraftableWeaponcrafting,
-    CraftableWoodcutting
-} from "../lexical/Craftables.js";
 import {Action, MoveActionCondition, WorkflowAction} from "./WorkflowOrchestrator.js";
 import {WorkflowFactory} from "./WorkflowFactory.js";
 import {AllEquippableSlots, EquippableSlot} from "../lexical/EquippableSlot.js";
@@ -19,7 +10,6 @@ export class WorkflowRegister {
 
         WorkflowRegister.registerForGathering(workflows);
         WorkflowRegister.registerForMonsters(workflows);
-        WorkflowRegister.registerForCrafting(workflows);
         WorkflowRegister.registerForTasks(workflows);
         WorkflowRegister.registerForOthers(workflows);
         WorkflowRegister.registerForSets(workflows);
@@ -57,39 +47,6 @@ export class WorkflowRegister {
         FightingPOIs.forEach((pointOfInterest: PointOfInterest) => {
             workflows.set(`fight-${pointOfInterest}`, WorkflowFactory.fightUntilFull(pointOfInterest));
         })
-    }
-
-    private static registerForCrafting(workflows: Map<string, WorkflowAction[]>) {
-        CraftableMining.forEach((item: Items) => {
-            workflows.set(`craft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Forge, item, -1, false));
-        });
-
-        CraftableWeaponcrafting.forEach((item: Items) => {
-            workflows.set(`craft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Weapon, item, -1, false));
-            workflows.set(`recraft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Weapon, item, -1, true));
-        });
-
-        CraftableGearcrafting.forEach((item: Items) => {
-            workflows.set(`craft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Gear, item, -1, false));
-            workflows.set(`recraft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Gear, item, -1, true));
-        });
-
-        CraftableJewelry.forEach((item: Items) => {
-            workflows.set(`craft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Jewel, item, -1, false));
-            workflows.set(`recraft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Jewel, item, -1, true));
-        });
-
-        CraftableWoodcutting.forEach((item: Items) => {
-            workflows.set(`craft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Workshop, item, -1, false));
-        });
-
-        CraftableCooking.forEach((item: Items) => {
-            workflows.set(`craft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Cooking, item, -1, false));
-        });
-
-        CraftableAlchemy.forEach((item: Items) => {
-            workflows.set(`craft-${item}`, WorkflowFactory.withdrawAndCraft(PointOfInterest.Alchemy, item, -1, false));
-        });
     }
 
     private static registerForTasks(workflows: Map<string, WorkflowAction[]>) {

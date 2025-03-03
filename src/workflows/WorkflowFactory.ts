@@ -3,7 +3,6 @@ import {Items} from "../lexical/Items.js";
 import {
     Action,
     BankWithdrawActionCondition,
-    CraftActionConditions,
     SubworkflowCondition,
     WorkflowAction
 } from "./WorkflowOrchestrator.js";
@@ -50,23 +49,27 @@ export class WorkflowFactory {
         ];
     }
 
-    static withdrawAndCraft(craftPoint: PointOfInterest, craftItem: Items, craftQuantity: number, recycle: boolean): WorkflowAction[] {
-        const recipe: Recipe = Recipes.getFor(craftItem);
-
-        const withdrawActions: WorkflowAction[] = recipe.items.map((item: ResourceItem): WorkflowAction => {
-            return { action: Action.BankWithdraw, code: item.code, quantity: item.quantity }
+    static withdrawAndCraft(craftItem: Items, recipe: Recipe, recipeQuantity: number, isRecyle: boolean): WorkflowAction[] {
+        const withdrawActions = recipe.items.map((item: ResourceItem): WorkflowAction => {
+            return { action: Action.BankWithdraw, code: item.code, quantity: item.quantity * recipeQuantity }
         });
 
         const result: WorkflowAction[] = [
+            // Make sure we're empty
             { action: Action.Move, coordinates: PointOfInterest.Bank1 },
             { action: Action.BankDepositAll },
+
+            // Get the stuff
             ...withdrawActions,
-            { action: Action.Move, coordinates: craftPoint },
-            { action: Action.Craft, code: craftItem, quantity: craftQuantity },
+
+            // Go to the craft station and craft
+            { action: Action.Move, coordinates: Workstations[recipe.skill]! },
+            { action: Action.Craft, code: craftItem, quantity: recipeQuantity },
+
         ];
 
-        if (recycle) {
-            result.push({ action: Action.Recycle, code: craftItem, quantity: craftQuantity });
+        if (isRecyle) {
+            result.push({ action: Action.Recycle, code: craftItem, quantity: recipeQuantity });
         }
 
         result.push({ action: Action.Move, coordinates: PointOfInterest.Bank1 });

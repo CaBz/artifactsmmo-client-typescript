@@ -115,20 +115,12 @@ export class Simulator {
         console.log(result);
     }
 
-    async simulateAgainstFor(code: Monsters, loops: number): Promise<void> {
+    async simulateAgainstFor(code: Monsters, loops: number): Promise<any> {
         await this.loadCharacter();
-        const attackerStats = this.getEntityStats(this.character.getAllStats());
+        const attackerStats: any = this.getEntityStats(this.character.getAllStats());
 
-        const values: any = await this.calculateSimulationFor(attackerStats, code, loops);
-        console.log(
-            values.fights, 'Fights',
-            values.wins, 'Wins',
-            values.losses, 'Losses',
-            values.successRate, '%',
-            values.averageTurns, 'Turns',
-            values.averageAttackerHP, 'Char HP',
-            values.averageDefenderHP, 'Mob HP',
-        );
+        const values: any = this.calculateSimulationFor(attackerStats, code, loops);
+        return values;
     }
 
     async simulateAgainstAllMonsters(): Promise<void> {
@@ -241,6 +233,7 @@ export class Simulator {
     private calculateSimulationFor(attackerStats: any, code: Monsters, loops: number) {
         let result: any,
             clonedAttackerStats: any;
+
         let turns: number = 0,
             attackerHP: number = 0,
             defenderHP: number = 0,
