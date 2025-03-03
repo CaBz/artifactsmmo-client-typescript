@@ -88,23 +88,24 @@ export class WorkflowFactory {
             } catch { }
 
             if (recipe) {
-                const craftPoint: PointOfInterest = Workstations[recipe.skill]!;
-                withdrawActions.push({
-                    action: Action.BankWithdraw,
-                    code: craftItem,
-                    quantity: quantity,
-                    condition: BankWithdrawActionCondition.DoNotHave
-                })
+                // ?
+                // withdrawActions.push({
+                //     action: Action.BankWithdraw,
+                //     code: craftItem,
+                //     quantity: quantity,
+                //     condition: BankWithdrawActionCondition.DoNotHave
+                // });
+
                 withdrawActions.push(...recipe.items.map((item: ResourceItem): WorkflowAction => {
-                    return {action: Action.BankWithdraw, code: item.code, quantity: item.quantity}
+                    return {action: Action.BankWithdraw, code: item.code, quantity: item.quantity * quantity}
                 }));
 
-                craftActions.push({action: Action.Move, coordinates: craftPoint});
+                craftActions.push({action: Action.Move, coordinates: Workstations[recipe.skill]!});
                 craftActions.push({
                     action: Action.Craft,
                     code: craftItem,
                     quantity: quantity,
-                    condition: CraftActionConditions.DoNotHave
+                    // condition: CraftActionConditions.DoNotHave // ?
                 });
             } else {
                 withdrawActions.push({action: Action.BankWithdraw, code: craftItem, quantity: quantity});

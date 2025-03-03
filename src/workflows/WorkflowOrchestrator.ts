@@ -530,12 +530,14 @@ const TaskToAction: any = {
     [Items.CookedSalmon]:  PointOfInterest.Salmon2,
 
     [Monsters.Chicken]: PointOfInterest.Chicken,
-    [Monsters.GreenSlime]: PointOfInterest.GreenSlime1,
     [Monsters.YellowSlime]: PointOfInterest.YellowSlime1,
+    [Monsters.GreenSlime]: PointOfInterest.GreenSlime1,
     [Monsters.BlueSlime]: PointOfInterest.BlueSlime1,
     [Monsters.RedSlime]: PointOfInterest.RedSlime1,
     [Monsters.Cow]: PointOfInterest.Cow,
     [Monsters.Mushmush]: PointOfInterest.Mushmush1,
     [Monsters.FlyingSerpent]: PointOfInterest.FlyingSerpent1,
+    [Monsters.Highwayman]: PointOfInterest.Highwayman,
     [Monsters.Wolf]: PointOfInterest.Wolf1,
+    [Monsters.Pig]: PointOfInterest.Pig,
 };
