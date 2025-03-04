@@ -214,7 +214,12 @@ export class WorkflowOrchestrator {
 
         Utils.logHeadline(`WORKFLOW: ${name}`);
 
-        await this.execute(workflowActions!);
+        try {
+            await this.execute(workflowActions!);
+        } catch (e) {
+            // Don't crash
+            console.error(e);
+        }
 
         if ((loops - 1) === 0) {
             return;

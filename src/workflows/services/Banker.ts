@@ -114,7 +114,7 @@ export class Banker {
     async getStatus() {
         try {
             const result = await this.client.getBank();
-            result.sort((a: any, b: any) => a.code.localeCompare(b.code));
+            //result.sort((a: any, b: any) => a.code.localeCompare(b.code));
             this.logBankItems(result);
         } catch (e) {
             if (e instanceof ClientException) {
@@ -127,12 +127,7 @@ export class Banker {
     }
 
     private logBankItems(bankItems: any[]): void {
-        const items = bankItems.map((bankItem: any) => {
-            const item: Item = this.items.get(bankItem.code)!;
-
-            return { item, quantity: bankItem.quantity };
-        });
-
+        const items = bankItems.map((bankItem: any) => ({ item: this.items.get(bankItem.code)!, quantity: bankItem.quantity }));
         items.sort((a, b) => a.item.type.localeCompare(b.item.type) || a.item.name.localeCompare(b.item.name));
 
         const headline = `| ${Utils.formatForMiddle('Name', 23)} `
