@@ -19,6 +19,8 @@ export enum PointOfInterest {
     Highwayman = 'highwayman',
     Wolf1 = 'wolf1',
     Wolf2 = 'wolf2',
+    Skeleton1 = 'skeleton1',
+    Skeleton2 = 'skeleton2',
     Pig = 'pig',
 
     // Crafting
@@ -99,6 +101,8 @@ export const FightingPOIs: PointOfInterest[] = [
     PointOfInterest.Wolf1,
     PointOfInterest.Wolf2,
     PointOfInterest.Pig,
+    PointOfInterest.Skeleton1,
+    PointOfInterest.Skeleton2,
 ];
 
 export const GatheringPOIs = [

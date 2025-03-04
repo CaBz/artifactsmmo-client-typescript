@@ -60,27 +60,49 @@ export class WorkflowGenerator {
         return [];
     }
 
-    generateEquip(code: Items): WorkflowAction[] {
-        const item: Item | undefined = this.items.get(code);
-        if (!item) {
-            throw new Error('Item does not exist');
+    generateEquip(inputCode: Items): WorkflowAction[] {
+        const codes: Items[] = inputCode.split(',') as Items[];
+        let item: Item | undefined;
+        let code: Items;
+
+        const actions: WorkflowAction[] = [];
+        for (let i=0; i<codes.length; i++) {
+            code = codes[i]!;
+
+            item = this.items.get(code);
+            if (!item) {
+                throw new Error('Item does not exist');
+            }
+
+            actions.push(...WorkflowFactory.withdrawAndEquip([[item.code, 1, item.equippableSlot],]));
         }
 
-        return WorkflowFactory.withdrawAndEquip([
-            [item.code, 1, item.equippableSlot],
-        ]);
+        return actions;
     }
 
-    async generateCraft(code: Items, quantity: number): Promise<WorkflowAction[]> {
-        const recipe: Recipe = Recipes.getFor(code);
-        const recipeQuantityFromBank = await this.banker.howManyTimesRecipeCanBeCraft(recipe, this.character.maxInventory);
-        const recipeQuantity: number = quantity === -1 ? recipeQuantityFromBank : Math.min(quantity, recipeQuantityFromBank);
+    async generateCraft(inputCode: Items, quantity: number): Promise<WorkflowAction[]> {
+        const codes: Items[] = inputCode.split(',') as Items[];
 
-        if (recipeQuantity === 0) {
-            throw new Error('Cannot craft');
+        const actions = [];
+        let recipe: Recipe;
+        let recipeQuantityFromBank: number;
+        let recipeQuantity: number;
+        let code: Items;
+
+        for (let i=0; i<codes.length; i++) {
+            code = codes[i]!;
+            recipe = Recipes.getFor(code);
+            recipeQuantityFromBank = await this.banker.howManyTimesRecipeCanBeCraft(recipe, this.character.maxInventory);
+            recipeQuantity = quantity === -1 ? recipeQuantityFromBank : Math.min(quantity, recipeQuantityFromBank);
+
+            if (recipeQuantity === 0) {
+                throw new Error(`${code} cannot be crafted - Missing recipe items: ${recipe.items.map((item) => `${item.code} x${item.quantity}`).join(',')}`);
+            }
+
+            actions.push(...WorkflowFactory.withdrawAndCraft(code, recipe, recipeQuantity, false));
         }
 
-        return WorkflowFactory.withdrawAndCraft(code, recipe, recipeQuantity, false);
+        return actions;
     }
 
     async generateRecraft(code: Items, quantity: number): Promise<WorkflowAction[]> {

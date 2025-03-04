@@ -71,7 +71,7 @@ export class Simulator {
                 });
 
                 const logger: any = quantity === 0 && !isCraftable ? console.error : console.log;
-                logger(`* [lv.${item.level.toString()}] ${item.code} = ${entry.successRate}% => Available [x${quantity}] | Craftable [${isCraftable ? 'Y' : 'N'}] ${recipeItems.join(', ')}`);
+                logger(`* [lv.${item.level.toString()}] ${item.code} = ${entry.successRate}% in ${entry.turns} turns => Available [x${quantity}] | Craftable [${isCraftable ? 'Y' : 'N'}] ${recipeItems.join(', ')}`);
             });
             console.log();
         });
@@ -99,7 +99,7 @@ export class Simulator {
 
             const values: any = this.simulateWithItemAgainst(code, item, 1000);
 
-            result.push({ item: item.code, level: item.level, successRate: values.successRate});
+            result.push({ item: item.code, level: item.level, successRate: values.successRate, turns: values.averageTurns});
         });
 
         result.sort((a: any, b: any) => b.successRate - a.successRate);
