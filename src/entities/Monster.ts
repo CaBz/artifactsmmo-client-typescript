@@ -26,4 +26,12 @@ export class Monster {
             { return {code: stat, value: this.data[stat] ?? 0}; }
         });
     }
+
+    get effects(): any[] {
+        return this.data.effects;
+    }
+
+    get drops(): any[] {
+        return this.data.drops;
+    }
 }

@@ -7,12 +7,14 @@ import {ArtifactsClient} from "../../gateways/ArtifactsClient.js";
 import {BankWithdrawActionCondition} from "../WorkflowOrchestrator.js";
 import {Character} from "../../entities/Character.js";
 import {Recipe, ResourceItem} from "../../lexical/Recipes.js";
+import {Item} from "../../entities/Item.js";
 
 export class Banker {
     constructor(
         private readonly waiter: Waiter,
         private readonly characterGateway: CharacterGateway,
-        private readonly client: ArtifactsClient
+        private readonly client: ArtifactsClient,
+        private readonly items: Map<string, Item>,
     ) {
     }
 
@@ -125,13 +127,40 @@ export class Banker {
     }
 
     private logBankItems(bankItems: any[]): void {
-        Utils.logHeadline(`BANK STATUS`);
+        const items = bankItems.map((bankItem: any) => {
+            const item: Item = this.items.get(bankItem.code)!;
 
-        // bankItems.forEach((bankItem) => {
-        //     Utils.logHeadline(`${bankItem.code.padEnd(28, ' ')} ${bankItem.quantity.toString().padStart(5, ' ')}`);
-        // });
+            return { item, quantity: bankItem.quantity };
+        });
 
-        console.dir(bankItems, { depth: null });
+        items.sort((a, b) => a.item.type.localeCompare(b.item.type) || a.item.name.localeCompare(b.item.name));
+
+        const headline = `| ${Utils.formatForMiddle('Name', 23)} `
+            + `| Lv. `
+            + `| ${Utils.formatForMiddle('Type', 10)} `
+            + `| Quantity `
+            + `|`;
+
+        console.log('-'.repeat(headline.length));
+        console.log(`| ${Utils.formatForMiddle('BANK STATUS', headline.length - 4)} |`)
+        console.log('-'.repeat(headline.length));
+        console.log(headline);
+        console.log('-'.repeat(headline.length));
+
+        items.forEach((entry) => {
+            const item: Item = entry.item;
+            const quantity: number = entry.quantity;
+
+            console.log(
+                `| ${item.name.padEnd(23, ' ')} `
+                + `| ${item.level.toString().padStart(3)} `
+                + `| ${item.type.padEnd(10, ' ')} `
+                + `| ${quantity.toString().padStart(8, ' ')} `
+                + `|`
+            );
+        });
+
+        console.log('-'.repeat(headline.length));
     }
 
     async howManyTimesRecipeCanBeCraft(recipe: Recipe, maxInventory: number): Promise<number> {

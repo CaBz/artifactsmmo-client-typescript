@@ -25,6 +25,7 @@ export class Rester {
 
         character = await this.restoreFromConsumables(character);
 
+
         try {
             const result: any = await this.characterGateway.rest();
             Utils.logHeadline(`REST > +${result.hpRestored}hp`);
@@ -62,10 +63,10 @@ export class Rester {
         const firstConsumable: Item = consumables.shift()!;
         character = await this.itemUser.use(firstConsumable.code, 1);
         if (!character.isFullHealth()) {
-            character = await this.waiter.wait();
             return this.restoreFromConsumables(character);
         }
 
+        character = await this.waiter.wait();
         return character
     }
 }

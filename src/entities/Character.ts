@@ -198,7 +198,7 @@ export class Character {
     }
 
     logStatus() {
-        Utils.logHeadline(Utils.formatForMiddle('STATUS', 34));
+        Utils.logHeadline(Utils.formatForMiddle('STATUS', 35));
         console.log(Utils.LINE);
 
         const remainingCooldown = this.getRemainingCooldown();
@@ -209,17 +209,17 @@ export class Character {
         const hpPart = `${this.data.hp}/${this.data.max_hp}hp`;
         const goldPart = `${this.data.gold}g`;
 
-        console.log(`| ${namePart.padEnd(20, ' ')} ${hpPart.padStart(13, ' ')} |`);
-        console.log(`| ${goldPart.padEnd(12, ' ')} ${xpPart.padStart(21)} |`);
-        console.log(`| ${coordinates.padEnd(9, ' ')} ${remainingCooldown.toString().padStart(22, ' ')}ms |`)
+        console.log(`| ${namePart.padEnd(20, ' ')} ${hpPart.padStart(14, ' ')} |`);
+        console.log(`| ${goldPart.padEnd(12, ' ')} ${xpPart.padStart(22)} |`);
+        console.log(`| ${coordinates.padEnd(9, ' ')} ${remainingCooldown.toString().padStart(23, ' ')}ms |`)
         console.log(Utils.LINE);
     }
 
     logStats() {
-        console.log('|                STATS               |');
+        Utils.logHeadline(Utils.formatForMiddle('STATS', 35));
         console.log(Utils.LINE);
         this.getStats().forEach((stat) => {
-            console.log(`| ${stat.code.padEnd(16, ' ')} | ${stat.value.toString().padStart(15, ' ')} |`)
+            console.log(`| ${stat.code.padEnd(16, ' ')} | ${stat.value.toString().padStart(16, ' ')} |`)
         });
         console.log(Utils.LINE);
     }
@@ -227,24 +227,24 @@ export class Character {
     logElements() {
         const elements = ['fire', 'earth', 'water', 'air'];
 
-        Utils.logHeadline(Utils.formatForMiddle('ELEMENTS', 34));
+        Utils.logHeadline(Utils.formatForMiddle('ELEMENTS', 35));
         console.log(Utils.LINE);
-        console.log('| Element | Attack | Damage | Resist |');
-        console.log('|---------|--------|--------|--------|');
+        console.log('| Element | Attack | Damage |  Resist |');
+        console.log('|---------|--------|--------|---------|');
         elements.forEach((element) => {
             const attack = this.data[`attack_${element}`].toString();
             const damage = this.data[`dmg_${element}`].toString();
             const resistance = this.data[`res_${element}`].toString();
-            console.log(`| ${element.padEnd(7, ' ')} | ${attack.padStart(6, ' ')} | ${damage.padStart(6, ' ')} | ${resistance.padStart(6, ' ')} |`);
+            console.log(`| ${element.padEnd(7, ' ')} | ${attack.padStart(6, ' ')} | ${damage.padStart(6, ' ')} | ${resistance.padStart(7, ' ')} |`);
         });
         console.log(Utils.LINE);
     }
 
     logSkills() {
-        Utils.logHeadline(Utils.formatForMiddle('SKILLS', 34));
+        Utils.logHeadline(Utils.formatForMiddle('SKILLS', 35));
         console.log(Utils.LINE);
-        console.log('| Name            | LVL |         XP |')
-        console.log('|-----------------|-----|------------|')
+        console.log('| Name            | LVL |          XP |')
+        console.log('|-----------------|-----|-------------|')
 
         const skills = ['mining', 'woodcutting', 'fishing', 'weaponcrafting', 'gearcrafting', 'jewelrycrafting', 'cooking', 'alchemy'];
         skills.forEach((skill) => {
@@ -258,13 +258,13 @@ export class Character {
             const maxXp = this.data[`${skill}_max_xp`];
             const xpProgress = `${xp}/${maxXp}`;
 
-            console.log(`| ${skill.padEnd(15, ' ')} | ${level.toString().padStart(3, ' ')} | ${xpProgress.padStart(10)} |`);
+            console.log(`| ${skill.padEnd(15, ' ')} | ${level.toString().padStart(3, ' ')} | ${xpProgress.padStart(11)} |`);
         });
         console.log(Utils.LINE);
     }
 
     logEquippedGear(): void {
-        Utils.logHeadline(Utils.formatForMiddle('EQUIPPED GEAR', 34));
+        Utils.logHeadline(Utils.formatForMiddle('EQUIPPED GEAR', 35));
         console.log(Utils.LINE);
 
         const gears = ['weapon', 'rune', 'shield', 'helmet', 'body_armor', 'leg_armor', 'boots', 'ring1', 'ring2', 'amulet', 'artifact1', 'artifact2', 'artifact3', 'bag'];
@@ -274,13 +274,13 @@ export class Character {
                 return;
             }
 
-            console.log(`| ${gear.padEnd(10, ' ')} | ${equipped.padEnd(21, ' ')} |`);
+            console.log(`| ${gear.padEnd(10, ' ')} | ${equipped.padEnd(22, ' ')} |`);
         })
         console.log(Utils.LINE);
     }
 
     logUtilities() {
-        Utils.logHeadline(Utils.formatForMiddle('UTILITIES', 34));
+        Utils.logHeadline(Utils.formatForMiddle('UTILITIES', 35));
         console.log(Utils.LINE);
 
         this.logUtility(1);
@@ -302,7 +302,7 @@ export class Character {
     logInventories() {
         const usedSpaces = this.inventoryCount();
 
-        Utils.logHeadline(Utils.formatForMiddle(`INVENTORY (${usedSpaces}/${this.maxInventory})`, 34));
+        Utils.logHeadline(Utils.formatForMiddle(`INVENTORY (${usedSpaces}/${this.maxInventory})`, 35));
         console.log(Utils.LINE);
 
         if (usedSpaces === 0) {
@@ -317,7 +317,7 @@ export class Character {
                 continue;
             }
 
-            console.log(`| ${inventory.slot.toString().padStart(2)} | ${inventory.code.padEnd(23, ' ')} | ${inventory.quantity.toString().padStart(3, ' ')} |`);
+            console.log(`| ${inventory.slot.toString().padStart(2)} | ${inventory.code.padEnd(24, ' ')} | ${inventory.quantity.toString().padStart(3, ' ')} |`);
         }
         console.log(Utils.LINE);
     }
@@ -330,7 +330,7 @@ export class Character {
 
         const remaining = this.data.task_total - this.data.task_progress;
 
-        Utils.logHeadline(Utils.formatForMiddle(`TASK (${this.data.task_progress}/${this.data.task_total})`, 34));
+        Utils.logHeadline(Utils.formatForMiddle(`TASK (${this.data.task_progress}/${this.data.task_total})`, 35));
         console.log(Utils.LINE);
 
         const taskWord: string = this.data.task_type === 'items' ? 'Give' : 'Kill'

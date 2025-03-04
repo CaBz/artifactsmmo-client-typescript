@@ -131,21 +131,46 @@ export class Simulator {
         monsters.sort((a, b) => a.level - b.level);
 
         const numberFormatter = new Intl.NumberFormat('en-us', {minimumFractionDigits: 2});
-        const headline = `| ${Utils.formatForMiddle('Monster', 16)} | Lv. | Success % | Turns  | Avg. Atk. HP | Avg. Def. HP | ${Utils.formatForMiddle('Good Against', 23)} | ${Utils.formatForMiddle('Weak Against', 23)} |`;
+        const headline = `| ${Utils.formatForMiddle('Monster', 16)} `
+            + `| Lv. `
+            + `| Success % `
+            + `| Turns  `
+            + `| Avg. Atk. HP `
+            + `| Avg. Def. HP `
+            + `| ${Utils.formatForMiddle('Good Against', 23)} `
+            + `| ${Utils.formatForMiddle('Weak Against', 23)} `
+            + `| ${Utils.formatForMiddle('Effects', 14)} `
+            + `| ${Utils.formatForMiddle('Drops', 93)} `
+            + `|`;
 
         console.log('-'.repeat(headline.length));
         console.log(headline);
         console.log('-'.repeat(headline.length));
 
         let monster: Monster, values: any, logger: any, analyzes: any;
+        let effects: any[], drops: any[];
+
         for (let i=0; i<monsters.length; i++) {
             monster = monsters[i]!;
             values = await this.calculateSimulationFor(attackerStats, monster.code as Monsters, 1000);
             analyzes = await this.analyzeFightTurn(monster.code as Monsters);
 
+            effects = monster.effects.map(effect => effect.code);
+            drops = monster.drops.map(drop => drop.code);
+
             logger = values.successRate === 100 ? console.info : console.error;
             logger(
-                `| ${monster.name.padEnd(16)} | ${monster.level.toString().padStart(3)} | ${numberFormatter.format(values.successRate).padStart(8)}% | ${numberFormatter.format(values.averageTurns).padStart(6)} | ${numberFormatter.format(values.averageAttackerHP).padStart(12)} | ${numberFormatter.format(values.averageDefenderHP).padStart(12)} | ${analyzes.attack.goodAgainst.join(', ').padEnd(23, ' ')} | ${analyzes.defend.weakAgainst.join(', ').padEnd(23, ' ')} |`
+                `| ${monster.name.padEnd(16)} `
+                + `| ${monster.level.toString().padStart(3)} `
+                + `| ${numberFormatter.format(values.successRate).padStart(8)}% `
+                + `| ${numberFormatter.format(values.averageTurns).padStart(6)} `
+                + `| ${numberFormatter.format(values.averageAttackerHP).padStart(12)} `
+                + `| ${numberFormatter.format(values.averageDefenderHP).padStart(12)} `
+                + `| ${analyzes.attack.goodAgainst.join(', ').padEnd(23, ' ')} `
+                + `| ${analyzes.defend.weakAgainst.join(', ').padEnd(23, ' ')} `
+                + `| ${(effects.length === 0 ? '(none)' : effects.join(', ')).padEnd(14, ' ')} `
+                + `| ${(drops.length === 0 ? '(none)' : drops.join(', ')).padEnd(93, ' ')} `
+                + `|`
             );
         }
 

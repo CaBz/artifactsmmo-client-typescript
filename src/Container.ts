@@ -104,7 +104,7 @@ export class Container {
         this.instances.set('crafter', new Crafter(this.waiter, this.characterGateway));
         this.instances.set('equipper', new Equipper(this.waiter, this.characterGateway, this.items));
         this.instances.set('item-user', new ItemUser(this.waiter, this.characterGateway));
-        this.instances.set('banker', new Banker(this.waiter, this.characterGateway, this.client));
+        this.instances.set('banker', new Banker(this.waiter, this.characterGateway, this.client, this.items));
         this.instances.set('rester', new Rester(this.waiter, this.characterGateway, this.itemUser, this.items));
         this.instances.set('fighter', new Fighter(this.waiter, this.characterGateway));
         this.instances.set('tasker', new Tasker(this.waiter, this.characterGateway));

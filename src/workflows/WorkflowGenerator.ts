@@ -46,11 +46,11 @@ export class WorkflowGenerator {
             case WorkflowPrefix.Equip:
                 return this.generateEquip(code as Items);
             case WorkflowPrefix.CraftAll:
-                return this.generateCraft(code as Items, 1);
-            case WorkflowPrefix.Craft:
                 return this.generateCraft(code as Items, -1);
+            case WorkflowPrefix.Craft:
+                return this.generateCraft(code as Items, +(parts[2] || 1));
             case WorkflowPrefix.Recraft:
-                return this.generateRecraft(code as Items);
+                return this.generateRecraft(code as Items, +(parts[2] || -1));
             case WorkflowPrefix.Gather:
                 return this.generateGather(code as Items);
             case WorkflowPrefix.GatherCraft:
@@ -73,7 +73,8 @@ export class WorkflowGenerator {
 
     async generateCraft(code: Items, quantity: number): Promise<WorkflowAction[]> {
         const recipe: Recipe = Recipes.getFor(code);
-        const recipeQuantity: number = quantity === -1 ? (await this.banker.howManyTimesRecipeCanBeCraft(recipe, this.character.maxInventory)) : 1;
+        const recipeQuantityFromBank = await this.banker.howManyTimesRecipeCanBeCraft(recipe, this.character.maxInventory);
+        const recipeQuantity: number = quantity === -1 ? recipeQuantityFromBank : Math.min(quantity, recipeQuantityFromBank);
 
         if (recipeQuantity === 0) {
             throw new Error('Cannot craft');
@@ -82,9 +83,10 @@ export class WorkflowGenerator {
         return WorkflowFactory.withdrawAndCraft(code, recipe, recipeQuantity, false);
     }
 
-    async generateRecraft(code: Items): Promise<WorkflowAction[]> {
+    async generateRecraft(code: Items, quantity: number): Promise<WorkflowAction[]> {
         const recipe: Recipe = Recipes.getFor(code);
-        const recipeQuantity: number = await this.banker.howManyTimesRecipeCanBeCraft(recipe, this.character.maxInventory);
+        const recipeQuantityFromBank = await this.banker.howManyTimesRecipeCanBeCraft(recipe, this.character.maxInventory);
+        const recipeQuantity: number = quantity === -1 ? recipeQuantityFromBank : Math.min(quantity, recipeQuantityFromBank);
 
         if (recipeQuantity === 0) {
             throw new Error('Cannot craft');
