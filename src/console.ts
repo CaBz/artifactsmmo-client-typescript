@@ -144,10 +144,10 @@ async function processCommand(commandName: string) {
             await container.simulator.simulateWithItemCodeAgainst((consoleParams.shift() || '') as Monsters, (consoleParams.shift() || '') as Items);
             break;
         case 'simulate-best':
-            await container.simulator.findBestUsableEquippableSlot((consoleParams.shift() || '') as Monsters, (consoleParams.shift() || '') as EquippableSlot);
+            await container.simulator.findBestUsableEquippableSlot((consoleParams.shift() || '') as Monsters, (consoleParams.shift() || '') as EquippableSlot, +(consoleParams.shift() || 40));
             break;
         case 'simulate-best-all':
-            await container.simulator.findBestUsableEquippables((consoleParams.shift() || '') as Monsters);
+            await container.simulator.findBestUsableEquippables((consoleParams.shift() || '') as Monsters, +(consoleParams.shift() || 40));
             break;
         case 'analyze-fight':
             await container.simulator.analyzeFightTurn((consoleParams.shift() || '') as Monsters);

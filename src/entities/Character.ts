@@ -11,7 +11,7 @@ export class Character {
         return this.data.name;
     }
 
-    get level(): string {
+    get level(): number {
         return this.data.level;
     }
 

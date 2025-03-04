@@ -28,12 +28,12 @@ export class Simulator {
         }
     }
 
-    async findBestUsableEquippables(code: Monsters) {
+    async findBestUsableEquippables(code: Monsters, maxLevel: number) {
         await this.loadCharacter();
         const attackerStats = this.getEntityStats(this.character.getAllStats());
         const values: any = this.calculateSimulationFor(attackerStats, code, 1000);
 
-        console.log(`Current equipped items: ${values.successRate}%`);
+        console.log(`Current equipped items: ${values.successRate}% in ${values.averageTurns} turns`);
         console.log();
 
         const bank: any = {};
@@ -42,15 +42,22 @@ export class Simulator {
         });
 
         EquippableSlots.forEach((slot: EquippableSlot) => {
-            const result: any = this.simulateForEquipmentSlot(code, slot);
+            const result: any[] = this.simulateForEquipmentSlot(code, slot, maxLevel);
 
-            console.error(slot);
+            console.error(`${slot} => ${result.length} possible upgrades`);
             result.forEach((entry: any) => {
+                // Don't want to see items already equipped
+                if (this.character.hasEquipped(entry.item)) {
+                    return;
+                }
+
+                // Don't want to see items less successful
                 if (entry.successRate < values.successRate) {
                     return;
                 }
 
-                if (this.character.hasEquipped(entry.item)) {
+                // Don't want to see items that creates more turns
+                if (entry.turns >= values.averageTurns) {
                     return;
                 }
 
@@ -77,19 +84,23 @@ export class Simulator {
         });
     }
 
-    async findBestUsableEquippableSlot(code: Monsters, slot: EquippableSlot) {
+    async findBestUsableEquippableSlot(code: Monsters, slot: EquippableSlot, maxLevel: number) {
         await this.loadCharacter();
 
-        const result: any = this.simulateForEquipmentSlot(code, slot);
+        const result: any = this.simulateForEquipmentSlot(code, slot, maxLevel);
 
         console.log(result);
     }
 
-    private simulateForEquipmentSlot(code: Monsters, slot: EquippableSlot) {
+    private simulateForEquipmentSlot(code: Monsters, slot: EquippableSlot, maxLevel: number) {
         let result: any = [];
         Equippables.forEach((itemCode: Items) => {
             const item = this.items.get(itemCode)!;
             if (item.equippableSlot !== slot) {
+                return;
+            }
+
+            if (item.level > maxLevel) {
                 return;
             }
 
@@ -102,7 +113,7 @@ export class Simulator {
             result.push({ item: item.code, level: item.level, successRate: values.successRate, turns: values.averageTurns});
         });
 
-        result.sort((a: any, b: any) => b.successRate - a.successRate);
+        result.sort((a: any, b: any) => b.successRate - a.successRate || a.turns - b.turns);
 
         return result;
     }
@@ -119,8 +130,7 @@ export class Simulator {
         await this.loadCharacter();
         const attackerStats: any = this.getEntityStats(this.character.getAllStats());
 
-        const values: any = this.calculateSimulationFor(attackerStats, code, loops);
-        return values;
+        return this.calculateSimulationFor(attackerStats, code, loops);
     }
 
     async simulateAgainstAllMonsters(): Promise<void> {
