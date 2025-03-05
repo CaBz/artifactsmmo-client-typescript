@@ -150,12 +150,12 @@ export class WorkflowRegister {
 
         const level15Set = [
             [Items.MultislimesSword, 1, EquippableSlot.Weapon],
-            [Items.IronBoots, 1, EquippableSlot.Boots],
+            [Items.AdventurerBoots, 1, EquippableSlot.Boots],
             [Items.WolfEars, 1, EquippableSlot.Helmet],
-            [Items.IronLegsArmor, 1, EquippableSlot.LegArmor],
-            [Items.IronArmor, 1, EquippableSlot.BodyArmor],
+            [Items.AdventurerPants, 1, EquippableSlot.LegArmor],
+            [Items.AdventurerVest, 1, EquippableSlot.BodyArmor],
             [Items.SlimeShield, 1, EquippableSlot.Shield],
-            [Items.LifeAmulet, 1, EquippableSlot.Amulet],
+            [Items.AirWaterAmulet, 1, EquippableSlot.Amulet],
             [Items.IronRing, 2, [EquippableSlot.Ring1, EquippableSlot.Ring2]],
         ];
 

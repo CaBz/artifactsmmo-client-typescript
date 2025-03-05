@@ -71,17 +71,18 @@ export class ArtifactsClient {
     }
 
     async getBank() {
-        const result: any = [];
+        const items: any = [];
 
+        let bank = await this.sendRequest('GET', `my/bank`);
         let response = await this.sendRequestWithoutData('GET', `my/bank/items?size=100&page=1`);
-        result.push(...response.data);
+        items.push(...response.data);
 
         while (response.page < response.pages) {
             response = await this.sendRequestWithoutData('GET', `my/bank/items?size=100&page=${response.page + 1}`);
-            result.push(...response.data);
+            items.push(...response.data);
         }
 
-        return result;
+        return {bank, items};
     }
 
     async bankQuery(code: string) {

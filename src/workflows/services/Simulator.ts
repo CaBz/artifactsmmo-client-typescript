@@ -45,7 +45,7 @@ export class Simulator {
         console.log(`Current equipped items: ${values.successRate}% in ${values.averageTurns} turns`);
         console.log();
 
-        const bank: any = this.banker.getBank();
+        const bank: any = await this.banker.getBank();
 
         EquippableSlots.forEach((slot: EquippableSlot) => {
             const result: any[] = this.simulateForEquipmentSlot(code, slot, maxLevel);
@@ -465,8 +465,7 @@ export class Simulator {
     async findNextToDo(name: Skills, hideNotCraftable: string | undefined): Promise<void> {
         await this.loadCharacter();
 
-        const bank: any = this.banker.getBank();
-
+        const bank: any = await this.banker.getBank();
         const characterSkill = this.character.getSkill(name);
         const maximumInventory: number = 99999;
         const itemsToCraft: any[] = [];

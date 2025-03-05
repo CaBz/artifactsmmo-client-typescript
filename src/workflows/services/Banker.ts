@@ -126,9 +126,10 @@ export class Banker {
         }
     }
 
-    private logBankItems(bankItems: any[]): void {
+    private logBankItems(bank: any): void {
+        const bankItems: any[] = bank.items;
         const items = bankItems.map((bankItem: any) => ({ item: this.items.get(bankItem.code)!, quantity: bankItem.quantity }));
-        items.sort((a, b) => a.item.type.localeCompare(b.item.type) || a.item.name.localeCompare(b.item.name));
+        items.sort((a: any, b: any) => a.item.type.localeCompare(b.item.type) || a.item.name.localeCompare(b.item.name));
 
         const headline = `| ${Utils.formatForMiddle('Name', 23)} `
             + `| Lv. `
@@ -136,8 +137,10 @@ export class Banker {
             + `| Quantity `
             + `|`;
 
+        const bankUsage = `${bankItems.length}/${bank.bank.slots}`
+
         console.log('-'.repeat(headline.length));
-        console.log(`| ${Utils.formatForMiddle('BANK STATUS', headline.length - 4)} |`)
+        console.log(`| ${Utils.formatForMiddle(`BANK STATUS (${bankUsage}) - ${bank.bank.gold}g`, headline.length - 4)} |`)
         console.log('-'.repeat(headline.length));
         console.log(headline);
         console.log('-'.repeat(headline.length));
@@ -161,7 +164,7 @@ export class Banker {
     async getBank() {
         // Get bank items
         const bank: any = {};
-        (await this.client.getBank()).forEach((bankItem: any) => {
+        (await this.client.getBank()).items.forEach((bankItem: any) => {
             bank[bankItem.code] = bankItem.quantity;
         });
 
@@ -169,7 +172,7 @@ export class Banker {
     }
 
     async howManyTimesRecipeCanBeCraft(recipe: Recipe, maxInventory: number): Promise<number> {
-        const bank: any = this.getBank();
+        const bank: any = await this.getBank();
 
         return this.calculateRecipeQuantityFromBankItems(bank, recipe, maxInventory);
     }
