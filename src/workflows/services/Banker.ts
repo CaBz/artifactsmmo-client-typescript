@@ -169,11 +169,7 @@ export class Banker {
     }
 
     async howManyTimesRecipeCanBeCraft(recipe: Recipe, maxInventory: number): Promise<number> {
-        // Get bank items
-        const bank: any = {};
-        (await this.client.getBank()).forEach((bankItem: any) => {
-            bank[bankItem.code] = bankItem.quantity;
-        });
+        const bank: any = this.getBank();
 
         return this.calculateRecipeQuantityFromBankItems(bank, recipe, maxInventory);
     }

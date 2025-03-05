@@ -45,10 +45,7 @@ export class Simulator {
         console.log(`Current equipped items: ${values.successRate}% in ${values.averageTurns} turns`);
         console.log();
 
-        const bank: any = {};
-        (await this.client.getBank()).forEach((bankItem: any) => {
-            bank[bankItem.code] = bankItem.quantity;
-        });
+        const bank: any = this.banker.getBank();
 
         EquippableSlots.forEach((slot: EquippableSlot) => {
             const result: any[] = this.simulateForEquipmentSlot(code, slot, maxLevel);
@@ -122,7 +119,7 @@ export class Simulator {
             result.push({ item: item.code, level: item.level, successRate: values.successRate, turns: values.averageTurns});
         });
 
-        result.sort((a: any, b: any) => b.successRate - a.successRate || a.turns - b.turns || a.level - b.level);
+        result.sort((a: any, b: any) => b.successRate - a.successRate || b.turns - a.turns || b.level - a.level);
 
         return result;
     }
@@ -468,11 +465,7 @@ export class Simulator {
     async findNextToDo(name: Skills, hideNotCraftable: string | undefined): Promise<void> {
         await this.loadCharacter();
 
-        const bank: any = {};
-        (await this.client.getBank()).forEach((bankItem: any) => {
-            bank[bankItem.code] = bankItem.quantity;
-        });
-
+        const bank: any = this.banker.getBank();
 
         const characterSkill = this.character.getSkill(name);
         const maximumInventory: number = 99999;
