@@ -1,11 +1,6 @@
-import {PointOfInterest, Workstations} from "../lexical/PointOfInterest.js";
+import {ItemGatheringPOIs, PointOfInterest, Workstations} from "../lexical/PointOfInterest.js";
 import {Items} from "../lexical/Items.js";
-import {
-    Action,
-    BankWithdrawActionCondition,
-    SubworkflowCondition,
-    WorkflowAction
-} from "./WorkflowOrchestrator.js";
+import {Action, BankWithdrawActionCondition, SubworkflowCondition, WorkflowAction} from "./WorkflowOrchestrator.js";
 import {Recipe, Recipes, ResourceItem} from "../lexical/Recipes.js";
 
 export class WorkflowFactory {
@@ -20,6 +15,32 @@ export class WorkflowFactory {
             { action: Action.Move, coordinates: bankPoint },
             { action: Action.BankDepositAll },
             { action: Action.BankWithdraw, code: gatherItem, quantity: -1 },
+        ]
+    }
+
+    static gatherManyAndCraft(recipe: Recipe, withdrawItems: ResourceItem[], gatherItems: ResourceItem[]): WorkflowAction[] {
+        const withdrawActions: WorkflowAction[] = withdrawItems.map((item: ResourceItem) => ({ action: Action.BankWithdraw, code: item.code, quantity: item.quantity}));
+
+        const gatherActions: WorkflowAction[] = [];
+        gatherItems.forEach((item: ResourceItem) => {
+            const POIs: PointOfInterest[] = ItemGatheringPOIs[item.code];
+            if (!POIs) {
+                throw new Error(`Unable to find POI for: ${item.code}`);
+            }
+
+            gatherActions.push({ action: Action.Move, coordinates: POIs[0]! });
+            gatherActions.push({ action: Action.Gather, loops: item.quantity })
+        });
+
+        return [
+            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
+            { action: Action.BankDepositAll },
+
+            ...withdrawActions,
+            ...gatherActions,
+
+            { action: Action.Move, coordinates: Workstations[recipe.skill]! },
+            { action: Action.Craft, code: recipe.code, quantity: -1 },
         ]
     }
 

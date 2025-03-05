@@ -15,6 +15,7 @@
   "scripts": {
     "console": "node --no-warnings --loader ts-node/esm --env-file=.env src/console.ts",
     "bank": "yarn console Dummy bank-status",
+    "refresh": "yarn console Dummy refresh-dataset && yarn console Dummy generate",
 
     "cdl": "yarn console Richard_CDL",
     "pp": "yarn console PatatePoil",

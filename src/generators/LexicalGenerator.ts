@@ -74,7 +74,7 @@ export class LexicalGenerator {
                 countRecipes++;
 
                 placeholderRecipes += `${SPACES}case Items.${item.nameForEnum}:\n`;
-                placeholderRecipes += `${SPACES}    return RecipeFactory.${key}(${item.levelToCraft}, [\n`;
+                placeholderRecipes += `${SPACES}    return RecipeFactory.${key}(Items.${item.nameForEnum}, ${item.levelToCraft}, [\n`;
 
                 if (!placeholderCraftable[key]) {
                     placeholderCraftable[key] = '';

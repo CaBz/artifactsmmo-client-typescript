@@ -6,7 +6,7 @@ import {ClientException} from "../../gateways/ClientException.js";
 import {ArtifactsClient} from "../../gateways/ArtifactsClient.js";
 import {BankWithdrawActionCondition} from "../WorkflowOrchestrator.js";
 import {Character} from "../../entities/Character.js";
-import {Recipe, ResourceItem} from "../../lexical/Recipes.js";
+import {Recipe} from "../../lexical/Recipes.js";
 import {Item} from "../../entities/Item.js";
 
 export class Banker {
@@ -158,6 +158,16 @@ export class Banker {
         console.log('-'.repeat(headline.length));
     }
 
+    async getBank() {
+        // Get bank items
+        const bank: any = {};
+        (await this.client.getBank()).forEach((bankItem: any) => {
+            bank[bankItem.code] = bankItem.quantity;
+        });
+
+        return bank;
+    }
+
     async howManyTimesRecipeCanBeCraft(recipe: Recipe, maxInventory: number): Promise<number> {
         // Get bank items
         const bank: any = {};
@@ -169,11 +179,7 @@ export class Banker {
     }
 
     calculateRecipeQuantityFromBankItems(bank: any, recipe: Recipe, maxInventory: number): number {
-        // Check character skill level vs recipe level?
-
-        // Figure out how many times we can do the recipe, assuming we have all items
-        const recipeRequiredItems: number = recipe.items.reduce((total: number, item: ResourceItem) => total + item.quantity, 0);
-        let recipeQuantity: number = Math.floor(maxInventory / recipeRequiredItems);
+        let recipeQuantity: number = recipe.getQuantityCraftable(maxInventory);
 
         // Make sure we update the recipe times based on the minimum possible from available items in bank
         const availableItems: any[] = [];

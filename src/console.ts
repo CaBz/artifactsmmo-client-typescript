@@ -5,7 +5,7 @@ import * as Utils from "./Utils.js";
 import {Monsters} from "./lexical/Monsters.js";
 import {EquippableSlot} from "./lexical/EquippableSlot.js";
 import {Recipes} from "./lexical/Recipes.js";
-import {AllMerchants, Merchants} from "./lexical/Merchants.js";
+import {AllMerchants} from "./lexical/Merchants.js";
 import {Skills} from "./lexical/Skills.js";
 
 const consoleParams = process.argv;

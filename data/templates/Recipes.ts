@@ -11,6 +11,10 @@ export class Recipe {
     constructor(private readonly data: any) {
     }
 
+    get code(): Items {
+        return this.data.code;
+    }
+
     get skill(): Skills {
         return this.data.skill;
     }
@@ -21,6 +25,12 @@ export class Recipe {
 
     get items(): ResourceItem[] {
         return this.data.items;
+    }
+
+    getQuantityCraftable(maxInventory: number): number {
+        const recipeRequiredItems: number = this.items.reduce((total: number, item: ResourceItem) => total + item.quantity, 0);
+
+        return Math.floor(maxInventory / recipeRequiredItems);
     }
 }
 
@@ -35,35 +45,35 @@ export class Recipes {
 }
 
 export class RecipeFactory {
-    static mining(level: number, items: ResourceItem[]): Recipe {
-        return new Recipe({ skill: Skills.Mining, level, items, });
+    static mining(code: Items, level: number, items: ResourceItem[]): Recipe {
+        return new Recipe({ code, skill: Skills.Mining, level, items, });
     }
 
-    static woodcutting(level: number, items: ResourceItem[]): Recipe {
-        return new Recipe({ skill: Skills.Woodcutting, level, items, });
+    static woodcutting(code: Items, level: number, items: ResourceItem[]): Recipe {
+        return new Recipe({ code, skill: Skills.Woodcutting, level, items, });
     }
 
-    static fishing(level: number, items: ResourceItem[]): Recipe {
-        return new Recipe({ skill: Skills.Fishing, level, items, });
+    static fishing(code: Items, level: number, items: ResourceItem[]): Recipe {
+        return new Recipe({ code, skill: Skills.Fishing, level, items, });
     }
 
-    static weaponcrafting(level: number, items: ResourceItem[]): Recipe {
-        return new Recipe({ skill: Skills.Weaponcrafting, level, items, });
+    static weaponcrafting(code: Items, level: number, items: ResourceItem[]): Recipe {
+        return new Recipe({ code, skill: Skills.Weaponcrafting, level, items, });
     }
 
-    static gearcrafting(level: number, items: ResourceItem[]): Recipe {
-        return new Recipe({ skill: Skills.Gearcrafting, level, items, });
+    static gearcrafting(code: Items, level: number, items: ResourceItem[]): Recipe {
+        return new Recipe({ code, skill: Skills.Gearcrafting, level, items, });
     }
 
-    static jewelrycrafting(level: number, items: ResourceItem[]): Recipe {
-        return new Recipe({ skill: Skills.Jewelrycrafting, level, items, });
+    static jewelrycrafting(code: Items, level: number, items: ResourceItem[]): Recipe {
+        return new Recipe({ code, skill: Skills.Jewelrycrafting, level, items, });
     }
 
-    static cooking(level: number, items: ResourceItem[]): Recipe {
-        return new Recipe({ skill: Skills.Cooking, level, items, });
+    static cooking(code: Items, level: number, items: ResourceItem[]): Recipe {
+        return new Recipe({ code, skill: Skills.Cooking, level, items, });
     }
 
-    static alchemy(level: number, items: ResourceItem[]): Recipe {
-        return new Recipe({ skill: Skills.Alchemy, level, items, });
+    static alchemy(code: Items, level: number, items: ResourceItem[]): Recipe {
+        return new Recipe({ code, skill: Skills.Alchemy, level, items, });
     }
 }

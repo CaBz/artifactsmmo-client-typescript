@@ -1,4 +1,5 @@
 import {Skills} from "./Skills.js";
+import {Items} from "./Items.js";
 
 export enum PointOfInterest {
     // Monsters
@@ -137,3 +138,27 @@ export const GatheringPOIs = [
     // Event
     [PointOfInterest.Magic, PointOfInterest.Bank2],
 ];
+
+export const ItemGatheringPOIs = {
+    [Items.CopperOre]: [PointOfInterest.Copper, PointOfInterest.Bank1],
+    [Items.IronOre]: [PointOfInterest.Iron, PointOfInterest.Bank1],
+    [Items.Coal]: [PointOfInterest.Coal, PointOfInterest.Bank1],
+    [Items.GoldOre]: [PointOfInterest.Gold, PointOfInterest.Bank1],
+    [Items.MithrilOre]: [PointOfInterest.Mithril, PointOfInterest.Bank2],
+
+    [Items.AshWood]: [PointOfInterest.Ash1, PointOfInterest.Bank1],
+    [Items.SpruceWood]: [PointOfInterest.Spruce1, PointOfInterest.Bank1],
+    [Items.BirchWood]: [PointOfInterest.Birch1, PointOfInterest.Bank1],
+    [Items.DeadWood]: [PointOfInterest.DeadTree1, PointOfInterest.Bank2],
+    [Items.MapleWood]: [PointOfInterest.Maple1, PointOfInterest.Bank2],
+
+    [Items.Sunflower]: [PointOfInterest.Sunflower, PointOfInterest.Bank1],
+    [Items.NettleLeaf]: [PointOfInterest.Nettle, PointOfInterest.Bank2],
+    [Items.GlowstemLeaf]: [PointOfInterest.Glowstem, PointOfInterest.Bank2],
+
+    [Items.Gudgeon]: [PointOfInterest.Gudgeon, PointOfInterest.Bank1],
+    [Items.Shrimp]: [PointOfInterest.Shrimp, PointOfInterest.Bank1],
+    [Items.Trout]: [PointOfInterest.Trout, PointOfInterest.Bank2],
+    [Items.Bass]: [PointOfInterest.Bass, PointOfInterest.Bank2],
+    [Items.Salmon]: [PointOfInterest.Salmon1, PointOfInterest.Bank1],
+}

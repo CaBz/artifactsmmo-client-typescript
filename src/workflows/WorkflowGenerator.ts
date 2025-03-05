@@ -3,7 +3,7 @@ import {WorkflowFactory} from "./WorkflowFactory.js";
 import {Item} from "../entities/Item.js";
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
 import {Character} from "../entities/Character.js";
-import {Recipe, Recipes} from "../lexical/Recipes.js";
+import {Recipe, Recipes, ResourceItem} from "../lexical/Recipes.js";
 import {Items} from "../lexical/Items.js";
 import * as Utils from "../Utils.js";
 import {ArtifactsClient} from "../gateways/ArtifactsClient.js";
@@ -126,12 +126,30 @@ export class WorkflowGenerator {
         return [];
     }
 
-    private generateGatherCraft(code: Items) {
-        const maxInventory = this.character.maxInventory;
+    private async generateGatherCraft(code: Items): Promise<WorkflowAction[]> {
         const recipe: Recipe = Recipes.getFor(code);
+        const quantity: number = recipe.getQuantityCraftable(this.character.maxInventory);
+        const bank = await this.banker.getBank();
 
+        const gathers: ResourceItem[] = [];
+        const withdraws: ResourceItem[] = [];
 
+        recipe.items.forEach((item: ResourceItem) => {
+            const totalNeeded = item.quantity * (quantity - 1);
+            const available = (bank[item.code] || 0) + this.character.holdsHowManyOf(item.code);
 
-        return [];
+            const withdraw = Math.min(totalNeeded, available);
+            const gather = totalNeeded - withdraw;
+
+            if (withdraw > 0) {
+                withdraws.push({ code: item.code, quantity: withdraw });
+            }
+
+            if (gather > 0) {
+                gathers.push({ code: item.code, quantity: gather });
+            }
+        });
+
+        return WorkflowFactory.gatherManyAndCraft(recipe, withdraws, gathers);
     }
 }
