@@ -122,7 +122,7 @@ export class Simulator {
             result.push({ item: item.code, level: item.level, successRate: values.successRate, turns: values.averageTurns});
         });
 
-        result.sort((a: any, b: any) => b.successRate - a.successRate || a.turns - b.turns);
+        result.sort((a: any, b: any) => b.successRate - a.successRate || a.turns - b.turns || a.level - b.level);
 
         return result;
     }
