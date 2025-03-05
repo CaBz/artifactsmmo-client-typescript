@@ -20,6 +20,7 @@ export class WorkflowRegister {
     private static registerForGathering(workflows: Map<string, WorkflowAction[]>) {
         workflows.set('copper-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Copper, PointOfInterest.Bank1, PointOfInterest.Forge, Items.Copper, Items.CopperOre));
         workflows.set('iron-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Iron, PointOfInterest.Bank1, PointOfInterest.Forge, Items.Iron, Items.IronOre));
+        workflows.set('iron-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Iron, PointOfInterest.Bank1, PointOfInterest.Forge, Items.Iron, Items.IronOre));
         workflows.set('gold-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Gold, PointOfInterest.Bank1, PointOfInterest.Forge, Items.Gold, Items.GoldOre));
         workflows.set('mithril-craft', WorkflowFactory.gatherAndCraft(PointOfInterest.Mithril, PointOfInterest.Bank2, PointOfInterest.Forge, Items.Mithril, Items.MithrilOre));
 

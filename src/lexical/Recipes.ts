@@ -9,7 +9,7 @@ export interface ResourceItem {
 
 export interface Recipe {
     skill: Skills,
-    level: Number,
+    level: number,
     items: ResourceItem[],
 }
 

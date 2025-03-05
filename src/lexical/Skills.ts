@@ -8,3 +8,14 @@ export enum Skills {
     Cooking = 'cooking',
     Alchemy = 'alchemy',
 }
+
+export const AllSkills = [
+    Skills.Mining,
+    Skills.Woodcutting,
+    Skills.Fishing,
+    Skills.Weaponcrafting,
+    Skills.Gearcrafting,
+    Skills.Jewelrycrafting,
+    Skills.Cooking,
+    Skills.Alchemy,
+];

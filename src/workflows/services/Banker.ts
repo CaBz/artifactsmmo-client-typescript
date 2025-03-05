@@ -160,8 +160,15 @@ export class Banker {
 
     async howManyTimesRecipeCanBeCraft(recipe: Recipe, maxInventory: number): Promise<number> {
         // Get bank items
-        const bankItems: any[] = await this.client.getBank();
+        const bank: any = {};
+        (await this.client.getBank()).forEach((bankItem: any) => {
+            bank[bankItem.code] = bankItem.quantity;
+        });
 
+        return this.calculateRecipeQuantityFromBankItems(bank, recipe, maxInventory);
+    }
+
+    calculateRecipeQuantityFromBankItems(bank: any, recipe: Recipe, maxInventory: number): number {
         // Check character skill level vs recipe level?
 
         // Figure out how many times we can do the recipe, assuming we have all items
@@ -171,14 +178,15 @@ export class Banker {
         // Make sure we update the recipe times based on the minimum possible from available items in bank
         const availableItems: any[] = [];
         recipe.items.forEach((item: any) => {
-            bankItems.forEach((bankItem: any) => {
-                if (bankItem.code === item.code) {
-                    const bankRecipeQuantity: number = Math.floor(bankItem.quantity / item.quantity);
-                    recipeQuantity = Math.min(recipeQuantity, bankRecipeQuantity);
-                    availableItems.push(bankItem);
-                    return;
-                }
-            });
+            if (!bank[item.code]) {
+                return;
+            }
+
+            const bankQuantity: number = bank[item.code];
+            const bankRecipeQuantity: number = Math.floor(bankQuantity / item.quantity);
+            recipeQuantity = Math.min(recipeQuantity, bankRecipeQuantity);
+            availableItems.push({code: item.code, quantity: bankQuantity});
+            return;
         });
 
         // Check if we have all recipe items in our bank

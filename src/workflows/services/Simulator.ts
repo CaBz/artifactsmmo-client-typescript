@@ -9,7 +9,15 @@ import {Items} from "../../lexical/Items.js";
 import {Equippables} from "../../lexical/Equippables.js";
 import {EquippableSlot, EquippableSlots} from "../../lexical/EquippableSlot.js";
 import {ArtifactsClient} from "../../gateways/ArtifactsClient.js";
-import {Recipes, ResourceItem} from "../../lexical/Recipes.js";
+import {Recipe, Recipes, ResourceItem} from "../../lexical/Recipes.js";
+import {Skills} from "../../lexical/Skills.js";
+import {
+    CraftableCooking,
+    CraftableGearcrafting,
+    CraftableJewelry,
+    CraftableWeaponcrafting
+} from "../../lexical/Craftables.js";
+import {Banker} from "./Banker.js";
 
 export class Simulator {
     private character: Character;
@@ -19,6 +27,7 @@ export class Simulator {
         private readonly characterGateway: CharacterGateway,
         private readonly monsters: Map<string, Monster>,
         private readonly items: Map<string, Item>,
+        private readonly banker: Banker,
     ) {
     }
 
@@ -454,5 +463,64 @@ export class Simulator {
         });
 
         return entityStats;
+    }
+
+    async findNextToDo(name: Skills, hideNotCraftable: string | undefined): Promise<void> {
+        await this.loadCharacter();
+
+        const bank: any = {};
+        (await this.client.getBank()).forEach((bankItem: any) => {
+            bank[bankItem.code] = bankItem.quantity;
+        });
+
+
+        const characterSkill = this.character.getSkill(name);
+        const maximumInventory: number = 99999;
+        const itemsToCraft: any[] = [];
+        let craftables: Items[] = [];
+        switch (name) {
+            case Skills.Gearcrafting:
+                craftables = CraftableGearcrafting;
+                break;
+            case Skills.Weaponcrafting:
+                craftables = CraftableWeaponcrafting;
+                break;
+            case Skills.Jewelrycrafting:
+                craftables = CraftableJewelry;
+                break;
+            case Skills.Cooking:
+                craftables = CraftableCooking;
+                break;
+            default:
+                throw new Error('Not implemented');
+        }
+
+
+        craftables.forEach((code: Items) => {
+            const recipe: Recipe = Recipes.getFor(code);
+
+            if (recipe.level <= characterSkill.level && recipe.level > (characterSkill.level - 10)) {
+                const recipeItems: any[] = [];
+                const recipeQuantityFromBank = this.banker.calculateRecipeQuantityFromBankItems(bank, recipe, maximumInventory)
+                recipe.items.forEach((recipeItem: ResourceItem) => {
+                    const bankQuantity = bank[recipeItem.code] || 0;
+                    recipeItems.push({bankQuantity, code: recipeItem.code, quantity: recipeItem.quantity});
+                });
+                itemsToCraft.push({ item: this.items.get(code)!, recipeItems: recipeItems, recipeQuantityBank: recipeQuantityFromBank});
+            }
+        });
+
+        itemsToCraft.sort((a, b) => a.item.level - b.item.level || a.recipeQuantityBank - b.recipeQuantityBank);
+        itemsToCraft.forEach((item: any) => {
+            if (hideNotCraftable !== undefined && item.recipeQuantityBank === 0) {
+                return;
+            }
+
+            console.error(`${item.item.code} - lv.${item.item.level} = x${item.recipeQuantityBank}`);
+            item.recipeItems.forEach((recipeItem: any) => {
+                console.log(`    * x${recipeItem.quantity} ${recipeItem.code} [Bank: ${recipeItem.bankQuantity}] = ${item.recipeQuantityBank * recipeItem.quantity}`);
+            });
+            console.log();
+        });
     }
 }

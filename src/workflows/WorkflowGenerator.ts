@@ -127,10 +127,10 @@ export class WorkflowGenerator {
     }
 
     private generateGatherCraft(code: Items) {
-        const item: Item | undefined = this.items.get(code);
-        if (!item) {
-            throw new Error('Item does not exist');
-        }
+        const maxInventory = this.character.maxInventory;
+        const recipe: Recipe = Recipes.getFor(code);
+
+
 
         return [];
     }

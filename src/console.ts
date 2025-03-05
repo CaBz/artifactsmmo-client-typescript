@@ -6,6 +6,7 @@ import {Monsters} from "./lexical/Monsters.js";
 import {EquippableSlot} from "./lexical/EquippableSlot.js";
 import {Recipes} from "./lexical/Recipes.js";
 import {AllMerchants, Merchants} from "./lexical/Merchants.js";
+import {Skills} from "./lexical/Skills.js";
 
 const consoleParams = process.argv;
 consoleParams.shift(); // process name
@@ -151,6 +152,9 @@ async function processCommand(commandName: string) {
             break;
         case 'analyze-fight':
             await container.simulator.analyzeFightTurn((consoleParams.shift() || '') as Monsters);
+            break;
+        case 'skill-next':
+            await container.simulator.findNextToDo((consoleParams.shift() || '') as Skills, consoleParams.shift());
             break;
         default:
             console.error('Put a proper command name');

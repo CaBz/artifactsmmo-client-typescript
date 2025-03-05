@@ -2,6 +2,7 @@ import * as Utils from "../Utils.js";
 import {Items} from "../lexical/Items.js";
 import {StatEffects} from "../lexical/TypeEffects.js";
 import {Coordinates} from "../lexical/MapCoordinates.js";
+import {AllSkills, Skills} from "../lexical/Skills.js";
 
 export class Character {
     constructor(private readonly data: any) {
@@ -159,6 +160,14 @@ export class Character {
         return !task || (task.progress === task.total);
     }
 
+    getSkill(name: Skills) {
+        return {
+            level: this.data[`${name}_level`],
+            xp: this.data[`${name}_xp`],
+            maxHp: this.data[`${name}_max_xp`]
+        };
+    }
+
     logToConsole(sections?: string[]): void {
         const allSections = sections === undefined;
 
@@ -246,8 +255,7 @@ export class Character {
         console.log('| Name            | LVL |          XP |')
         console.log('|-----------------|-----|-------------|')
 
-        const skills = ['mining', 'woodcutting', 'fishing', 'weaponcrafting', 'gearcrafting', 'jewelrycrafting', 'cooking', 'alchemy'];
-        skills.forEach((skill) => {
+        AllSkills.forEach((skill) => {
             const level = this.data[`${skill}_level`];
             const xp = this.data[`${skill}_xp`];
 
