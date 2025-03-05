@@ -3,9 +3,74 @@ import {Effects} from "../lexical/Effects.js";
 import {Items} from "../lexical/Items.js";
 
 export enum ItemType {
-    Resource = 'resource',
-    Currency = 'currency',
+    Amulet = 'amulet',
+    Artifact = 'artifact',
+    BodyArmor = 'body_armor',
+    Boots = 'boots',
     Consumable = 'consumable',
+    Currency = 'currency',
+    Helmet = 'helmet',
+    LegArmor = 'leg_armor',
+    Resource = 'resource',
+    Ring = 'ring',
+    Utility = 'utility',
+    Weapon = 'weapon',
+    Shield = 'shield',
+}
+
+export enum ItemSubType {
+    Fishing = 'fishing',
+    Plank = 'plank',
+    Woodcutting = 'woodcutting',
+    Task = 'task',
+    Mob = 'mob',
+    Mining = 'mining',
+    Bar = 'bar',
+    PreciousStone = 'precious_stone',
+    Food = 'food',
+    Alchemy = 'alchemy',
+    Sap = 'sap',
+    Alloy = 'alloy',
+    Potion = 'potion',
+    Tool = 'tool',
+}
+
+const ItemTypeToWeight = {
+    [ItemType.Currency]: 1,
+    [ItemType.Resource]: 1000,
+    [ItemType.Consumable]: 2000,
+    [ItemType.Utility]: 3000,
+    [ItemType.Helmet]: 4000,
+    [ItemType.BodyArmor]: 5000,
+    [ItemType.LegArmor]: 6000,
+    [ItemType.Boots]: 7000,
+    [ItemType.Weapon]: 8000,
+    [ItemType.Shield]: 9000,
+    [ItemType.Ring]: 10000,
+    [ItemType.Amulet]: 11000,
+    [ItemType.Artifact]: 12000,
+};
+
+const ItemSubTypeToWeight = {
+    [ItemSubType.Task]: 1,
+    [ItemSubType.Mob]: 10,
+
+    [ItemSubType.Alchemy]: 11,
+    [ItemSubType.Potion]: 12,
+    [ItemSubType.Food]: 20,
+
+    [ItemSubType.Fishing]: 30,
+
+    [ItemSubType.Woodcutting]: 40,
+    [ItemSubType.Plank]: 50,
+    [ItemSubType.Sap]: 60,
+
+    [ItemSubType.Mining]: 70,
+    [ItemSubType.Bar]: 80,
+    [ItemSubType.Alloy]: 90,
+    [ItemSubType.PreciousStone]: 100,
+
+    [ItemSubType.Tool]: 130,
 }
 
 export class Item {
@@ -48,6 +113,17 @@ export class Item {
 
     get type(): string {
         return this.data.type;
+    }
+
+    get typeAndSubtype(): string {
+        return this.type + (this.subType ? ` / ${this.subType}` : '');
+    }
+
+    get typeAndSubtypeWeight(): number {
+        const typeWeight = ItemTypeToWeight[this.type] || 100000;
+        const subTypeWeight = ItemSubTypeToWeight[this.subType] || 200;
+
+        return typeWeight + subTypeWeight;
     }
 
     get subType(): string {
