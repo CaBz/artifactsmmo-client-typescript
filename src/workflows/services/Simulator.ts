@@ -567,7 +567,7 @@ export class Simulator {
                 });
             }
 
-            const items = Array.from(this.items.values()).filter((item: Item) => item.type === itemType && (item.level > (level - 5) && item.level <= level));
+            const items = Array.from(this.items.values()).filter((item: Item) => item.type === itemType && (item.level > (level - 9) && item.level <= level));
             items.sort((a, b) => a.level - b.level);
             items.forEach((item: Item) => {
                 const copyStats = JSON.parse(JSON.stringify(stats));

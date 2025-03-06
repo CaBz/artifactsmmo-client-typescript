@@ -38,7 +38,7 @@ export class Fight {
     }
 
     get gold(): number {
-        return this.data.xp;
+        return this.data.gold;
     }
 
     get drops(): any[] {
