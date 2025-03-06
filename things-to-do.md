@@ -8,3 +8,18 @@
 1. Build a on-the-fly workflow based on updated context and make actions less generic
 
 
+Review a workflow for fight that:
+
+1. Actions to get the best healing potion from bank items -> MAX inventory
+   2. Need to code logic to return the best utility based on current level / alchemy level?
+   3. Should Gather + Craft?
+   3. Go to bank
+   3. Withdraw
+   3. Equip
+2. Actions to get the best consumables -> 90% inventory
+   2. Need to code logic to return the best utility based on current level / alchemy level?
+   3. Should Gather + Craft?
+   3. Go to bank
+   3. Withdraw
+3. Move to fight point
+4. fight

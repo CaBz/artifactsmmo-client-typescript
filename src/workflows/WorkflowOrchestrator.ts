@@ -557,6 +557,8 @@ const TaskToAction: any = {
     [Monsters.FlyingSerpent]: PointOfInterest.FlyingSerpent1,
     [Monsters.Highwayman]: PointOfInterest.Highwayman,
     [Monsters.Wolf]: PointOfInterest.Wolf1,
-    [Monsters.Pig]: PointOfInterest.Pig,
     [Monsters.Skeleton]: PointOfInterest.Skeleton1,
+    [Monsters.Pig]: PointOfInterest.Pig,
+    [Monsters.Ogre]: PointOfInterest.Ogre1,
+    [Monsters.Spider]: PointOfInterest.Spider,
 };
