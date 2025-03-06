@@ -7,6 +7,7 @@ import {EquippableSlot} from "./lexical/EquippableSlot.js";
 import {Recipes} from "./lexical/Recipes.js";
 import {AllMerchants} from "./lexical/Merchants.js";
 import {Skills} from "./lexical/Skills.js";
+import {ItemType} from "./entities/Item.js";
 
 const consoleParams = process.argv;
 consoleParams.shift(); // process name
@@ -119,6 +120,10 @@ async function processCommand(commandName: string) {
             AllMerchants.forEach((merchantCode: string) => {
                 container.client.getNpcItems(merchantCode);
             });
+            break;
+
+        case 'list-items':
+            container.equipper.logToConsole(+(consoleParams.shift() || -1), consoleParams.shift() || undefined);
             break;
 
         case 'does-it-hold':

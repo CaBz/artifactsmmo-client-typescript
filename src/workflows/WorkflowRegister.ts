@@ -161,6 +161,22 @@ export class WorkflowRegister {
 
         workflows.set('craft-level15-set', WorkflowFactory.withdrawAndCraftManyAndEquip(level15Set, false));
         workflows.set('equip-level15-set', WorkflowFactory.withdrawAndEquip(level15Set));
+
+        const antiOgreSet: any[][] = [
+            [Items.SkullStaff, 1, EquippableSlot.Weapon], // +40 fire atk
+            //[Items.SteelBoots, 1, EquippableSlot.Boots], // + 8 earth res hardwood_plank x3,steel x6,ogre_eye x4,ogre_skin x2
+            [Items.TromatisingMask, 1, EquippableSlot.Helmet], // +16 fire atk
+            [Items.SkeletonPants, 1, EquippableSlot.LegArmor], // +10 fire atk
+            [Items.SkeletonArmor, 1, EquippableSlot.BodyArmor], // +15 fire atk
+            //[Items.SteelShield, 1, EquippableSlot.Shield], // +7 all res steel x6,serpent_skin x4,wolf_bone x3,ogre_eye x2
+            [Items.SkullAmulet, 1, EquippableSlot.Amulet], // +10 fire atk
+            [Items.SkullRing, 1, EquippableSlot.Ring1], // +11 fire atk
+            //[Items.SkullRing, 1, EquippableSlot.Ring2], // +11 fire atk
+            [Items.SteelRing, 1, EquippableSlot.Ring2], // +11 fire atk
+        ];
+
+        workflows.set('craft-antiogre-set', WorkflowFactory.withdrawAndCraftManyAndEquip(antiOgreSet, false));
+        workflows.set('equip-antiogre-set', WorkflowFactory.withdrawAndEquip(antiOgreSet));
     }
 }
 

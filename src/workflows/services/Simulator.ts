@@ -153,8 +153,8 @@ export class Simulator {
             + `| Turns  `
             + `| Avg. Atk. HP `
             + `| Avg. Def. HP `
-            + `| ${Utils.formatForMiddle('Good Against', 23)} `
-            + `| ${Utils.formatForMiddle('Weak Against', 23)} `
+            + `| ${Utils.formatForMiddle('Monster Weaknesses', 23)} `
+            + `| ${Utils.formatForMiddle('Monster Strengths', 23)} `
             + `| ${Utils.formatForMiddle('Effects', 14)} `
             + `| ${Utils.formatForMiddle('Drops', 93)} `
             + `|`;

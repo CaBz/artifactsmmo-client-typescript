@@ -18,6 +18,17 @@ export enum ItemType {
     Shield = 'shield',
 }
 
+export const EquipmentSetTypes: ItemType[] = [
+    ItemType.Amulet,
+    ItemType.BodyArmor,
+    ItemType.Boots,
+    ItemType.Helmet,
+    ItemType.LegArmor,
+    ItemType.Ring,
+    ItemType.Weapon,
+    ItemType.Shield,
+];
+
 export enum ItemSubType {
     Fishing = 'fishing',
     Plank = 'plank',
@@ -111,7 +122,7 @@ export class Item {
         return this.data.level;
     }
 
-    get type(): string {
+    get type(): ItemType {
         return this.data.type;
     }
 
@@ -126,7 +137,7 @@ export class Item {
         return typeWeight + subTypeWeight;
     }
 
-    get subType(): string {
+    get subType(): ItemSubType {
         return this.data.subtype;
     }
 
