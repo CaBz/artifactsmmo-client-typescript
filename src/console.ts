@@ -149,6 +149,9 @@ async function processCommand(commandName: string) {
         case 'simulate-equipment':
             await container.simulator.simulateWithItemCodeAgainst((consoleParams.shift() || '') as Monsters, (consoleParams.shift() || '') as Items);
             break;
+        case 'simulate-set':
+            await container.simulator.findBestSetAgainst((consoleParams.shift() || '') as Monsters,  +(consoleParams.shift() || -1));
+            break;
         case 'simulate-best':
             await container.simulator.findBestUsableEquippableSlot((consoleParams.shift() || '') as Monsters, (consoleParams.shift() || '') as EquippableSlot, +(consoleParams.shift() || 40));
             break;

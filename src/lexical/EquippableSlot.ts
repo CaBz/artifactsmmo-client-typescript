@@ -1,3 +1,5 @@
+import {ItemType} from "../entities/Item.js";
+
 export enum EquippableSlot {
     None = 'none',
     Weapon = 'weapon',
@@ -16,6 +18,20 @@ export enum EquippableSlot {
     Utility2 = 'utility2',
     Bag = 'bag',
     Rune = 'rune',
+}
+
+export const EquippableSlotToType: any = {
+    [EquippableSlot.Weapon]: ItemType.Weapon,
+    [EquippableSlot.Shield]: ItemType.Shield,
+    [EquippableSlot.Helmet]: ItemType.Helmet,
+    [EquippableSlot.BodyArmor]: ItemType.BodyArmor,
+    [EquippableSlot.LegArmor]: ItemType.LegArmor,
+    [EquippableSlot.Boots]: ItemType.Boots,
+    [EquippableSlot.Ring1]: ItemType.Ring,
+    [EquippableSlot.Ring2]: ItemType.Ring,
+    [EquippableSlot.Amulet]: ItemType.Amulet,
+    [EquippableSlot.Utility1]: ItemType.Utility,
+    [EquippableSlot.Utility2]: ItemType.Utility,
 }
 
 export const EquippableSlots: EquippableSlot[] = [

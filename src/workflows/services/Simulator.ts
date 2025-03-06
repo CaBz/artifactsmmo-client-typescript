@@ -4,10 +4,15 @@ import {Character} from "../../entities/Character.js";
 import {Monsters} from "../../lexical/Monsters.js";
 import {StatEffects} from "../../lexical/TypeEffects.js";
 import * as Utils from "../../Utils.js";
-import {Item} from "../../entities/Item.js";
+import {Item, ItemType} from "../../entities/Item.js";
 import {Items} from "../../lexical/Items.js";
 import {Equippables} from "../../lexical/Equippables.js";
-import {EquippableSlot, EquippableSlots} from "../../lexical/EquippableSlot.js";
+import {
+    AllEquippableSlots,
+    EquippableSlot,
+    EquippableSlots,
+    EquippableSlotToType
+} from "../../lexical/EquippableSlot.js";
 import {ArtifactsClient} from "../../gateways/ArtifactsClient.js";
 import {Recipe, Recipes, ResourceItem} from "../../lexical/Recipes.js";
 import {Skills} from "../../lexical/Skills.js";
@@ -18,6 +23,7 @@ import {
     CraftableWeaponcrafting
 } from "../../lexical/Craftables.js";
 import {Banker} from "./Banker.js";
+import {Effects} from "../../lexical/Effects.js";
 
 export class Simulator {
     private character: Character;
@@ -514,5 +520,83 @@ export class Simulator {
             });
             console.log();
         });
+    }
+
+    async findBestSetAgainst(code: Monsters, level: number): Promise<void> {
+        await this.loadCharacter();
+
+        const attackerStats: any = this.getEntityStats(this.character.getAllStats());
+        const values: any = this.calculateSimulationFor(attackerStats, code, 1000);
+
+        if (level === -1) {
+            level = this.character.level;
+        }
+
+        const headline =
+            `| ${'Slot'.padEnd(12, ' ')} `
+            + `| ${'Item'.padEnd(23, ' ')} `
+            + `| ${'Lv.'.padStart(3, ' ')} `
+            + `| Fights `
+            + `| ${'Wins'.padStart(4, ' ')} `
+            + `| ${'Losses'.padStart(6, ' ')} `
+            + `| ${'Rate'.padStart(6, ' ')} `
+            + `| Turns `
+            + `| Atk HP `
+            + `| Def HP `
+            + `|`
+        const line = `| ${'-'.repeat(headline.length - 4)} |`
+
+        console.log(`Current equipped items: ${values.successRate}% in ${values.averageTurns} turns`);
+        console.log(line);
+        console.log(headline);
+        console.log(line);
+
+        AllEquippableSlots.forEach((slot: EquippableSlot) => {
+            const itemType = EquippableSlotToType[slot] || undefined;
+            if (itemType === undefined) {
+                return;
+            }
+
+            // Get a baseline of stats without current equipped items
+            const stats: any = JSON.parse(JSON.stringify(attackerStats));
+            const equippedItemCode: any = this.character.getEquippedGear(slot);
+            if (equippedItemCode) {
+                const equippedItem = this.items.get(equippedItemCode)!;
+                equippedItem.effects.forEach((effect: any) => {
+                    stats[effect.code] -= effect.value;
+                });
+            }
+
+            const items = Array.from(this.items.values()).filter((item: Item) => item.type === itemType && (item.level > (level - 5) && item.level <= level));
+            items.sort((a, b) => a.level - b.level);
+            items.forEach((item: Item) => {
+                const copyStats = JSON.parse(JSON.stringify(stats));
+                item.effects.forEach((effect: any) => {
+                    copyStats[effect.code] += effect.value;
+                });
+
+                const simulationResult: any = this.calculateSimulationFor(copyStats, code, 1000);
+
+                const logger: any = simulationResult.successRate > values.successRate ? console.error : console.log;
+                logger(
+                    '|',
+                    ((equippedItemCode == item.code ? '* ' : '') + slot).padEnd(12, ' '), '|',
+                    item.name.padEnd(23, ' '), '|',
+                    item.level.toString().padStart(3, ' '), '|',
+                    simulationResult.fights.toString().padStart(6, ' '), '|',
+                    simulationResult.wins.toString().padStart(4, ' '), '|',
+                    simulationResult.losses.toString().padStart(6, ' '), '|',
+                    simulationResult.successRate.toString().padStart(6, ' '), '|',
+                    simulationResult.averageTurns.toString().padStart(5, ' '), '|',
+                    simulationResult.averageAttackerHP.toString().padStart(6, ' '), '|',
+                    simulationResult.averageDefenderHP.toString().padStart(6, ' '), '|',
+                );
+
+                return;
+            });
+            console.log(line);
+        });
+
+        return;
     }
 }

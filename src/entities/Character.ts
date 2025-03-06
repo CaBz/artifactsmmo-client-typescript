@@ -3,6 +3,7 @@ import {Items} from "../lexical/Items.js";
 import {StatEffects} from "../lexical/TypeEffects.js";
 import {Coordinates} from "../lexical/MapCoordinates.js";
 import {AllSkills, Skills} from "../lexical/Skills.js";
+import {EquippableSlot} from "../lexical/EquippableSlot.js";
 
 export class Character {
     constructor(private readonly data: any) {
@@ -138,6 +139,10 @@ export class Character {
         }
 
         return result
+    }
+
+    getEquippedGear(slot: EquippableSlot) {
+        return this.data[`${slot}_slot`] || undefined;
     }
 
     getTask() {
