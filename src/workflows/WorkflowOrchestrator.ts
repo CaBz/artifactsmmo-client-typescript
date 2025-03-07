@@ -243,11 +243,15 @@ export class WorkflowOrchestrator {
             return;
         }
 
+        let bankConsumables;
         if (condition === SubworkflowCondition.NoMoreConsumables) {
-            if (!character.hasConsumables()) {
+            bankConsumables = (await this.banker.getConsumables(character.level)).length;
+            if (!character.hasConsumables() && bankConsumables > 0) {
                 Utils.errorHeadline('NEED TO REFILL');
                 return;
             }
+
+            condition = undefined;
         }
 
         if (condition === SubworkflowCondition.TaskCompleted) {
@@ -267,8 +271,13 @@ export class WorkflowOrchestrator {
             }
 
             if (!character.hasConsumables()) {
-                Utils.errorHeadline('NEED TO REFILL');
-                return;
+                bankConsumables = (await this.banker.getConsumables(character.level)).length;
+                if (bankConsumables === 0) {
+                    condition = SubworkflowCondition.TaskCompleted;
+                } else {
+                    Utils.errorHeadline('NEED TO REFILL');
+                    return;
+                }
             }
         }
 

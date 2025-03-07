@@ -59,11 +59,11 @@ export class Rester {
         }
 
         consumables.sort((a: Item, b: Item) => a.level - b.level);
-
         const firstConsumable: Item = consumables.shift()!;
         const consumableHP: number = firstConsumable.getEffectValueFor(Effects.Heal);
-        character = await this.itemUser.use(firstConsumable.code, 1);
         if (!character.isFullHealth() && (consumableHP + character.hp) < character.maxHp) {
+            Utils.errorHeadline(`Consume ${firstConsumable.code} for ${consumableHP} HP`);
+            character = await this.itemUser.use(firstConsumable.code, 1);
             return this.restoreFromConsumables(character);
         }
 

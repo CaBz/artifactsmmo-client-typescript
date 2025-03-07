@@ -24,7 +24,10 @@
     "bb": "yarn console BigBooty",
 
 
-    "pp-ogre": "yarn pp w craft-skull_staff,steel_boots,tromatising_mask,skeleton_pants,skeleton_armor,steel_shield,skull_amulet,skull_ring,skull_ring 1",
-    "bb-ogre": "yarn bb w equip-skull_staff,steel_boots,tromatising_mask,skeleton_pants,skeleton_armor,steel_shield,skull_amulet,skull_ring 1"
+    "pp-ogre": "yarn pp w equip-skull_staff,steel_boots,tromatising_mask,skeleton_pants,skeleton_armor,steel_shield,skull_amulet,steel_ring",
+    "cdl-ogre": "yarn cdl w equip-skull_staff,steel_boots,tromatising_mask,skeleton_pants,skeleton_armor,steel_shield,skull_amulet,skull_ring",
+    "bb-ogre": "yarn bb w equip-skull_staff,steel_boots,tromatising_mask,skeleton_pants,skeleton_armor,steel_shield,skull_amulet,skull_ring",
+    "bob-ogre": "yarn bob w equip-skull_staff,steel_boots,tromatising_mask,skeleton_pants,skeleton_armor,steel_shield,skull_amulet,skull_ring",
+    "ginette-ogre": "yarn ginette w equip-skull_staff,steel_boots,tromatising_mask,skeleton_pants,skeleton_armor,steel_shield,skull_amulet,skull_ring"
   }
 }

@@ -95,14 +95,18 @@ export class WorkflowGenerator {
         let recipeQuantity: number;
         let code: Items;
 
+        const bank: any = await this.banker.getBank();
+
         for (let i=0; i<codes.length; i++) {
             code = codes[i]!;
             recipe = Recipes.getFor(code);
-            recipeQuantityFromBank = await this.banker.howManyTimesRecipeCanBeCraft(recipe, this.character.maxInventory);
+            recipeQuantityFromBank = this.banker.calculateRecipeQuantityFromBankItems(bank, recipe, this.character.maxInventory);
             recipeQuantity = quantity === -1 ? recipeQuantityFromBank : Math.min(quantity, recipeQuantityFromBank);
 
             if (recipeQuantity === 0) {
-                throw new Error(`${code} cannot be crafted - Missing recipe items: ${recipe.items.map((item) => `${item.code} x${item.quantity}`).join(',')}`);
+                //throw new Error(`${code} cannot be crafted - Missing recipe items: ${recipe.items.map((item) => `${item.code} x${item.quantity}`).join(',')}`);
+                Utils.errorHeadline(`Cannot craft: ${code} - SKIP`);
+                continue;
             }
 
             actions.push(...WorkflowFactory.withdrawAndCraft(code, recipe, recipeQuantity, false));
@@ -251,15 +255,16 @@ export class WorkflowGenerator {
 
         // Try to get from bank first
         const remainingTask = (task.total - task.progress);
+        const maxInventory: number = this.character.maxInventory;
         const inventoryCount: number = this.character.holdsHowManyOf(task.task);
         const bank = await this.banker.getBank();
-        const availableQuantity = inventoryCount + (bank[task.task] || 0);
+        const availableQuantity = (bank[task.task] || 0);
 
         if (availableQuantity > 0) {
             actions.push(
                 { action: Action.Move, coordinates: PointOfInterest.Bank2 },
                 { action: Action.BankDepositAll },
-                { action: Action.BankWithdraw, code: task.task, quantity: Math.min(this.character.maxInventory, availableQuantity, remainingTask) },
+                { action: Action.BankWithdraw, code: task.task, quantity: Math.min(this.character.maxInventory, (availableQuantity + inventoryCount), remainingTask) },
                 { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
                 { action: Action.TradeTask, code: task.task, quantity: -1},
             );
@@ -277,7 +282,7 @@ export class WorkflowGenerator {
             const POIs: PointOfInterest[] = ItemGatheringPOIs[task.task];
             taskActions = [
                 { action: Action.Move, coordinates: POIs[0]! },
-                { action: Action.Gather, loops: Math.min(inventoryCount, remainingTask) },
+                { action: Action.Gather, loops: Math.min((maxInventory - inventoryCount), remainingTask) },
             ];
         }
 
@@ -323,6 +328,8 @@ export class WorkflowGenerator {
                         break;
                     }
                 }
+            } else {
+
             }
         }
 

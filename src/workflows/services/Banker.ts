@@ -7,7 +7,7 @@ import {ArtifactsClient} from "../../gateways/ArtifactsClient.js";
 import {BankWithdrawActionCondition} from "../WorkflowOrchestrator.js";
 import {Character} from "../../entities/Character.js";
 import {Recipe} from "../../lexical/Recipes.js";
-import {Item, ItemType} from "../../entities/Item.js";
+import {Item, ItemSubType, ItemType} from "../../entities/Item.js";
 
 export class Banker {
     constructor(
@@ -173,11 +173,11 @@ export class Banker {
         return bank;
     }
 
-    async getBankItemFromType(type: ItemType, maximumLevel: number) {
+    async getBankItemFromType(types: ItemType[], maximumLevel: number) {
         const bankItems = (await this.client.getBank()).items;
 
         let mappedBankItems: any[] =  bankItems.map((entry: any) => ({ item: this.items.get(entry.code), quantity: entry.quantity }));
-        let filteredBankItems: any[] = mappedBankItems.filter((entry: any) => (entry.item.type === type && entry.item.level <= maximumLevel));
+        let filteredBankItems: any[] = mappedBankItems.filter((entry: any) => (types.includes(entry.item.type) && entry.item.level <= maximumLevel));
 
         filteredBankItems.sort((a: any, b: any) => b.item.level - a.item.level);
 
@@ -185,9 +185,16 @@ export class Banker {
     }
 
     async getConsumables(maximumLevel: number) {
-        const consumables = await this.getBankItemFromType(ItemType.Consumable, maximumLevel);
+        const consumables = await this.getBankItemFromType([ItemType.Consumable], maximumLevel);
 
         return consumables.filter((entry: any) => (entry.item.code !== 'apple'));
+    }
+
+    async getCookables(maximumLevel: number) {
+        const resources: any = await this.getBankItemFromType([ItemType.Resource], maximumLevel);
+        const foods: any = resources.filter((entry: any) => ([ItemSubType.Food, ItemSubType.Fishing].includes(entry.item.subType)))
+
+        return foods;
     }
 
     async howManyTimesRecipeCanBeCraft(recipe: Recipe, maxInventory: number): Promise<number> {
