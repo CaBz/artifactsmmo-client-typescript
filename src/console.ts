@@ -1,10 +1,8 @@
-import {PointOfInterest} from "./lexical/PointOfInterest.js";
 import {Container} from "./Container.js";
 import {Items} from "./lexical/Items.js";
 import * as Utils from "./Utils.js";
 import {Monsters} from "./lexical/Monsters.js";
 import {EquippableSlot} from "./lexical/EquippableSlot.js";
-import {Recipes} from "./lexical/Recipes.js";
 import {AllMerchants} from "./lexical/Merchants.js";
 import {Skills} from "./lexical/Skills.js";
 import {ItemType} from "./entities/Item.js";
@@ -40,7 +38,6 @@ async function processCommand(commandName: string) {
             );
             console.log(Utils.LINE);
             break;
-
         case 'status':
             await container.characterGateway.logStatus(consoleParams.shift()?.split(','))
             break;
@@ -49,63 +46,19 @@ async function processCommand(commandName: string) {
             await container.banker.getStatus();
             break;
 
-        case 'bank-withdraw':
-            await container.banker.withdraw((consoleParams.shift() || '') as Items, -1);
-            break;
-
-        case 'map-status':
-            await container.client.getMap(+(consoleParams.shift() || -1000), +(consoleParams.shift() || -1000));
-            break;
-
-        case 'recipe':
-            console.log(Recipes.getFor((consoleParams.shift() || '') as Items));
-            break;
-
-        case 'gather':
-            await container.gatherer.gather(+(consoleParams.shift() || -1));
-            break;
-
+        // Utility function to swap an equipped item from the back
         case 'swap':
             code = (consoleParams.shift() || '') as Items;
             await container.banker.withdraw(code, 1);
             await container.equipper.swap(code);
             break;
 
-        case 'monster':
-            const tmp: any = [];
-            container.monsters.forEach((monster) => {
-                tmp.push(monster);
-            });
-            tmp.sort((a: any, b: any) => a.level - b.level);
-            tmp.forEach((monster: any) => {
-                console.log(monster.name, monster.level);
-            });
-            break;
-
-        case 'move':
-            await container.mover.moveToCoordinates(+(consoleParams.shift() || -1000), +(consoleParams.shift() || -1000));
-            break;
-
-        case 'move-named':
-            await container.mover.moveToPointOfInterest((consoleParams.shift() || '') as PointOfInterest);
-            break;
-
-        case 'rest':
-            await container.rester.rest();
-            break;
-
-        case 'rest-consume':
-            await container.rester.restoreFromConsumables(await container.characterGateway.status());
-            break;
-
-        case 'fight':
-            await container.fighter.fight(+(consoleParams.shift() || 1))
-            break;
-
+        // Show announcements
         case 'announcements':
             await container.client.getAnnouncements();
             break;
 
+        // Just to dump an entity
         case 'resources':
         case 'items':
         case 'npcs':
@@ -116,56 +69,90 @@ async function processCommand(commandName: string) {
             await container.client.getByEntityAndCode(commandName, consoleParams.shift())
             break;
 
+        // Shows all items sellables/buyables from all npcs
         case 'npc-items':
             AllMerchants.forEach((merchantCode: string) => {
                 container.client.getNpcItems(merchantCode);
             });
             break;
 
+        // List all items in a nice table to see effects/recipe items
         case 'list-items':
-            container.equipper.logToConsole(+(consoleParams.shift() || -1), consoleParams.shift() || undefined);
+            container.equipper.logToConsole(
+                +(consoleParams.shift() || -1),
+                consoleParams.shift() as ItemType | undefined
+            );
             break;
 
+        // Just to check how many items the character has on them
         case 'does-it-hold':
             const character = await container.characterGateway.status();
             console.log(character.holdsHowManyOf((consoleParams.shift() || '') as Items));
             break;
 
-        case 'refresh-dataset': await container.dataLoader.saveDataSets(); break;
-        case 'generate': await container.lexicalGenerator.generateAll(); break;
-
+        // Simulate a fight with a mob, useful to validate fight simulation logic
         case 'simulate':
-            code = (consoleParams.shift() || '') as Monsters;
-            const loops = +(consoleParams.shift() || 1);
-            if (loops === 1) {
-                await container.simulator.simulateAgainst(code, 'details');
-            } else {
-                await container.simulator.simulateAgainstFor(code, loops);
-            }
+            await container.simulator.simulateAgainst(
+                (consoleParams.shift() || '') as Monsters,
+                'details'
+            );
             break;
+
+        // Simulate against all monsters with current equipment
+        // Useful to see what's the highest level monster to fight
         case 'simulate-all':
             await container.simulator.simulateAgainstAllMonsters();
             break;
+
+        // Simulates against a monster with a different item equipped (replace the slot)
         case 'simulate-equipment':
-            await container.simulator.simulateWithItemCodeAgainst((consoleParams.shift() || '') as Monsters, (consoleParams.shift() || '') as Items);
+            await container.simulator.simulateWithItemCodeAgainst(
+                (consoleParams.shift() || '') as Monsters,
+                (consoleParams.shift() || '') as Items
+            );
             break;
+
+        // Simulates against a monster to try to find best piece for each slot
+        // Will only test for items at current level (or specified) - 9
         case 'simulate-set':
-            await container.simulator.findBestSetAgainst((consoleParams.shift() || '') as Monsters,  +(consoleParams.shift() || -1));
+            await container.simulator.findBestSetAgainst(
+                (consoleParams.shift() || '') as Monsters,
+                +(consoleParams.shift() || -1)
+            );
             break;
+
+        // Simulate against a monster to try to find the best piece for a specific slot
+        // Level = prevent testing all items
         case 'simulate-best':
-            await container.simulator.findBestUsableEquippableSlot((consoleParams.shift() || '') as Monsters, (consoleParams.shift() || '') as EquippableSlot, +(consoleParams.shift() || 40));
+            await container.simulator.findBestUsableEquippableSlot(
+                (consoleParams.shift() || '') as Monsters,
+                (consoleParams.shift() || '') as EquippableSlot,
+                +(consoleParams.shift() || 40)
+            );
             break;
+
+        // Simulate against a monster to try to find the best piece for a all slots
+        // Level = prevent testing all items
         case 'simulate-best-all':
-            await container.simulator.findBestUsableEquippables((consoleParams.shift() || '') as Monsters, +(consoleParams.shift() || 40));
+            await container.simulator.findBestUsableEquippables(
+                (consoleParams.shift() || '') as Monsters,
+                +(consoleParams.shift() || 40)
+            );
             break;
-        case 'analyze-fight':
-            await container.simulator.analyzeFightTurn((consoleParams.shift() || '') as Monsters);
-            break;
+
+        // Allows to check what are the next thing to do to increase a skill
+        // Additional params hides non-craftable
         case 'skill-next':
-            await container.simulator.findNextToDo((consoleParams.shift() || '') as Skills, consoleParams.shift());
+            await container.simulator.findNextToDo(
+                (consoleParams.shift() || '') as Skills,
+                consoleParams.shift()
+            );
             break;
+
+        // Refresh & Regenerate lexicals
+        case 'refresh-dataset': await container.dataLoader.saveDataSets(); break;
+        case 'generate': await container.lexicalGenerator.generateAll(); break;
         default:
-            console.error('Put a proper command name');
             break;
     }
 }
