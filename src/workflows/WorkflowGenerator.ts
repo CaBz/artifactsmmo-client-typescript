@@ -1,4 +1,4 @@
-import {Action, SubworkflowCondition, WorkflowAction} from "./WorkflowOrchestrator.js";
+import {Action, MoveActionCondition, SubworkflowCondition, WorkflowAction} from "./WorkflowOrchestrator.js";
 import {WorkflowFactory} from "./WorkflowFactory.js";
 import {Item, ItemType} from "../entities/Item.js";
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
@@ -8,7 +8,7 @@ import {Items} from "../lexical/Items.js";
 import * as Utils from "../Utils.js";
 import {Banker} from "./services/Banker.js";
 import {Monsters} from "../lexical/Monsters.js";
-import {Fights, PointOfInterest} from "../lexical/PointOfInterest.js";
+import {Fights, ItemGatheringPOIs, PointOfInterest, TaskMasterBanks, TaskMasters} from "../lexical/PointOfInterest.js";
 import {Container} from "../Container.js";
 
 export enum WorkflowPrefix {
@@ -19,6 +19,7 @@ export enum WorkflowPrefix {
     Gather = 'gather',
     GatherCraft = 'gather_craft',
     Fight = 'fight',
+    Task = 'tm', // To prevent conflict with static workflow
 }
 
 export class WorkflowGenerator {
@@ -58,6 +59,8 @@ export class WorkflowGenerator {
                 return this.generateGatherCraft(code as Items);
             case WorkflowPrefix.Fight:
                 return this.generateFight(code as Monsters);
+            case WorkflowPrefix.Task:
+                return this.generateTask(code);
         }
 
         return [];
@@ -129,9 +132,14 @@ export class WorkflowGenerator {
         return [];
     }
 
-    private async generateGatherCraft(code: Items): Promise<WorkflowAction[]> {
+    private async generateGatherCraft(code: Items, maximumQuantity?: number): Promise<WorkflowAction[]> {
         const recipe: Recipe = Recipes.getFor(code);
-        const quantity: number = recipe.getQuantityCraftable(this.character.maxInventory);
+        const recipeQuantity: number = recipe.getQuantityCraftable(this.character.maxInventory);
+        if (maximumQuantity === undefined) {
+            maximumQuantity = recipeQuantity;
+        }
+        const quantity = Math.min(maximumQuantity, recipeQuantity); // Maximum items that I can hold for this loop
+
         const bank = await this.banker.getBank();
 
         const gathers: ResourceItem[] = [];
@@ -167,8 +175,118 @@ export class WorkflowGenerator {
             throw new Error(`No POI for monster ${code}`);
         }
 
+        const actions: WorkflowAction[] = await this.prepareForFight();
+        actions.push(
+            {
+                action: Action.SubWorkflow,
+                condition: SubworkflowCondition.NoMoreConsumables,
+                actions: [
+                    { action: Action.Move, coordinates: monsterPoint },
+                    { action: Action.Rest },
+                    { action: Action.Fight, loops: 1 },
+                ],
+            },
+            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
+            { action: Action.BankDepositAll }
+        )
+
+        return actions;
+    }
+
+    private async generateTask(type: string): Promise<WorkflowAction[]> {
         const actions: WorkflowAction[] = [];
 
+        const task: any = this.character.getTask();
+
+        // Make sure we have a task
+        if (!task) {
+            actions.push(
+                { action: Action.Move, coordinates: TaskMasters[type], condition: MoveActionCondition.NoTasks },
+                { action: Action.GetTask },
+                { action: Action.Move, coordinates: TaskMasterBanks[type] },
+                { action: Action.BankDepositAll},
+            );
+
+            return actions;
+        }
+
+        // Make sure we turn the task if completed
+        if (this.character.isTaskCompleted()) {
+            actions.push(
+                // Empty your pockets and get all task coins
+                { action: Action.Move, coordinates: TaskMasterBanks[type] },
+                { action: Action.BankDepositAll},
+                { action: Action.BankWithdraw, code: Items.TasksCoin, quantity: -1},
+
+                // Turn the task and try to exchange coins
+                { action: Action.Move, coordinates: TaskMasters[type], condition: MoveActionCondition.NoTasks },
+                { action: Action.CompleteTask },
+                { action: Action.ExchangeTask },
+
+                // Get a new task and dump everything
+                { action: Action.GetTask },
+                { action: Action.Move, coordinates: TaskMasterBanks[type] },
+                { action: Action.BankDepositAll},
+            );
+
+            return actions;
+        }
+
+        // If the task is fighting monster, just fight until it's done
+        if (task.type === 'monsters') {
+            actions.push({
+                action: Action.SubWorkflow,
+                condition: SubworkflowCondition.TaskCompletedOrNoMoreConsumables,
+                actions: [
+                    { action: Action.Move, coordinates: Fights[task.task] },
+                    { action: Action.Rest },
+                    { action: Action.Fight, loops: 1 },
+                ]
+            });
+
+            return actions;
+        }
+
+        // Try to get from bank first
+        const remainingTask = (task.total - task.progress);
+        const inventoryCount: number = this.character.holdsHowManyOf(task.task);
+        const bank = await this.banker.getBank();
+        const availableQuantity = inventoryCount + (bank[task.task] || 0);
+
+        if (availableQuantity > 0) {
+            actions.push(
+                {action: Action.Move, coordinates: PointOfInterest.Bank2},
+                {action: Action.BankDepositAll},
+                {action: Action.BankWithdraw, code: task.task, quantity: Math.min(this.character.maxInventory, availableQuantity) },
+                { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
+                { action: Action.TradeTask, code: task.task, quantity: -1},
+            );
+
+            return actions;
+        }
+
+        // If it's a recipe, it will gather + craft what's needed, otherwise just gather
+        let taskActions: WorkflowAction[];
+        try {
+            taskActions = await this.generateGatherCraft(task.task, remainingTask);
+        } catch {
+            const POIs: PointOfInterest[] = ItemGatheringPOIs[task.task];
+            taskActions = [
+                { action: Action.Move, coordinates: POIs[0]! },
+                { action: Action.Gather, loops: remainingTask },
+            ];
+        }
+
+        actions.push(
+            ... taskActions,
+            { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
+            { action: Action.TradeTask, code: task.task, quantity: -1},
+        );
+
+        return actions;
+    }
+
+    private async prepareForFight(): Promise<WorkflowAction[]> {
         // 1. Find best Set?
 
         // 2. Withdraw Utilities
@@ -176,6 +294,7 @@ export class WorkflowGenerator {
         // monster effect to utility mapping
         // find best utility (level) in bank
 
+        const actions: WorkflowAction[] = [];
 
         // Consumables
         const inventoryConsumables = this.character.getConsumables()
@@ -202,21 +321,6 @@ export class WorkflowGenerator {
                 }
             }
         }
-
-
-        actions.push(
-            {
-                action: Action.SubWorkflow,
-                condition: SubworkflowCondition.NoMoreConsumables,
-                actions: [
-                    { action: Action.Move, coordinates: monsterPoint },
-                    { action: Action.Rest },
-                    { action: Action.Fight, loops: 1 },
-                ],
-            },
-            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
-            { action: Action.BankDepositAll }
-        )
 
         return actions;
     }

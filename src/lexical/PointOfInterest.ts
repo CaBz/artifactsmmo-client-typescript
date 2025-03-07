@@ -87,6 +87,16 @@ export const Workstations: any = {
     [Skills.Alchemy]: PointOfInterest.Alchemy,
 }
 
+export const TaskMasters: any = {
+    'items': PointOfInterest.TaskMasterItems,
+    'monsters': PointOfInterest.TaskMasterMonsters,
+}
+
+export const TaskMasterBanks: any = {
+    'items': PointOfInterest.Bank2,
+    'monsters': PointOfInterest.Bank1,
+}
+
 export const Fights: any = {
     [Monsters.Chicken]: PointOfInterest.Chicken,
     [Monsters.YellowSlime]: PointOfInterest.YellowSlime1,

@@ -23,3 +23,10 @@ Review a workflow for fight that:
    3. Withdraw
 3. Move to fight point
 4. fight
+
+
+
+Simulator:
+1. Add support for monster effects
+2. Add support for rune effects
+3. Add simulation with consumables / utilities

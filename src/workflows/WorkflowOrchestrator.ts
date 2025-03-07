@@ -139,6 +139,7 @@ export interface SubworkflowAction {
 export enum SubworkflowCondition {
     NoMoreConsumables = 'no-more-consumables',
     TaskCompleted = 'task-completed',
+    TaskCompletedOrNoMoreConsumables = 'task-completed-or-no-more-consumables',
 }
 
 export type WorkflowAction =
@@ -244,7 +245,7 @@ export class WorkflowOrchestrator {
 
         if (condition === SubworkflowCondition.NoMoreConsumables) {
             if (!character.hasConsumables()) {
-                Utils.errorHeadline('NEED TO REFILL 🍖');
+                Utils.errorHeadline('NEED TO REFILL');
                 return;
             }
         }
@@ -253,6 +254,20 @@ export class WorkflowOrchestrator {
             character.logToConsole(['task']);
             if (character.isTaskCompleted()) {
                 Utils.errorHeadline('TASK PROGRESS COMPLETED');
+                return;
+            }
+        }
+
+        // Weird logic to put here
+        if (condition === SubworkflowCondition.TaskCompletedOrNoMoreConsumables) {
+            character.logToConsole(['task']);
+            if (character.isTaskCompleted()) {
+                Utils.errorHeadline('TASK PROGRESS COMPLETED');
+                return;
+            }
+
+            if (!character.hasConsumables()) {
+                Utils.errorHeadline('NEED TO REFILL');
                 return;
             }
         }
@@ -427,7 +442,6 @@ export class WorkflowOrchestrator {
                 } catch {
 
                 }
-
 
                 actions.push({
                     action: Action.SubWorkflow,

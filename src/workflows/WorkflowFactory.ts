@@ -28,8 +28,10 @@ export class WorkflowFactory {
                 throw new Error(`Unable to find POI for: ${item.code}`);
             }
 
-            gatherActions.push({ action: Action.Move, coordinates: POIs[0]! });
-            gatherActions.push({ action: Action.Gather, loops: item.quantity })
+            gatherActions.push(
+                { action: Action.Move, coordinates: POIs[0]! },
+                { action: Action.Gather, loops: item.quantity },
+            );
         });
 
         return [
