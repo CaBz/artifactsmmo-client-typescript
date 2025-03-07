@@ -159,7 +159,9 @@ export class Container {
             this.client,
             this.characterGateway,
             this.banker,
+            this.simulator,
             this.items,
+            this.monsters,
         ));
 
         this.instances.set(

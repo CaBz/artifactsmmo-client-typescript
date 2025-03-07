@@ -8,6 +8,9 @@ import {Items} from "../lexical/Items.js";
 import * as Utils from "../Utils.js";
 import {ArtifactsClient} from "../gateways/ArtifactsClient.js";
 import {Banker} from "./services/Banker.js";
+import {Monsters} from "../lexical/Monsters.js";
+import {Simulator} from "./services/Simulator.js";
+import {Monster} from "../entities/Monster.js";
 
 export enum WorkflowPrefix {
     Equip = 'equip',
@@ -16,6 +19,7 @@ export enum WorkflowPrefix {
     Recraft = 'recraft',
     Gather = 'gather',
     GatherCraft = 'gather_craft',
+    Fight = 'fight',
 }
 
 export class WorkflowGenerator {
@@ -25,7 +29,9 @@ export class WorkflowGenerator {
         private readonly client: ArtifactsClient,
         private readonly characterGateway: CharacterGateway,
         private readonly banker: Banker,
-        private readonly items: Map<string, Item>
+        private readonly simulator: Simulator,
+        private readonly items: Map<string, Item>,
+        private readonly monsters: Map<string, Monster>,
     ) {
     }
 
@@ -55,6 +61,8 @@ export class WorkflowGenerator {
                 return this.generateGather(code as Items);
             case WorkflowPrefix.GatherCraft:
                 return this.generateGatherCraft(code as Items);
+            case WorkflowPrefix.Fight:
+                return this.generateFight(code as Monsters);
         }
 
         return [];
@@ -151,5 +159,18 @@ export class WorkflowGenerator {
         });
 
         return WorkflowFactory.gatherManyAndCraft(recipe, withdraws, gathers);
+    }
+
+    private generateFight(code: Monsters): Promise<WorkflowAction[]> {
+        const monster = this.monsters.get(code);
+
+        // 1. Find best Set?
+        // 2. Withdraw Utilities
+        // 3. Withdraw Consumables
+        // 4. Find POI
+        // 5. Fight/Rest Loop (SubWorkflow with condition = no more consumables?
+        // Dump all to bank
+        // Repeat
+
     }
 }

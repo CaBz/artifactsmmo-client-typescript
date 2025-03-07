@@ -12,8 +12,8 @@ export class ArtifactsClient {
         this.bearerToken = process.env['ARTIFACTS_TOKEN']!;
     }
 
-    async getAnnouncements() {
-        const result = this.sendRequest('GET', undefined, undefined);
+    async getAnnouncements(): Promise<void> {
+        const result: any = await this.sendRequest('GET', undefined, undefined);
         console.log(result);
     }
 

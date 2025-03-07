@@ -177,6 +177,12 @@ export class LexicalGenerator {
     }
 
     private async generateMaps() {
+        // @TODO: Need to generate a mapping of positions for each gathering spot (resource)
+        // @TODO: Need to generate a mapping of positions for each working station
+        // @TODO: Need to generate a mapping of positions for each monster
+        // @TODO: Need to generate a mapping of positions for each npcs
+
+
         // -----------
         // DON'T KNOW WHERE I'M GOING WITH THIS
         // -----------

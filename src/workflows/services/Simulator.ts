@@ -43,6 +43,138 @@ export class Simulator {
         }
     }
 
+    async findBestSetAgainst(code: Monsters, level: number): Promise<void> {
+        await this.loadCharacter();
+
+        const attackerStats: any = this.getEntityStats(this.character.getAllStats());
+        const values: any = this.calculateSimulationFor(attackerStats, code, 1000);
+
+        if (level === -1) {
+            level = this.character.level;
+        }
+
+        const headline =
+            `| ${'Slot'.padEnd(12, ' ')} `
+            + `| ${'Item'.padEnd(23, ' ')} `
+            + `| ${'Lv.'.padStart(3, ' ')} `
+            + `| Fights `
+            + `| ${'Wins'.padStart(4, ' ')} `
+            + `| ${'Losses'.padStart(6, ' ')} `
+            + `| ${'Rate'.padStart(6, ' ')} `
+            + `| Turns `
+            + `| Atk HP `
+            + `| Def HP `
+            + `|`
+        const line = `| ${'-'.repeat(headline.length - 4)} |`
+
+        console.log(`Current equipped items: ${values.successRate}% in ${values.averageTurns} turns`);
+        console.log(line);
+        console.log(headline);
+        console.log(line);
+
+        AllEquippableSlots.forEach((slot: EquippableSlot) => {
+            const itemType = EquippableSlotToType[slot] || undefined;
+            if (itemType === undefined) {
+                return;
+            }
+
+            // Get a baseline of stats without current equipped items
+            const stats: any = JSON.parse(JSON.stringify(attackerStats));
+            const equippedItemCode: any = this.character.getEquippedGear(slot);
+            if (equippedItemCode) {
+                const equippedItem = this.items.get(equippedItemCode)!;
+                equippedItem.effects.forEach((effect: any) => {
+                    stats[effect.code] -= effect.value;
+                });
+            }
+
+            const items = Array.from(this.items.values()).filter((item: Item) => item.type === itemType && (item.level > (level - 9) && item.level <= level));
+            items.sort((a, b) => a.level - b.level);
+            items.forEach((item: Item) => {
+                const copyStats = JSON.parse(JSON.stringify(stats));
+                item.effects.forEach((effect: any) => {
+                    copyStats[effect.code] += effect.value;
+                });
+
+                const simulationResult: any = this.calculateSimulationFor(copyStats, code, 1000);
+
+                const logger: any = simulationResult.successRate > values.successRate ? console.error : console.log;
+                logger(
+                    '|',
+                    ((equippedItemCode == item.code ? '* ' : '') + slot).padEnd(12, ' '), '|',
+                    item.name.padEnd(23, ' '), '|',
+                    item.level.toString().padStart(3, ' '), '|',
+                    simulationResult.fights.toString().padStart(6, ' '), '|',
+                    simulationResult.wins.toString().padStart(4, ' '), '|',
+                    simulationResult.losses.toString().padStart(6, ' '), '|',
+                    simulationResult.successRate.toString().padStart(6, ' '), '|',
+                    simulationResult.averageTurns.toString().padStart(5, ' '), '|',
+                    simulationResult.averageAttackerHP.toString().padStart(6, ' '), '|',
+                    simulationResult.averageDefenderHP.toString().padStart(6, ' '), '|',
+                );
+
+                return;
+            });
+            console.log(line);
+        });
+
+        return;
+    }
+
+    async findNextToDo(name: Skills, hideNotCraftable: string | undefined): Promise<void> {
+        await this.loadCharacter();
+
+        const bank: any = await this.banker.getBank();
+        const characterSkill = this.character.getSkill(name);
+        const maximumInventory: number = 99999;
+        const itemsToCraft: any[] = [];
+        let craftables: Items[] = [];
+        switch (name) {
+            case Skills.Gearcrafting:
+                craftables = CraftableGearcrafting;
+                break;
+            case Skills.Weaponcrafting:
+                craftables = CraftableWeaponcrafting;
+                break;
+            case Skills.Jewelrycrafting:
+                craftables = CraftableJewelry;
+                break;
+            case Skills.Cooking:
+                craftables = CraftableCooking;
+                break;
+            default:
+                throw new Error('Not implemented');
+        }
+
+
+        craftables.forEach((code: Items) => {
+            const recipe: Recipe = Recipes.getFor(code);
+
+            if (recipe.level <= characterSkill.level && recipe.level > (characterSkill.level - 10)) {
+                const recipeItems: any[] = [];
+                const recipeQuantityFromBank = this.banker.calculateRecipeQuantityFromBankItems(bank, recipe, maximumInventory)
+                recipe.items.forEach((recipeItem: ResourceItem) => {
+                    const bankQuantity = bank[recipeItem.code] || 0;
+                    recipeItems.push({bankQuantity, code: recipeItem.code, quantity: recipeItem.quantity});
+                });
+                itemsToCraft.push({ item: this.items.get(code)!, recipeItems: recipeItems, recipeQuantityBank: recipeQuantityFromBank});
+            }
+        });
+
+        itemsToCraft.sort((a, b) => a.item.level - b.item.level || a.recipeQuantityBank - b.recipeQuantityBank);
+        itemsToCraft.forEach((item: any) => {
+            if (hideNotCraftable !== undefined && item.recipeQuantityBank === 0) {
+                return;
+            }
+
+            console.error(`${item.item.code} - lv.${item.item.level} = x${item.recipeQuantityBank}`);
+            item.recipeItems.forEach((recipeItem: any) => {
+                console.log(`    * x${recipeItem.quantity} ${recipeItem.code} [Bank: ${recipeItem.bankQuantity}] = ${item.recipeQuantityBank * recipeItem.quantity}`);
+            });
+            console.log();
+        });
+    }
+
     async findBestUsableEquippables(code: Monsters, maxLevel: number) {
         await this.loadCharacter();
         const attackerStats = this.getEntityStats(this.character.getAllStats());
@@ -102,32 +234,6 @@ export class Simulator {
         const result: any = this.simulateForEquipmentSlot(code, slot, maxLevel);
 
         console.log(result);
-    }
-
-    private simulateForEquipmentSlot(code: Monsters, slot: EquippableSlot, maxLevel: number) {
-        let result: any = [];
-        Equippables.forEach((itemCode: Items) => {
-            const item = this.items.get(itemCode)!;
-            if (item.equippableSlot !== slot) {
-                return;
-            }
-
-            if (item.level > maxLevel) {
-                return;
-            }
-
-            if (this.character.level < item.level) {
-                return;
-            }
-
-            const values: any = this.simulateWithItemAgainst(code, item, 1000);
-
-            result.push({ item: item.code, level: item.level, successRate: values.successRate, turns: values.averageTurns});
-        });
-
-        result.sort((a: any, b: any) => b.successRate - a.successRate || b.turns - a.turns || b.level - a.level);
-
-        return result;
     }
 
     async simulateAgainst(code: Monsters, logLevel: string) {
@@ -199,6 +305,48 @@ export class Simulator {
         console.log('-'.repeat(headline.length));
     }
 
+    async analyzeFightTurn(code: Monsters): Promise<void> {
+        await this.loadCharacter();
+        const monster: Monster = this.monsters.get(code)!;
+
+        const attackerStats: any = this.getEntityStats(StatEffects.map((stat) => {
+            const value = stat.startsWith('attack') ? 1000 : 0;
+            return {code: stat, value};
+        }));
+        const monsterStats: any = this.getEntityStats(monster.getAllStats());
+
+        const characterAgainstMonster = this.fight(1, 'Dummy', attackerStats, monster.name, monsterStats, false);
+        const monsterAgainstCharacter = this.fight(1, monster.name, monsterStats, 'Dummy', attackerStats, false);
+
+        const result: any = {
+            attack: {
+                goodAgainst: [],
+                weakAgainst: [],
+            },
+            defend: {
+                goodAgainst: [],
+                weakAgainst: [],
+            }
+        }
+
+        const elements: string[] = ['air', 'earth', 'fire', 'water'];
+        elements.forEach((element: string) => {
+            if (characterAgainstMonster[element].damage >= 1000) {
+                result.attack.goodAgainst.push(element);
+            } else {
+                result.attack.weakAgainst.push(element);
+            }
+
+            if (monsterAgainstCharacter[element].damage) {
+                result.defend.weakAgainst.push(element);
+            } else {
+                result.defend.goodAgainst.push(element);
+            }
+        });
+
+        return result;
+    }
+
     async simulateWithItemCodeAgainst(monsterCode: Monsters, itemCode: Items) {
         await this.loadCharacter();
 
@@ -206,6 +354,32 @@ export class Simulator {
         const values = await this.simulateWithItemAgainst(monsterCode, item, 1000);
 
         console.log(values);
+    }
+
+    private simulateForEquipmentSlot(code: Monsters, slot: EquippableSlot, maxLevel: number) {
+        let result: any = [];
+        Equippables.forEach((itemCode: Items) => {
+            const item = this.items.get(itemCode)!;
+            if (item.equippableSlot !== slot) {
+                return;
+            }
+
+            if (item.level > maxLevel) {
+                return;
+            }
+
+            if (this.character.level < item.level) {
+                return;
+            }
+
+            const values: any = this.simulateWithItemAgainst(code, item, 1000);
+
+            result.push({ item: item.code, level: item.level, successRate: values.successRate, turns: values.averageTurns});
+        });
+
+        result.sort((a: any, b: any) => b.successRate - a.successRate || b.turns - a.turns || b.level - a.level);
+
+        return result;
     }
 
     private simulateWithItemAgainst(monsterCode: Monsters, item: Item, fights: number) {
@@ -304,48 +478,6 @@ export class Simulator {
             averageAttackerHP: Math.round((attackerHP / loops) * 100) / 100,
             averageDefenderHP: Math.round((defenderHP / loops) * 100) / 100,
         }
-    }
-
-    async analyzeFightTurn(code: Monsters): Promise<void> {
-        await this.loadCharacter();
-        const monster: Monster = this.monsters.get(code)!;
-
-        const attackerStats: any = this.getEntityStats(StatEffects.map((stat) => {
-            const value = stat.startsWith('attack') ? 1000 : 0;
-            return {code: stat, value};
-        }));
-        const monsterStats: any = this.getEntityStats(monster.getAllStats());
-
-        const characterAgainstMonster = this.fight(1, 'Dummy', attackerStats, monster.name, monsterStats, false);
-        const monsterAgainstCharacter = this.fight(1, monster.name, monsterStats, 'Dummy', attackerStats, false);
-
-        const result: any = {
-            attack: {
-                goodAgainst: [],
-                weakAgainst: [],
-            },
-            defend: {
-                goodAgainst: [],
-                weakAgainst: [],
-            }
-        }
-
-        const elements: string[] = ['air', 'earth', 'fire', 'water'];
-        elements.forEach((element: string) => {
-            if (characterAgainstMonster[element].damage >= 1000) {
-                result.attack.goodAgainst.push(element);
-            } else {
-                result.attack.weakAgainst.push(element);
-            }
-
-            if (monsterAgainstCharacter[element].damage) {
-                result.defend.weakAgainst.push(element);
-            } else {
-                result.defend.goodAgainst.push(element);
-            }
-        });
-
-        return result;
     }
 
     private executeFight(attackName: any, attackerStats: any, defenderName: any, defenderStats: any, withLogs: boolean): number {
@@ -467,136 +599,27 @@ export class Simulator {
 
         return entityStats;
     }
-
-    async findNextToDo(name: Skills, hideNotCraftable: string | undefined): Promise<void> {
-        await this.loadCharacter();
-
-        const bank: any = await this.banker.getBank();
-        const characterSkill = this.character.getSkill(name);
-        const maximumInventory: number = 99999;
-        const itemsToCraft: any[] = [];
-        let craftables: Items[] = [];
-        switch (name) {
-            case Skills.Gearcrafting:
-                craftables = CraftableGearcrafting;
-                break;
-            case Skills.Weaponcrafting:
-                craftables = CraftableWeaponcrafting;
-                break;
-            case Skills.Jewelrycrafting:
-                craftables = CraftableJewelry;
-                break;
-            case Skills.Cooking:
-                craftables = CraftableCooking;
-                break;
-            default:
-                throw new Error('Not implemented');
-        }
-
-
-        craftables.forEach((code: Items) => {
-            const recipe: Recipe = Recipes.getFor(code);
-
-            if (recipe.level <= characterSkill.level && recipe.level > (characterSkill.level - 10)) {
-                const recipeItems: any[] = [];
-                const recipeQuantityFromBank = this.banker.calculateRecipeQuantityFromBankItems(bank, recipe, maximumInventory)
-                recipe.items.forEach((recipeItem: ResourceItem) => {
-                    const bankQuantity = bank[recipeItem.code] || 0;
-                    recipeItems.push({bankQuantity, code: recipeItem.code, quantity: recipeItem.quantity});
-                });
-                itemsToCraft.push({ item: this.items.get(code)!, recipeItems: recipeItems, recipeQuantityBank: recipeQuantityFromBank});
-            }
-        });
-
-        itemsToCraft.sort((a, b) => a.item.level - b.item.level || a.recipeQuantityBank - b.recipeQuantityBank);
-        itemsToCraft.forEach((item: any) => {
-            if (hideNotCraftable !== undefined && item.recipeQuantityBank === 0) {
-                return;
-            }
-
-            console.error(`${item.item.code} - lv.${item.item.level} = x${item.recipeQuantityBank}`);
-            item.recipeItems.forEach((recipeItem: any) => {
-                console.log(`    * x${recipeItem.quantity} ${recipeItem.code} [Bank: ${recipeItem.bankQuantity}] = ${item.recipeQuantityBank * recipeItem.quantity}`);
-            });
-            console.log();
-        });
-    }
-
-    async findBestSetAgainst(code: Monsters, level: number): Promise<void> {
-        await this.loadCharacter();
-
-        const attackerStats: any = this.getEntityStats(this.character.getAllStats());
-        const values: any = this.calculateSimulationFor(attackerStats, code, 1000);
-
-        if (level === -1) {
-            level = this.character.level;
-        }
-
-        const headline =
-            `| ${'Slot'.padEnd(12, ' ')} `
-            + `| ${'Item'.padEnd(23, ' ')} `
-            + `| ${'Lv.'.padStart(3, ' ')} `
-            + `| Fights `
-            + `| ${'Wins'.padStart(4, ' ')} `
-            + `| ${'Losses'.padStart(6, ' ')} `
-            + `| ${'Rate'.padStart(6, ' ')} `
-            + `| Turns `
-            + `| Atk HP `
-            + `| Def HP `
-            + `|`
-        const line = `| ${'-'.repeat(headline.length - 4)} |`
-
-        console.log(`Current equipped items: ${values.successRate}% in ${values.averageTurns} turns`);
-        console.log(line);
-        console.log(headline);
-        console.log(line);
-
-        AllEquippableSlots.forEach((slot: EquippableSlot) => {
-            const itemType = EquippableSlotToType[slot] || undefined;
-            if (itemType === undefined) {
-                return;
-            }
-
-            // Get a baseline of stats without current equipped items
-            const stats: any = JSON.parse(JSON.stringify(attackerStats));
-            const equippedItemCode: any = this.character.getEquippedGear(slot);
-            if (equippedItemCode) {
-                const equippedItem = this.items.get(equippedItemCode)!;
-                equippedItem.effects.forEach((effect: any) => {
-                    stats[effect.code] -= effect.value;
-                });
-            }
-
-            const items = Array.from(this.items.values()).filter((item: Item) => item.type === itemType && (item.level > (level - 9) && item.level <= level));
-            items.sort((a, b) => a.level - b.level);
-            items.forEach((item: Item) => {
-                const copyStats = JSON.parse(JSON.stringify(stats));
-                item.effects.forEach((effect: any) => {
-                    copyStats[effect.code] += effect.value;
-                });
-
-                const simulationResult: any = this.calculateSimulationFor(copyStats, code, 1000);
-
-                const logger: any = simulationResult.successRate > values.successRate ? console.error : console.log;
-                logger(
-                    '|',
-                    ((equippedItemCode == item.code ? '* ' : '') + slot).padEnd(12, ' '), '|',
-                    item.name.padEnd(23, ' '), '|',
-                    item.level.toString().padStart(3, ' '), '|',
-                    simulationResult.fights.toString().padStart(6, ' '), '|',
-                    simulationResult.wins.toString().padStart(4, ' '), '|',
-                    simulationResult.losses.toString().padStart(6, ' '), '|',
-                    simulationResult.successRate.toString().padStart(6, ' '), '|',
-                    simulationResult.averageTurns.toString().padStart(5, ' '), '|',
-                    simulationResult.averageAttackerHP.toString().padStart(6, ' '), '|',
-                    simulationResult.averageDefenderHP.toString().padStart(6, ' '), '|',
-                );
-
-                return;
-            });
-            console.log(line);
-        });
-
-        return;
-    }
 }
+
+
+/*
+Fight start: Character HP: 675/675, Monster HP: 650/650
+Turn 1: The character used fire attack and dealt 83 damage. (Monster HP: 567/650)
+Turn 2: The monster used earth attack and dealt 68 damage. (Character HP: 607/675)
+Turn 3: The character used fire attack and dealt 83 damage. (Monster HP: 484/650)
+Turn 4: The monster used earth attack and dealt 68 damage. (Character HP: 539/675)
+Turn 5: The character heals 34 HP. (Character HP: 573/675)
+Turn 5: The character used fire attack and dealt 83 damage. (Monster HP: 401/650)
+Turn 6: The monster used earth attack and dealt 68 damage. (Character HP: 505/675)
+Turn 7: The character used fire attack and dealt 83 damage. (Monster HP: 318/650)
+Turn 8: The monster used earth attack and dealt 68 damage. (Character HP: 437/675)
+Turn 9: The character used fire attack and dealt 83 damage. (Monster HP: 235/650)
+Turn 10: The monster used earth attack and dealt 68 damage. (Character HP: 369/675)
+Turn 11: The character heals 34 HP. (Character HP: 403/675)
+Turn 11: The character used fire attack and dealt 83 damage. (Monster HP: 152/650)
+Turn 12: The monster used earth attack and dealt 68 damage. (Character HP: 335/675)
+Turn 13: The character used fire attack and dealt 83 damage. (Monster HP: 69/650)
+Turn 14: The monster used earth attack and dealt 102 damage (Critical strike). (Character HP: 233/675)
+Turn 15: The character used fire attack and dealt 83 damage. (Monster HP: 0/650)
+Fight result: win. (Character HP: 233/675, Monster HP: 0/650)
+*/
