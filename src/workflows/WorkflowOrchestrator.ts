@@ -133,11 +133,11 @@ export interface ExchangeTaskAction {
 export interface SubworkflowAction {
     action: Action.SubWorkflow;
     actions: WorkflowAction[];
-    condition: SubworkflowCondition;
+    condition?: SubworkflowCondition;
 }
 
 export enum SubworkflowCondition {
-    InventoryFull = 'inventory-full',
+    NoMoreConsumables = 'no-more-consumables',
     TaskCompleted = 'task-completed',
 }
 
@@ -234,26 +234,25 @@ export class WorkflowOrchestrator {
         }
     }
 
-    private async executeWithCondition(actions: WorkflowAction[], condition: string): Promise<void> {
-        if (condition === SubworkflowCondition.InventoryFull) {
-            const character: Character = await this.characterGateway.status();
-            if (character.isInventoryFull()) {
-                Utils.errorHeadline('CHARACTER FULL');
+    private async executeWithCondition(actions: WorkflowAction[], condition?: string): Promise<void> {
+        const character: Character = await this.characterGateway.status();
+
+        if (character.isInventoryFull()) {
+            Utils.errorHeadline('CHARACTER FULL');
+            return;
+        }
+
+        if (condition === SubworkflowCondition.NoMoreConsumables) {
+            if (!character.hasConsumables()) {
+                Utils.errorHeadline('NEED TO REFILL 🍖');
                 return;
             }
         }
 
         if (condition === SubworkflowCondition.TaskCompleted) {
-            const character: Character = await this.characterGateway.status();
             character.logToConsole(['task']);
-
             if (character.isTaskCompleted()) {
                 Utils.errorHeadline('TASK PROGRESS COMPLETED');
-                return;
-            }
-
-            if (character.isInventoryFull()) {
-                Utils.errorHeadline('TASK > CHARACTER FULL');
                 return;
             }
         }
@@ -384,7 +383,7 @@ export class WorkflowOrchestrator {
 
     private async executeTaskWorflow() {
         const character: Character = await this.characterGateway.status();
-        const task = character.getTask();
+        const task: any = character.getTask();
 
         if (!task) {
             Utils.errorHeadline(`EXECUTE TASK > NO TASK!`);
@@ -399,18 +398,17 @@ export class WorkflowOrchestrator {
 
             switch(character.name) {
                 case 'Richard_CDL':
-                    return this.findWorkflowAndExecute('fight-pig', -1);
+                    return this.findWorkflowAndExecute('fight-ogre', -1);
                 case 'PatatePoil':
-                    return this.findWorkflowAndExecute('iron-craft', -1);
-                case 'YourBoiBob':
-                    return this.findWorkflowAndExecute('iron-craft', -1);
-                case 'Ginette':
                     return this.findWorkflowAndExecute('fight-pig', -1);
+                case 'YourBoiBob':
+                    return this.findWorkflowAndExecute('fight-pig', -1);
+                case 'Ginette':
+                    return this.findWorkflowAndExecute('gather_craft-steel', -1);
                 case 'BigBooty':
-                    return this.findWorkflowAndExecute('fight-cow', -1);
+                    return this.findWorkflowAndExecute('fight-pig', -1);
             }
 
-            await this.findWorkflowAndExecute('copper-craft', -1);
             return;
         }
 
@@ -465,48 +463,6 @@ export class WorkflowOrchestrator {
 
         Utils.logHeadline(`EXECUTE TASK > ${task.task} x${(task.total - task.progress)}`);
         await this.execute(actions);
-    }
-}
-
-enum TaskActionType {
-    Gather = 'gather',
-    Fight = 'fight',
-    Craft = 'craft',
-}
-
-interface GatherTaskAction {
-    type: TaskActionType.Gather;
-    gatherPoint: PointOfInterest;
-    bankPoint: PointOfInterest;
-}
-
-interface FightTaskAction {
-    type: TaskActionType.Fight;
-    fightPoint: PointOfInterest;
-    bankPoint: PointOfInterest;
-}
-
-interface CraftTaskAction {
-    type: TaskActionType.Craft;
-    workshopPoint: PointOfInterest;
-    bankPoint: PointOfInterest;
-
-    itemActions: TaskAction[];
-}
-
-type TaskAction = GatherTaskAction | FightTaskAction | CraftTaskAction;
-
-class TaskActionFactory {
-
-    // Notes: Just need to keep it to one nested level at most, the recursivity should take care of managing task delegation until there's nothing to do
-    // Gather tasks = Go somewhere, gather, come back, give, go to bank, drop shits, rinse & repeat until completed
-    // Craft tasks = Go to bank, drop all, withdraw what's needed, go to work station, craft, rinse & repeat until completed or lack of items
-        // if lack of items (resources) => trigger the gather tasks for a specific quantity for each items
-        // if lack of items (craft items) => trigger similar flow from step 1
-        // if lack of items (monster drops) => move to fight point, fight until enough drops
-
-    static createFor(task: string): TaskAction {
-        throw new Error('Not implemented');
     }
 }
 

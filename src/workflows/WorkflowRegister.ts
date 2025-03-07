@@ -1,4 +1,4 @@
-import {FightingPOIs, GatheringPOIs, PointOfInterest} from "../lexical/PointOfInterest.js";
+import {GatheringPOIs, PointOfInterest} from "../lexical/PointOfInterest.js";
 import {Items} from "../lexical/Items.js";
 import {Action, MoveActionCondition, WorkflowAction} from "./WorkflowOrchestrator.js";
 import {WorkflowFactory} from "./WorkflowFactory.js";
@@ -9,7 +9,6 @@ export class WorkflowRegister {
         const workflows = new Map<string, WorkflowAction[]>;
 
         WorkflowRegister.registerForGathering(workflows);
-        WorkflowRegister.registerForMonsters(workflows);
         WorkflowRegister.registerForTasks(workflows);
         WorkflowRegister.registerForOthers(workflows);
         WorkflowRegister.registerForSets(workflows);
@@ -41,12 +40,6 @@ export class WorkflowRegister {
         GatheringPOIs.forEach((pointOfInterests: PointOfInterest[]) => {
             const [gatherPOI, bankPOI] = pointOfInterests;
             workflows.set(`gather-${gatherPOI}`, WorkflowFactory.gather(gatherPOI!, bankPOI!));
-        })
-    }
-
-    private static registerForMonsters(workflows: Map<string, WorkflowAction[]>) {
-        FightingPOIs.forEach((pointOfInterest: PointOfInterest) => {
-            workflows.set(`fight-${pointOfInterest}`, WorkflowFactory.fightUntilFull(pointOfInterest));
         })
     }
 

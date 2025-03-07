@@ -21,6 +21,10 @@
     "pp": "yarn console PatatePoil",
     "bob": "yarn console YourBoiBob",
     "ginette": "yarn console Ginette",
-    "bb": "yarn console BigBooty"
+    "bb": "yarn console BigBooty",
+
+
+    "pp-ogre": "yarn pp w craft-skull_staff,steel_boots,tromatising_mask,skeleton_pants,skeleton_armor,steel_shield,skull_amulet,skull_ring,skull_ring 1",
+    "bb-ogre": "yarn bb w equip-skull_staff,steel_boots,tromatising_mask,skeleton_pants,skeleton_armor,steel_shield,skull_amulet,skull_ring 1"
   }
 }

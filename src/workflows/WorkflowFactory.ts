@@ -1,6 +1,6 @@
 import {ItemGatheringPOIs, PointOfInterest, Workstations} from "../lexical/PointOfInterest.js";
 import {Items} from "../lexical/Items.js";
-import {Action, BankWithdrawActionCondition, SubworkflowCondition, WorkflowAction} from "./WorkflowOrchestrator.js";
+import {Action, BankWithdrawActionCondition, WorkflowAction} from "./WorkflowOrchestrator.js";
 import {Recipe, Recipes, ResourceItem} from "../lexical/Recipes.js";
 
 export class WorkflowFactory {
@@ -52,22 +52,6 @@ export class WorkflowFactory {
             { action: Action.Move, coordinates: bankPoint },
             { action: Action.BankDepositAll },
         ]
-    }
-
-    static fightUntilFull(monsterPoint: PointOfInterest): WorkflowAction[] {
-        return [
-            {
-                action: Action.SubWorkflow,
-                condition: SubworkflowCondition.InventoryFull,
-                actions: [
-                    { action: Action.Move, coordinates: monsterPoint },
-                    { action: Action.Rest },
-                    { action: Action.Fight, loops: 1 },
-                ],
-            },
-            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
-            { action: Action.BankDepositAll },
-        ];
     }
 
     static withdrawAndCraft(craftItem: Items, recipe: Recipe, recipeQuantity: number, isRecyle: boolean): WorkflowAction[] {

@@ -7,7 +7,7 @@ import {ArtifactsClient} from "../../gateways/ArtifactsClient.js";
 import {BankWithdrawActionCondition} from "../WorkflowOrchestrator.js";
 import {Character} from "../../entities/Character.js";
 import {Recipe} from "../../lexical/Recipes.js";
-import {Item} from "../../entities/Item.js";
+import {Item, ItemType} from "../../entities/Item.js";
 
 export class Banker {
     constructor(
@@ -171,6 +171,17 @@ export class Banker {
         });
 
         return bank;
+    }
+
+    async getBankItemFromType(type: ItemType, maximumLevel: number) {
+        const bankItems = (await this.client.getBank()).items;
+
+        let mappedBankItems: any[] =  bankItems.map((entry: any) => ({ item: this.items.get(entry.code), quantity: entry.quantity }));
+        let filteredBankItems: any[] = mappedBankItems.filter((entry: any) => (entry.item.type === type && entry.item.level <= maximumLevel));
+
+        filteredBankItems.sort((a: any, b: any) => b.item.level - a.item.level);
+
+        return filteredBankItems;
     }
 
     async howManyTimesRecipeCanBeCraft(recipe: Recipe, maxInventory: number): Promise<number> {

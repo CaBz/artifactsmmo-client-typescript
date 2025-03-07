@@ -1,16 +1,15 @@
-import {WorkflowAction} from "./WorkflowOrchestrator.js";
+import {Action, SubworkflowCondition, WorkflowAction} from "./WorkflowOrchestrator.js";
 import {WorkflowFactory} from "./WorkflowFactory.js";
-import {Item} from "../entities/Item.js";
+import {Item, ItemType} from "../entities/Item.js";
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
 import {Character} from "../entities/Character.js";
 import {Recipe, Recipes, ResourceItem} from "../lexical/Recipes.js";
 import {Items} from "../lexical/Items.js";
 import * as Utils from "../Utils.js";
-import {ArtifactsClient} from "../gateways/ArtifactsClient.js";
 import {Banker} from "./services/Banker.js";
 import {Monsters} from "../lexical/Monsters.js";
-import {Simulator} from "./services/Simulator.js";
-import {Monster} from "../entities/Monster.js";
+import {Fights, PointOfInterest} from "../lexical/PointOfInterest.js";
+import {Container} from "../Container.js";
 
 export enum WorkflowPrefix {
     Equip = 'equip',
@@ -26,12 +25,8 @@ export class WorkflowGenerator {
     private character: Character;
 
     constructor(
-        private readonly client: ArtifactsClient,
         private readonly characterGateway: CharacterGateway,
         private readonly banker: Banker,
-        private readonly simulator: Simulator,
-        private readonly items: Map<string, Item>,
-        private readonly monsters: Map<string, Monster>,
     ) {
     }
 
@@ -68,7 +63,7 @@ export class WorkflowGenerator {
         return [];
     }
 
-    generateEquip(inputCode: Items): WorkflowAction[] {
+    private generateEquip(inputCode: Items): WorkflowAction[] {
         const codes: Items[] = inputCode.split(',') as Items[];
         let item: Item | undefined;
         let code: Items;
@@ -77,7 +72,7 @@ export class WorkflowGenerator {
         for (let i=0; i<codes.length; i++) {
             code = codes[i]!;
 
-            item = this.items.get(code);
+            item = Container.items.get(code);
             if (!item) {
                 throw new Error('Item does not exist');
             }
@@ -88,7 +83,7 @@ export class WorkflowGenerator {
         return actions;
     }
 
-    async generateCraft(inputCode: Items, quantity: number): Promise<WorkflowAction[]> {
+    private async generateCraft(inputCode: Items, quantity: number): Promise<WorkflowAction[]> {
         const codes: Items[] = inputCode.split(',') as Items[];
 
         const actions = [];
@@ -113,7 +108,7 @@ export class WorkflowGenerator {
         return actions;
     }
 
-    async generateRecraft(code: Items, quantity: number): Promise<WorkflowAction[]> {
+    private async generateRecraft(code: Items, quantity: number): Promise<WorkflowAction[]> {
         const recipe: Recipe = Recipes.getFor(code);
         const recipeQuantityFromBank = await this.banker.howManyTimesRecipeCanBeCraft(recipe, this.character.maxInventory);
         const recipeQuantity: number = quantity === -1 ? recipeQuantityFromBank : Math.min(quantity, recipeQuantityFromBank);
@@ -126,9 +121,9 @@ export class WorkflowGenerator {
     }
 
     private generateGather(code: Items) {
-        const item: Item | undefined = this.items.get(code);
+        const item: Item | undefined = Container.items.get(code);
         if (!item) {
-            throw new Error('Item does not exist');
+            throw new Error(`Item does not exist: ${code}`);
         }
 
         return [];
@@ -161,16 +156,68 @@ export class WorkflowGenerator {
         return WorkflowFactory.gatherManyAndCraft(recipe, withdraws, gathers);
     }
 
-    private generateFight(code: Monsters): Promise<WorkflowAction[]> {
-        const monster = this.monsters.get(code);
+    private async generateFight(code: Monsters): Promise<WorkflowAction[]> {
+        const monster = Container.monsters.get(code);
+        if (!monster) {
+            throw new Error(`No monster with code ${code}`);
+        }
+
+        const monsterPoint = Fights[code];
+        if (!monsterPoint) {
+            throw new Error(`No POI for monster ${code}`);
+        }
+
+        const actions: WorkflowAction[] = [];
 
         // 1. Find best Set?
-        // 2. Withdraw Utilities
-        // 3. Withdraw Consumables
-        // 4. Find POI
-        // 5. Fight/Rest Loop (SubWorkflow with condition = no more consumables?
-        // Dump all to bank
-        // Repeat
 
+        // 2. Withdraw Utilities
+
+        // monster effect to utility mapping
+        // find best utility (level) in bank
+
+
+        // Consumables
+        const inventoryConsumables = this.character.getConsumables()
+        if (inventoryConsumables.length === 0) {
+            const bankItems: any = await this.banker.getBankItemFromType(ItemType.Consumable, this.character.level);
+            if (bankItems.length > 0) {
+                actions.push(
+                    {action: Action.Move, coordinates: PointOfInterest.Bank1},
+                    {action: Action.BankDepositAll},
+                )
+
+                let remainingSpaces = Math.floor(this.character.maxInventory * 0.8);
+                let item: any;
+                for (let i = 0; i < bankItems.length; i++) {
+                    item = bankItems[i];
+                    let withdrawables: number = Math.min(remainingSpaces, item.quantity);
+
+                    actions.push({action: Action.BankWithdraw, code: item.item.code, quantity: withdrawables});
+
+                    remainingSpaces -= withdrawables;
+                    if (remainingSpaces <= 0) {
+                        break;
+                    }
+                }
+            }
+        }
+
+
+        actions.push(
+            {
+                action: Action.SubWorkflow,
+                condition: SubworkflowCondition.NoMoreConsumables,
+                actions: [
+                    { action: Action.Move, coordinates: monsterPoint },
+                    { action: Action.Rest },
+                    { action: Action.Fight, loops: 1 },
+                ],
+            },
+            { action: Action.Move, coordinates: PointOfInterest.Bank1 },
+            { action: Action.BankDepositAll }
+        )
+
+        return actions;
     }
 }

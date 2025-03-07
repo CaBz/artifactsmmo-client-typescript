@@ -23,6 +23,9 @@ import {WorkflowGenerator} from "./workflows/WorkflowGenerator.js";
 import {ItemUser} from "./workflows/services/ItemUser.js";
 
 export class Container {
+    static items: Map<string, Item>;
+    static monsters: Map<string, Monster>;
+
     static async create(charactName: string): Promise<Container> {
         const container = new Container(charactName);
         await container.initialize();
@@ -61,6 +64,8 @@ export class Container {
     private async registerGeneratorsAndSets(): Promise<void> {
         this.instances.set('data-loader', new DataLoader(this.client, 'data', 'everything.json'));
         this.instances.set('data', await this.dataLoader.loadData());
+        Container.items = this.items;
+        Container.monsters = this.monsters;
 
         this.instances.set('lexical-generator', new LexicalGenerator(this.data, 'data/templates', 'src/lexical'));
     }
@@ -156,12 +161,8 @@ export class Container {
 
     private registerWorkflowOrchestrator() {
         this.instances.set('workflow-generator', new WorkflowGenerator(
-            this.client,
             this.characterGateway,
             this.banker,
-            this.simulator,
-            this.items,
-            this.monsters,
         ));
 
         this.instances.set(

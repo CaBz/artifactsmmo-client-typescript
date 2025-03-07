@@ -1,5 +1,6 @@
 import {Skills} from "./Skills.js";
 import {Items} from "./Items.js";
+import {Monsters} from "./Monsters.js";
 
 export enum PointOfInterest {
     // Monsters
@@ -86,31 +87,22 @@ export const Workstations: any = {
     [Skills.Alchemy]: PointOfInterest.Alchemy,
 }
 
-export const FightingPOIs: PointOfInterest[] = [
-    PointOfInterest.Chicken,
-    PointOfInterest.GreenSlime1,
-    PointOfInterest.GreenSlime2,
-    PointOfInterest.YellowSlime1,
-    PointOfInterest.YellowSlime2,
-    PointOfInterest.BlueSlime1,
-    PointOfInterest.BlueSlime2,
-    PointOfInterest.RedSlime1,
-    PointOfInterest.RedSlime2,
-    PointOfInterest.Cow,
-    PointOfInterest.Mushmush1,
-    PointOfInterest.Mushmush2,
-    PointOfInterest.FlyingSerpent1,
-    PointOfInterest.FlyingSerpent2,
-    PointOfInterest.Highwayman,
-    PointOfInterest.Wolf1,
-    PointOfInterest.Wolf2,
-    PointOfInterest.Skeleton1,
-    PointOfInterest.Skeleton2,
-    PointOfInterest.Pig,
-    PointOfInterest.Ogre1,
-    PointOfInterest.Ogre2,
-    PointOfInterest.Spider,
-];
+export const Fights: any = {
+    [Monsters.Chicken]: PointOfInterest.Chicken,
+    [Monsters.YellowSlime]: PointOfInterest.YellowSlime1,
+    [Monsters.GreenSlime]: PointOfInterest.GreenSlime1,
+    [Monsters.BlueSlime]: PointOfInterest.BlueSlime1,
+    [Monsters.RedSlime]: PointOfInterest.RedSlime1,
+    [Monsters.Cow]: PointOfInterest.Cow,
+    [Monsters.Mushmush]: PointOfInterest.Mushmush1,
+    [Monsters.FlyingSerpent]: PointOfInterest.FlyingSerpent1,
+    [Monsters.Highwayman]: PointOfInterest.Highwayman,
+    [Monsters.Wolf]: PointOfInterest.Wolf1,
+    [Monsters.Skeleton]: PointOfInterest.Skeleton1,
+    [Monsters.Pig]: PointOfInterest.Pig,
+    [Monsters.Ogre]: PointOfInterest.Ogre1,
+    [Monsters.Spider]: PointOfInterest.Spider,
+}
 
 export const GatheringPOIs = [
     [PointOfInterest.Copper, PointOfInterest.Bank1],
@@ -145,7 +137,7 @@ export const GatheringPOIs = [
     [PointOfInterest.Magic, PointOfInterest.Bank2],
 ];
 
-export const ItemGatheringPOIs = {
+export const ItemGatheringPOIs: any = {
     [Items.CopperOre]: [PointOfInterest.Copper, PointOfInterest.Bank1],
     [Items.IronOre]: [PointOfInterest.Iron, PointOfInterest.Bank1],
     [Items.Coal]: [PointOfInterest.Coal, PointOfInterest.Bank1],

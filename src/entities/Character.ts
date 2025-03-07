@@ -4,6 +4,8 @@ import {StatEffects} from "../lexical/TypeEffects.js";
 import {Coordinates} from "../lexical/MapCoordinates.js";
 import {AllSkills, Skills} from "../lexical/Skills.js";
 import {EquippableSlot} from "../lexical/EquippableSlot.js";
+import {ItemType} from "./Item.js";
+import {Container} from "../Container.js";
 
 export class Character {
     constructor(private readonly data: any) {
@@ -64,6 +66,20 @@ export class Character {
         }
 
         return inventories;
+    }
+
+    getInventoryWithType(type: ItemType) {
+        return this.getInventory()
+            .map(entry => ({ item: Container.items.get(entry.code), quantity: entry.quantity}))
+            .filter((entry => entry.item?.type === type && entry.item.level <= this.level));
+    }
+
+    getConsumables() {
+        return this.getInventoryWithType(ItemType.Consumable);
+    }
+
+    hasConsumables() {
+        return this.getConsumables().length > 0;
     }
 
     isInventoryFull(): boolean {

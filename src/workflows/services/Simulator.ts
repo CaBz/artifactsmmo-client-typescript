@@ -602,24 +602,63 @@ export class Simulator {
 }
 
 
+// Heal rune
 /*
 Fight start: Character HP: 675/675, Monster HP: 650/650
 Turn 1: The character used fire attack and dealt 83 damage. (Monster HP: 567/650)
 Turn 2: The monster used earth attack and dealt 68 damage. (Character HP: 607/675)
 Turn 3: The character used fire attack and dealt 83 damage. (Monster HP: 484/650)
 Turn 4: The monster used earth attack and dealt 68 damage. (Character HP: 539/675)
-Turn 5: The character heals 34 HP. (Character HP: 573/675)
+- Turn 5: The character heals 34 HP. (Character HP: 573/675)
 Turn 5: The character used fire attack and dealt 83 damage. (Monster HP: 401/650)
 Turn 6: The monster used earth attack and dealt 68 damage. (Character HP: 505/675)
 Turn 7: The character used fire attack and dealt 83 damage. (Monster HP: 318/650)
 Turn 8: The monster used earth attack and dealt 68 damage. (Character HP: 437/675)
 Turn 9: The character used fire attack and dealt 83 damage. (Monster HP: 235/650)
 Turn 10: The monster used earth attack and dealt 68 damage. (Character HP: 369/675)
-Turn 11: The character heals 34 HP. (Character HP: 403/675)
+- Turn 11: The character heals 34 HP. (Character HP: 403/675)
 Turn 11: The character used fire attack and dealt 83 damage. (Monster HP: 152/650)
 Turn 12: The monster used earth attack and dealt 68 damage. (Character HP: 335/675)
 Turn 13: The character used fire attack and dealt 83 damage. (Monster HP: 69/650)
 Turn 14: The monster used earth attack and dealt 102 damage (Critical strike). (Character HP: 233/675)
 Turn 15: The character used fire attack and dealt 83 damage. (Monster HP: 0/650)
 Fight result: win. (Character HP: 233/675, Monster HP: 0/650)
+*/
+
+// Poison
+/*
+Fight start: Character HP: 680/680, Monster HP: 550/550
+Turn 1: The character used fire attack and dealt 69 damage. (Monster HP: 481/550)
+- Turn 2: The monster applies a poison of 20 on your character. (Character poison: 20)
+Turn 2: The monster used fire attack and dealt 30 damage. (Character HP: 650/680)
+Turn 2: The monster used water attack and dealt 37 damage. (Character HP: 613/680)
+- Turn 3: The character suffers from poison and loses 20 HP. (Character HP: 593/680)
+Turn 3: The character used fire attack and dealt 104 damage (Critical strike). (Monster HP: 377/550)
+Turn 4: The monster used fire attack and dealt 30 damage. (Character HP: 563/680)
+Turn 4: The monster used water attack and dealt 37 damage. (Character HP: 526/680)
+- Turn 5: The character suffers from poison and loses 20 HP. (Character HP: 506/680)
+Turn 5: The character heals 34 HP. (Character HP: 540/680)
+Turn 5: The character used fire attack and dealt 69 damage. (Monster HP: 308/550)
+Turn 6: The monster used fire attack and dealt 30 damage. (Character HP: 510/680)
+Turn 6: The monster used water attack and dealt 37 damage. (Character HP: 473/680)
+- Turn 7: The character suffers from poison and loses 20 HP. (Character HP: 453/680)
+Turn 7: The character used fire attack and dealt 69 damage. (Monster HP: 239/550)
+Turn 8: The monster used fire attack and dealt 30 damage. (Character HP: 423/680)
+Turn 8: The monster used water attack and dealt 37 damage. (Character HP: 386/680)
+- Turn 9: The character suffers from poison and loses 20 HP. (Character HP: 366/680)
+Turn 9: The character used fire attack and dealt 69 damage. (Monster HP: 170/550)
+Turn 10: The monster used fire attack and dealt 45 damage (Critical strike). (Character HP: 321/680)
+Turn 10: The monster used water attack and dealt 56 damage (Critical strike). (Character HP: 265/680)
+- Turn 11: The character suffers from poison and loses 20 HP. (Character HP: 245/680)
+Turn 11: The character heals 34 HP. (Character HP: 279/680)
+Turn 11: The character used fire attack and dealt 69 damage. (Monster HP: 101/550)
+Turn 12: The monster used fire attack and dealt 30 damage. (Character HP: 249/680)
+Turn 12: The monster used water attack and dealt 37 damage. (Character HP: 212/680)
+- Turn 13: The character suffers from poison and loses 20 HP. (Character HP: 192/680)
+Turn 13: The character used fire attack and dealt 69 damage. (Monster HP: 32/550)
+Turn 14: The monster used fire attack and dealt 45 damage (Critical strike). (Character HP: 147/680)
+Turn 14: The monster used water attack and dealt 56 damage (Critical strike). (Character HP: 91/680)
+- Turn 15: The character suffers from poison and loses 20 HP. (Character HP: 71/680)
+Turn 15: The character used fire attack and dealt 69 damage. (Monster HP: 0/550)
+Fight result: win. (Character HP: 71/680, Monster HP: 0/550)
 */
