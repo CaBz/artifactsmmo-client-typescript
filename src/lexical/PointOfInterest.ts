@@ -114,39 +114,6 @@ export const Fights: any = {
     [Monsters.Spider]: PointOfInterest.Spider,
 }
 
-export const GatheringPOIs = [
-    [PointOfInterest.Copper, PointOfInterest.Bank1],
-    [PointOfInterest.Iron, PointOfInterest.Bank1],
-    [PointOfInterest.Coal, PointOfInterest.Bank1],
-    [PointOfInterest.Gold, PointOfInterest.Bank1],
-    [PointOfInterest.Mithril, PointOfInterest.Bank2],
-
-    [PointOfInterest.Ash1, PointOfInterest.Bank1],
-    [PointOfInterest.Ash2, PointOfInterest.Bank1],
-    [PointOfInterest.Spruce1, PointOfInterest.Bank1],
-    [PointOfInterest.Spruce2, PointOfInterest.Bank2],
-    [PointOfInterest.Birch1, PointOfInterest.Bank1],
-    [PointOfInterest.Birch2, PointOfInterest.Bank1],
-    [PointOfInterest.DeadTree1, PointOfInterest.Bank2],
-    [PointOfInterest.DeadTree2, PointOfInterest.Bank1],
-    [PointOfInterest.Maple1, PointOfInterest.Bank2],
-    [PointOfInterest.Maple2, PointOfInterest.Bank2],
-
-    [PointOfInterest.Sunflower, PointOfInterest.Bank1],
-    [PointOfInterest.Nettle, PointOfInterest.Bank2],
-    [PointOfInterest.Glowstem, PointOfInterest.Bank2],
-
-    [PointOfInterest.Gudgeon, PointOfInterest.Bank1],
-    [PointOfInterest.Shrimp, PointOfInterest.Bank1],
-    [PointOfInterest.Trout, PointOfInterest.Bank2],
-    [PointOfInterest.Bass, PointOfInterest.Bank2],
-    [PointOfInterest.Salmon1, PointOfInterest.Bank1],
-    [PointOfInterest.Salmon2, PointOfInterest.Bank1],
-
-    // Event
-    [PointOfInterest.Magic, PointOfInterest.Bank2],
-];
-
 export const ItemGatheringPOIs: any = {
     [Items.CopperOre]: [PointOfInterest.Copper, PointOfInterest.Bank1],
     [Items.IronOre]: [PointOfInterest.Iron, PointOfInterest.Bank1],

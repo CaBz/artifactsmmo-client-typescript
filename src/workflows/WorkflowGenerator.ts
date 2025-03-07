@@ -133,7 +133,14 @@ export class WorkflowGenerator {
             throw new Error(`Item does not exist: ${code}`);
         }
 
-        return [];
+        const POIs: PointOfInterest[] = ItemGatheringPOIs[code];
+        return [
+            { action: Action.Move, coordinates: POIs[0]! },
+            { action: Action.Gather, loops: -1 },
+
+            { action: Action.Move, coordinates: POIs[1]! },
+            { action: Action.BankDepositAll },
+        ];
     }
 
     private async generateGatherCraft(code: Items, maximumQuantity?: number): Promise<WorkflowAction[]> {
@@ -238,6 +245,13 @@ export class WorkflowGenerator {
 
         // If the task is fighting monster, just fight until it's done
         if (task.type === 'monsters') {
+            if (this.character.isInventoryFull()) {
+                return [
+                    { action: Action.Move, coordinates: TaskMasterBanks[type] },
+                    { action: Action.BankDepositAll},
+                ];
+            }
+
             actions.push(
                 ... await this.prepareForFight(),
                 {
@@ -282,7 +296,7 @@ export class WorkflowGenerator {
             const POIs: PointOfInterest[] = ItemGatheringPOIs[task.task];
             taskActions = [
                 { action: Action.Move, coordinates: POIs[0]! },
-                { action: Action.Gather, loops: Math.min((maxInventory - inventoryCount), remainingTask) },
+                { action: Action.Gather, loops: Math.min(maxInventory, (remainingTask - inventoryCount)) },
             ];
         }
 
