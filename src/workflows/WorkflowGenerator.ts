@@ -257,9 +257,9 @@ export class WorkflowGenerator {
 
         if (availableQuantity > 0) {
             actions.push(
-                {action: Action.Move, coordinates: PointOfInterest.Bank2},
-                {action: Action.BankDepositAll},
-                {action: Action.BankWithdraw, code: task.task, quantity: Math.min(this.character.maxInventory, availableQuantity, remainingTask) },
+                { action: Action.Move, coordinates: PointOfInterest.Bank2 },
+                { action: Action.BankDepositAll },
+                { action: Action.BankWithdraw, code: task.task, quantity: Math.min(this.character.maxInventory, availableQuantity, remainingTask) },
                 { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
                 { action: Action.TradeTask, code: task.task, quantity: -1},
             );
@@ -267,15 +267,17 @@ export class WorkflowGenerator {
             return actions;
         }
 
-        // If it's a recipe, it will gather + craft what's needed, otherwise just gather
         let taskActions: WorkflowAction[];
         try {
+            // If it's a recipe, it will gather + craft what's needed
             taskActions = await this.generateGatherCraft(task.task, remainingTask);
         } catch {
+
+            // If it's not a recipe, it will just go gather as much as it can, trade what's in the inventory and then it loops back into this function
             const POIs: PointOfInterest[] = ItemGatheringPOIs[task.task];
             taskActions = [
                 { action: Action.Move, coordinates: POIs[0]! },
-                { action: Action.Gather, loops: remainingTask },
+                { action: Action.Gather, loops: Math.min(inventoryCount, remainingTask) },
             ];
         }
 

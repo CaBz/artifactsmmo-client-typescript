@@ -57,7 +57,7 @@ export class WorkflowFactory {
     }
 
     static withdrawAndCraft(craftItem: Items, recipe: Recipe, recipeQuantity: number, isRecyle: boolean): WorkflowAction[] {
-        const withdrawActions = recipe.items.map((item: ResourceItem): WorkflowAction => {
+        const withdrawActions: WorkflowAction[] = recipe.items.map((item: ResourceItem): WorkflowAction => {
             return { action: Action.BankWithdraw, code: item.code, quantity: item.quantity * recipeQuantity }
         });
 
@@ -71,12 +71,11 @@ export class WorkflowFactory {
 
             // Go to the craft station and craft
             { action: Action.Move, coordinates: Workstations[recipe.skill]! },
-            { action: Action.Craft, code: craftItem, quantity: recipeQuantity },
-
+            { action: Action.Craft, code: craftItem, quantity: -1 },
         ];
 
         if (isRecyle) {
-            result.push({ action: Action.Recycle, code: craftItem, quantity: recipeQuantity });
+            result.push({ action: Action.Recycle, code: craftItem, quantity: -1 });
         }
 
         result.push({ action: Action.Move, coordinates: PointOfInterest.Bank1 });
