@@ -71,7 +71,7 @@ export class Character {
     getInventoryWithType(type: ItemType) {
         return this.getInventory()
             .map(entry => ({ item: Container.items.get(entry.code), quantity: entry.quantity}))
-            .filter((entry => entry.item?.type === type && entry.item.level <= this.level));
+            .filter((entry => entry.item?.type === type && entry.item.level <= this.level && entry.item.code != 'apple'));
     }
 
     getConsumables() {

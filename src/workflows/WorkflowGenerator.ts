@@ -1,6 +1,6 @@
 import {Action, MoveActionCondition, SubworkflowCondition, WorkflowAction} from "./WorkflowOrchestrator.js";
 import {WorkflowFactory} from "./WorkflowFactory.js";
-import {Item, ItemType} from "../entities/Item.js";
+import {Item} from "../entities/Item.js";
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
 import {Character} from "../entities/Character.js";
 import {Recipe, Recipes, ResourceItem} from "../lexical/Recipes.js";
@@ -219,7 +219,7 @@ export class WorkflowGenerator {
                 { action: Action.BankWithdraw, code: Items.TasksCoin, quantity: -1},
 
                 // Turn the task and try to exchange coins
-                { action: Action.Move, coordinates: TaskMasters[type], condition: MoveActionCondition.NoTasks },
+                { action: Action.Move, coordinates: TaskMasters[type] },
                 { action: Action.CompleteTask },
                 { action: Action.ExchangeTask },
 
@@ -234,15 +234,17 @@ export class WorkflowGenerator {
 
         // If the task is fighting monster, just fight until it's done
         if (task.type === 'monsters') {
-            actions.push({
-                action: Action.SubWorkflow,
-                condition: SubworkflowCondition.TaskCompletedOrNoMoreConsumables,
-                actions: [
-                    { action: Action.Move, coordinates: Fights[task.task] },
-                    { action: Action.Rest },
-                    { action: Action.Fight, loops: 1 },
-                ]
-            });
+            actions.push(
+                ... await this.prepareForFight(),
+                {
+                    action: Action.SubWorkflow, condition: SubworkflowCondition.TaskCompletedOrNoMoreConsumables,
+                    actions: [
+                        { action: Action.Move, coordinates: Fights[task.task] },
+                        { action: Action.Rest },
+                        { action: Action.Fight, loops: 1 },
+                    ]
+                }
+            );
 
             return actions;
         }
@@ -257,7 +259,7 @@ export class WorkflowGenerator {
             actions.push(
                 {action: Action.Move, coordinates: PointOfInterest.Bank2},
                 {action: Action.BankDepositAll},
-                {action: Action.BankWithdraw, code: task.task, quantity: Math.min(this.character.maxInventory, availableQuantity) },
+                {action: Action.BankWithdraw, code: task.task, quantity: Math.min(this.character.maxInventory, availableQuantity, remainingTask) },
                 { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
                 { action: Action.TradeTask, code: task.task, quantity: -1},
             );
@@ -289,7 +291,7 @@ export class WorkflowGenerator {
     private async prepareForFight(): Promise<WorkflowAction[]> {
         // 1. Find best Set?
 
-        // 2. Withdraw Utilities
+        // 2. Withdraw Utilities & Equip
 
         // monster effect to utility mapping
         // find best utility (level) in bank
@@ -299,7 +301,7 @@ export class WorkflowGenerator {
         // Consumables
         const inventoryConsumables = this.character.getConsumables()
         if (inventoryConsumables.length === 0) {
-            const bankItems: any = await this.banker.getBankItemFromType(ItemType.Consumable, this.character.level);
+            const bankItems: any = await this.banker.getConsumables(this.character.level);
             if (bankItems.length > 0) {
                 actions.push(
                     {action: Action.Move, coordinates: PointOfInterest.Bank1},

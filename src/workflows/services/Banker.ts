@@ -184,6 +184,12 @@ export class Banker {
         return filteredBankItems;
     }
 
+    async getConsumables(maximumLevel: number) {
+        const consumables = await this.getBankItemFromType(ItemType.Consumable, maximumLevel);
+
+        return consumables.filter((entry: any) => (entry.item.code !== 'apple'));
+    }
+
     async howManyTimesRecipeCanBeCraft(recipe: Recipe, maxInventory: number): Promise<number> {
         const bank: any = await this.getBank();
 
