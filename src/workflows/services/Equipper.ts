@@ -5,6 +5,7 @@ import {ClientException} from "../../gateways/ClientException.js";
 import {Items} from "../../lexical/Items.js";
 import {EquipmentSetTypes, Item, ItemType} from "../../entities/Item.js";
 import {EquippableSlot} from "../../lexical/EquippableSlot.js";
+import {Recipe, Recipes, ResourceItem} from "../../lexical/Recipes.js";
 
 export class Equipper {
     constructor(private readonly waiter: Waiter, private readonly characterGateway: CharacterGateway, private readonly items: Map<string, Item>) {
@@ -90,6 +91,7 @@ export class Equipper {
             + `| Lv. `
             + `| ${Utils.formatForMiddle('Type', 13)} `
             + `| ${Utils.formatForMiddle('Effects', 84)} `
+            + `| ${Utils.formatForMiddle('Recipe', 90)} `
             + `|`;
 
         console.log('-'.repeat(headline.length));
@@ -98,13 +100,22 @@ export class Equipper {
         console.log(headline);
         console.log('-'.repeat(headline.length));
 
+
         items.forEach((item: Item) => {
+            let recipe: Recipe | undefined = undefined;
+            try { recipe = Recipes.getFor(item.code); } catch { }
+
+            const recipeItems: string = (recipe === undefined)
+                ? '(not craftable)'
+                : recipe.items.map((recipeItem: ResourceItem) => `${recipeItem.code} x${recipeItem.quantity}`).join(', ');
+
             const effects = item.effects.map(effect => `${effect.code}: ${effect.value}`);
             console.log(
                 `| ${item.code.padEnd(23)} `
                 + `| ${item.level.toString().padStart(3)} `
                 + `| ${item.typeAndSubtype.padEnd(13)} `
                 + `| ${effects.join(', ').padEnd(84, ' ')} `
+                + `| ${recipeItems.padEnd(90, ' ')} `
                 + `|`
             );
         });

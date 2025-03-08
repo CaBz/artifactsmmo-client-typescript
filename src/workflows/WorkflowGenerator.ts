@@ -1,6 +1,6 @@
 import {Action, MoveActionCondition, SubworkflowCondition, WorkflowAction} from "./WorkflowOrchestrator.js";
 import {WorkflowFactory} from "./WorkflowFactory.js";
-import {Item} from "../entities/Item.js";
+import {Item, ItemSubType} from "../entities/Item.js";
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
 import {Character} from "../entities/Character.js";
 import {Recipe, Recipes, ResourceItem} from "../lexical/Recipes.js";
@@ -10,17 +10,7 @@ import {Banker} from "./services/Banker.js";
 import {Monsters} from "../lexical/Monsters.js";
 import {Fights, ItemGatheringPOIs, PointOfInterest, TaskMasterBanks, TaskMasters} from "../lexical/PointOfInterest.js";
 import {Container} from "../Container.js";
-
-export enum WorkflowPrefix {
-    Equip = 'equip',
-    Craft = 'craft',
-    CraftAll = 'craft_all',
-    Recraft = 'recraft',
-    Gather = 'gather',
-    GatherCraft = 'gather_craft',
-    Fight = 'fight',
-    Task = 'tm', // To prevent conflict with static workflow
-}
+import {Skills} from "../lexical/Skills.js";
 
 export class WorkflowGenerator {
     private character: Character;
@@ -45,22 +35,32 @@ export class WorkflowGenerator {
         Utils.logHeadline(`Generating workflow ${actionName} for ${code}...`);
 
         switch(actionName) {
-            case WorkflowPrefix.Equip:
+            case 'e':
+            case 'equip':
                 return this.generateEquip(code as Items);
-            case WorkflowPrefix.CraftAll:
+            case 'ca':
+            case 'craft_all':
                 return this.generateCraft(code as Items, -1);
-            case WorkflowPrefix.Craft:
+            case 'c':
+            case 'craft':
                 return this.generateCraft(code as Items, +(parts[2] || 1));
-            case WorkflowPrefix.Recraft:
+            case 'rc':
+            case 'recraft':
                 return this.generateRecraft(code as Items, +(parts[2] || -1));
-            case WorkflowPrefix.Gather:
+            case 'g':
+            case 'gather':
                 return this.generateGather(code as Items);
-            case WorkflowPrefix.GatherCraft:
+            case 'gc':
+            case 'gather_craft':
                 return this.generateGatherCraft(code as Items);
-            case WorkflowPrefix.Fight:
+            case 'f':
+            case 'fight':
                 return this.generateFight(code as Monsters);
-            case WorkflowPrefix.Task:
+            case 'tm':
+            case 'task_master':
                 return this.generateTask(code);
+            case 'auto':
+                return this.generateAuto(code);
         }
 
         return [];
@@ -339,5 +339,72 @@ export class WorkflowGenerator {
         }
 
         return actions;
+    }
+
+    private async generateAuto(code: string): Promise<WorkflowAction[]> {
+        switch (code) {
+            case 'all':
+                return this.generateAutoAll();
+            case Skills.Alchemy:
+                return this.generateAutoForItems(Skills.Alchemy, [ItemSubType.Alchemy, ItemSubType.Potion]);
+            case Skills.Woodcutting:
+                return this.generateAutoForItems(Skills.Woodcutting, [ItemSubType.Plank]);
+
+        }
+
+        throw new Error(`Nothing auto implemented for: ${code}`);
+    }
+
+    private async generateAutoAll(): Promise<WorkflowAction[]> {
+        const skills: any[] = this.character.getSkills();
+        skills.push({ name: 'leveling', level: this.character.level, xp: this.character.xp, maxXp: this.character.maxXp });
+        skills.sort((a: any, b: any) => a.level - b.level || a.xp - b.xp);
+
+        let skill: any;
+        for (let i=0; i<skills.length; i++) {
+            skill = skills[i];
+            try {
+                const actions = await this.generateAuto(skill.name);
+
+                console.log(actions);
+
+                return [];
+            } catch {
+                Utils.errorHeadline(`AUTO > ${skill.name} - SKIP`);
+            }
+        }
+
+        return [];
+    }
+
+    private async generateAutoForItems(name: Skills, subTypes: ItemSubType[]): Promise<WorkflowAction[]> {
+        Utils.errorHeadline(`AUTO > ${name}`);
+
+        const skill: any = this.character.getSkill(name);
+        const items: Item[] = Array.from(Container.items.values()).filter((item) => subTypes.includes(item.subType) && item.level <= skill.level);
+        items.sort((a: any, b: any) => b.level - a.level);
+
+        if (items.length === 0) {
+            throw new Error('Nothing can be done, you are doomed.');
+        }
+
+        let mostLikelyDoable: Item
+        for (let i=0; i<items.length; i++) {
+            mostLikelyDoable = items[i]!;
+            try {
+                if (mostLikelyDoable.isCraftable) {
+                    Utils.errorHeadline(`AUTO > Craft ${mostLikelyDoable.code}`);
+                    return this.generateGatherCraft(mostLikelyDoable.code);
+                }
+
+                Utils.errorHeadline(`AUTO > Gather ${mostLikelyDoable.code}`);
+                return this.generateGather(mostLikelyDoable.code);
+            }
+            catch {
+                Utils.errorHeadline(`AUTO > Gather ${mostLikelyDoable.code} - SKIP`);
+            }
+        }
+
+        throw new Error('Unable to do anything');
     }
 }

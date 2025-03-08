@@ -23,12 +23,20 @@ export class Character {
         return this.data.hp;
     }
 
-    get gold() {
-        return this.data.gold;
-    }
-
     get maxHp() {
         return this.data.max_hp;
+    }
+
+    get xp() {
+        return this.data.xp;
+    }
+
+    get maxXp() {
+        return this.data.max_xp;
+    }
+
+    get gold() {
+        return this.data.gold;
     }
 
     isFullHealth() {
@@ -185,8 +193,12 @@ export class Character {
         return {
             level: this.data[`${name}_level`],
             xp: this.data[`${name}_xp`],
-            maxHp: this.data[`${name}_max_xp`]
+            maxXp: this.data[`${name}_max_xp`]
         };
+    }
+
+    getSkills() {
+        return AllSkills.map((name: Skills) => ({ name, ...this.getSkill(name)}));
     }
 
     logToConsole(sections?: string[]): void {
