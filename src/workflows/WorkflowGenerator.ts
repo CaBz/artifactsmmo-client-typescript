@@ -224,19 +224,14 @@ export class WorkflowGenerator {
             Utils.errorHeadline('GOAL: Complete Task');
             return [
                 // Empty your pockets and get all task coins
-                { action: Action.Move, coordinates: TaskMasterBanks[type] },
+                { action: Action.Move, coordinates: TaskMasterBanks[task.type] },
                 { action: Action.BankDepositAll},
                 { action: Action.BankWithdraw, code: Items.TasksCoin, quantity: -1},
 
                 // Turn the task and try to exchange coins
-                { action: Action.Move, coordinates: TaskMasters[type] },
+                { action: Action.Move, coordinates: TaskMasters[task.type] },
                 { action: Action.CompleteTask },
                 { action: Action.ExchangeTask },
-
-                // Get a new task and dump everything
-                { action: Action.GetTask },
-                { action: Action.Move, coordinates: TaskMasterBanks[type] },
-                { action: Action.BankDepositAll},
             ];
         }
 
