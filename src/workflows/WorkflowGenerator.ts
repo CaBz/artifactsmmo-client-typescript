@@ -1,6 +1,6 @@
 import {Action, MoveActionCondition, SubworkflowCondition, WorkflowAction} from "./WorkflowOrchestrator.js";
 import {WorkflowFactory} from "./WorkflowFactory.js";
-import {Item, ItemSubType} from "../entities/Item.js";
+import {Item, ItemSubType, ItemType} from "../entities/Item.js";
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
 import {Character} from "../entities/Character.js";
 import {Recipe, Recipes, ResourceItem} from "../lexical/Recipes.js";
@@ -313,7 +313,7 @@ export class WorkflowGenerator {
         // Consumables
         const inventoryConsumables = this.character.getConsumables()
         if (inventoryConsumables.length === 0) {
-            const bankItems: any = await this.banker.getConsumables(this.character.level);
+            const bankItems: any = await this.banker.getFoodConsumables(this.character.level);
             if (bankItems.length > 0) {
                 actions.push(
                     {action: Action.Move, coordinates: PointOfInterest.Bank1},
@@ -342,13 +342,23 @@ export class WorkflowGenerator {
     }
 
     private async generateAuto(code: string): Promise<WorkflowAction[]> {
+        Utils.errorHeadline(`GOAL: Auto ${code}`);
+
         switch (code) {
             case 'all':
                 return this.generateAutoAll();
+            //case Skills.Fishing:
+            //     return this.generateAutoForItems(Skills.Alchemy, [ItemType.Resource], [ItemSubType.Alchemy, ItemSubType.Potion]);
             case Skills.Alchemy:
-                return this.generateAutoForItems(Skills.Alchemy, [ItemSubType.Alchemy, ItemSubType.Potion]);
+                return this.generateAutoForItems(Skills.Alchemy, [ItemType.Resource, ItemType.Utility], [ItemSubType.Alchemy, ItemSubType.Potion]);
             case Skills.Woodcutting:
-                return this.generateAutoForItems(Skills.Woodcutting, [ItemSubType.Plank]);
+                return this.generateAutoForItems(Skills.Woodcutting, [ItemType.Resource], [ItemSubType.Plank]);
+            case Skills.Mining:
+                return this.generateAutoForItems(Skills.Mining, [ItemType.Resource], [ItemSubType.Bar, ItemSubType.Alloy]);
+            case Skills.Cooking:
+                return this.generateAutoForItems(Skills.Cooking, [ItemType.Consumable], [ItemSubType.Food]);
+            case 'cook':
+                return this.generateAutoCook();
 
         }
 
@@ -364,24 +374,18 @@ export class WorkflowGenerator {
         for (let i=0; i<skills.length; i++) {
             skill = skills[i];
             try {
-                const actions = await this.generateAuto(skill.name);
-
-                console.log(actions);
-
-                return [];
-            } catch {
-                Utils.errorHeadline(`AUTO > ${skill.name} - SKIP`);
-            }
+                return await this.generateAuto(skill.name);
+            } catch { }
         }
 
         return [];
     }
 
-    private async generateAutoForItems(name: Skills, subTypes: ItemSubType[]): Promise<WorkflowAction[]> {
+    private async generateAutoForItems(name: Skills, types: ItemType[], subTypes: ItemSubType[]): Promise<WorkflowAction[]> {
         Utils.errorHeadline(`AUTO > ${name}`);
 
         const skill: any = this.character.getSkill(name);
-        const items: Item[] = Array.from(Container.items.values()).filter((item) => subTypes.includes(item.subType) && item.level <= skill.level);
+        const items: Item[] = Array.from(Container.items.values()).filter((item) => types.includes(item.type) && subTypes.includes(item.subType) && item.level <= skill.level);
         items.sort((a: any, b: any) => b.level - a.level);
 
         if (items.length === 0) {
@@ -391,20 +395,43 @@ export class WorkflowGenerator {
         let mostLikelyDoable: Item
         for (let i=0; i<items.length; i++) {
             mostLikelyDoable = items[i]!;
+
             try {
                 if (mostLikelyDoable.isCraftable) {
-                    Utils.errorHeadline(`AUTO > Craft ${mostLikelyDoable.code}`);
-                    return this.generateGatherCraft(mostLikelyDoable.code);
+                    return await this.generateGatherCraft(mostLikelyDoable.code);
                 }
 
-                Utils.errorHeadline(`AUTO > Gather ${mostLikelyDoable.code}`);
-                return this.generateGather(mostLikelyDoable.code);
+                return await this.generateGather(mostLikelyDoable.code);
             }
-            catch {
-                Utils.errorHeadline(`AUTO > Gather ${mostLikelyDoable.code} - SKIP`);
-            }
+            catch { }
         }
 
         throw new Error('Unable to do anything');
+    }
+
+    private async generateAutoCook(): Promise<WorkflowAction[]> {
+        Utils.errorHeadline(`AUTO > Cook`);
+
+        const forbiddenRecipes = [
+            Items.MushroomSoup,
+            Items.FishSoup,
+            Items.MapleSyrup,
+        ]
+
+        const cookingSkill: any = this.character.getSkill(Skills.Cooking);
+        const craftableItems: Item[] = Array.from(Container.items.values()).filter((item: Item) => item.skillToCraft === Skills.Cooking && item.levelToCraft <= cookingSkill.level && !forbiddenRecipes.includes(item.code));
+        craftableItems.sort((a, b) => b.level - a.level);
+
+        // console.log(craftableItems.map((item) => `${item.name} lv.${item.level}`));
+
+        let actions: WorkflowAction[] = [];
+        for (let i=0; i<craftableItems.length; i++) {
+            actions = await this.generateCraft(craftableItems[i]!.code, -1);
+            if (actions.length > 0) {
+                return actions;
+            }
+        }
+
+        throw new Error('Nothing cookable');
     }
 }

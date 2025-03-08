@@ -184,17 +184,18 @@ export class Banker {
         return filteredBankItems;
     }
 
-    async getConsumables(maximumLevel: number) {
-        const consumables = await this.getBankItemFromType([ItemType.Consumable], maximumLevel);
+    async getFoodConsumables(maximumLevel: number) {
+        let consumables: any[] = await this.getBankItemFromType([ItemType.Consumable], maximumLevel);
+        consumables = consumables.filter((entry: any) => (entry.item.subType === ItemSubType.Food) && (entry.item.code !== 'apple'));
 
-        return consumables.filter((entry: any) => (entry.item.code !== 'apple'));
+        return consumables
     }
 
     async getCookables(maximumLevel: number) {
-        const resources: any = await this.getBankItemFromType([ItemType.Resource], maximumLevel);
-        const foods: any = resources.filter((entry: any) => ([ItemSubType.Food, ItemSubType.Fishing].includes(entry.item.subType)))
+        let resources: any = await this.getBankItemFromType([ItemType.Resource], maximumLevel);
+        resources = resources.filter((entry: any) => ([ItemSubType.Food, ItemSubType.Fishing].includes(entry.item.subType)));
 
-        return foods;
+        resources.sort((a: any, b: any) => a.item.level - b.item.level);
     }
 
     async howManyTimesRecipeCanBeCraft(recipe: Recipe, maxInventory: number): Promise<number> {
