@@ -30,6 +30,8 @@ export const MapCoordinates: {[key: string]: Coordinates} = {
     [PointOfInterest.Ogre1]: { x: 8, y: -2 }, //lv.20
     [PointOfInterest.Ogre2]: { x: 8, y: -4 }, //lv.20
     [PointOfInterest.Spider]: { x: -3, y: 12 }, //lv.20
+    [PointOfInterest.Vampire1]: { x: 10, y: 6 }, //lv.24
+    [PointOfInterest.Vampire2]: { x: 10, y: 8 }, //lv.24
     [PointOfInterest.Cyclops1]: { x: 7, y: -3 }, //lv.25
     [PointOfInterest.Cyclops2]: { x: 8, y: -3 }, //lv.25
 

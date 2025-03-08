@@ -203,6 +203,8 @@ export class WorkflowOrchestrator {
                 console.error(`Put a proper workflow name from ${WorkflowRegister.name}`);
                 return;
             }
+
+            // console.dir(workflowActions, { depth: null });
         }
 
         Utils.logHeadline(`WORKFLOW: ${name}`);

@@ -157,7 +157,7 @@ export class WorkflowGenerator {
         const withdraws: ResourceItem[] = [];
 
         recipe.items.forEach((item: ResourceItem) => {
-            const totalNeeded = item.quantity * (quantity - 1);
+            const totalNeeded = item.quantity * quantity;
             const available = (bank[item.code] || 0) + this.character.holdsHowManyOf(item.code);
 
             const withdraw = Math.min(totalNeeded, available);
@@ -205,25 +205,24 @@ export class WorkflowGenerator {
     }
 
     private async generateTask(type: string): Promise<WorkflowAction[]> {
-        const actions: WorkflowAction[] = [];
 
         const task: any = this.character.getTask();
 
         // Make sure we have a task
         if (!task) {
-            actions.push(
+            Utils.errorHeadline('GOAL: Get Task');
+            return [
                 { action: Action.Move, coordinates: TaskMasters[type], condition: MoveActionCondition.NoTasks },
                 { action: Action.GetTask },
                 { action: Action.Move, coordinates: TaskMasterBanks[type] },
                 { action: Action.BankDepositAll},
-            );
-
-            return actions;
+            ];
         }
 
         // Make sure we turn the task if completed
         if (this.character.isTaskCompleted()) {
-            actions.push(
+            Utils.errorHeadline('GOAL: Complete Task');
+            return [
                 // Empty your pockets and get all task coins
                 { action: Action.Move, coordinates: TaskMasterBanks[type] },
                 { action: Action.BankDepositAll},
@@ -238,21 +237,21 @@ export class WorkflowGenerator {
                 { action: Action.GetTask },
                 { action: Action.Move, coordinates: TaskMasterBanks[type] },
                 { action: Action.BankDepositAll},
-            );
-
-            return actions;
+            ];
         }
 
         // If the task is fighting monster, just fight until it's done
         if (task.type === 'monsters') {
             if (this.character.isInventoryFull()) {
+                Utils.errorHeadline('GOAL: Dump Inventory');
                 return [
                     { action: Action.Move, coordinates: TaskMasterBanks[type] },
                     { action: Action.BankDepositAll},
                 ];
             }
 
-            actions.push(
+            Utils.errorHeadline('GOAL: Prep & Fight');
+            return [
                 ... await this.prepareForFight(),
                 {
                     action: Action.SubWorkflow, condition: SubworkflowCondition.TaskCompletedOrNoMoreConsumables,
@@ -262,9 +261,7 @@ export class WorkflowGenerator {
                         { action: Action.Fight, loops: 1 },
                     ]
                 }
-            );
-
-            return actions;
+            ];
         }
 
         // Try to get from bank first
@@ -273,24 +270,25 @@ export class WorkflowGenerator {
         const inventoryCount: number = this.character.holdsHowManyOf(task.task);
         const bank = await this.banker.getBank();
         const availableQuantity = (bank[task.task] || 0);
-
         if (availableQuantity > 0) {
-            actions.push(
+            Utils.errorHeadline('GOAL: Withdraw & Trade');
+            return [
                 { action: Action.Move, coordinates: PointOfInterest.Bank2 },
                 { action: Action.BankDepositAll },
                 { action: Action.BankWithdraw, code: task.task, quantity: Math.min(this.character.maxInventory, (availableQuantity + inventoryCount), remainingTask) },
                 { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
                 { action: Action.TradeTask, code: task.task, quantity: -1},
-            );
-
-            return actions;
+            ];
         }
 
         let taskActions: WorkflowAction[];
         try {
+            Utils.errorHeadline('GOAL: Gather & Craft');
+
             // If it's a recipe, it will gather + craft what's needed
             taskActions = await this.generateGatherCraft(task.task, remainingTask);
         } catch {
+            Utils.errorHeadline('GOAL: Gather');
 
             // If it's not a recipe, it will just go gather as much as it can, trade what's in the inventory and then it loops back into this function
             const POIs: PointOfInterest[] = ItemGatheringPOIs[task.task];
@@ -300,13 +298,11 @@ export class WorkflowGenerator {
             ];
         }
 
-        actions.push(
+        return [
             ... taskActions,
             { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
             { action: Action.TradeTask, code: task.task, quantity: -1},
-        );
-
-        return actions;
+        ];
     }
 
     private async prepareForFight(): Promise<WorkflowAction[]> {
