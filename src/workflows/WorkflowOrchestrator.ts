@@ -7,11 +7,9 @@ import {Fighter} from "./services/Fighter.js";
 import {Tasker} from "./services/Tasker.js";
 import {CharacterGateway} from "../gateways/CharacterGateway.js";
 import {Character} from "../entities/Character.js";
-import {PointOfInterest, Workstations} from "../lexical/PointOfInterest.js";
+import {PointOfInterest} from "../lexical/PointOfInterest.js";
 import {Items} from "../lexical/Items.js";
 import * as Utils from "../Utils.js";
-import {Monsters} from "../lexical/Monsters.js";
-import {Recipes} from "../lexical/Recipes.js";
 import {WorkflowRegister} from "./WorkflowRegister.js";
 import {Equipper} from "./services/Equipper.js";
 import {WorkflowGenerator} from "./WorkflowGenerator.js";
@@ -112,10 +110,6 @@ export interface GetTaskAction {
     action: Action.GetTask;
 }
 
-export interface ExecuteTaskAction {
-    action: Action.ExecuteTask;
-}
-
 export interface TradeTaskAction {
     action: Action.TradeTask;
     code: Items;
@@ -155,7 +149,6 @@ export type WorkflowAction =
     | RestAction
     | FightAction
     | GetTaskAction
-    | ExecuteTaskAction
     | TradeTaskAction
     | CompleteTaskAction
     | ExchangeTaskAction
@@ -176,7 +169,6 @@ export enum Action {
     Rest = 'rest',
     Fight = 'fight',
     GetTask = 'get-task',
-    ExecuteTask = 'execute-task',
     TradeTask = 'trade-task',
     CompleteTask = 'complete-task',
     ExchangeTask = 'exchange-task',
@@ -365,10 +357,6 @@ export class WorkflowOrchestrator {
                 await this.tasker.getTask();
                 break;
 
-            case Action.ExecuteTask:
-                await this.executeTaskWorflow();
-                break;
-
             case Action.TradeTask:
                 await this.tasker.tradeTask(
                     (action as TradeTaskAction).code,
@@ -404,140 +392,4 @@ export class WorkflowOrchestrator {
                 break;
         }
     }
-
-    private async executeTaskWorflow() {
-        const character: Character = await this.characterGateway.status();
-        const task: any = character.getTask();
-
-        if (!task) {
-            Utils.errorHeadline(`EXECUTE TASK > NO TASK!`);
-            return
-        }
-
-        const remainingTask = (task.total - task.progress);
-
-        // FALLBACK WORKFLOW, so the bot is doing something!
-        if (!TaskToAction[task.task]) {
-            Utils.logHeadline(`CANNOT FIND POI FOR ${task.task}`);
-
-            switch(character.name) {
-                case 'Richard_CDL':
-                    return this.findWorkflowAndExecute('fight-ogre', -1);
-                case 'PatatePoil':
-                    return this.findWorkflowAndExecute('fight-pig', -1);
-                case 'YourBoiBob':
-                    return this.findWorkflowAndExecute('fight-pig', -1);
-                case 'Ginette':
-                    return this.findWorkflowAndExecute('gather_craft-steel', -1);
-                case 'BigBooty':
-                    return this.findWorkflowAndExecute('fight-pig', -1);
-            }
-
-            return;
-        }
-
-        const taskPoint = TaskToAction[task.task];
-
-        const actions: WorkflowAction[] = [];
-
-        switch (task.type) {
-            case 'items':
-                const recipeActions: WorkflowAction[] = [];
-                try {
-                    const recipe = Recipes.getFor(task.task);
-                    const craftPoint: PointOfInterest = Workstations[recipe.skill]!;
-                    recipeActions.push({ action: Action.Move, coordinates: craftPoint })
-                    recipeActions.push({ action: Action.Craft, code: task.task, quantity: remainingTask, condition: CraftActionConditions.DoNotHave })
-                } catch {
-
-                }
-
-                actions.push({
-                    action: Action.SubWorkflow,
-                    condition: SubworkflowCondition.TaskCompleted,
-                    actions: [
-                        { action: Action.Move, coordinates: PointOfInterest.Bank2 },
-                        { action: Action.BankDepositAll },
-                        { action: Action.BankWithdraw, code: task.task, quantity: -1 },
-
-                        { action: Action.Move, coordinates: taskPoint, condition: MoveActionCondition.InventoryNotFull },
-                        { action: Action.GatherForTask }, // Need to fix this for better dynamically complex recipes
-
-                        ...recipeActions,
-
-                        { action: Action.Move, coordinates: PointOfInterest.TaskMasterItems },
-                        { action: Action.TradeTask, code: task.task, quantity: -1 },
-                    ]
-                });
-
-                break;
-            case 'monsters':
-                actions.push({
-                    action: Action.SubWorkflow,
-                    condition: SubworkflowCondition.TaskCompleted,
-                    actions: [
-                        { action: Action.Move, coordinates: taskPoint },
-                        { action: Action.Rest },
-                        { action: Action.Fight, loops: 1 },
-                    ]
-                });
-                break;
-        }
-
-        Utils.logHeadline(`EXECUTE TASK > ${task.task} x${(task.total - task.progress)}`);
-        await this.execute(actions);
-    }
 }
-
-// Temporary mappings until I figure out a better S O L U T I O N
-const TaskToAction: any = {
-    [Items.CopperOre]:  PointOfInterest.Copper,
-    [Items.Copper]:  PointOfInterest.Copper,
-    [Items.IronOre]:  PointOfInterest.Iron,
-    [Items.Iron]:  PointOfInterest.Iron,
-    [Items.Coal]:  PointOfInterest.Coal,
-    [Items.GoldOre]:  PointOfInterest.Gold,
-    [Items.Gold]:  PointOfInterest.Gold,
-    [Items.MithrilOre]:  PointOfInterest.Mithril,
-    [Items.Mithril]:  PointOfInterest.Mithril,
-
-    [Items.AshWood]:  PointOfInterest.Ash2,
-    [Items.AshPlank]:  PointOfInterest.Ash2,
-    [Items.SpruceWood]:  PointOfInterest.Spruce1,
-    [Items.SprucePlank]:  PointOfInterest.Spruce1,
-    [Items.DeadWood]:  PointOfInterest.DeadTree1,
-    [Items.DeadWoodPlank]:  PointOfInterest.DeadTree1,
-    [Items.BirchWood]:  PointOfInterest.Birch1,
-    [Items.MapleWood]:  PointOfInterest.Maple1,
-
-    [Items.Sunflower]:  PointOfInterest.Sunflower,
-    [Items.SmallHealthPotion]:  PointOfInterest.Sunflower,
-    [Items.NettleLeaf]:  PointOfInterest.Nettle,
-    [Items.GlowstemLeaf]:  PointOfInterest.Glowstem,
-
-    [Items.Gudgeon]:  PointOfInterest.Gudgeon,
-    [Items.CookedGudgeon]:  PointOfInterest.Gudgeon,
-    [Items.Shrimp]:  PointOfInterest.Shrimp,
-    [Items.CookedShrimp]:  PointOfInterest.Shrimp,
-    [Items.Trout]:  PointOfInterest.Trout,
-    [Items.CookedTrout]:  PointOfInterest.Trout,
-    [Items.Bass]:  PointOfInterest.Bass,
-    [Items.CookedBass]:  PointOfInterest.Bass,
-    [Items.Salmon]:  PointOfInterest.Salmon2,
-    [Items.CookedSalmon]:  PointOfInterest.Salmon2,
-
-    [Monsters.Chicken]: PointOfInterest.Chicken,
-    [Monsters.YellowSlime]: PointOfInterest.YellowSlime1,
-    [Monsters.GreenSlime]: PointOfInterest.GreenSlime1,
-    [Monsters.BlueSlime]: PointOfInterest.BlueSlime1,
-    [Monsters.RedSlime]: PointOfInterest.RedSlime1,
-    [Monsters.Cow]: PointOfInterest.Cow,
-    [Monsters.Mushmush]: PointOfInterest.Mushmush1,
-    [Monsters.FlyingSerpent]: PointOfInterest.FlyingSerpent1,
-    [Monsters.Highwayman]: PointOfInterest.Highwayman,
-    [Monsters.Wolf]: PointOfInterest.Wolf1,
-    [Monsters.Skeleton]: PointOfInterest.Skeleton1,
-    [Monsters.Pig]: PointOfInterest.Pig,
-    [Monsters.Ogre]: PointOfInterest.Ogre1,
-    [Monsters.Spider]: PointOfInterest.Spider,
-};

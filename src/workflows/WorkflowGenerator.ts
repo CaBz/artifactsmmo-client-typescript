@@ -127,7 +127,7 @@ export class WorkflowGenerator {
         return WorkflowFactory.withdrawAndCraft(code, recipe, recipeQuantity, true);
     }
 
-    private generateGather(code: Items) {
+    private async generateGather(code: Items): Promise<WorkflowAction[]> {
         const item: Item | undefined = Container.items.get(code);
         if (!item) {
             throw new Error(`Item does not exist: ${code}`);
