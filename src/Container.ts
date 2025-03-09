@@ -25,6 +25,7 @@ import {ItemUser} from "./workflows/services/ItemUser.js";
 export class Container {
     static items: Map<string, Item>;
     static monsters: Map<string, Monster>;
+    static maps: Map<string, MapTile>;
 
     static async create(charactName: string): Promise<Container> {
         const container = new Container(charactName);
@@ -66,6 +67,7 @@ export class Container {
         this.instances.set('data', await this.dataLoader.loadData());
         Container.items = this.items;
         Container.monsters = this.monsters;
+        Container.maps = this.maps;
 
         this.instances.set('lexical-generator', new LexicalGenerator(this.data, 'data/templates', 'src/lexical'));
     }
@@ -82,7 +84,7 @@ export class Container {
         return this.data.items;
     }
 
-    get maps(): MapTile[] {
+    get maps(): Map<string, MapTile> {
         return this.data.maps;
     }
 

@@ -1,7 +1,7 @@
 import {ArtifactsClient} from "../gateways/ArtifactsClient.js";
 import * as Utils from "../Utils.js";
 import {Item} from "../entities/Item.js";
-import {MapTile} from "../entities/MapTile.js";
+import {MapTile, MapType} from "../entities/MapTile.js";
 import {Monster} from "../entities/Monster.js";
 import {Resource} from "../entities/Resource.js";
 import {Effect} from "../entities/Effect.js";
@@ -17,6 +17,7 @@ export class DataLoader {
         'tasks_list',
         'tasks_rewards',
         'events',
+        'events_active',
         'effects',
     ];
 
@@ -56,12 +57,13 @@ export class DataLoader {
         const result = {
             items: new Map<string, Item>(),
             monsters: new Map<string, Monster>(),
-            maps: [],
+            maps: new Map<string, MapTile>,
             resources: new Map<string, Resource>(),
             npcs: new Map<string, Merchant>(),
             tasks_list: [],
             tasks_rewards: [],
             events: [],
+            events_active: [],
             effects: new Map<string, Effect>(),
         };
 
@@ -70,11 +72,6 @@ export class DataLoader {
         for (let i=0; i<allData.items.length; i++) {
             const item = new Item(allData.items[i]);
             result.items.set(item.code, item);
-        }
-
-        for (let i=0; i<allData.maps.length; i++) {
-            const map = new MapTile(allData.maps[i]);
-            result.maps.push(map);
         }
 
         for (let i=0; i<allData.monsters.length; i++) {
@@ -97,10 +94,47 @@ export class DataLoader {
             result.npcs.set(merchant.code, merchant);
         }
 
+        for (let i=0; i<allData.maps.length; i++) {
+            const map = new MapTile(allData.maps[i]);
+            if (!map.hasContent()) {
+                continue;
+            }
+
+            switch (map.contentType) {
+                case MapType.Monster:
+                    result.maps.set(map.contentCode, map);
+                    break;
+                case MapType.Resource:
+                    result.resources.get(map.contentCode).drops.forEach((drop) => {
+                        if (drop.rate === 1) { // Ensures we only set for main resources
+                            result.maps.set(drop.code, map);
+                        }
+                    });
+                    break;
+                case MapType.Workshop:
+                    result.maps.set(`${map.contentType}_${map.contentCode}`, map);
+                    break;
+                case MapType.Bank:
+                    if (!result.maps.has('bank1')) {
+                        result.maps.set('bank1', map);
+                    } else {
+                        result.maps.set('bank2', map);
+                    }
+                    break;
+                case MapType.GrandExchange:
+                    result.maps.set(map.contentCode, map);
+                    break;
+                case MapType.TasksMaster:
+                    result.maps.set(`${map.contentType}_${map.contentCode}`, map);
+                    break;
+                case MapType.NPC:
+                    result.maps.set(map.contentCode, map);
+                    break;
+                default:
+                    throw new Error(`Map type unhandled: ${map.contentType}`);
+            }
+        }
+
         return result;
-    }
-
-    async refreshEvents(): Promise<void> {
-
     }
 }

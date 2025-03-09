@@ -4,20 +4,6 @@ import {Action, BankWithdrawActionCondition, WorkflowAction} from "./WorkflowOrc
 import {Recipe, Recipes, ResourceItem} from "../lexical/Recipes.js";
 
 export class WorkflowFactory {
-    static gatherAndCraft(gatherPoint: PointOfInterest, bankPoint: PointOfInterest, craftPoint: PointOfInterest, craftItem: Items, gatherItem: Items): WorkflowAction[] {
-        return [
-            { action: Action.Move, coordinates: gatherPoint },
-            { action: Action.Gather, loops: -1 },
-
-            { action: Action.Move, coordinates: craftPoint },
-            { action: Action.Craft, code: craftItem, quantity: -1, },
-
-            { action: Action.Move, coordinates: bankPoint },
-            { action: Action.BankDepositAll },
-            { action: Action.BankWithdraw, code: gatherItem, quantity: -1 },
-        ]
-    }
-
     static gatherManyAndCraft(recipe: Recipe, withdrawItems: ResourceItem[], gatherItems: ResourceItem[]): WorkflowAction[] {
         const withdrawActions: WorkflowAction[] = withdrawItems.map((item: ResourceItem) => ({ action: Action.BankWithdraw, code: item.code, quantity: item.quantity}));
 

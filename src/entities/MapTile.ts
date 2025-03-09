@@ -1,5 +1,15 @@
 import {Coordinates} from "../lexical/MapCoordinates.js";
 
+export enum MapType {
+    Monster = 'monster',
+    Resource = 'resource',
+    Workshop = 'workshop',
+    Bank = 'bank',
+    GrandExchange = 'grand_exchange',
+    TasksMaster = 'tasks_master',
+    NPC = 'npc',
+}
+
 export class MapTile {
     constructor(private readonly data: any) {
         /*
@@ -28,6 +38,10 @@ export class MapTile {
             x: this.data.x,
             y: this.data.y,
         };
+    }
+
+    hasContent(): boolean {
+        return !!this.data.content;
     }
 
     get contentType() {

@@ -15,21 +15,18 @@
   "scripts": {
     "console": "node --no-warnings --loader ts-node/esm --env-file=.env src/console.ts",
     "workflow": "node --no-warnings --loader ts-node/esm --env-file=.env src/workflow.ts",
-    "bank": "yarn console Dummy bank-status",
+
     "refresh": "yarn console Dummy refresh-dataset && yarn console Dummy generate",
     "generate": "yarn console Dummy generate",
+
+    "bank": "yarn console Dummy bank-status",
+    "achievements": "yarn console Dummy achievements",
+    "list-items": "yarn console Dummy list-items",
 
     "cdl": "yarn console Richard_CDL",
     "pp": "yarn console PatatePoil",
     "bob": "yarn console YourBoiBob",
     "ginette": "yarn console Ginette",
-    "bb": "yarn console BigBooty",
-
-
-    "pp-ogre": "yarn pp w equip-skull_staff,steel_boots,tromatising_mask,skeleton_pants,skeleton_armor,steel_shield,skull_amulet,steel_ring",
-    "cdl-ogre": "yarn cdl w equip-skull_staff,steel_boots,tromatising_mask,skeleton_pants,skeleton_armor,steel_shield,skull_amulet,skull_ring",
-    "bb-ogre": "yarn bb w equip-skull_staff,steel_boots,tromatising_mask,skeleton_pants,skeleton_armor,steel_shield,skull_amulet,skull_ring",
-    "bob-ogre": "yarn bob w equip-skull_staff,steel_boots,tromatising_mask,skeleton_pants,skeleton_armor,steel_shield,skull_amulet,skull_ring",
-    "ginette-ogre": "yarn ginette w equip-skull_staff,steel_boots,tromatising_mask,skeleton_pants,skeleton_armor,steel_shield,skull_amulet,skull_ring"
+    "bb": "yarn console BigBooty"
   }
 }

@@ -23,7 +23,7 @@ export enum MoveActionCondition {
 
 export interface MoveAction {
     action: Action.Move;
-    coordinates: PointOfInterest;
+    coordinates: PointOfInterest | string;
     condition?: MoveActionCondition;
 }
 

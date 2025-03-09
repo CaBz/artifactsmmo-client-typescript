@@ -8,7 +8,7 @@ import {Items} from "../lexical/Items.js";
 import * as Utils from "../Utils.js";
 import {Banker} from "./services/Banker.js";
 import {Monsters} from "../lexical/Monsters.js";
-import {Fights, ItemGatheringPOIs, PointOfInterest, TaskMasterBanks, TaskMasters} from "../lexical/PointOfInterest.js";
+import {ItemGatheringPOIs, PointOfInterest, TaskMasterBanks, TaskMasters} from "../lexical/PointOfInterest.js";
 import {Container} from "../Container.js";
 import {Skills} from "../lexical/Skills.js";
 import {Monster} from "../entities/Monster.js";
@@ -182,18 +182,13 @@ export class WorkflowGenerator {
             throw new Error(`No monster with code ${code}`);
         }
 
-        const monsterPoint = Fights[code];
-        if (!monsterPoint) {
-            throw new Error(`No POI for monster ${code}`);
-        }
-
         const actions: WorkflowAction[] = await this.prepareForFight(monster);
         actions.push(
             {
                 action: Action.SubWorkflow,
                 condition: SubworkflowCondition.NoMoreConsumables,
                 actions: [
-                    { action: Action.Move, coordinates: monsterPoint },
+                    { action: Action.Move, coordinates: code },
                     { action: Action.Rest },
                     { action: Action.Fight, loops: 1 },
                 ],
@@ -254,7 +249,7 @@ export class WorkflowGenerator {
                 {
                     action: Action.SubWorkflow, condition: SubworkflowCondition.TaskCompletedOrNoMoreConsumables,
                     actions: [
-                        { action: Action.Move, coordinates: Fights[task.task] },
+                        { action: Action.Move, coordinates: task.task },
                         { action: Action.Rest },
                         { action: Action.Fight, loops: 1 },
                     ]

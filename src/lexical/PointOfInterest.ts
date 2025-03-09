@@ -1,50 +1,8 @@
 import {Skills} from "./Skills.js";
 import {Items} from "./Items.js";
-import {Monsters} from "./Monsters.js";
 
 export enum PointOfInterest {
-    // Monsters
-    Chicken = 'chicken',
-    Cow = 'cow',
-    GreenSlime1 = 'green_slime1',
-    GreenSlime2 = 'green_slime2',
-    YellowSlime1 = 'yellow_slime1',
-    YellowSlime2 = 'yellow_slime2',
-    BlueSlime1 = 'blue_slime1',
-    BlueSlime2 = 'blue_slime2',
-    RedSlime1 = 'red_slime1',
-    RedSlime2 = 'red_slime2',
-    Mushmush1 = 'mushmush1',
-    Mushmush2 = 'mushmush2',
-    FlyingSerpent1 = 'flying_serpent1',
-    FlyingSerpent2 = 'flying_serpent2',
-    Highwayman = 'highwayman',
-    Wolf1 = 'wolf1',
-    Wolf2 = 'wolf2',
-    Skeleton1 = 'skeleton1',
-    Skeleton2 = 'skeleton2',
-    Pig = 'pig',
-    Ogre1 = 'ogre1',
-    Ogre2 = 'ogre2',
-    Spider = 'spider',
-    Vampire1 = 'vampire1',
-    Vampire2 = 'vampire2',
-    Cyclops1 = 'cyclops1',
-    Cyclops2 = 'cyclops2',
-    BanditLizard = 'bandit_lizard', // Event
 
-    // Crafting
-    Cooking = 'cooking',
-    Weapon = 'weapon',
-    Gear = 'gear',
-    Jewel = 'jewel',
-    Alchemy = 'alchemy',
-
-    Workshop = 'workshop',
-    Forge = 'forge',
-
-    TaskMasterMonsters = 'task_master_monsters',
-    TaskMasterItems = 'task_master_items',
 
     // Gathering
     Copper = 'copper', // 2,0 -- 1 // copper_rocks - copper_ore
@@ -76,9 +34,20 @@ export enum PointOfInterest {
     Salmon1 = 'salmon1', // -3,-4 -- 40 // salmon_fishing_spot - salmon
     Salmon2 = 'salmon2', // -2,-4 -- 40 // salmon_fishing_spot - salmon
 
-    // Utilities
+
+    Cooking = 'workshop_cooking',
+    Weapon = 'workshop_weaponcrafting',
+    Gear = 'workshop_gearcrafting',
+    Jewel = 'workshop_jewelrycrafting',
+    Alchemy = 'workshop_alchemy',
+    Workshop = 'workshop_woodcutting',
+    Forge = 'workshop_mining',
+
+    TaskMasterMonsters = 'tasks_master_monsters',
+    TaskMasterItems = 'tasks_master_items',
+
     Bank1 = 'bank1',
-    Bank2 = 'bank2', // 7,13
+    Bank2 = 'bank2',
     GrandExchange = 'grand_exchange'
 }
 
@@ -100,26 +69,6 @@ export const TaskMasters: any = {
 export const TaskMasterBanks: any = {
     'items': PointOfInterest.Bank2,
     'monsters': PointOfInterest.Bank1,
-}
-
-export const Fights: any = {
-    [Monsters.Chicken]: PointOfInterest.Chicken,
-    [Monsters.YellowSlime]: PointOfInterest.YellowSlime1,
-    [Monsters.GreenSlime]: PointOfInterest.GreenSlime1,
-    [Monsters.BlueSlime]: PointOfInterest.BlueSlime1,
-    [Monsters.RedSlime]: PointOfInterest.RedSlime1,
-    [Monsters.Cow]: PointOfInterest.Cow,
-    [Monsters.Mushmush]: PointOfInterest.Mushmush1,
-    [Monsters.FlyingSerpent]: PointOfInterest.FlyingSerpent1,
-    [Monsters.Highwayman]: PointOfInterest.Highwayman,
-    [Monsters.Wolf]: PointOfInterest.Wolf1,
-    [Monsters.Skeleton]: PointOfInterest.Skeleton1,
-    [Monsters.Pig]: PointOfInterest.Pig,
-    [Monsters.Ogre]: PointOfInterest.Ogre1,
-    [Monsters.Spider]: PointOfInterest.Spider,
-    [Monsters.Cyclops]: PointOfInterest.Cyclops1,
-    [Monsters.Vampire]: PointOfInterest.Vampire1,
-    [Monsters.BanditLizard]: PointOfInterest.BanditLizard,
 }
 
 export const ItemGatheringPOIs: any = {

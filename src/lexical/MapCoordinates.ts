@@ -6,45 +6,6 @@ export interface Coordinates {
 }
 
 export const MapCoordinates: {[key: string]: Coordinates} = {
-    // Monster
-    [PointOfInterest.Chicken]: { x: 0, y: 1 }, //lv.1
-    [PointOfInterest.YellowSlime1]: { x: 4, y: -1 }, //lv.2
-    [PointOfInterest.YellowSlime2]: { x: 0, y: 1 }, //lv.2
-    [PointOfInterest.GreenSlime1]: { x: 3, y: -2 }, //lv.4
-    [PointOfInterest.GreenSlime2]: { x: 0, y: -1 }, //lv.4
-    [PointOfInterest.BlueSlime1]: { x: 2, y: -1 }, //lv.6
-    [PointOfInterest.BlueSlime2]: { x: 0, y: -2 }, //lv.6
-    [PointOfInterest.RedSlime1]: { x: 1, y: -1 }, //lv.7
-    [PointOfInterest.RedSlime2]: { x: 2, y: -2 }, //lv.7
-    [PointOfInterest.Cow]: { x: 0, y: 2 }, //lv.8
-    [PointOfInterest.Mushmush1]: { x: 5, y: 3 }, //lv.10
-    [PointOfInterest.Mushmush2]: { x: 6, y: 4 }, //lv.10
-    [PointOfInterest.FlyingSerpent1]: { x: 5, y: 4 }, //lv.12
-    [PointOfInterest.FlyingSerpent2]: { x: 7, y: 4 }, //lv.12
-    [PointOfInterest.Highwayman]: { x: 2, y: 8 }, //lv.15
-    [PointOfInterest.Wolf1]: { x: -2, y: 1 }, //lv.15
-    [PointOfInterest.Wolf2]: { x: -3, y: 0 }, //lv.15
-    [PointOfInterest.Skeleton1]: { x: 8, y: 6 }, //lv.18
-    [PointOfInterest.Skeleton2]: { x: 8, y: 8 }, //lv.18
-    [PointOfInterest.Pig]: { x: -3, y: -3 }, //lv.19
-    [PointOfInterest.Ogre1]: { x: 8, y: -2 }, //lv.20
-    [PointOfInterest.Ogre2]: { x: 8, y: -4 }, //lv.20
-    [PointOfInterest.Spider]: { x: -3, y: 12 }, //lv.20
-    [PointOfInterest.Vampire1]: { x: 10, y: 6 }, //lv.24
-    [PointOfInterest.Vampire2]: { x: 10, y: 8 }, //lv.24
-    [PointOfInterest.Cyclops1]: { x: 7, y: -3 }, //lv.25
-    [PointOfInterest.Cyclops2]: { x: 8, y: -3 }, //lv.25
-    [PointOfInterest.BanditLizard]: { x: -3, y: -5 }, //lv.25
-
-    // Crafting
-    [PointOfInterest.Cooking]: { x: 1, y: 1 },
-    [PointOfInterest.Weapon]: { x: 2, y: 1 },
-    [PointOfInterest.Gear]: { x: 3, y: 1 },
-    [PointOfInterest.Jewel]: { x: 1, y: 3 },
-    [PointOfInterest.Alchemy]: { x: 2, y: 3 },
-    [PointOfInterest.Workshop]: { x: -2, y: -3 },
-    [PointOfInterest.Forge]: { x: 1, y: 5 },
-
     // Gathering
     // Ores
     [PointOfInterest.Copper]: { x: 2, y: 0 }, // 1
@@ -79,13 +40,4 @@ export const MapCoordinates: {[key: string]: Coordinates} = {
     [PointOfInterest.Bass]: { x: 6, y: 12 },
     [PointOfInterest.Salmon1]: { x: -3, y: -4 },
     [PointOfInterest.Salmon2]: { x: -2, y: -4 },
-
-    // Utilities
-    [PointOfInterest.Bank1]: { x: 4, y: 1 },
-    [PointOfInterest.Bank2]: { x: 7, y: 13 },
-    [PointOfInterest.GrandExchange]: { x: 5, y: 1 },
-
-    [PointOfInterest.TaskMasterMonsters]: { x: 1, y: 2 },
-    [PointOfInterest.TaskMasterItems]: { x: 4, y: 13 },
-
 };
