@@ -191,6 +191,7 @@ export class Character {
 
     getSkill(name: Skills) {
         return {
+            name,
             level: this.data[`${name}_level`],
             xp: this.data[`${name}_xp`],
             maxXp: this.data[`${name}_max_xp`]
@@ -198,7 +199,7 @@ export class Character {
     }
 
     getSkills() {
-        return AllSkills.map((name: Skills) => ({ name, ...this.getSkill(name)}));
+        return AllSkills.map((name: Skills) => (this.getSkill(name)));
     }
 
     logToConsole(sections?: string[]): void {

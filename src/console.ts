@@ -144,7 +144,6 @@ async function processCommand(commandName: string) {
         // Additional params hides non-craftable
         case 'skill-next':
             await container.simulator.findNextToDo(
-                (consoleParams.shift() || '') as Skills,
                 consoleParams.shift()
             );
             break;

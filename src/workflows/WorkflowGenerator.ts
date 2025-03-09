@@ -432,6 +432,7 @@ export class WorkflowGenerator {
         Utils.errorHeadline(`AUTO > Bank`);
 
         const forbiddenRecipes = [
+            Items.Cheese,
             Items.MushroomSoup,
             Items.FishSoup,
             Items.MapleSyrup,

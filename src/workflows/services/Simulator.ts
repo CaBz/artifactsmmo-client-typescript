@@ -121,57 +121,67 @@ export class Simulator {
         return;
     }
 
-    async findNextToDo(name: Skills, hideNotCraftable: string | undefined): Promise<void> {
+    async findNextToDo(hideNotCraftable: string | undefined): Promise<void> {
         await this.loadCharacter();
 
         const bank: any = await this.banker.getBank();
-        const characterSkill = this.character.getSkill(name);
         const maximumInventory: number = 99999;
         const itemsToCraft: any[] = [];
-        let craftables: Items[] = [];
-        switch (name) {
-            case Skills.Gearcrafting:
-                craftables = CraftableGearcrafting;
-                break;
-            case Skills.Weaponcrafting:
-                craftables = CraftableWeaponcrafting;
-                break;
-            case Skills.Jewelrycrafting:
-                craftables = CraftableJewelry;
-                break;
-            case Skills.Cooking:
-                craftables = CraftableCooking;
-                break;
-            default:
-                throw new Error('Not implemented');
-        }
+        let craftables: Items[] = [... CraftableGearcrafting, ... CraftableWeaponcrafting, ... CraftableJewelry];
 
 
         craftables.forEach((code: Items) => {
             const recipe: Recipe = Recipes.getFor(code);
+            const skill: any = this.character.getSkill(recipe.skill);
 
-            if (recipe.level <= characterSkill.level && recipe.level > (characterSkill.level - 10)) {
+            if (recipe.level <= skill.level && recipe.level > (skill.level - 10)) {
                 const recipeItems: any[] = [];
                 const recipeQuantityFromBank = this.banker.calculateRecipeQuantityFromBankItems(bank, recipe, maximumInventory)
                 recipe.items.forEach((recipeItem: ResourceItem) => {
                     const bankQuantity = bank[recipeItem.code] || 0;
                     recipeItems.push({bankQuantity, code: recipeItem.code, quantity: recipeItem.quantity});
                 });
-                itemsToCraft.push({ item: this.items.get(code)!, recipeItems: recipeItems, recipeQuantityBank: recipeQuantityFromBank});
+                itemsToCraft.push({ skill, item: this.items.get(code)!, recipeItems: recipeItems, recipeQuantityBank: recipeQuantityFromBank});
             }
         });
+        itemsToCraft.sort((a, b) => a.skill.name.localeCompare(b.skill.name) || a.item.level - b.item.level || a.recipeQuantityBank - b.recipeQuantityBank);
 
-        itemsToCraft.sort((a, b) => a.item.level - b.item.level || a.recipeQuantityBank - b.recipeQuantityBank);
-        itemsToCraft.forEach((item: any) => {
-            if (hideNotCraftable !== undefined && item.recipeQuantityBank === 0) {
+        const headline =
+            ``
+            + `| ${Utils.formatForMiddle('Skill', 15)} `
+            + `| ${'Lv.'.padStart(3, ' ')} `
+            + `| ${Utils.formatForMiddle('Item', 23)} `
+            + `| Qty `
+            + `| ${Utils.formatForMiddle('Recipe', 160)} `
+            + `|`
+        const line = `| ${'-'.repeat(headline.length - 4)} |`
+
+        console.log(line);
+        console.log(headline);
+        console.log(line);
+
+        itemsToCraft.forEach((entry: any) => {
+            const item: Item = entry.item;
+            const recipeItems = entry.recipeItems;
+            const skill: any = entry.skill;
+
+            if (hideNotCraftable !== undefined && entry.recipeQuantityBank === 0) {
                 return;
             }
 
-            console.error(`${item.item.code} - lv.${item.item.level} = x${item.recipeQuantityBank}`);
-            item.recipeItems.forEach((recipeItem: any) => {
-                console.log(`    * x${recipeItem.quantity} ${recipeItem.code} [Bank: ${recipeItem.bankQuantity}] = ${item.recipeQuantityBank * recipeItem.quantity}`);
-            });
-            console.log();
+            recipeItems.sort((a: any, b: any) => a.code.localeCompare(b.code));
+            const recipeItemsString: any = recipeItems.map((recipeItem: any) => `x${recipeItem.quantity} ${recipeItem.code} (${recipeItem.bankQuantity})`).join(', ');
+
+            const logger = entry.recipeQuantityBank > 0 ? console.error : console.log;
+            logger(
+                ``
+                + `| ${skill.name.padEnd(15, ' ')} `
+                + `| ${item.levelToCraft.toString().padStart(3, ' ')} `
+                + `| ${item.code.padEnd(23, ' ')} `
+                + `| ${entry.recipeQuantityBank.toString().padStart(3, ' ')} `
+                + `| ${recipeItemsString.toString().padEnd(160, ' ')} `
+                + `|`
+            );
         });
     }
 
