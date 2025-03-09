@@ -192,7 +192,7 @@ export class ArtifactsClient {
 
         const achievements: Achievement[] = result.map((entry: any) => new Achievement(entry));
 
-        achievements.sort((a, b) => +b.isCompleted() - +a.isCompleted() || a.name.localeCompare(b.name));
+        achievements.sort((a, b) => +b.isCompleted() - +a.isCompleted() || a.type.localeCompare(b.type) || a.name.localeCompare(b.name));
 
         achievements.forEach((achievement: Achievement) => {
             const logger = achievement.isCompleted() ? console.error : console.log;
@@ -202,6 +202,7 @@ export class ArtifactsClient {
             logger(
                 `| ${achievement.name.padEnd(28, ' ')} `
                 + `| ${achievement.description.padEnd(36, ' ')} `
+                + `| ${achievement.type.padStart(12, ' ')} `
                 + `| ${progress.padStart(9, ' ')} `
                 + `| ${date.padEnd(25, ' ')} `
                 + `|`

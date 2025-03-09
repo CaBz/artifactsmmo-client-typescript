@@ -27,6 +27,8 @@ export const EquipmentSetTypes: ItemType[] = [
     ItemType.Ring,
     ItemType.Weapon,
     ItemType.Shield,
+    ItemType.Utility,
+    ItemType.Artifact,
 ];
 
 export enum ItemSubType {
