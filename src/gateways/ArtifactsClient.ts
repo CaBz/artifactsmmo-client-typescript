@@ -194,6 +194,30 @@ export class ArtifactsClient {
 
         achievements.sort((a, b) => +b.isCompleted() - +a.isCompleted() || a.type.localeCompare(b.type) || a.name.localeCompare(b.name));
 
+        const points = achievements.reduce((points, achievements) => {
+            points.total += achievements.points;
+            points.current += achievements.isCompleted() ? achievements.points : 0;
+
+            return points;
+        }, {current: 0, total: 0});
+
+        const headline =
+            `| ${Utils.formatForMiddle('Name', 28)} `
+            + `| ${Utils.formatForMiddle('Description', 36)} `
+            + `| ${Utils.formatForMiddle('Type', 12)} `
+            + `| ${Utils.formatForMiddle('Progress ', 9)} `
+            + `| ${Utils.formatForMiddle('Points ', 6)} `
+            + `| ${Utils.formatForMiddle('Date Completed', 25)} `
+            + `|`;
+
+        const line = `| ${'-'.repeat(headline.length - 4)} |`;
+
+        console.log(line);
+        console.log(`| ${Utils.formatForMiddle(`Achievements (${points.current}/${points.total})`, headline.length - 4)} |`)
+        console.log(line);
+        console.log(headline);
+        console.log(line);
+
         achievements.forEach((achievement: Achievement) => {
             const logger = achievement.isCompleted() ? console.error : console.log;
 
@@ -204,6 +228,7 @@ export class ArtifactsClient {
                 + `| ${achievement.description.padEnd(36, ' ')} `
                 + `| ${achievement.type.padStart(12, ' ')} `
                 + `| ${progress.padStart(9, ' ')} `
+                + `| ${achievement.points.toString().padStart(6, ' ')} `
                 + `| ${date.padEnd(25, ' ')} `
                 + `|`
             );

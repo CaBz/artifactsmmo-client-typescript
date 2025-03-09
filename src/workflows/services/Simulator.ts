@@ -146,7 +146,7 @@ export class Simulator {
         const headline =
             ``
             + `| ${Utils.formatForMiddle('Skill', 15)} `
-            + `| ${'Lv.'.padStart(3, ' ')} `
+            + `| Lv `
             + `| ${Utils.formatForMiddle('Item', 23)} `
             + `| Qty `
             + `| ${Utils.formatForMiddle('Recipe', 160)} `
@@ -173,7 +173,7 @@ export class Simulator {
             logger(
                 ``
                 + `| ${skill.name.padEnd(15, ' ')} `
-                + `| ${item.levelToCraft.toString().padStart(3, ' ')} `
+                + `| ${item.levelToCraft.toString().padStart(2, ' ')} `
                 + `| ${item.code.padEnd(23, ' ')} `
                 + `| ${entry.recipeQuantityBank.toString().padStart(3, ' ')} `
                 + `| ${recipeItemsString.toString().padEnd(160, ' ')} `
