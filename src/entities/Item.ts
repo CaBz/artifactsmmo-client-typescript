@@ -215,7 +215,7 @@ export class Item {
     getElementEffects(element: string) {
         return {
             attack: this.getEffectValueFor(`attack_${element}`),
-            damage: this.getEffectValueFor(`damage_${element}`),
+            damage: this.getEffectValueFor(`dmg_${element}`),
             resistance: this.getEffectValueFor(`res_${element}`)
         }
     }

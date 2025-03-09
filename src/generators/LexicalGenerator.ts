@@ -1,10 +1,11 @@
-import {Item} from "../entities/Item.js";
+import {Item, ItemType} from "../entities/Item.js";
 import {Monster} from "../entities/Monster.js";
 import {Resource} from "../entities/Resource.js";
 import {promises as fs} from "fs";
 import * as Utils from "../Utils.js";
 import {Effect} from "../entities/Effect.js";
 import {Merchant} from "../entities/Merchant.js";
+import {AllEquippableSlots, EquippableSlot} from "../lexical/EquippableSlot.js";
 
 export class LexicalGenerator {
     constructor(
@@ -57,25 +58,29 @@ export class LexicalGenerator {
                 }
                 equippables[item.type].push(item);
 
-                const equippableDamage = item.getDamage();
-                if (equippableDamage) {
+                let added = false;
+
+                const equippableEffects = item.getAllElementEffects();
+                equippableEffects.forEach((element: any) => {
+                    const elementName = element.element;
+
+                    if (element.attack > 0 || element.damage > 0 || element.resistance > 0) {
+                        if (!sets[elementName][item.type]) {
+                            sets[elementName][item.type] = [];
+                        }
+
+                        sets[elementName][item.type].push(item);
+                        added = true;
+                    }
+                });
+
+                if (!added && item.getDamage() > 0) {
                     if (!sets.all[item.type]) {
                         sets.all[item.type] = [];
                     }
 
                     sets.all[item.type].push(item);
                 }
-
-                const equippableEffects = item.getAllElementEffects();
-                equippableEffects.forEach((element: any) => {
-                    if (element.attack || element.damage || element.resistance) {
-                        if (!sets[element][item.type]) {
-                            sets[element][item.type] = [];
-                        }
-
-                        sets[element][item.type].push(item);
-                    }
-                });
             }
         });
         fileContent += '}\n';
@@ -163,9 +168,67 @@ export class LexicalGenerator {
     }
 
     private async generateEquipmentSets(sets: any) {
-        Object.entries(sets).forEach(([key, elementSet]) => {
+        const placeholders: any = {
+            fire: AllEquippableSlots.reduce((obj: any, entry) => {
+                obj[entry] = ''
+                return obj;
+            }, {}),
+            air: AllEquippableSlots.reduce((obj: any, entry) => {
+                obj[entry] = ''
+                return obj;
+            }, {}),
+            water: AllEquippableSlots.reduce((obj: any, entry) => {
+                obj[entry] = ''
+                return obj;
+            }, {}),
+            earth: AllEquippableSlots.reduce((obj: any, entry) => {
+                obj[entry] = ''
+                return obj;
+            }, {}),
+            all: AllEquippableSlots.reduce((obj: any, entry) => {
+                obj[entry] = ''
+                return obj;
+            }, {}),
+        }
 
+        let fileContent = await Utils.readFileRaw(`${this.templatesFolder}/EquipmentSet.ts`);
+
+        Object.entries(sets).forEach(([element, elementSets]: [string, ItemType[]]) => {
+            Object.entries(elementSets).forEach(([type, typeItems]: [string, Item[]]) => {
+                typeItems.sort((a, b) => b.level - a.level || b.getElementEffects(element).attack - a.getElementEffects(element).attack);
+
+                typeItems.forEach((item: Item) => {
+                    // console.log(`${element} - ${type} - ${item.level} - ${item.name} - ${item.effectsToString()}`);
+
+                    const itemString =`\n        Items.${item.nameForEnum}, // ${item.level} - ${item.effectsToString()}`;
+
+                    if (type === 'ring') {
+                        placeholders[element][EquippableSlot.Ring1] += itemString;
+                        placeholders[element][EquippableSlot.Ring2] += itemString;
+                        return;
+                    }
+
+                    if (type === 'artifact') {
+                        placeholders[element][EquippableSlot.Artifact1] += itemString;
+                        placeholders[element][EquippableSlot.Artifact2] += itemString;
+                        placeholders[element][EquippableSlot.Artifact3] += itemString;
+                        return;
+                    }
+
+                    placeholders[element][item.equippableSlot] += itemString;
+                });
+            });
         });
+
+        Object.entries(placeholders).forEach(([element, types]: [string, any]) => {
+            Object.entries(types).forEach(([type, placeholder]: [string, string]) => {
+                const placeholderString = `/*{PLACEHOLDER_${type.toUpperCase()}_${element.toUpperCase()}}*/`;
+                console.log(placeholderString);
+                fileContent = fileContent.replace(placeholderString, placeholder);
+            });
+        });
+
+        await fs.writeFile(`${this.lexicalFolder}/EquipmentSet.ts`, fileContent, 'utf8');
     }
 
     private async generateMonsters() {
