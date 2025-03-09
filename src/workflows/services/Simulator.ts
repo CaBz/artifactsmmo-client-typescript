@@ -4,7 +4,7 @@ import {Character} from "../../entities/Character.js";
 import {Monsters} from "../../lexical/Monsters.js";
 import {StatEffects} from "../../lexical/TypeEffects.js";
 import * as Utils from "../../Utils.js";
-import {Item, ItemType} from "../../entities/Item.js";
+import {Item} from "../../entities/Item.js";
 import {Items} from "../../lexical/Items.js";
 import {Equippables} from "../../lexical/Equippables.js";
 import {
@@ -15,15 +15,12 @@ import {
 } from "../../lexical/EquippableSlot.js";
 import {ArtifactsClient} from "../../gateways/ArtifactsClient.js";
 import {Recipe, Recipes, ResourceItem} from "../../lexical/Recipes.js";
-import {Skills} from "../../lexical/Skills.js";
 import {
-    CraftableCooking,
     CraftableGearcrafting,
     CraftableJewelry,
     CraftableWeaponcrafting
 } from "../../lexical/Craftables.js";
 import {Banker} from "./Banker.js";
-import {Effects} from "../../lexical/Effects.js";
 
 export class Simulator {
     private character: Character;

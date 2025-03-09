@@ -72,6 +72,10 @@ async function processCommand(commandName: string) {
             await container.client.getAccountAchievements();
             break;
 
+        case 'events':
+            await container.client.getActiveEvents();
+            break;
+
         // Shows all items sellables/buyables from all npcs
         case 'npc-items':
             AllMerchants.forEach((merchantCode: string) => {

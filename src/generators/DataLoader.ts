@@ -99,4 +99,8 @@ export class DataLoader {
 
         return result;
     }
+
+    async refreshEvents(): Promise<void> {
+
+    }
 }

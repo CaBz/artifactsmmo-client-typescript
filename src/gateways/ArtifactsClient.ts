@@ -3,6 +3,7 @@ import {ClientException} from "./ClientException.js";
 import {MapTile} from "../entities/MapTile.js";
 import * as Utils from "../Utils.js";
 import {Achievement} from "../entities/Achievement.js";
+import {Event} from "../entities/Event.js";
 
 export class ArtifactsClient {
     private serverUrl: string;
@@ -187,9 +188,8 @@ export class ArtifactsClient {
         console.log(lineSeparator);
     }
 
-    async getAccountAchievements() {
+    async getAccountAchievements(): Promise<void> {
         const result: any = await this.sendRequest('GET', `accounts/${this.accountName}/achievements?size=100`);
-
         const achievements: Achievement[] = result.map((entry: any) => new Achievement(entry));
 
         achievements.sort((a, b) => +b.isCompleted() - +a.isCompleted() || a.type.localeCompare(b.type) || a.name.localeCompare(b.name));
@@ -205,6 +205,20 @@ export class ArtifactsClient {
                 + `| ${achievement.type.padStart(12, ' ')} `
                 + `| ${progress.padStart(9, ' ')} `
                 + `| ${date.padEnd(25, ' ')} `
+                + `|`
+            );
+        });
+    }
+
+    async getActiveEvents(): Promise<any> {
+        const result = await this.sendRequest('GET', 'events/active?size=100');
+        const events: Event[] = result.map((entry: any) => new Event(entry));
+
+        events.forEach((event: Event) => {
+            console.log(
+                `| ${event.name.padEnd(28, ' ')} `
+                + `| x:${event.coordinates.x} y:${event.coordinates.y} `
+                + `| ${event.getRemainingActive()}ms `
                 + `|`
             );
         });
