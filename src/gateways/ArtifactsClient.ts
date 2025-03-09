@@ -2,14 +2,17 @@ import { Character } from "../entities/Character.js";
 import {ClientException} from "./ClientException.js";
 import {MapTile} from "../entities/MapTile.js";
 import * as Utils from "../Utils.js";
+import {Achievement} from "../entities/Achievement.js";
 
 export class ArtifactsClient {
     private serverUrl: string;
     private bearerToken: string;
+    private accountName: string;
 
     constructor() {
         this.serverUrl = process.env['ARTIFACTS_URL']!;
         this.bearerToken = process.env['ARTIFACTS_TOKEN']!;
+        this.accountName = process.env['ARTIFACTS_ACCOUNT']!;
     }
 
     async getAnnouncements(): Promise<void> {
@@ -182,6 +185,28 @@ export class ArtifactsClient {
         });
 
         console.log(lineSeparator);
+    }
+
+    async getAccountAchievements() {
+        const result: any = await this.sendRequest('GET', `accounts/${this.accountName}/achievements?size=100`);
+
+        const achievements: Achievement[] = result.map((entry: any) => new Achievement(entry));
+
+        achievements.sort((a, b) => +b.isCompleted() - +a.isCompleted() || a.name.localeCompare(b.name));
+
+        achievements.forEach((achievement: Achievement) => {
+            const logger = achievement.isCompleted() ? console.error : console.log;
+
+            const progress = `${achievement.current}/${achievement.total}`;
+            const date = achievement.completedAt ? achievement.completedAt.toLocaleString() : '(not completed)';
+            logger(
+                `| ${achievement.name.padEnd(28, ' ')} `
+                + `| ${achievement.description.padEnd(36, ' ')} `
+                + `| ${progress.padStart(9, ' ')} `
+                + `| ${date.padEnd(25, ' ')} `
+                + `|`
+            );
+        });
     }
 
     async getAllOf(entity: string): Promise<any> {

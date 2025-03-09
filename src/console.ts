@@ -63,10 +63,13 @@ async function processCommand(commandName: string) {
         case 'items':
         case 'npcs':
         case 'badges':
-        case 'achievements':
         case 'monsters':
         case 'tasks':
             await container.client.getByEntityAndCode(commandName, consoleParams.shift())
+            break;
+
+        case 'achievements':
+            await container.client.getAccountAchievements();
             break;
 
         // Shows all items sellables/buyables from all npcs
