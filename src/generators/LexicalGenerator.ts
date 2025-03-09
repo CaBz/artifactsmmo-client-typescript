@@ -14,9 +14,10 @@ export class LexicalGenerator {
     }
 
     async generateAll() {
-        const items = await this.generateItems();
+        const items: any = await this.generateItems();
         await this.generateRecipesAndCraftables(items.craftables);
         await this.generateEquippables(items.equippables);
+        await this.generateEquipmentSets(items.sets);
 
         await this.generateMonsters();
         await this.generateResources();
@@ -30,6 +31,13 @@ export class LexicalGenerator {
     private async generateItems() {
         const equippables: any = {};
         const craftables: any = {};
+        const sets: any = {
+            fire: {},
+            air: {},
+            water: {},
+            earth: {},
+            all: {},
+        }
 
         let fileContent = 'export enum Items {\n';
         this.data.items.forEach((item: Item) => {
@@ -47,8 +55,27 @@ export class LexicalGenerator {
                 if (!equippables[item.type]) {
                     equippables[item.type] = [];
                 }
-
                 equippables[item.type].push(item);
+
+                const equippableDamage = item.getDamage();
+                if (equippableDamage) {
+                    if (!sets.all[item.type]) {
+                        sets.all[item.type] = [];
+                    }
+
+                    sets.all[item.type].push(item);
+                }
+
+                const equippableEffects = item.getAllElementEffects();
+                equippableEffects.forEach((element: any) => {
+                    if (element.attack || element.damage || element.resistance) {
+                        if (!sets[element][item.type]) {
+                            sets[element][item.type] = [];
+                        }
+
+                        sets[element][item.type].push(item);
+                    }
+                });
             }
         });
         fileContent += '}\n';
@@ -57,6 +84,7 @@ export class LexicalGenerator {
         return {
             equippables,
             craftables,
+            sets,
         }
     }
 
@@ -132,6 +160,12 @@ export class LexicalGenerator {
             fileContent = fileContent.replace(placeholdeName, placeholder + '\n');
         });
         await fs.writeFile(`${this.lexicalFolder}/Equippables.ts`, fileContent, 'utf8');
+    }
+
+    private async generateEquipmentSets(sets: any) {
+        Object.entries(sets).forEach(([key, elementSet]) => {
+
+        });
     }
 
     private async generateMonsters() {

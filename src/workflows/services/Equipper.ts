@@ -109,12 +109,11 @@ export class Equipper {
                 ? '(not craftable)'
                 : recipe.items.map((recipeItem: ResourceItem) => `${recipeItem.code} x${recipeItem.quantity}`).join(', ');
 
-            const effects = item.effects.map(effect => `${effect.code}: ${effect.value}`);
             console.log(
                 `| ${item.code.padEnd(23)} `
                 + `| ${item.level.toString().padStart(3)} `
                 + `| ${item.typeAndSubtype.padEnd(13)} `
-                + `| ${effects.join(', ').padEnd(84, ' ')} `
+                + `| ${item.effectsToString().padEnd(84, ' ')} `
                 + `| ${recipeItems.padEnd(90, ' ')} `
                 + `|`
             );

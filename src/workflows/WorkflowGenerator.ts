@@ -11,6 +11,7 @@ import {Monsters} from "../lexical/Monsters.js";
 import {Fights, ItemGatheringPOIs, PointOfInterest, TaskMasterBanks, TaskMasters} from "../lexical/PointOfInterest.js";
 import {Container} from "../Container.js";
 import {Skills} from "../lexical/Skills.js";
+import {Monster} from "../entities/Monster.js";
 
 export class WorkflowGenerator {
     private character: Character;
@@ -105,7 +106,7 @@ export class WorkflowGenerator {
 
             if (recipeQuantity === 0) {
                 //throw new Error(`${code} cannot be crafted - Missing recipe items: ${recipe.items.map((item) => `${item.code} x${item.quantity}`).join(',')}`);
-                Utils.errorHeadline(`Cannot craft: ${code} - SKIP`);
+                Utils.errorHeadline(`Cannot craft: ${code}`);
                 continue;
             }
 
@@ -186,7 +187,7 @@ export class WorkflowGenerator {
             throw new Error(`No POI for monster ${code}`);
         }
 
-        const actions: WorkflowAction[] = await this.prepareForFight();
+        const actions: WorkflowAction[] = await this.prepareForFight(monster);
         actions.push(
             {
                 action: Action.SubWorkflow,
@@ -247,7 +248,9 @@ export class WorkflowGenerator {
 
             Utils.errorHeadline('GOAL: Prep & Fight');
             return [
-                ... await this.prepareForFight(),
+                ... await this.prepareForFight(
+                    Container.monsters.get(task.task)!
+                ),
                 {
                     action: Action.SubWorkflow, condition: SubworkflowCondition.TaskCompletedOrNoMoreConsumables,
                     actions: [
@@ -300,15 +303,24 @@ export class WorkflowGenerator {
         ];
     }
 
-    private async prepareForFight(): Promise<WorkflowAction[]> {
+    private async prepareForFight(monster: Monster): Promise<WorkflowAction[]> {
+        const actions: WorkflowAction[] = [];
+
         // 1. Find best Set?
 
         // 2. Withdraw Utilities & Equip
+        // const poisonDamage: number = monster.getPoisonDamage();
+        // if (poisonDamage) {
+        //     actions.push(
+        //         {action: Action.Move, coordinates: PointOfInterest.Bank1},
+        //         {action: Action.BankDepositAll},
+        //     )
+        // }
+
 
         // monster effect to utility mapping
         // find best utility (level) in bank
 
-        const actions: WorkflowAction[] = [];
 
         // Consumables
         const inventoryConsumables = this.character.getConsumables()
@@ -357,8 +369,15 @@ export class WorkflowGenerator {
                 return this.generateAutoForItems(Skills.Mining, [ItemType.Resource], [ItemSubType.Bar, ItemSubType.Alloy]);
             case Skills.Cooking:
                 return this.generateAutoForItems(Skills.Cooking, [ItemType.Consumable], [ItemSubType.Food]);
-            case 'cook':
-                return this.generateAutoCook();
+
+            case 'foods':
+                return this.generateAutoCraftBank(Skills.Cooking);
+            case 'ingots':
+                return this.generateAutoCraftBank(Skills.Mining);
+            case 'potions':
+                return this.generateAutoCraftBank(Skills.Alchemy);
+            case 'planks':
+                return this.generateAutoCraftBank(Skills.Woodcutting);
 
         }
 
@@ -409,8 +428,8 @@ export class WorkflowGenerator {
         throw new Error('Unable to do anything');
     }
 
-    private async generateAutoCook(): Promise<WorkflowAction[]> {
-        Utils.errorHeadline(`AUTO > Cook`);
+    private async generateAutoCraftBank(name: Skills): Promise<WorkflowAction[]> {
+        Utils.errorHeadline(`AUTO > Bank`);
 
         const forbiddenRecipes = [
             Items.MushroomSoup,
@@ -418,8 +437,8 @@ export class WorkflowGenerator {
             Items.MapleSyrup,
         ]
 
-        const cookingSkill: any = this.character.getSkill(Skills.Cooking);
-        const craftableItems: Item[] = Array.from(Container.items.values()).filter((item: Item) => item.skillToCraft === Skills.Cooking && item.levelToCraft <= cookingSkill.level && !forbiddenRecipes.includes(item.code));
+        const skill: any = this.character.getSkill(name);
+        const craftableItems: Item[] = Array.from(Container.items.values()).filter((item: Item) => item.skillToCraft === name && item.levelToCraft <= skill.level && !forbiddenRecipes.includes(item.code));
         craftableItems.sort((a, b) => b.level - a.level);
 
         // console.log(craftableItems.map((item) => `${item.name} lv.${item.level}`));

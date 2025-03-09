@@ -211,4 +211,24 @@ export class Item {
 
         return value;
     }
+
+    getElementEffects(element: string) {
+        return {
+            attack: this.getEffectValueFor(`attack_${element}`),
+            damage: this.getEffectValueFor(`damage_${element}`),
+            resistance: this.getEffectValueFor(`res_${element}`)
+        }
+    }
+
+    getAllElementEffects() {
+        return ['fire', 'air', 'water', 'earth'].map((element) => ({ element, ...this.getElementEffects(element) }));
+    }
+
+    getDamage() {
+        return this.getEffectValueFor(Effects.Damage);
+    }
+
+    effectsToString(): string {
+        return this.effects.map(effect => `${effect.code}: ${effect.value}`).join(', ');
+    }
 }

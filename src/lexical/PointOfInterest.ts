@@ -31,6 +31,7 @@ export enum PointOfInterest {
     Vampire2 = 'vampire2',
     Cyclops1 = 'cyclops1',
     Cyclops2 = 'cyclops2',
+    BanditLizard = 'bandit_lizard', // Event
 
     // Crafting
     Cooking = 'cooking',
@@ -118,6 +119,7 @@ export const Fights: any = {
     [Monsters.Spider]: PointOfInterest.Spider,
     [Monsters.Cyclops]: PointOfInterest.Cyclops1,
     [Monsters.Vampire]: PointOfInterest.Vampire1,
+    [Monsters.BanditLizard]: PointOfInterest.BanditLizard,
 }
 
 export const ItemGatheringPOIs: any = {

@@ -1,8 +1,59 @@
 import {StatEffects} from "../lexical/TypeEffects.js";
-import {LINE} from "../Utils.js";
+import {Effects} from "../lexical/Effects.js";
 
 export class Monster {
     constructor(private readonly data: any) {
+        /*
+        {
+            "name": "Bandit Lizard",
+            "code": "bandit_lizard",
+            "level": 25,
+            "hp": 780,
+            "attack_fire": 40,
+            "attack_earth": 0,
+            "attack_water": 40,
+            "attack_air": 0,
+            "res_fire": -5,
+            "res_earth": 25,
+            "res_water": -5,
+            "res_air": 25,
+            "critical_strike": 5,
+            "effects": [
+              {
+                "code": "poison",
+                "value": 20
+              }
+            ],
+            "min_gold": 0,
+            "max_gold": 15,
+            "drops": [
+              {
+                "code": "bandit_armor",
+                "rate": 600,
+                "min_quantity": 1,
+                "max_quantity": 1
+              },
+              {
+                "code": "lizard_eye",
+                "rate": 10,
+                "min_quantity": 1,
+                "max_quantity": 1
+              },
+              {
+                "code": "lizard_skin",
+                "rate": 10,
+                "min_quantity": 1,
+                "max_quantity": 1
+              },
+              {
+                "code": "dreadful_book",
+                "rate": 1500,
+                "min_quantity": 1,
+                "max_quantity": 1
+              }
+            ]
+          }
+        */
     }
 
     get name(): string {
@@ -29,6 +80,12 @@ export class Monster {
 
     get effects(): any[] {
         return this.data.effects;
+    }
+
+    getPoisonDamage(): number {
+        const effects: any[] = this.effects.filter((effect: any) => effect.code === Effects.Poison);
+
+        return effects[0]?.value || 0;
     }
 
     get drops(): any[] {
