@@ -1,4 +1,4 @@
-import {ItemGatheringPOIs, PointOfInterest, Workstations} from "../lexical/PointOfInterest.js";
+import {PointOfInterest, Workstations} from "../lexical/PointOfInterest.js";
 import {Items} from "../lexical/Items.js";
 import {Action, BankWithdrawActionCondition, WorkflowAction} from "./WorkflowOrchestrator.js";
 import {Recipe, Recipes, ResourceItem} from "../lexical/Recipes.js";
@@ -9,13 +9,8 @@ export class WorkflowFactory {
 
         const gatherActions: WorkflowAction[] = [];
         gatherItems.forEach((item: ResourceItem) => {
-            const POIs: PointOfInterest[] = ItemGatheringPOIs[item.code];
-            if (!POIs) {
-                throw new Error(`Unable to find POI for: ${item.code}`);
-            }
-
             gatherActions.push(
-                { action: Action.Move, coordinates: POIs[0]! },
+                { action: Action.Move, coordinates: item.code },
                 { action: Action.Gather, loops: item.quantity },
             );
         });

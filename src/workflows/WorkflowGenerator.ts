@@ -8,7 +8,12 @@ import {Items} from "../lexical/Items.js";
 import * as Utils from "../Utils.js";
 import {Banker} from "./services/Banker.js";
 import {Monsters} from "../lexical/Monsters.js";
-import {ItemGatheringPOIs, PointOfInterest, TaskMasterBanks, TaskMasters} from "../lexical/PointOfInterest.js";
+import {
+    GatherBank,
+    PointOfInterest,
+    TaskMasterBanks,
+    TaskMasters
+} from "../lexical/PointOfInterest.js";
 import {Container} from "../Container.js";
 import {Skills} from "../lexical/Skills.js";
 import {Monster} from "../entities/Monster.js";
@@ -134,12 +139,11 @@ export class WorkflowGenerator {
             throw new Error(`Item does not exist: ${code}`);
         }
 
-        const POIs: PointOfInterest[] = ItemGatheringPOIs[code];
         return [
-            { action: Action.Move, coordinates: POIs[0]! },
+            { action: Action.Move, coordinates: code },
             { action: Action.Gather, loops: -1 },
 
-            { action: Action.Move, coordinates: POIs[1]! },
+            { action: Action.Move, coordinates: GatherBank[code] || PointOfInterest.Bank1 },
             { action: Action.BankDepositAll },
         ];
     }
@@ -284,9 +288,8 @@ export class WorkflowGenerator {
             Utils.errorHeadline('GOAL: Gather');
 
             // If it's not a recipe, it will just go gather as much as it can, trade what's in the inventory and then it loops back into this function
-            const POIs: PointOfInterest[] = ItemGatheringPOIs[task.task];
             taskActions = [
-                { action: Action.Move, coordinates: POIs[0]! },
+                { action: Action.Move, coordinates: task.task },
                 { action: Action.Gather, loops: Math.min(maxInventory, (remainingTask - inventoryCount)) },
             ];
         }

@@ -1,7 +1,6 @@
 import {CharacterGateway} from "../../gateways/CharacterGateway.js";
 import {PointOfInterest} from "../../lexical/PointOfInterest.js";
 import {Waiter} from "./Waiter.js";
-import {MapCoordinates} from "../../lexical/MapCoordinates.js";
 import * as Utils from "../../Utils.js";
 import {ClientException} from "../../gateways/ClientException.js";
 import {MoveActionCondition} from "../WorkflowOrchestrator.js";
@@ -13,7 +12,7 @@ export class Mover {
     }
 
     async moveToPointOfInterest(name: PointOfInterest | string, condition?: MoveActionCondition): Promise<void> {
-        const coordinates = MapCoordinates[name] || Container.maps.get(name)?.coordinates;
+        const coordinates = Container.maps.get(name)?.coordinates;
         if (!coordinates) {
             throw new Error(`COORDINATES NOT DEFINED FOR ${name}`);
         }
