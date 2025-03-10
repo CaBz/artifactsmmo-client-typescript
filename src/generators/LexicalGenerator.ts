@@ -23,7 +23,6 @@ export class LexicalGenerator {
         await this.generateMonsters();
         await this.generateResources();
         await this.generateEffects();
-        await this.generateMaps();
         await this.generateNpcs();
 
         return;
@@ -222,9 +221,7 @@ export class LexicalGenerator {
 
         Object.entries(placeholders).forEach(([element, types]: [string, any]) => {
             Object.entries(types).forEach(([type, placeholder]: [string, string]) => {
-                const placeholderString = `/*{PLACEHOLDER_${type.toUpperCase()}_${element.toUpperCase()}}*/`;
-                console.log(placeholderString);
-                fileContent = fileContent.replace(placeholderString, placeholder);
+                fileContent = fileContent.replace(`/*{PLACEHOLDER_${type.toUpperCase()}_${element.toUpperCase()}}*/`, placeholder);
             });
         });
 
@@ -271,74 +268,6 @@ export class LexicalGenerator {
         });
 
         await fs.writeFile(`${this.lexicalFolder}/TypeEffects.ts`, fileContent, 'utf8');
-    }
-
-    private async generateMaps() {
-        // @TODO: Need to generate a mapping of positions for each gathering spot (resource)
-        // @TODO: Need to generate a mapping of positions for each working station
-        // @TODO: Need to generate a mapping of positions for each monster
-        // @TODO: Need to generate a mapping of positions for each npcs
-
-
-        // -----------
-        // DON'T KNOW WHERE I'M GOING WITH THIS
-        // -----------
-        /*let entities = new Map<string, boolean>();
-        let map: MapTile;
-        for (let i=0; i<maps.length; i++) {
-            map = maps[i] as MapTile;
-            if (!map.contentType) {
-                continue;
-            }
-
-            let entity, identifier;
-            switch (map.contentType) {
-                case 'resource':
-                    entity = resources.get(map.contentCode);
-                    for (let i=1; i<10; i++) {
-                        identifier = `${entity.nameForEnum}${i}`;
-                        if (!entities.has(identifier)) {
-                            break;
-                        }
-                    }
-                    entities.set(identifier, true);
-                    //console.log(identifier, entity.skill, entity.level, map.coordinates.x, map.coordinates.y);
-                    break;
-                case 'monster':
-                    entity = monsters.get(map.contentCode);
-                    for (let i=1; i<10; i++) {
-                        identifier = `${entity.nameForEnum}${i}`;
-                        if (!entities.has(identifier)) {
-                            break;
-                        }
-                    }
-                    entities.set(identifier, true);
-                    //console.log(identifier, entity.level, map.coordinates.x, map.coordinates.y);
-                    break;
-                case 'bank':
-                    for (let i=1; i<10; i++) {
-                        identifier = map.contentCode.charAt(0).toUpperCase() + map.contentCode.slice(1) + i;
-                        if (!entities.has(identifier)) {
-                            break;
-                        }
-                    }
-                    entities.set(identifier, true);
-                    //console.log(identifier, map.coordinates.x, map.coordinates.y);
-                    break;
-                case 'tasks_master':
-                    console.log(map);
-                    break;
-                case 'workshop':
-                    break;
-                case 'npc':
-                    break;
-                case 'grand_exchange':
-                    break;
-                default:
-                    console.error(map.contentType);
-                    break;
-            }
-        }*/
     }
 
     private async generateNpcs() {

@@ -167,7 +167,7 @@ export class Simulator {
             }
 
             recipeItems.sort((a: any, b: any) => a.code.localeCompare(b.code));
-            const recipeItemsString: any = recipeItems.map((recipeItem: any) => `x${recipeItem.quantity} ${recipeItem.code} (${recipeItem.bankQuantity})`).join(', ');
+            const recipeItemsString: any = recipeItems.map((recipeItem: any) => `x${recipeItem.quantity} ${recipeItem.code} (${recipeItem.quantity * entry.recipeQuantityBank}/${recipeItem.bankQuantity})`).join(', ');
 
             const logger = entry.recipeQuantityBank > 0 ? console.error : console.log;
             logger(

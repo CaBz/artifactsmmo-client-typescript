@@ -222,7 +222,7 @@ export class ArtifactsClient {
             const logger = achievement.isCompleted() ? console.error : console.log;
 
             const progress = `${achievement.current}/${achievement.total}`;
-            const date = achievement.completedAt ? achievement.completedAt.toLocaleString() : '(not completed)';
+            const date = achievement.completedAt ? achievement.completedAt.toLocaleString() : `(not completed: ${Math.round(achievement.current/achievement.total * 100)}%)`;
             logger(
                 `| ${achievement.name.padEnd(28, ' ')} `
                 + `| ${achievement.description.padEnd(36, ' ')} `

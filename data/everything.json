@@ -13869,10 +13869,13 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_2",
+      "skin": "forest_event_lizard1",
       "x": 10,
       "y": 0,
-      "content": null
+      "content": {
+        "type": "monster",
+        "code": "bandit_lizard"
+      }
     },
     {
       "name": "Forest",
@@ -15593,10 +15596,13 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_4",
+      "skin": "forest_magictree1",
       "x": -4,
       "y": 14,
-      "content": null
+      "content": {
+        "type": "resource",
+        "code": "magic_tree"
+      }
     },
     {
       "name": "Forest",
@@ -17922,7 +17928,44 @@
       }
     }
   ],
-  "events_active": [],
+  "events_active": [
+    {
+      "name": "Bandit Camp",
+      "code": "bandit_camp",
+      "map": {
+        "name": "Forest",
+        "skin": "forest_event_lizard1",
+        "x": 10,
+        "y": 0,
+        "content": {
+          "type": "monster",
+          "code": "bandit_lizard"
+        }
+      },
+      "previous_skin": "forest_2",
+      "duration": 120,
+      "expiration": "2025-03-10T23:58:04.626Z",
+      "created_at": "2025-03-10T21:58:04.626Z"
+    },
+    {
+      "name": "Magic Apparition",
+      "code": "magic_apparition",
+      "map": {
+        "name": "Forest",
+        "skin": "forest_magictree1",
+        "x": -4,
+        "y": 14,
+        "content": {
+          "type": "resource",
+          "code": "magic_tree"
+        }
+      },
+      "previous_skin": "forest_4",
+      "duration": 60,
+      "expiration": "2025-03-10T22:37:13.995Z",
+      "created_at": "2025-03-10T21:37:13.995Z"
+    }
+  ],
   "effects": [
     {
       "name": "Alchemy",

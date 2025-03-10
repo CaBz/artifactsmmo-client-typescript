@@ -779,10 +779,13 @@
   },
   {
     "name": "Forest",
-    "skin": "forest_2",
+    "skin": "forest_event_lizard1",
     "x": 10,
     "y": 0,
-    "content": null
+    "content": {
+      "type": "monster",
+      "code": "bandit_lizard"
+    }
   },
   {
     "name": "Forest",
@@ -2503,10 +2506,13 @@
   },
   {
     "name": "Forest",
-    "skin": "forest_4",
+    "skin": "forest_magictree1",
     "x": -4,
     "y": 14,
-    "content": null
+    "content": {
+      "type": "resource",
+      "code": "magic_tree"
+    }
   },
   {
     "name": "Forest",
