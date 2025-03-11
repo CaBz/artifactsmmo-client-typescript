@@ -30,7 +30,6 @@ import {
 import {Banker} from "./Banker.js";
 import {Effects} from "../../lexical/Effects.js";
 import {Container} from "../../Container.js";
-import {stdoutClear} from "../../Utils.js";
 
 
 type GearSet = Record<string, Item>;
@@ -54,16 +53,23 @@ export class Simulator {
         }
     }
 
-    async simulateUltimate(code: Monsters, level: number): Promise<void> {
+    async simulateUltimate(code: Monsters, level: number, showUnavailableItems: boolean): Promise<void> {
         await this.loadCharacter();
 
         if (level === -1) {
             level = this.character.level;
         }
 
+        console.log('1. Fetching characters...');
+        const characters = await this.client.getAllCharacterStatus();
+
+        console.log('2. Fetching bank items...');
+        const bank: any = await this.banker.getBank();
+
+        const minLevel = level < 10 ? 1 : (Math.floor(level / 10) * 10);
         const fightLoops = 1000;
-        const populationSize = 100;
-        const generations = 25;
+        const populationSize = 200; // higher = more slow
+        const generations = 25; // higher = more precise
         const stats: any[] = StatEffects.map((stat: Effects) => ({code: stat, value: (stat === Effects.Hitpoints ? this.character.getBaseHp() : 0)}));
         const attackerStats: any = this.getEntityStats(stats);
 
@@ -73,10 +79,21 @@ export class Simulator {
 
         const itemFilterFunction = function (item: Item) {
             if (item.level > level) { return false; }
-            if (item.level < (level - 5)) { return false; }
-            return true;
+            if (item.level < minLevel) { return false; }
+
+            if (showUnavailableItems) {
+                return true;
+            }
+
+            if (bank[item.code]) { return true ;}
+            for (let i=0; i<characters.length; i++) {
+                if (characters[i]!.holdsHowManyOf(item.code) > 0) { return true; }
+            }
+
+            return false;
         }
 
+        console.log('3. Preparing gear pool...');
         const gearPool: Record<string, Item[]> = {
             [EquippableSlot.Helmet]: EquippableHelmets.map(codeMapFunction).filter(itemFilterFunction),
             [EquippableSlot.BodyArmor]: EquippableBodyArmors.map(codeMapFunction).filter(itemFilterFunction),
@@ -89,6 +106,7 @@ export class Simulator {
             [EquippableSlot.Amulet]: EquippableAmulets.map(codeMapFunction).filter(itemFilterFunction),
         };
 
+        console.log(`4. Preparing the initial population result (${populationSize} with ${fightLoops} simulations each)...`);
         let population: Population[] = [];
         for (let i = 0; i < populationSize; i++) {
             const gearSet =  Object.fromEntries(GearEquippableSlots.map(slot => [slot, Utils.randomArrayValue(gearPool[slot]!)]));
@@ -98,7 +116,8 @@ export class Simulator {
         let newGearSet;
         let slotToChange;
 
-        process.stdout.write(`${generations}: `);
+        console.log(`5. Evaluating for ${generations} generations... `);
+
         for (let gen = 0; gen < generations; gen++) {
             population.sort((a, b) => b.successRate - a.successRate || a.averageTurns - b.averageTurns || b.averageAttackerHP - a.averageAttackerHP);
 
@@ -126,16 +145,21 @@ export class Simulator {
             }
 
             population = newPopulation;
-            process.stdout.write(`.`);
+            Utils.stdoutClear();
+            process.stdout.write(`  -> ${(gen + 1).toString()}/${generations} = Best ${population[0]!.successRate.toFixed(2)}% in ${population[0]!.averageTurns.toFixed(2)} with ${population[0]!.averageAttackerHP.toFixed(2)}HP left`);
         }
+
         console.log();
+        console.log('6. Result for best gear set:');
 
         const result = population[0]!;
-        console.log(result.successRate, result.averageTurns, result.averageAttackerHP);
         GearEquippableSlots.forEach((slot) => {
-            const item = result.gearSet[slot]!;
+            const item = result.gearSet[slot];
+            if (!item) {
+                return;
+            }
 
-            console.log (`${slot}: ${item.code} [lv. ${item.level}]`);
+            console.log (`  * ${slot.padEnd(10, ' ')} | ${item.code.padEnd(20, ' ')} | [lv. ${item.level}]`);
         });
     }
 
@@ -143,6 +167,10 @@ export class Simulator {
         let clonedStats = JSON.parse(JSON.stringify(stats));
 
         Object.values(gearSet).forEach((item) => {
+            if (!item) {
+                return;
+            }
+
             item.effects.forEach((effect: any) => {
                 clonedStats[effect.code] += effect.value;
             });

@@ -25,6 +25,12 @@ export class ArtifactsClient {
         return this.sendRequest('GET', `characters/${characterName}`);
     }
 
+    async getAllCharacterStatus(): Promise<Character[]> {
+        const result: any[] = await this.sendRequest('GET', `my/characters`);
+
+        return result.map((entry: any) => new Character(entry));
+    }
+
     // https://api.artifactsmmo.com/docs/#/operations/action_move_my__name__action_move_post
     async move(characterName: string, x: number, y: number) {
         return this.sendCharacterAction(characterName, 'move', {x, y});

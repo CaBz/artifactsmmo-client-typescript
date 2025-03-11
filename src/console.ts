@@ -105,10 +105,13 @@ async function processCommand(commandName: string) {
             break;
 
         // Simulates against a monster with a different item equipped (replace the slot)
+        // Allows to compare with current items in all char inventories + bank or ALL items around the level range
         case 'simulate-ultimate':
+        case 'sim-ult':
             await container.simulator.simulateUltimate(
                 (consoleParams.shift() || '') as Monsters,
-                +(consoleParams.shift() || -1)
+                +(consoleParams.shift() || -1),
+                !!consoleParams.shift()
             );
             break;
 
