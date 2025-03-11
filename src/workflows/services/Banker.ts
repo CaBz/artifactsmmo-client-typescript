@@ -135,6 +135,7 @@ export class Banker {
             + `| Lv. `
             + `| ${Utils.formatForMiddle('Type', 25)} `
             + `| Quantity `
+            + `| ${Utils.formatForMiddle('Effects', 84)} `
             + `|`;
 
         const bankUsage = `${bankItems.length}/${bank.bank.slots}`
@@ -156,6 +157,7 @@ export class Banker {
                 + `| ${item.level.toString().padStart(3)} `
                 + `| ${itemType.padEnd(25, ' ')} `
                 + `| ${quantity.toString().padStart(8, ' ')} `
+                + `| ${item.effectsToString().padEnd(84, ' ')} `
                 + `|`
             );
         });

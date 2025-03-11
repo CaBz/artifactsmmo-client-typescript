@@ -63,3 +63,15 @@ export const AllEquippableSlots: EquippableSlot[] = [
     EquippableSlot.Bag,
     EquippableSlot.Rune,
 ];
+
+export const GearEquippableSlots: EquippableSlot[] = [
+    EquippableSlot.Weapon,
+    EquippableSlot.Shield,
+    EquippableSlot.Helmet,
+    EquippableSlot.BodyArmor,
+    EquippableSlot.LegArmor,
+    EquippableSlot.Boots,
+    EquippableSlot.Ring1,
+    EquippableSlot.Ring2,
+    EquippableSlot.Amulet,
+]

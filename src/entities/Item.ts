@@ -231,6 +231,7 @@ export class Item {
     }
 
     effectsToString(): string {
-        return this.effects.map(effect => `${effect.code}: ${effect.value}`).join(', ');
+        const effects = this.effects.map(effect => `${effect.code}: ${effect.value}`);
+        return effects.length === 0 ? '(none)' : effects.join(', ');
     }
 }

@@ -47,3 +47,7 @@ export async function readFileRaw(fileName: string) {
 export async function writeFile(fileName: string, data: any) {
     await fs.writeFile(fileName, JSON.stringify(data, null, 2));
 }
+
+export function randomArrayValue(arr: any): any {
+    return arr[Math.floor(Math.random() * arr.length)]!;
+}

@@ -145,6 +145,10 @@ export class Character {
         });
     }
 
+    getBaseHp(): number {
+        return 120 + ((this.level - 1) * 5);
+    }
+
     getStats() {
         const stats = ['speed', 'haste', 'wisdom', 'prospecting', 'critical_strike', 'dmg'];
 

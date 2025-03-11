@@ -4,7 +4,6 @@ import * as Utils from "./Utils.js";
 import {Monsters} from "./lexical/Monsters.js";
 import {EquippableSlot} from "./lexical/EquippableSlot.js";
 import {AllMerchants} from "./lexical/Merchants.js";
-import {Skills} from "./lexical/Skills.js";
 import {ItemType} from "./entities/Item.js";
 
 const consoleParams = process.argv;
@@ -102,6 +101,14 @@ async function processCommand(commandName: string) {
             await container.simulator.simulateAgainst(
                 (consoleParams.shift() || '') as Monsters,
                 'details'
+            );
+            break;
+
+        // Simulates against a monster with a different item equipped (replace the slot)
+        case 'simulate-ultimate':
+            await container.simulator.simulateUltimate(
+                (consoleParams.shift() || '') as Monsters,
+                +(consoleParams.shift() || -1)
             );
             break;
 

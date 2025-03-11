@@ -99,6 +99,42 @@ export class WorkflowRegister {
 
         workflows.set('craft-antiogre-set', WorkflowFactory.withdrawAndCraftManyAndEquip(antiOgreSet, false));
         workflows.set('equip-antiogre-set', WorkflowFactory.withdrawAndEquip(antiOgreSet));
+
+        workflows.set('equip-bandit_lizard_set', WorkflowFactory.withdrawAndEquip([
+            [Items.VampireBow, 1, EquippableSlot.Weapon],
+            [Items.SerpentSkinBoots, 1, EquippableSlot.Boots],
+            [Items.PiggyHelmet, 1, EquippableSlot.Helmet],
+            [Items.PiggyPants, 1, EquippableSlot.LegArmor],
+            [Items.BanditArmor, 1, EquippableSlot.BodyArmor],
+            [Items.SteelShield, 1, EquippableSlot.Shield],
+            [Items.RubyAmulet, 1, EquippableSlot.Amulet],
+            [Items.SkullRing, 1, EquippableSlot.Ring1],
+            [Items.SkullRing, 1, EquippableSlot.Ring2],
+        ]));
+
+        workflows.set('equip-demon_set-lv20', WorkflowFactory.withdrawAndEquip([
+            [Items.DreadfulStaff, 1, EquippableSlot.Weapon],
+            [Items.SteelBoots, 1, EquippableSlot.Boots],
+            [Items.MagicWizardHat, 1, EquippableSlot.Helmet],
+            [Items.SteelLegsArmor, 1, EquippableSlot.LegArmor],
+            [Items.BanditArmor, 1, EquippableSlot.BodyArmor],
+            [Items.SteelShield, 1, EquippableSlot.Shield],
+            [Items.DreadfulAmulet, 1, EquippableSlot.Amulet],
+            [Items.DreadfulRing, 1, EquippableSlot.Ring1],
+            [Items.DreadfulRing, 1, EquippableSlot.Ring2],
+        ]));
+
+        workflows.set('equip-demon_set-lv25', WorkflowFactory.withdrawAndEquip([
+            [Items.DreadfulStaff, 1, EquippableSlot.Weapon],
+            [Items.SteelBoots, 1, EquippableSlot.Boots],
+            [Items.MagicWizardHat, 1, EquippableSlot.Helmet],
+            [Items.LizardSkinLegsArmor, 1, EquippableSlot.LegArmor],
+            [Items.BanditArmor, 1, EquippableSlot.BodyArmor],
+            [Items.SteelShield, 1, EquippableSlot.Shield],
+            [Items.TopazAmulet, 1, EquippableSlot.Amulet],
+            [Items.DreadfulRing, 1, EquippableSlot.Ring1],
+            [Items.DreadfulRing, 1, EquippableSlot.Ring2],
+        ]));
     }
 }
 

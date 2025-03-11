@@ -13,6 +13,7 @@
     "typescript-eslint": "^8.24.1"
   },
   "scripts": {
+    "test": "node --no-warnings --loader ts-node/esm --env-file=.env src/test.ts",
     "console": "node --no-warnings --loader ts-node/esm --env-file=.env src/console.ts",
     "workflow": "node --no-warnings --loader ts-node/esm --env-file=.env src/workflow.ts",
 

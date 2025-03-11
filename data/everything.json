@@ -14097,10 +14097,13 @@
     },
     {
       "name": "City",
-      "skin": "forest_village2",
+      "skin": "forest_village2_nomadic_merchant",
       "x": 3,
       "y": 2,
-      "content": null
+      "content": {
+        "type": "npc",
+        "code": "nomadic_merchant"
+      }
     },
     {
       "name": "Lake",
@@ -14753,10 +14756,13 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_2",
+      "skin": "forest_cursed_tree1",
       "x": 4,
       "y": 7,
-      "content": null
+      "content": {
+        "type": "monster",
+        "code": "cursed_tree"
+      }
     },
     {
       "name": "Forest",
@@ -15596,13 +15602,10 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_magictree1",
+      "skin": "forest_4",
       "x": -4,
       "y": 14,
-      "content": {
-        "type": "resource",
-        "code": "magic_tree"
-      }
+      "content": null
     },
     {
       "name": "Forest",
@@ -17944,26 +17947,44 @@
       },
       "previous_skin": "forest_2",
       "duration": 120,
-      "expiration": "2025-03-10T23:58:04.626Z",
-      "created_at": "2025-03-10T21:58:04.626Z"
+      "expiration": "2025-03-11T03:02:24.031Z",
+      "created_at": "2025-03-11T01:02:24.031Z"
     },
     {
-      "name": "Magic Apparition",
-      "code": "magic_apparition",
+      "name": "Cursed Forest",
+      "code": "cursed_tree",
       "map": {
         "name": "Forest",
-        "skin": "forest_magictree1",
-        "x": -4,
-        "y": 14,
+        "skin": "forest_cursed_tree1",
+        "x": 4,
+        "y": 7,
         "content": {
-          "type": "resource",
-          "code": "magic_tree"
+          "type": "monster",
+          "code": "cursed_tree"
         }
       },
-      "previous_skin": "forest_4",
+      "previous_skin": "forest_2",
+      "duration": 120,
+      "expiration": "2025-03-11T04:01:48.966Z",
+      "created_at": "2025-03-11T02:01:48.966Z"
+    },
+    {
+      "name": "Nomadic Merchant",
+      "code": "nomadic_merchant",
+      "map": {
+        "name": "City",
+        "skin": "forest_village2_nomadic_merchant",
+        "x": 3,
+        "y": 2,
+        "content": {
+          "type": "npc",
+          "code": "nomadic_merchant"
+        }
+      },
+      "previous_skin": "forest_village2",
       "duration": 60,
-      "expiration": "2025-03-10T22:37:13.995Z",
-      "created_at": "2025-03-10T21:37:13.995Z"
+      "expiration": "2025-03-11T03:31:01.564Z",
+      "created_at": "2025-03-11T02:31:01.564Z"
     }
   ],
   "effects": [

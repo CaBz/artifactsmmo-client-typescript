@@ -6,12 +6,19 @@ import {StatEffects} from "../../lexical/TypeEffects.js";
 import * as Utils from "../../Utils.js";
 import {Item} from "../../entities/Item.js";
 import {Items} from "../../lexical/Items.js";
-import {Equippables} from "../../lexical/Equippables.js";
+import {
+    EquippableAmulets,
+    EquippableBodyArmors, EquippableBoots,
+    EquippableHelmets, EquippableLegArmors, EquippableRings,
+    Equippables,
+    EquippableShields,
+    EquippableWeapons
+} from "../../lexical/Equippables.js";
 import {
     AllEquippableSlots,
     EquippableSlot,
     EquippableSlots,
-    EquippableSlotToType
+    EquippableSlotToType, GearEquippableSlots
 } from "../../lexical/EquippableSlot.js";
 import {ArtifactsClient} from "../../gateways/ArtifactsClient.js";
 import {Recipe, Recipes, ResourceItem} from "../../lexical/Recipes.js";
@@ -21,6 +28,13 @@ import {
     CraftableWeaponcrafting
 } from "../../lexical/Craftables.js";
 import {Banker} from "./Banker.js";
+import {Effects} from "../../lexical/Effects.js";
+import {Container} from "../../Container.js";
+import {stdoutClear} from "../../Utils.js";
+
+
+type GearSet = Record<string, Item>;
+interface Population { gearSet: GearSet; successRate: number, averageTurns: number, averageAttackerHP: number }
 
 export class Simulator {
     private character: Character;
@@ -38,6 +52,103 @@ export class Simulator {
         if (!this.character) {
             this.character = await this.characterGateway.status();
         }
+    }
+
+    async simulateUltimate(code: Monsters, level: number): Promise<void> {
+        await this.loadCharacter();
+
+        if (level === -1) {
+            level = this.character.level;
+        }
+
+        const fightLoops = 1000;
+        const populationSize = 100;
+        const generations = 25;
+        const stats: any[] = StatEffects.map((stat: Effects) => ({code: stat, value: (stat === Effects.Hitpoints ? this.character.getBaseHp() : 0)}));
+        const attackerStats: any = this.getEntityStats(stats);
+
+        const codeMapFunction = function (code: string) {
+            return Container.items.get(code)!;
+        }
+
+        const itemFilterFunction = function (item: Item) {
+            if (item.level > level) { return false; }
+            if (item.level < (level - 5)) { return false; }
+            return true;
+        }
+
+        const gearPool: Record<string, Item[]> = {
+            [EquippableSlot.Helmet]: EquippableHelmets.map(codeMapFunction).filter(itemFilterFunction),
+            [EquippableSlot.BodyArmor]: EquippableBodyArmors.map(codeMapFunction).filter(itemFilterFunction),
+            [EquippableSlot.LegArmor]: EquippableLegArmors.map(codeMapFunction).filter(itemFilterFunction),
+            [EquippableSlot.Boots]: EquippableBoots.map(codeMapFunction).filter(itemFilterFunction),
+            [EquippableSlot.Weapon]: EquippableWeapons.map(codeMapFunction).filter(itemFilterFunction),
+            [EquippableSlot.Shield]: EquippableShields.map(codeMapFunction).filter(itemFilterFunction),
+            [EquippableSlot.Ring1]: EquippableRings.map(codeMapFunction).filter(itemFilterFunction),
+            [EquippableSlot.Ring2]: EquippableRings.map(codeMapFunction).filter(itemFilterFunction),
+            [EquippableSlot.Amulet]: EquippableAmulets.map(codeMapFunction).filter(itemFilterFunction),
+        };
+
+        let population: Population[] = [];
+        for (let i = 0; i < populationSize; i++) {
+            const gearSet =  Object.fromEntries(GearEquippableSlots.map(slot => [slot, Utils.randomArrayValue(gearPool[slot]!)]));
+            population.push({ gearSet, ... this.simulateFight(attackerStats, gearSet, code, fightLoops) });
+        }
+
+        let newGearSet;
+        let slotToChange;
+
+        process.stdout.write(`${generations}: `);
+        for (let gen = 0; gen < generations; gen++) {
+            population.sort((a, b) => b.successRate - a.successRate || a.averageTurns - b.averageTurns || b.averageAttackerHP - a.averageAttackerHP);
+
+            const topHalf = population.slice(0, populationSize / 2);
+            const newPopulation = [...topHalf];
+
+            while (newPopulation.length < populationSize) {
+                const parent1 = Utils.randomArrayValue(topHalf).gearSet;
+                const parent2 = Utils.randomArrayValue(topHalf).gearSet;
+
+                let child: GearSet = {};
+                GearEquippableSlots.forEach(slot => {
+                    child[slot] = Math.random() < 0.5 ? parent1[slot]! : parent2[slot]!;
+                });
+
+                // Random mutation
+                if (Math.random() < 0.1) {
+                    newGearSet = { ...child };
+                    slotToChange = Utils.randomArrayValue(GearEquippableSlots);
+                    newGearSet[slotToChange] = Utils.randomArrayValue(gearPool[slotToChange]!);
+                    child = newGearSet;
+                }
+
+                newPopulation.push({ gearSet: child, ... this.simulateFight(attackerStats, child, code, fightLoops) });
+            }
+
+            population = newPopulation;
+            process.stdout.write(`.`);
+        }
+        console.log();
+
+        const result = population[0]!;
+        console.log(result.successRate, result.averageTurns, result.averageAttackerHP);
+        GearEquippableSlots.forEach((slot) => {
+            const item = result.gearSet[slot]!;
+
+            console.log (`${slot}: ${item.code} [lv. ${item.level}]`);
+        });
+    }
+
+    private simulateFight(stats: any, gearSet: GearSet, monsterCode: Monsters, loops: number): any {
+        let clonedStats = JSON.parse(JSON.stringify(stats));
+
+        Object.values(gearSet).forEach((item) => {
+            item.effects.forEach((effect: any) => {
+                clonedStats[effect.code] += effect.value;
+            });
+        });
+
+        return this.calculateSimulationFor(clonedStats, monsterCode, loops);
     }
 
     async findBestSetAgainst(code: Monsters, level: number): Promise<void> {
@@ -131,7 +242,7 @@ export class Simulator {
             const recipe: Recipe = Recipes.getFor(code);
             const skill: any = this.character.getSkill(recipe.skill);
 
-            if (recipe.level <= skill.level && recipe.level > (skill.level - 10)) {
+            if (recipe.level <= skill.level && recipe.level > (skill.level - 11)) {
                 const recipeItems: any[] = [];
                 const recipeQuantityFromBank = this.banker.calculateRecipeQuantityFromBankItems(bank, recipe, maximumInventory)
                 recipe.items.forEach((recipeItem: ResourceItem) => {
@@ -208,9 +319,9 @@ export class Simulator {
                 }
 
                 // Don't want to see items that creates more turns
-                if (entry.turns >= values.averageTurns) {
-                    return;
-                }
+                // if (entry.turns >= values.averageTurns) {
+                //     return;
+                // }
 
                 const item = this.items.get(entry.item)!;
                 const recipe = item.isCraftable ? Recipes.getFor(entry.item) : undefined;
@@ -249,13 +360,6 @@ export class Simulator {
 
         const result: any = this.simulateWithStatsAgainst(attackerStats, code, logLevel);
         console.log(result);
-    }
-
-    async simulateAgainstFor(code: Monsters, loops: number): Promise<any> {
-        await this.loadCharacter();
-        const attackerStats: any = this.getEntityStats(this.character.getAllStats());
-
-        return this.calculateSimulationFor(attackerStats, code, loops);
     }
 
     async simulateAgainstAllMonsters(): Promise<void> {
@@ -390,15 +494,12 @@ export class Simulator {
     }
 
     private simulateWithItemAgainst(monsterCode: Monsters, item: Item, fights: number) {
-        const equippedGears = this.character.getEquippedGears();
-
-        const stats = StatEffects.map((stat) => {
-            return {code: stat, value: 0};
-        })
+        const stats: any[] = StatEffects.map((stat: Effects) => ({code: stat, value: 0}));
 
         const attackerStats: any = this.getEntityStats(stats);
         attackerStats.hp += this.calculateCharacterHP();
 
+        const equippedGears = this.character.getEquippedGears();
         equippedGears.forEach((itemCode: Items) => {
             let equippedItem = this.items.get(itemCode)!;
             if (equippedItem.equippableSlot === item.equippableSlot) {
@@ -458,7 +559,7 @@ export class Simulator {
         return result;
     }
 
-    private calculateSimulationFor(attackerStats: any, code: Monsters, loops: number) {
+    calculateSimulationFor(attackerStats: any, code: Monsters, loops: number) {
         let result: any,
             clonedAttackerStats: any;
 
@@ -668,4 +769,23 @@ Turn 14: The monster used water attack and dealt 56 damage (Critical strike). (C
 - Turn 15: The character suffers from poison and loses 20 HP. (Character HP: 71/680)
 Turn 15: The character used fire attack and dealt 69 damage. (Monster HP: 0/550)
 Fight result: win. (Character HP: 71/680, Monster HP: 0/550)
+*/
+
+
+/*
+Fight start: Character HP: 685/685, Monster HP: 480/480
+Turn 1: The character used fire attack and dealt 64 damage. (Monster HP: 416/480)
+Turn 2: The monster used water attack and dealt 28 damage. (Character HP: 657/685)
+Turn 3: The character used fire attack and dealt 64 damage. (Monster HP: 352/480)
+Turn 4: The character blocked water attack.
+Turn 5: The character used fire attack and dealt 96 damage (Critical strike). (Monster HP: 256/480)
+Turn 6: The monster used water attack and dealt 42 damage (Critical strike). (Character HP: 615/685)
+Turn 7: The character used fire attack and dealt 64 damage. (Monster HP: 192/480)
+Turn 8: The monster used water attack and dealt 28 damage. (Character HP: 587/685)
+Turn 9: The character used fire attack and dealt 64 damage. (Monster HP: 128/480)
+Turn 10: The monster used water attack and dealt 28 damage. (Character HP: 559/685)
+Turn 11: The character used fire attack and dealt 64 damage. (Monster HP: 64/480)
+Turn 12: The monster used water attack and dealt 42 damage (Critical strike). (Character HP: 517/685)
+Turn 13: The character used fire attack and dealt 64 damage. (Monster HP: 0/480)
+Fight result: win. (Character HP: 517/685, Monster HP: 0/480)
 */

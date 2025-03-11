@@ -1007,10 +1007,13 @@
   },
   {
     "name": "City",
-    "skin": "forest_village2",
+    "skin": "forest_village2_nomadic_merchant",
     "x": 3,
     "y": 2,
-    "content": null
+    "content": {
+      "type": "npc",
+      "code": "nomadic_merchant"
+    }
   },
   {
     "name": "Lake",
@@ -1663,10 +1666,13 @@
   },
   {
     "name": "Forest",
-    "skin": "forest_2",
+    "skin": "forest_cursed_tree1",
     "x": 4,
     "y": 7,
-    "content": null
+    "content": {
+      "type": "monster",
+      "code": "cursed_tree"
+    }
   },
   {
     "name": "Forest",
@@ -2506,13 +2512,10 @@
   },
   {
     "name": "Forest",
-    "skin": "forest_magictree1",
+    "skin": "forest_4",
     "x": -4,
     "y": 14,
-    "content": {
-      "type": "resource",
-      "code": "magic_tree"
-    }
+    "content": null
   },
   {
     "name": "Forest",
