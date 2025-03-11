@@ -53,12 +53,13 @@ export class Simulator {
         }
     }
 
-    async simulateUltimate(code: Monsters, level: number, showUnavailableItems: boolean): Promise<void> {
+    async simulateUltimate(code: Monsters, level: number, showUnavailableItems: boolean): Promise<GearSet> {
         await this.loadCharacter();
 
         if (level === -1) {
             level = this.character.level;
         }
+        const minLevel = level < 10 ? 1 : (Math.floor(level / 10) * 10);
 
         console.log('1. Fetching characters...');
         const characters = await this.client.getAllCharacterStatus();
@@ -66,10 +67,9 @@ export class Simulator {
         console.log('2. Fetching bank items...');
         const bank: any = await this.banker.getBank();
 
-        const minLevel = level < 10 ? 1 : (Math.floor(level / 10) * 10);
-        const fightLoops = 1000;
-        const populationSize = 50; // higher = more slow
-        const generations = 100; // higher = more precise
+        const fightLoops = 100; // The more the better, but slows down a lot
+        const populationSize = 200; // higher = more slow
+        const generations = 50; // higher = more precise
         const stats: any[] = StatEffects.map((stat: Effects) => ({code: stat, value: (stat === Effects.Hitpoints ? this.character.getBaseHp() : 0)}));
         const attackerStats: any = this.getEntityStats(stats);
 
@@ -159,12 +159,14 @@ export class Simulator {
                 return;
             }
 
-            console.log (`  * ${slot.padEnd(10, ' ')} | ${item.code.padEnd(20, ' ')} | [lv. ${item.level}]`);
+            console.log (`  * ${slot.padEnd(10, ' ')} | ${item.code.padEnd(23, ' ')} | [lv. ${item.level}]`);
         });
+
+        return population[0]!.gearSet;
     }
 
     private simulateFight(stats: any, gearSet: GearSet, monsterCode: Monsters, loops: number): any {
-        let clonedStats = JSON.parse(JSON.stringify(stats));
+        let clonedStats = { ...stats }
 
         Object.values(gearSet).forEach((item) => {
             if (!item) {
@@ -215,7 +217,7 @@ export class Simulator {
             }
 
             // Get a baseline of stats without current equipped items
-            const stats: any = JSON.parse(JSON.stringify(attackerStats));
+            const stats: any = { ...attackerStats };
             const equippedItemCode: any = this.character.getEquippedGear(slot);
             if (equippedItemCode) {
                 const equippedItem = this.items.get(equippedItemCode)!;
@@ -227,7 +229,7 @@ export class Simulator {
             const items = Array.from(this.items.values()).filter((item: Item) => item.type === itemType && (item.level > (level - 9) && item.level <= level));
             items.sort((a, b) => a.level - b.level);
             items.forEach((item: Item) => {
-                const copyStats = JSON.parse(JSON.stringify(stats));
+                const copyStats = { ...stats };
                 item.effects.forEach((effect: any) => {
                     copyStats[effect.code] += effect.value;
                 });
@@ -597,7 +599,7 @@ export class Simulator {
             wins: number = 0;
 
         for (let i=0; i<loops; i++) {
-            clonedAttackerStats = JSON.parse(JSON.stringify(attackerStats));
+            clonedAttackerStats = { ...attackerStats };
             result = this.simulateWithStatsAgainst(clonedAttackerStats, code, 'none');
             turns += result.turns;
             attackerHP += result.attackerHP;
@@ -816,4 +818,96 @@ Turn 11: The character used fire attack and dealt 64 damage. (Monster HP: 64/480
 Turn 12: The monster used water attack and dealt 42 damage (Critical strike). (Character HP: 517/685)
 Turn 13: The character used fire attack and dealt 64 damage. (Monster HP: 0/480)
 Fight result: win. (Character HP: 517/685, Monster HP: 0/480)
+*/
+
+
+/*
+Fight start: Character HP: 850/850, Monster HP: 1750/1750
+Turn 1: The character applies a burn of 16 on the monster. (Monster burn: 16)
+Turn 1: The character used fire attack and dealt 39 damage. (Monster HP: 1711/1750)
+Turn 1: The character used air attack and dealt 33 damage. (Monster HP: 1678/1750)
+Turn 2: The monster suffers from burn and loses 16 HP. (Monster HP: 1662/1750)
+Turn 2: The monster applies a burn of 7 on your character. (Character burn: 7)
+Turn 2: The monster used earth attack and dealt 34 damage. (Character HP: 816/850)
+Turn 3: The character suffers from burn and loses 7 HP. (Character HP: 809/850)
+Turn 3: The character used fire attack and dealt 59 damage (Critical strike). (Monster HP: 1603/1750)
+Turn 3: The character used air attack and dealt 50 damage (Critical strike). (Monster HP: 1553/1750)
+Turn 4: The monster suffers from burn and loses 14 HP. (Monster HP: 1539/1750)
+Turn 4: The monster used earth attack and dealt 34 damage. (Character HP: 775/850)
+Turn 5: The character suffers from burn and loses 6 HP. (Character HP: 769/850)
+Turn 5: The character used fire attack and dealt 39 damage. (Monster HP: 1500/1750)
+Turn 5: The character used air attack and dealt 33 damage. (Monster HP: 1467/1750)
+Turn 6: The monster suffers from burn and loses 13 HP. (Monster HP: 1454/1750)
+Turn 6: The monster used earth attack and dealt 34 damage. (Character HP: 735/850)
+Turn 7: The character suffers from burn and loses 5 HP. (Character HP: 730/850)
+Turn 7: The character used fire attack and dealt 39 damage. (Monster HP: 1415/1750)
+Turn 7: The character used air attack and dealt 33 damage. (Monster HP: 1382/1750)
+Turn 8: The monster suffers from burn and loses 12 HP. (Monster HP: 1370/1750)
+Turn 8: The monster used earth attack and dealt 34 damage. (Character HP: 696/850)
+Turn 9: The character suffers from burn and loses 4 HP. (Character HP: 692/850)
+Turn 9: The character used fire attack and dealt 39 damage. (Monster HP: 1331/1750)
+Turn 9: The character used air attack and dealt 33 damage. (Monster HP: 1298/1750)
+Turn 10: The monster suffers from burn and loses 11 HP. (Monster HP: 1287/1750)
+Turn 10: The monster used earth attack and dealt 34 damage. (Character HP: 658/850)
+Turn 11: The character suffers from burn and loses 3 HP. (Character HP: 655/850)
+Turn 11: The character used fire attack and dealt 39 damage. (Monster HP: 1248/1750)
+Turn 11: The character used air attack and dealt 33 damage. (Monster HP: 1215/1750)
+Turn 12: The monster suffers from burn and loses 10 HP. (Monster HP: 1205/1750)
+Turn 12: The monster used earth attack and dealt 34 damage. (Character HP: 621/850)
+Turn 13: The character suffers from burn and loses 2 HP. (Character HP: 619/850)
+Turn 13: The character used fire attack and dealt 39 damage. (Monster HP: 1166/1750)
+Turn 13: The character used air attack and dealt 33 damage. (Monster HP: 1133/1750)
+Turn 14: The monster suffers from burn and loses 9 HP. (Monster HP: 1124/1750)
+Turn 14: The monster used earth attack and dealt 34 damage. (Character HP: 585/850)
+Turn 15: The character suffers from burn and loses 1 HP. (Character HP: 584/850)
+Turn 15: The character used fire attack and dealt 39 damage. (Monster HP: 1085/1750)
+Turn 15: The character used air attack and dealt 33 damage. (Monster HP: 1052/1750)
+Turn 16: The monster suffers from burn and loses 8 HP. (Monster HP: 1044/1750)
+Turn 16: The character blocked earth attack.
+Turn 17: The character used fire attack and dealt 59 damage (Critical strike). (Monster HP: 985/1750)
+Turn 17: The character used air attack and dealt 50 damage (Critical strike). (Monster HP: 935/1750)
+Turn 18: The monster suffers from burn and loses 7 HP. (Monster HP: 928/1750)
+Turn 18: The monster used earth attack and dealt 34 damage. (Character HP: 550/850)
+Turn 19: The character used fire attack and dealt 59 damage (Critical strike). (Monster HP: 869/1750)
+Turn 19: The character used air attack and dealt 50 damage (Critical strike). (Monster HP: 819/1750)
+Turn 20: The monster suffers from burn and loses 6 HP. (Monster HP: 813/1750)
+Turn 20: The monster used earth attack and dealt 34 damage. (Character HP: 516/850)
+Turn 21: The character used fire attack and dealt 39 damage. (Monster HP: 774/1750)
+Turn 21: The character used air attack and dealt 33 damage. (Monster HP: 741/1750)
+Turn 22: The monster suffers from burn and loses 5 HP. (Monster HP: 736/1750)
+Turn 22: The monster used earth attack and dealt 34 damage. (Character HP: 482/850)
+Turn 23: The character used fire attack and dealt 39 damage. (Monster HP: 697/1750)
+Turn 23: The character used air attack and dealt 33 damage. (Monster HP: 664/1750)
+Turn 24: The monster suffers from burn and loses 4 HP. (Monster HP: 660/1750)
+Turn 24: The monster used earth attack and dealt 34 damage. (Character HP: 448/850)
+Turn 25: The character used fire attack and dealt 39 damage. (Monster HP: 621/1750)
+Turn 25: The character used air attack and dealt 33 damage. (Monster HP: 588/1750)
+Turn 26: The monster suffers from burn and loses 3 HP. (Monster HP: 585/1750)
+Turn 26: The monster used earth attack and dealt 34 damage. (Character HP: 414/850)
+Turn 27: The character used fire attack and dealt 39 damage. (Monster HP: 546/1750)
+Turn 27: The character used air attack and dealt 33 damage. (Monster HP: 513/1750)
+Turn 28: The monster suffers from burn and loses 2 HP. (Monster HP: 511/1750)
+Turn 28: The monster used earth attack and dealt 34 damage. (Character HP: 380/850)
+Turn 29: The character used fire attack and dealt 39 damage. (Monster HP: 472/1750)
+Turn 29: The character used air attack and dealt 33 damage. (Monster HP: 439/1750)
+Turn 30: The monster suffers from burn and loses 1 HP. (Monster HP: 438/1750)
+Turn 30: The monster used earth attack and dealt 34 damage. (Character HP: 346/850)
+Turn 31: The character used fire attack and dealt 39 damage. (Monster HP: 399/1750)
+Turn 31: The character used air attack and dealt 33 damage. (Monster HP: 366/1750)
+Turn 32: The monster used earth attack and dealt 34 damage. (Character HP: 312/850)
+Turn 33: The character used fire attack and dealt 39 damage. (Monster HP: 327/1750)
+Turn 33: The character used air attack and dealt 33 damage. (Monster HP: 294/1750)
+Turn 34: The monster used earth attack and dealt 34 damage. (Character HP: 278/850)
+Turn 35: The character used fire attack and dealt 39 damage. (Monster HP: 255/1750)
+Turn 35: The character used air attack and dealt 33 damage. (Monster HP: 222/1750)
+Turn 36: The monster used earth attack and dealt 34 damage. (Character HP: 244/850)
+Turn 37: The character used fire attack and dealt 39 damage. (Monster HP: 183/1750)
+Turn 37: The character used air attack and dealt 33 damage. (Monster HP: 150/1750)
+Turn 38: The monster used earth attack and dealt 34 damage. (Character HP: 210/850)
+Turn 39: The character used fire attack and dealt 39 damage. (Monster HP: 111/1750)
+Turn 39: The character used air attack and dealt 33 damage. (Monster HP: 78/1750)
+Turn 40: The monster used earth attack and dealt 34 damage. (Character HP: 176/850)
+Turn 41: The character used fire attack and dealt 59 damage (Critical strike). (Monster HP: 19/1750)
+Turn 41: The character used air attack and dealt 50 damage (Critical strike). (Monster HP: 0/1750)
+Fight result: win. (Character HP: 176/850, Monster HP: 0/1750)
 */
