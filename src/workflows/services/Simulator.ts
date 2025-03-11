@@ -68,8 +68,8 @@ export class Simulator {
 
         const minLevel = level < 10 ? 1 : (Math.floor(level / 10) * 10);
         const fightLoops = 1000;
-        const populationSize = 200; // higher = more slow
-        const generations = 25; // higher = more precise
+        const populationSize = 50; // higher = more slow
+        const generations = 100; // higher = more precise
         const stats: any[] = StatEffects.map((stat: Effects) => ({code: stat, value: (stat === Effects.Hitpoints ? this.character.getBaseHp() : 0)}));
         const attackerStats: any = this.getEntityStats(stats);
 
