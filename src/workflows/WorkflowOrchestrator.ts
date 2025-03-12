@@ -214,6 +214,7 @@ export class WorkflowOrchestrator {
         } catch (e) {
             // Don't crash
             console.error(e);
+            await Utils.sleep(5000);
         }
 
         if ((loops - 1) === 0) {
@@ -239,13 +240,16 @@ export class WorkflowOrchestrator {
 
         let bankConsumables;
         if (condition === SubworkflowCondition.NoMoreConsumables) {
-            bankConsumables = (await this.banker.getFoodConsumables(character.level));
-            if (!character.hasConsumables() && bankConsumables.length > 0) {
-                Utils.errorHeadline('NEED TO REFILL');
-                return;
+            if (!character.hasConsumables()) {
+                bankConsumables = (await this.banker.getFoodConsumables(character.level));
+                if (bankConsumables.length > 0) {
+                    Utils.errorHeadline('NEED TO REFILL');
+                    return;
+                }
+
+                condition = undefined;
             }
 
-            condition = undefined;
         }
 
         if (condition === SubworkflowCondition.TaskCompleted) {

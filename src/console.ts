@@ -45,6 +45,10 @@ async function processCommand(commandName: string) {
             await container.banker.getStatus();
             break;
 
+        case 'rest':
+            await container.rester.rest();
+            break;
+
         // Utility function to swap an equipped item from the back
         case 'swap':
             code = (consoleParams.shift() || '') as Items;

@@ -29,18 +29,13 @@ export class WorkflowGenerator {
 
     async generate(name: string): Promise<WorkflowAction[]> {
         const parts = name.split('-');
-        if (parts.length < 2 || parts[0] === '' || parts[1] === '') {
-            throw new Error('Need to define the action and item');
-        }
 
-        const actionName: string = parts[0]!;
-        const code: string = parts[1]!;
+        const action: string = parts[0] || 'auto';
+        const code: string = parts[1] || '';
 
         this.character = await this.characterGateway.status();
 
-        Utils.logHeadline(`Generating workflow ${actionName} for ${code}...`);
-
-        switch(actionName) {
+        switch(action) {
             case 'e':
             case 'equip':
                 return this.generateEquip(code as Items);
@@ -67,9 +62,9 @@ export class WorkflowGenerator {
                 return this.generateTask(code);
             case 'auto':
                 return this.generateAuto(code);
+            default:
+                throw new Error(`Unable to generate a workflow with value "${action}"`)
         }
-
-        return [];
     }
 
     private generateEquip(inputCode: Items): WorkflowAction[] {
@@ -352,11 +347,9 @@ export class WorkflowGenerator {
     }
 
     private async generateAuto(code: string): Promise<WorkflowAction[]> {
-        Utils.errorHeadline(`GOAL: Auto ${code}`);
+        Utils.errorHeadline(`GOAL: Auto "${code}"`);
 
         switch (code) {
-            case 'all':
-                return this.generateAutoAll();
             //case Skills.Fishing:
             //     return this.generateAutoForItems(Skills.Alchemy, [ItemType.Resource], [ItemSubType.Alchemy, ItemSubType.Potion]);
             case Skills.Alchemy:
@@ -377,9 +370,11 @@ export class WorkflowGenerator {
             case 'planks':
                 return this.generateAutoCraftBank(Skills.Woodcutting);
 
-        }
 
-        throw new Error(`Nothing auto implemented for: ${code}`);
+            case 'all':
+            default:
+                return this.generateAutoAll();
+        }
     }
 
     private async generateAutoAll(): Promise<WorkflowAction[]> {
