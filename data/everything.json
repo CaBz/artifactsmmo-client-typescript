@@ -15210,13 +15210,10 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_portal2",
+      "skin": "forest_3",
       "x": -3,
       "y": 11,
-      "content": {
-        "type": "monster",
-        "code": "efreet_sultan"
-      }
+      "content": null
     },
     {
       "name": "Forest",
@@ -15349,13 +15346,10 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_cultistemperor1",
+      "skin": "forest_cultis1",
       "x": -1,
       "y": 12,
-      "content": {
-        "type": "monster",
-        "code": "cultist_emperor"
-      }
+      "content": null
     },
     {
       "name": "Forest",
@@ -15434,10 +15428,13 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_1",
+      "skin": "forest_magictree1",
       "x": 9,
       "y": 12,
-      "content": null
+      "content": {
+        "type": "resource",
+        "code": "magic_tree"
+      }
     },
     {
       "name": "Forest",
@@ -17930,40 +17927,22 @@
   ],
   "events_active": [
     {
-      "name": "Cult of Darkness",
-      "code": "cult_of_darkness",
+      "name": "Magic Apparition",
+      "code": "magic_apparition",
       "map": {
         "name": "Forest",
-        "skin": "forest_cultistemperor1",
-        "x": -1,
+        "skin": "forest_magictree1",
+        "x": 9,
         "y": 12,
         "content": {
-          "type": "monster",
-          "code": "cultist_emperor"
+          "type": "resource",
+          "code": "magic_tree"
         }
       },
-      "previous_skin": "forest_cultis1",
-      "duration": 90,
-      "expiration": "2025-03-12T02:11:11.224Z",
-      "created_at": "2025-03-12T00:41:11.224Z"
-    },
-    {
-      "name": "Portal (Efreet)",
-      "code": "portal_efreet_sultan",
-      "map": {
-        "name": "Forest",
-        "skin": "forest_portal2",
-        "x": -3,
-        "y": 11,
-        "content": {
-          "type": "monster",
-          "code": "efreet_sultan"
-        }
-      },
-      "previous_skin": "forest_3",
-      "duration": 120,
-      "expiration": "2025-03-12T02:00:45.486Z",
-      "created_at": "2025-03-12T00:00:45.486Z"
+      "previous_skin": "forest_1",
+      "duration": 60,
+      "expiration": "2025-03-12T14:58:19.684Z",
+      "created_at": "2025-03-12T13:58:19.684Z"
     }
   ],
   "effects": [

@@ -118,6 +118,12 @@ async function processCommand(commandName: string) {
                 !!consoleParams.shift()
             );
             break;
+        case 'simulate-ultimate-all':
+        case 'sim-ult-all':
+            await container.simulator.simulateUltimateAll(
+                +(consoleParams.shift() || -1),
+            );
+            break;
 
         // Simulate against all monsters with current equipment
         // Useful to see what's the highest level monster to fight

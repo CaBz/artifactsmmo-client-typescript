@@ -26,21 +26,21 @@
     "list-items": "yarn console Dummy list-items",
 
     "cdl": "yarn console Richard_CDL",
-    "bandit": "yarn cdl rest; yarn quick-refresh; yarn cdl e-skeleton_pants,vampire_bow 1; yarn cdl f-bandit_lizard",
-    "imp": "yarn cdl rest; yarn cdl e-serpent_skin_legs_armor,skull_wand 1; yarn cdl f-imp",
+    "bandit": "yarn cdl rest && yarn quick-refresh && yarn cdl w e-skeleton_pants,vampire_bow 1 && yarn cdl w f-bandit_lizard",
+    "imp": "yarn cdl rest && yarn cdl w e-serpent_skin_legs_armor,skull_wand 1 && yarn cdl w f-imp",
 
     "pp": "yarn console PatatePoil",
-    "pp-bank": "yarn pp rest; yarn pp db 1",
+    "pp-bank": "yarn pp rest && yarn pp db 1",
     "pp-fight": "yarn pp db 1",
 
     "bob": "yarn console YourBoiBob",
-    "magic": "yarn bob rest; yarn quick-refresh; yarn bob e-iron_axe 1; yarn bob g-magic_wood",
-    "bob-fight": "yarn bob e-skull_staff 1; yarn bob f-ogre",
+    "magic": "yarn bob rest && yarn quick-refresh && yarn bob w e-iron_axe 1 && yarn bob w g-magic_wood",
+    "bob-fight": "yarn bob w e-skull_staff 1 && yarn w bob f-ogre",
 
     "ginette": "yarn console Ginette",
 
     "bb": "yarn console BigBooty",
-    "bb-fishing": "yarn bb rest; yarn bb e-spruce_fishing_rod 1; yarn bb gc-cooked_salmon",
-    "bb-fight": "yarn bob e-skull_staff 1; yarn bob f-pig"
+    "bb-fishing": "yarn bb rest && yarn bb w e-wolf_ears,spruce_fishing_rod 1 && yarn bb w gc-cooked_salmon",
+    "bb-fight": "yarn bob w e-piggy_helmet,skull_staff 1 && yarn bob f-pig"
   }
 }

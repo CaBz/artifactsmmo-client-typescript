@@ -53,25 +53,82 @@ export class Simulator {
         }
     }
 
-    async simulateUltimate(code: Monsters, level: number, showUnavailableItems: boolean): Promise<GearSet> {
+    async simulateUltimateAll(level: number): Promise<void> {
         await this.loadCharacter();
 
         if (level === -1) {
             level = this.character.level;
         }
+
         const minLevel = level < 10 ? 1 : (Math.floor(level / 10) * 10);
 
-        console.log('1. Fetching characters...');
         const characters = await this.client.getAllCharacterStatus();
-
-        console.log('2. Fetching bank items...');
         const bank: any = await this.banker.getBank();
 
-        const fightLoops = 250; // The more the better, but slows down a lot
-        const populationSize = 200; // higher = more slow
-        const generations = 50; // higher = more precise
+        const codeMapFunction = function (code: string) {
+            return Container.items.get(code)!;
+        }
+
+        const itemFilterFunction = function (item: Item) {
+            if (item.level > level) { return false; }
+            if (item.level < minLevel) { return false; }
+
+            if (bank[item.code]) { return true ;}
+            for (let i=0; i<characters.length; i++) {
+                if (characters[i]!.holdsHowManyOf(item.code) > 0) { return true; }
+            }
+
+            return false;
+        }
+
+        const gearPool: Record<string, Item[]> = {
+            [EquippableSlot.Helmet]: EquippableHelmets.map(codeMapFunction).filter(itemFilterFunction),
+            [EquippableSlot.BodyArmor]: EquippableBodyArmors.map(codeMapFunction).filter(itemFilterFunction),
+            [EquippableSlot.LegArmor]: EquippableLegArmors.map(codeMapFunction).filter(itemFilterFunction),
+            [EquippableSlot.Boots]: EquippableBoots.map(codeMapFunction).filter(itemFilterFunction),
+            [EquippableSlot.Weapon]: EquippableWeapons.map(codeMapFunction).filter(itemFilterFunction),
+            [EquippableSlot.Shield]: EquippableShields.map(codeMapFunction).filter(itemFilterFunction),
+            [EquippableSlot.Ring1]: EquippableRings.map(codeMapFunction).filter(itemFilterFunction),
+            [EquippableSlot.Ring2]: EquippableRings.map(codeMapFunction).filter(itemFilterFunction),
+            [EquippableSlot.Amulet]: EquippableAmulets.map(codeMapFunction).filter(itemFilterFunction),
+        };
+
         const stats: any[] = StatEffects.map((stat: Effects) => ({code: stat, value: (stat === Effects.Hitpoints ? this.character.getBaseHp() : 0)}));
         const attackerStats: any = this.getEntityStats(stats);
+
+        const monsters: Monster[] = Array.from(this.monsters.values());
+        monsters.sort((a, b) => a.level - b.level);
+
+        const result: any = {};
+        let gearSet: any;
+        let populationResult: any;
+        for (let i=0; i<monsters.length; i++) {
+            console.log(`Simulating for ${monsters[i]!.code} (lv. ${monsters[i]!.level})`);
+            populationResult = this.simulateUltimateForMonsterWithGear(attackerStats, gearPool, monsters[i]!.code);
+
+            gearSet = {};
+            Object.entries(populationResult.gearSet).forEach(([key, item]) => {
+                gearSet[key] = item.code;
+            });
+
+            result[monsters[i]!.code] = { ... populationResult };
+            result[monsters[i]!.code]['gearSet'] = gearSet;
+
+            await Utils.writeFile(`data/simulations-${this.character.name}.json`, result);
+            console.log();
+        }
+    }
+
+    async simulateUltimate(code: Monsters, level: number, showUnavailableItems: boolean, hideLogs?: boolean): Promise<Population> {
+        await this.loadCharacter();
+
+        if (level === -1) {
+            level = this.character.level;
+        }
+
+        const minLevel = level < 10 ? 1 : (Math.floor(level / 10) * 10);
+        const characters = await this.client.getAllCharacterStatus();
+        const bank: any = await this.banker.getBank();
 
         const codeMapFunction = function (code: string) {
             return Container.items.get(code)!;
@@ -93,7 +150,6 @@ export class Simulator {
             return false;
         }
 
-        console.log('3. Preparing gear pool...');
         const gearPool: Record<string, Item[]> = {
             [EquippableSlot.Helmet]: EquippableHelmets.map(codeMapFunction).filter(itemFilterFunction),
             [EquippableSlot.BodyArmor]: EquippableBodyArmors.map(codeMapFunction).filter(itemFilterFunction),
@@ -106,7 +162,17 @@ export class Simulator {
             [EquippableSlot.Amulet]: EquippableAmulets.map(codeMapFunction).filter(itemFilterFunction),
         };
 
-        console.log(`4. Preparing the initial population result (${populationSize} with ${fightLoops} simulations each)...`);
+        const stats: any[] = StatEffects.map((stat: Effects) => ({code: stat, value: (stat === Effects.Hitpoints ? this.character.getBaseHp() : 0)}));
+        const attackerStats: any = this.getEntityStats(stats);
+
+        return this.simulateUltimateForMonsterWithGear(attackerStats, gearPool, code)
+    }
+
+    private simulateUltimateForMonsterWithGear(attackerStats: any, gearPool: Record<string, Item[]>, code: Monsters): Population {
+        const fightLoops = 250; // The more the better, but slows down a lot
+        const populationSize = 200; // higher = more slow
+        const generations = 50; // higher = more precise
+
         let population: Population[] = [];
         for (let i = 0; i < populationSize; i++) {
             const gearSet =  Object.fromEntries(GearEquippableSlots.map(slot => [slot, Utils.randomArrayValue(gearPool[slot]!)]));
@@ -115,8 +181,6 @@ export class Simulator {
 
         let newGearSet;
         let slotToChange;
-
-        console.log(`5. Evaluating for ${generations} generations... `);
 
         for (let gen = 0; gen < generations; gen++) {
             population.sort((a, b) => b.successRate - a.successRate || a.averageTurns - b.averageTurns || b.averageAttackerHP - a.averageAttackerHP);
@@ -148,9 +212,7 @@ export class Simulator {
             Utils.stdoutClear();
             process.stdout.write(`  -> ${(gen + 1).toString()}/${generations} = Best ${population[0]!.successRate.toFixed(2)}% success in ${population[0]!.averageTurns.toFixed(2)} turns with ${population[0]!.averageAttackerHP.toFixed(2)}HP left`);
         }
-
         console.log();
-        console.log('6. Result for best gear set:');
 
         const result = population[0]!;
         GearEquippableSlots.forEach((slot) => {
@@ -159,10 +221,10 @@ export class Simulator {
                 return;
             }
 
-            console.log (`  * ${slot.padEnd(10, ' ')} | ${item.code.padEnd(23, ' ')} | [lv. ${item.level}]`);
+            console.log(`  * ${slot.padEnd(10, ' ')} | ${item.code.padEnd(23, ' ')} | [lv. ${item.level}]`);
         });
 
-        return population[0]!.gearSet;
+        return population[0]!;
     }
 
     private simulateFight(stats: any, gearSet: GearSet, monsterCode: Monsters, loops: number): any {
@@ -421,7 +483,7 @@ export class Simulator {
 
         for (let i=0; i<monsters.length; i++) {
             monster = monsters[i]!;
-            values = await this.calculateSimulationFor(attackerStats, monster.code as Monsters, 1000);
+            values = this.calculateSimulationFor(attackerStats, monster.code as Monsters, 1000);
             analyzes = await this.analyzeFightTurn(monster.code as Monsters);
 
             effects = monster.effects.map(effect => effect.code);
