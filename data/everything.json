@@ -13869,13 +13869,10 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_event_lizard1",
+      "skin": "forest_2",
       "x": 10,
       "y": 0,
-      "content": {
-        "type": "monster",
-        "code": "bandit_lizard"
-      }
+      "content": null
     },
     {
       "name": "Forest",
@@ -15213,10 +15210,13 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_3",
+      "skin": "forest_portal2",
       "x": -3,
       "y": 11,
-      "content": null
+      "content": {
+        "type": "monster",
+        "code": "efreet_sultan"
+      }
     },
     {
       "name": "Forest",
@@ -15349,10 +15349,13 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_cultis1",
+      "skin": "forest_cultistemperor1",
       "x": -1,
       "y": 12,
-      "content": null
+      "content": {
+        "type": "monster",
+        "code": "cultist_emperor"
+      }
     },
     {
       "name": "Forest",
@@ -15493,13 +15496,10 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_rosenblood1",
+      "skin": "forest_house1",
       "x": 0,
       "y": 13,
-      "content": {
-        "type": "monster",
-        "code": "rosenblood"
-      }
+      "content": null
     },
     {
       "name": "Forest",
@@ -17930,40 +17930,40 @@
   ],
   "events_active": [
     {
-      "name": "Bandit Camp",
-      "code": "bandit_camp",
+      "name": "Cult of Darkness",
+      "code": "cult_of_darkness",
       "map": {
         "name": "Forest",
-        "skin": "forest_event_lizard1",
-        "x": 10,
-        "y": 0,
+        "skin": "forest_cultistemperor1",
+        "x": -1,
+        "y": 12,
         "content": {
           "type": "monster",
-          "code": "bandit_lizard"
+          "code": "cultist_emperor"
         }
       },
-      "previous_skin": "forest_2",
-      "duration": 120,
-      "expiration": "2025-03-11T22:29:54.285Z",
-      "created_at": "2025-03-11T20:29:54.285Z"
+      "previous_skin": "forest_cultis1",
+      "duration": 90,
+      "expiration": "2025-03-12T02:11:11.224Z",
+      "created_at": "2025-03-12T00:41:11.224Z"
     },
     {
-      "name": "Rosenblood",
-      "code": "rosenblood",
+      "name": "Portal (Efreet)",
+      "code": "portal_efreet_sultan",
       "map": {
         "name": "Forest",
-        "skin": "forest_rosenblood1",
-        "x": 0,
-        "y": 13,
+        "skin": "forest_portal2",
+        "x": -3,
+        "y": 11,
         "content": {
           "type": "monster",
-          "code": "rosenblood"
+          "code": "efreet_sultan"
         }
       },
-      "previous_skin": "forest_house1",
+      "previous_skin": "forest_3",
       "duration": 120,
-      "expiration": "2025-03-11T22:52:49.102Z",
-      "created_at": "2025-03-11T20:52:49.102Z"
+      "expiration": "2025-03-12T02:00:45.486Z",
+      "created_at": "2025-03-12T00:00:45.486Z"
     }
   ],
   "effects": [

@@ -17,6 +17,7 @@
     "console": "node --no-warnings --loader ts-node/esm --env-file=.env src/console.ts",
     "workflow": "node --no-warnings --loader ts-node/esm --env-file=.env src/workflow.ts",
 
+    "quick-refresh": "yarn console Dummy quick-refresh",
     "refresh": "yarn console Dummy refresh-dataset && yarn console Dummy generate",
     "generate": "yarn console Dummy generate",
 

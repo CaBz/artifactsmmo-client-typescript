@@ -8,31 +8,47 @@ import {Effect} from "../entities/Effect.js";
 import {Merchant} from "../entities/Merchant.js";
 
 export class DataLoader {
-    private dataSets: string[] = [
-        'items',
-        'monsters',
-        'maps',
-        'resources',
-        'npcs',
-        'tasks_list',
-        'tasks_rewards',
-        'events',
-        'events_active',
-        'effects',
-    ];
-
     constructor(private readonly client: ArtifactsClient, private readonly folder: string, private readonly everythingFile: string) {
 
     }
 
+    async reloadMapsAndActiveEvents(): Promise<void> {
+        const dataSets = [
+            'maps',
+            'events_active',
+        ];
+        const allData = await Utils.readFile(`${this.folder}/${this.everythingFile}`);
+
+        await this.getAndSaveDataSets(dataSets, allData);
+
+        await Utils.writeFile(`${this.folder}/${this.everythingFile}`, allData);
+    }
+
     async saveDataSets(): Promise<void> {
-        const everything = {
+        const dataSets = [
+            'items',
+            'monsters',
+            'maps',
+            'resources',
+            'npcs',
+            'tasks_list',
+            'tasks_rewards',
+            'events',
+            'events_active',
+            'effects',
+        ];
 
-        };
+        const allData = {};
 
+        await this.getAndSaveDataSets(dataSets, allData);
+
+        await Utils.writeFile(`${this.folder}/${this.everythingFile}`, allData);
+    }
+
+    async getAndSaveDataSets(dataSets: string[], everything: {}): Promise<void> {
         let entity: string;
-        for (var i = 0; i<this.dataSets.length; i++) {
-            entity = this.dataSets[i]!;
+        for (var i = 0; i<dataSets.length; i++) {
+            entity = dataSets[i]!;
 
             try {
                 const data = await this.client.getAllOf(entity.replace('_', '/'));
@@ -49,8 +65,6 @@ export class DataLoader {
 
             await Utils.sleep(1000);
         }
-
-        await Utils.writeFile(`${this.folder}/${this.everythingFile}`, everything);
     }
 
     async loadData() {
