@@ -35,7 +35,8 @@ export class Rester {
             Utils.logHeadline(`REST > Failed`);
             if (e instanceof ClientException) {
                 Utils.errorHeadline(`${e.code}: ${e.message}`);
-                return character;
+                await Utils.sleep(1000);
+                return await this.rest();
             }
 
             Utils.errorHeadline((e as Error).message);
@@ -61,7 +62,7 @@ export class Rester {
         consumables.sort((a: Item, b: Item) => a.level - b.level);
         const firstConsumable: Item = consumables.shift()!;
         const consumableHP: number = firstConsumable.getEffectValueFor(Effects.Heal);
-        if (!character.isFullHealth() && (consumableHP + character.hp) < character.maxHp) {
+        if (!character.isFullHealth() && (consumableHP + character.hp) < (character.maxHp * 1.10)) {
             Utils.errorHeadline(`Consume ${firstConsumable.code} for ${consumableHP} HP`);
             character = await this.itemUser.use(firstConsumable.code, 1);
             return this.restoreFromConsumables(character);

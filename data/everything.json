@@ -13869,10 +13869,13 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_2",
+      "skin": "forest_event_lizard1",
       "x": 10,
       "y": 0,
-      "content": null
+      "content": {
+        "type": "monster",
+        "code": "bandit_lizard"
+      }
     },
     {
       "name": "Forest",
@@ -14094,13 +14097,10 @@
     },
     {
       "name": "City",
-      "skin": "forest_village2_nomadic_merchant",
+      "skin": "forest_village2",
       "x": 3,
       "y": 2,
-      "content": {
-        "type": "npc",
-        "code": "nomadic_merchant"
-      }
+      "content": null
     },
     {
       "name": "Lake",
@@ -14753,13 +14753,10 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_cursed_tree1",
+      "skin": "forest_2",
       "x": 4,
       "y": 7,
-      "content": {
-        "type": "monster",
-        "code": "cursed_tree"
-      }
+      "content": null
     },
     {
       "name": "Forest",
@@ -15434,13 +15431,10 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_magictree1",
+      "skin": "forest_1",
       "x": 9,
       "y": 12,
-      "content": {
-        "type": "resource",
-        "code": "magic_tree"
-      }
+      "content": null
     },
     {
       "name": "Forest",
@@ -15499,10 +15493,13 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_house1",
+      "skin": "forest_rosenblood1",
       "x": 0,
       "y": 13,
-      "content": null
+      "content": {
+        "type": "monster",
+        "code": "rosenblood"
+      }
     },
     {
       "name": "Forest",
@@ -17933,58 +17930,40 @@
   ],
   "events_active": [
     {
-      "name": "Cursed Forest",
-      "code": "cursed_tree",
+      "name": "Bandit Camp",
+      "code": "bandit_camp",
       "map": {
         "name": "Forest",
-        "skin": "forest_cursed_tree1",
-        "x": 4,
-        "y": 7,
+        "skin": "forest_event_lizard1",
+        "x": 10,
+        "y": 0,
         "content": {
           "type": "monster",
-          "code": "cursed_tree"
+          "code": "bandit_lizard"
         }
       },
       "previous_skin": "forest_2",
       "duration": 120,
-      "expiration": "2025-03-11T04:01:48.966Z",
-      "created_at": "2025-03-11T02:01:48.966Z"
+      "expiration": "2025-03-11T22:29:54.285Z",
+      "created_at": "2025-03-11T20:29:54.285Z"
     },
     {
-      "name": "Magic Apparition",
-      "code": "magic_apparition",
+      "name": "Rosenblood",
+      "code": "rosenblood",
       "map": {
         "name": "Forest",
-        "skin": "forest_magictree1",
-        "x": 9,
-        "y": 12,
+        "skin": "forest_rosenblood1",
+        "x": 0,
+        "y": 13,
         "content": {
-          "type": "resource",
-          "code": "magic_tree"
+          "type": "monster",
+          "code": "rosenblood"
         }
       },
-      "previous_skin": "forest_1",
-      "duration": 60,
-      "expiration": "2025-03-11T04:22:44.528Z",
-      "created_at": "2025-03-11T03:22:44.528Z"
-    },
-    {
-      "name": "Nomadic Merchant",
-      "code": "nomadic_merchant",
-      "map": {
-        "name": "City",
-        "skin": "forest_village2_nomadic_merchant",
-        "x": 3,
-        "y": 2,
-        "content": {
-          "type": "npc",
-          "code": "nomadic_merchant"
-        }
-      },
-      "previous_skin": "forest_village2",
-      "duration": 60,
-      "expiration": "2025-03-11T03:31:01.564Z",
-      "created_at": "2025-03-11T02:31:01.564Z"
+      "previous_skin": "forest_house1",
+      "duration": 120,
+      "expiration": "2025-03-11T22:52:49.102Z",
+      "created_at": "2025-03-11T20:52:49.102Z"
     }
   ],
   "effects": [

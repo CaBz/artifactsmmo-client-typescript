@@ -239,8 +239,8 @@ export class WorkflowOrchestrator {
 
         let bankConsumables;
         if (condition === SubworkflowCondition.NoMoreConsumables) {
-            bankConsumables = (await this.banker.getFoodConsumables(character.level)).length;
-            if (!character.hasConsumables() && bankConsumables > 0) {
+            bankConsumables = (await this.banker.getFoodConsumables(character.level));
+            if (!character.hasConsumables() && bankConsumables.length > 0) {
                 Utils.errorHeadline('NEED TO REFILL');
                 return;
             }

@@ -67,7 +67,7 @@ export class Simulator {
         console.log('2. Fetching bank items...');
         const bank: any = await this.banker.getBank();
 
-        const fightLoops = 100; // The more the better, but slows down a lot
+        const fightLoops = 250; // The more the better, but slows down a lot
         const populationSize = 200; // higher = more slow
         const generations = 50; // higher = more precise
         const stats: any[] = StatEffects.map((stat: Effects) => ({code: stat, value: (stat === Effects.Hitpoints ? this.character.getBaseHp() : 0)}));
@@ -146,7 +146,7 @@ export class Simulator {
 
             population = newPopulation;
             Utils.stdoutClear();
-            process.stdout.write(`  -> ${(gen + 1).toString()}/${generations} = Best ${population[0]!.successRate.toFixed(2)}% in ${population[0]!.averageTurns.toFixed(2)} with ${population[0]!.averageAttackerHP.toFixed(2)}HP left`);
+            process.stdout.write(`  -> ${(gen + 1).toString()}/${generations} = Best ${population[0]!.successRate.toFixed(2)}% success in ${population[0]!.averageTurns.toFixed(2)} turns with ${population[0]!.averageAttackerHP.toFixed(2)}HP left`);
         }
 
         console.log();

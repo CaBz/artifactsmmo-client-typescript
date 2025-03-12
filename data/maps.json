@@ -779,10 +779,13 @@
   },
   {
     "name": "Forest",
-    "skin": "forest_2",
+    "skin": "forest_event_lizard1",
     "x": 10,
     "y": 0,
-    "content": null
+    "content": {
+      "type": "monster",
+      "code": "bandit_lizard"
+    }
   },
   {
     "name": "Forest",
@@ -1004,13 +1007,10 @@
   },
   {
     "name": "City",
-    "skin": "forest_village2_nomadic_merchant",
+    "skin": "forest_village2",
     "x": 3,
     "y": 2,
-    "content": {
-      "type": "npc",
-      "code": "nomadic_merchant"
-    }
+    "content": null
   },
   {
     "name": "Lake",
@@ -1663,13 +1663,10 @@
   },
   {
     "name": "Forest",
-    "skin": "forest_cursed_tree1",
+    "skin": "forest_2",
     "x": 4,
     "y": 7,
-    "content": {
-      "type": "monster",
-      "code": "cursed_tree"
-    }
+    "content": null
   },
   {
     "name": "Forest",
@@ -2344,13 +2341,10 @@
   },
   {
     "name": "Forest",
-    "skin": "forest_magictree1",
+    "skin": "forest_1",
     "x": 9,
     "y": 12,
-    "content": {
-      "type": "resource",
-      "code": "magic_tree"
-    }
+    "content": null
   },
   {
     "name": "Forest",
@@ -2409,10 +2403,13 @@
   },
   {
     "name": "Forest",
-    "skin": "forest_house1",
+    "skin": "forest_rosenblood1",
     "x": 0,
     "y": 13,
-    "content": null
+    "content": {
+      "type": "monster",
+      "code": "rosenblood"
+    }
   },
   {
     "name": "Forest",
