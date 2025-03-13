@@ -122,6 +122,7 @@ async function processCommand(commandName: string) {
         case 'sim-ult-all':
             await container.simulator.simulateUltimateAll(
                 +(consoleParams.shift() || -1),
+                !!consoleParams.shift()
             );
             break;
 

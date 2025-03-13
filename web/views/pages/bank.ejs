@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+    <%- include('../partials/header'); %>
+</header>
+
+<main>
+    <div class="jumbotron">
+        <textarea cols="100" rows="20"><%= JSON.stringify(bank) %></textarea>
+
+        <ul>
+            <% bank.items.forEach(function(bankItem){ %>
+            <li><%=bankItem.code %> = <%=bankItem.quantity %></li>
+            <% }); %>
+        </ul>
+    </div>
+</main>
+
+<footer>
+    <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>

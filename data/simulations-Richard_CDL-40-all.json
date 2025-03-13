@@ -1,0 +1,642 @@
+{
+  "chicken": {
+    "gearSet": {
+      "weapon": "cursed_sceptre",
+      "shield": "air_shield",
+      "helmet": "batwing_helmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "mithril_boots",
+      "ring1": "divinity_ring",
+      "ring2": "celest_ring",
+      "amulet": "greater_sapphire_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1,
+    "averageAttackerHP": 1275,
+    "averageDefenderHP": -125.62
+  },
+  "yellow_slime": {
+    "gearSet": {
+      "weapon": "diamond_sword",
+      "shield": "gold_shield",
+      "helmet": "wrathelmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "cultist_boots",
+      "ring1": "divinity_ring",
+      "ring2": "sacred_ring",
+      "amulet": "greater_ruby_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1,
+    "averageAttackerHP": 1275,
+    "averageDefenderHP": -104.32
+  },
+  "green_slime": {
+    "gearSet": {
+      "weapon": "hell_staff",
+      "shield": "fire_shield",
+      "helmet": "cultist_hat",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "cultist_boots",
+      "ring1": "sapphire_ring",
+      "ring2": "gold_ring",
+      "amulet": "greater_ruby_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1,
+    "averageAttackerHP": 1275,
+    "averageDefenderHP": -158.54
+  },
+  "blue_slime": {
+    "gearSet": {
+      "weapon": "wrathsword",
+      "shield": "white_knight_shield",
+      "helmet": "batwing_helmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "mithril_boots",
+      "ring1": "celest_ring",
+      "ring2": "sapphire_ring",
+      "amulet": "greater_emerald_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1,
+    "averageAttackerHP": 1275,
+    "averageDefenderHP": -105.62
+  },
+  "red_slime": {
+    "gearSet": {
+      "weapon": "wrathsword",
+      "shield": "earth_shield",
+      "helmet": "wrathelmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "cultist_boots",
+      "ring1": "royal_skeleton_ring",
+      "ring2": "divinity_ring",
+      "amulet": "greater_emerald_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1,
+    "averageAttackerHP": 1275,
+    "averageDefenderHP": -113.05
+  },
+  "cow": {
+    "gearSet": {
+      "weapon": "sanguine_edge_of_rosen",
+      "shield": "mithril_shield",
+      "helmet": "white_knight_helmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "mithril_boots",
+      "ring1": "topaz_ring",
+      "ring2": "sapphire_ring",
+      "amulet": "greater_topaz_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1,
+    "averageAttackerHP": 1275,
+    "averageDefenderHP": -53.88
+  },
+  "mushmush": {
+    "gearSet": {
+      "weapon": "bow_from_hell",
+      "shield": "water_shield",
+      "helmet": "hork_helmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "mithril_boots",
+      "ring1": "emerald_ring",
+      "ring2": "malefic_ring",
+      "amulet": "greater_emerald_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1,
+    "averageAttackerHP": 1275,
+    "averageDefenderHP": -129.82
+  },
+  "flying_serpent": {
+    "gearSet": {
+      "weapon": "hell_staff",
+      "shield": "water_shield",
+      "helmet": "mithril_helm",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "mithril_boots",
+      "ring1": "sapphire_ring",
+      "ring2": "sapphire_ring",
+      "amulet": "greater_sapphire_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1,
+    "averageAttackerHP": 1275,
+    "averageDefenderHP": -56.64
+  },
+  "highwayman": {
+    "gearSet": {
+      "weapon": "bow_from_hell",
+      "shield": "gold_shield",
+      "helmet": "jester_hat",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "malefic_ring",
+      "ring2": "malefic_ring",
+      "amulet": "greater_emerald_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1.51,
+    "averageAttackerHP": 1136.48,
+    "averageDefenderHP": -80.62
+  },
+  "wolf": {
+    "gearSet": {
+      "weapon": "blade_of_hell",
+      "shield": "gold_shield",
+      "helmet": "batwing_helmet",
+      "body_armor": "conjurer_cloak",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "malefic_ring",
+      "ring2": "malefic_ring",
+      "amulet": "greater_topaz_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1.89,
+    "averageAttackerHP": 1081.39,
+    "averageDefenderHP": -162.96
+  },
+  "skeleton": {
+    "gearSet": {
+      "weapon": "hell_staff",
+      "shield": "gold_shield",
+      "helmet": "jester_hat",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "sapphire_ring",
+      "ring2": "malefic_ring",
+      "amulet": "greater_sapphire_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1.96,
+    "averageAttackerHP": 1120.6,
+    "averageDefenderHP": -115.1
+  },
+  "pig": {
+    "gearSet": {
+      "weapon": "blade_of_hell",
+      "shield": "gold_shield",
+      "helmet": "batwing_helmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "malefic_ring",
+      "ring2": "topaz_ring",
+      "amulet": "masterful_necklace"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 2,
+    "averageAttackerHP": 1145.85,
+    "averageDefenderHP": -118.34
+  },
+  "ogre": {
+    "gearSet": {
+      "weapon": "bow_from_hell",
+      "shield": "earth_shield",
+      "helmet": "hork_helmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "malefic_ring",
+      "ring2": "malefic_ring",
+      "amulet": "greater_emerald_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 3.12,
+    "averageAttackerHP": 1107.96,
+    "averageDefenderHP": -98.54
+  },
+  "spider": {
+    "gearSet": {
+      "weapon": "hell_staff",
+      "shield": "fire_shield",
+      "helmet": "jester_hat",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "malefic_ring",
+      "ring2": "malefic_ring",
+      "amulet": "greater_sapphire_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1.89,
+    "averageAttackerHP": 1105.16,
+    "averageDefenderHP": -127.06
+  },
+  "vampire": {
+    "gearSet": {
+      "weapon": "blade_of_hell",
+      "shield": "mithril_shield",
+      "helmet": "wrathelmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "cultist_boots",
+      "ring1": "sapphire_ring",
+      "ring2": "topaz_ring",
+      "amulet": "greater_topaz_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 3,
+    "averageAttackerHP": 1195.34,
+    "averageDefenderHP": -107.6
+  },
+  "bandit_lizard": {
+    "gearSet": {
+      "weapon": "hell_staff",
+      "shield": "earth_shield",
+      "helmet": "jester_hat",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "sapphire_ring",
+      "ring2": "ruby_ring",
+      "amulet": "greater_sapphire_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 3.55,
+    "averageAttackerHP": 1014.21,
+    "averageDefenderHP": -94.18
+  },
+  "cyclops": {
+    "gearSet": {
+      "weapon": "bow_from_hell",
+      "shield": "earth_shield",
+      "helmet": "hork_helmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "malefic_ring",
+      "ring2": "malefic_ring",
+      "amulet": "greater_emerald_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 3.12,
+    "averageAttackerHP": 1068.82,
+    "averageDefenderHP": -119.09
+  },
+  "death_knight": {
+    "gearSet": {
+      "weapon": "bow_from_hell",
+      "shield": "gold_shield",
+      "helmet": "hork_helmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "malefic_ring",
+      "ring2": "malefic_ring",
+      "amulet": "greater_emerald_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 4,
+    "averageAttackerHP": 997.69,
+    "averageDefenderHP": -144.96
+  },
+  "imp": {
+    "gearSet": {
+      "weapon": "bow_from_hell",
+      "shield": "fire_shield",
+      "helmet": "hork_helmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "malefic_ring",
+      "ring2": "emerald_ring",
+      "amulet": "greater_emerald_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 10.5,
+    "averageAttackerHP": 931.7,
+    "averageDefenderHP": -127.08
+  },
+  "demon": {
+    "gearSet": {
+      "weapon": "hell_staff",
+      "shield": "gold_shield",
+      "helmet": "jester_hat",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "malefic_ring",
+      "ring2": "malefic_ring",
+      "amulet": "greater_sapphire_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 4.48,
+    "averageAttackerHP": 968.74,
+    "averageDefenderHP": -158.55
+  },
+  "lich": {
+    "gearSet": {
+      "weapon": "blade_of_hell",
+      "shield": "gold_shield",
+      "helmet": "batwing_helmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "cultist_boots",
+      "ring1": "topaz_ring",
+      "ring2": "topaz_ring",
+      "amulet": "greater_topaz_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 10.64,
+    "averageAttackerHP": 595.84,
+    "averageDefenderHP": -118.54
+  },
+  "owlbear": {
+    "gearSet": {
+      "weapon": "blade_of_hell",
+      "shield": "white_knight_shield",
+      "helmet": "batwing_helmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "topaz_ring",
+      "ring2": "malefic_ring",
+      "amulet": "greater_topaz_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 4.48,
+    "averageAttackerHP": 1024.5,
+    "averageDefenderHP": -152.62
+  },
+  "cultist_acolyte": {
+    "gearSet": {
+      "weapon": "hell_staff",
+      "shield": "gold_shield",
+      "helmet": "jester_hat",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "sapphire_ring",
+      "ring2": "sapphire_ring",
+      "amulet": "greater_sapphire_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 6.96,
+    "averageAttackerHP": 706.92,
+    "averageDefenderHP": -138.23
+  },
+  "cursed_tree": {
+    "gearSet": {
+      "weapon": "blade_of_hell",
+      "shield": "water_shield",
+      "helmet": "batwing_helmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "malefic_ring",
+      "ring2": "topaz_ring",
+      "amulet": "greater_topaz_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 7.7,
+    "averageAttackerHP": 719.98,
+    "averageDefenderHP": -175.68
+  },
+  "cultist_emperor": {
+    "gearSet": {
+      "weapon": "bow_from_hell",
+      "shield": "mithril_shield",
+      "helmet": "hork_helmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "emerald_ring",
+      "ring2": "emerald_ring",
+      "amulet": "greater_emerald_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 7.85,
+    "averageAttackerHP": 503.46,
+    "averageDefenderHP": -134.26
+  },
+  "goblin": {
+    "gearSet": {
+      "weapon": "hell_staff",
+      "shield": "mithril_shield",
+      "helmet": "jester_hat",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "sapphire_ring",
+      "ring2": "sapphire_ring",
+      "amulet": "greater_sapphire_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 6.96,
+    "averageAttackerHP": 599.83,
+    "averageDefenderHP": -130.45
+  },
+  "bat": {
+    "gearSet": {
+      "weapon": "bow_from_hell",
+      "shield": "air_shield",
+      "helmet": "hork_helmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "malefic_ring",
+      "ring2": "emerald_ring",
+      "amulet": "greater_emerald_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 8.68,
+    "averageAttackerHP": 473.69,
+    "averageDefenderHP": -168.82
+  },
+  "orc": {
+    "gearSet": {
+      "weapon": "hell_staff",
+      "shield": "mithril_shield",
+      "helmet": "jester_hat",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "sapphire_ring",
+      "ring2": "sapphire_ring",
+      "amulet": "greater_sapphire_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 6.98,
+    "averageAttackerHP": 487.21,
+    "averageDefenderHP": -181.95
+  },
+  "goblin_wolfrider": {
+    "gearSet": {
+      "weapon": "blade_of_hell",
+      "shield": "earth_shield",
+      "helmet": "batwing_helmet",
+      "body_armor": "hell_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "topaz_ring",
+      "ring2": "topaz_ring",
+      "amulet": "greater_topaz_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 12.86,
+    "averageAttackerHP": 272.42,
+    "averageDefenderHP": -141.57
+  },
+  "hellhound": {
+    "gearSet": {
+      "weapon": "hell_staff",
+      "shield": "fire_shield",
+      "helmet": "jester_hat",
+      "body_armor": "dreadful_armor",
+      "leg_armor": "hell_legs_armor",
+      "boots": "mithril_boots",
+      "ring1": "sapphire_ring",
+      "ring2": "sapphire_ring",
+      "amulet": "greater_sapphire_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 14.92,
+    "averageAttackerHP": 264.14,
+    "averageDefenderHP": -194.52
+  },
+  "rosenblood": {
+    "gearSet": {
+      "weapon": "cursed_sceptre",
+      "shield": "mithril_shield",
+      "helmet": "cultist_hat",
+      "body_armor": "malefic_armor",
+      "leg_armor": "white_knight_pants",
+      "boots": "flying_boots",
+      "ring1": "malefic_ring",
+      "ring2": "gold_ring",
+      "amulet": "greater_sapphire_amulet"
+    },
+    "fights": 250,
+    "wins": 1,
+    "losses": 249,
+    "successRate": 0.4,
+    "averageTurns": 22.19,
+    "averageAttackerHP": -49.05,
+    "averageDefenderHP": 888.78
+  },
+  "efreet_sultan": {
+    "gearSet": {
+      "weapon": "gold_axe",
+      "shield": "dreadful_shield",
+      "helmet": "gold_mask",
+      "body_armor": "gold_platebody",
+      "leg_armor": "ancient_jean",
+      "boots": "flying_boots",
+      "ring1": "royal_skeleton_ring",
+      "ring2": "celest_ring",
+      "amulet": "lost_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 11.92,
+    "averageAttackerHP": -63.9,
+    "averageDefenderHP": 3549.32
+  }
+}

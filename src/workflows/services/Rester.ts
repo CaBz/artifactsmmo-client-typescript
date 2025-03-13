@@ -6,6 +6,7 @@ import {Character} from "../../entities/Character.js";
 import {ItemUser} from "./ItemUser.js";
 import {Item} from "../../entities/Item.js";
 import {Effects} from "../../lexical/Effects.js";
+import {Items} from "../../lexical/Items.js";
 
 export class Rester {
     constructor(
@@ -50,7 +51,7 @@ export class Rester {
 
         inventory.forEach((inventoryItem: any) => {
             const item: Item = this.items.get(inventoryItem.code)!;
-            if (item?.isConsumable && item.getEffectValueFor(Effects.Heal) > 0) {
+            if (item?.isConsumable && item.getEffectValueFor(Effects.Heal) > 0 && item.code !== Items.Apple) {
                 consumables.push(item);
             }
         });

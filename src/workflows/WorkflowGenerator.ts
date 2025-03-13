@@ -350,8 +350,8 @@ export class WorkflowGenerator {
         Utils.errorHeadline(`GOAL: Auto "${code}"`);
 
         switch (code) {
-            //case Skills.Fishing:
-            //     return this.generateAutoForItems(Skills.Alchemy, [ItemType.Resource], [ItemSubType.Alchemy, ItemSubType.Potion]);
+            case Skills.Fishing: // @TODO: Need to find a way to find the recipe needed for the fish (reverse recipe search)
+                 return this.generateAutoForItems(Skills.Fishing, [ItemType.Resource], [ItemSubType.Fishing]);
             case Skills.Alchemy:
                 return this.generateAutoForItems(Skills.Alchemy, [ItemType.Resource, ItemType.Utility], [ItemSubType.Alchemy, ItemSubType.Potion]);
             case Skills.Woodcutting:
@@ -372,9 +372,11 @@ export class WorkflowGenerator {
 
 
             case 'all':
-            default:
+            case '': // Weird, but if the value isn't passed, allows to fallback to "all" - Cannot use default
                 return this.generateAutoAll();
         }
+
+        throw new Error('Cannot do anything');
     }
 
     private async generateAutoAll(): Promise<WorkflowAction[]> {
@@ -434,8 +436,6 @@ export class WorkflowGenerator {
         const skill: any = this.character.getSkill(name);
         const craftableItems: Item[] = Array.from(Container.items.values()).filter((item: Item) => item.skillToCraft === name && item.levelToCraft <= skill.level && !forbiddenRecipes.includes(item.code));
         craftableItems.sort((a, b) => b.level - a.level);
-
-        // console.log(craftableItems.map((item) => `${item.name} lv.${item.level}`));
 
         let actions: WorkflowAction[] = [];
         for (let i=0; i<craftableItems.length; i++) {

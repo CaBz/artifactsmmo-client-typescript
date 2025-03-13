@@ -53,48 +53,15 @@ export class Simulator {
         }
     }
 
-    async simulateUltimateAll(level: number): Promise<void> {
+    async simulateUltimateAll(level: number, showUnavailableItems: boolean): Promise<void> {
         await this.loadCharacter();
 
         if (level === -1) {
             level = this.character.level;
         }
 
-        const minLevel = level < 10 ? 1 : (Math.floor(level / 10) * 10);
-
-        const characters = await this.client.getAllCharacterStatus();
-        const bank: any = await this.banker.getBank();
-
-        const codeMapFunction = function (code: string) {
-            return Container.items.get(code)!;
-        }
-
-        const itemFilterFunction = function (item: Item) {
-            if (item.level > level) { return false; }
-            if (item.level < minLevel) { return false; }
-
-            if (bank[item.code]) { return true ;}
-            for (let i=0; i<characters.length; i++) {
-                if (characters[i]!.holdsHowManyOf(item.code) > 0) { return true; }
-            }
-
-            return false;
-        }
-
-        const gearPool: Record<string, Item[]> = {
-            [EquippableSlot.Helmet]: EquippableHelmets.map(codeMapFunction).filter(itemFilterFunction),
-            [EquippableSlot.BodyArmor]: EquippableBodyArmors.map(codeMapFunction).filter(itemFilterFunction),
-            [EquippableSlot.LegArmor]: EquippableLegArmors.map(codeMapFunction).filter(itemFilterFunction),
-            [EquippableSlot.Boots]: EquippableBoots.map(codeMapFunction).filter(itemFilterFunction),
-            [EquippableSlot.Weapon]: EquippableWeapons.map(codeMapFunction).filter(itemFilterFunction),
-            [EquippableSlot.Shield]: EquippableShields.map(codeMapFunction).filter(itemFilterFunction),
-            [EquippableSlot.Ring1]: EquippableRings.map(codeMapFunction).filter(itemFilterFunction),
-            [EquippableSlot.Ring2]: EquippableRings.map(codeMapFunction).filter(itemFilterFunction),
-            [EquippableSlot.Amulet]: EquippableAmulets.map(codeMapFunction).filter(itemFilterFunction),
-        };
-
-        const stats: any[] = StatEffects.map((stat: Effects) => ({code: stat, value: (stat === Effects.Hitpoints ? this.character.getBaseHp() : 0)}));
-        const attackerStats: any = this.getEntityStats(stats);
+        const minLevel = level < 10 ? 1 : (Math.floor(level / 10) * 10 - 10);
+        const prep = await this.getGearPool(minLevel, level, showUnavailableItems);
 
         const monsters: Monster[] = Array.from(this.monsters.values());
         monsters.sort((a, b) => a.level - b.level);
@@ -104,7 +71,7 @@ export class Simulator {
         let populationResult: any;
         for (let i=0; i<monsters.length; i++) {
             console.log(`Simulating for ${monsters[i]!.code} (lv. ${monsters[i]!.level})`);
-            populationResult = this.simulateUltimateForMonsterWithGear(attackerStats, gearPool, monsters[i]!.code);
+            populationResult = this.simulateUltimateForMonsterWithGear(prep.attackerStats, prep.gearPool, monsters[i]!.code);
 
             gearSet = {};
             Object.entries(populationResult.gearSet).forEach(([key, item]) => {
@@ -114,12 +81,12 @@ export class Simulator {
             result[monsters[i]!.code] = { ... populationResult };
             result[monsters[i]!.code]['gearSet'] = gearSet;
 
-            await Utils.writeFile(`data/simulations-${this.character.name}.json`, result);
+            await Utils.writeFile(`data/simulations-${this.character.name}-${level}-${showUnavailableItems ? 'all' : 'limited'}.json`, result);
             console.log();
         }
     }
 
-    async simulateUltimate(code: Monsters, level: number, showUnavailableItems: boolean, hideLogs?: boolean): Promise<Population> {
+    async simulateUltimate(code: Monsters, level: number, showUnavailableItems: boolean): Promise<Population> {
         await this.loadCharacter();
 
         if (level === -1) {
@@ -127,6 +94,12 @@ export class Simulator {
         }
 
         const minLevel = level < 10 ? 1 : (Math.floor(level / 10) * 10);
+        const prep = await this.getGearPool(minLevel, level, showUnavailableItems);
+
+        return this.simulateUltimateForMonsterWithGear(prep.attackerStats, prep.gearPool, code)
+    }
+
+    private async getGearPool(minLevel: number, maxLevel: number, showUnavailableItems: boolean) {
         const characters = await this.client.getAllCharacterStatus();
         const bank: any = await this.banker.getBank();
 
@@ -135,7 +108,7 @@ export class Simulator {
         }
 
         const itemFilterFunction = function (item: Item) {
-            if (item.level > level) { return false; }
+            if (item.level > maxLevel) { return false; }
             if (item.level < minLevel) { return false; }
 
             if (showUnavailableItems) {
@@ -165,7 +138,10 @@ export class Simulator {
         const stats: any[] = StatEffects.map((stat: Effects) => ({code: stat, value: (stat === Effects.Hitpoints ? this.character.getBaseHp() : 0)}));
         const attackerStats: any = this.getEntityStats(stats);
 
-        return this.simulateUltimateForMonsterWithGear(attackerStats, gearPool, code)
+        return {
+            gearPool,
+            attackerStats,
+        };
     }
 
     private simulateUltimateForMonsterWithGear(attackerStats: any, gearPool: Record<string, Item[]>, code: Monsters): Population {

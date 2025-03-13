@@ -14,7 +14,7 @@ export class Waiter {
             return result;
         }
 
-        Utils.stdoutHeadline(`>>> ${remainingCooldown}ms`);
+        Utils.stdoutHeadline(`>>> ${(remainingCooldown/1000).toFixed(2)}s`);
 
         await Utils.sleep(remainingCooldown);
 

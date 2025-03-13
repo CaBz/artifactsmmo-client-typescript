@@ -1,0 +1,642 @@
+{
+  "chicken": {
+    "gearSet": {
+      "weapon": "skull_wand",
+      "shield": "steel_shield",
+      "helmet": "piggy_helmet",
+      "body_armor": "bandit_armor",
+      "leg_armor": "serpent_skin_legs_armor",
+      "boots": "old_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "ring_of_chance",
+      "amulet": "topaz_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1,
+    "averageAttackerHP": 925,
+    "averageDefenderHP": -17.34
+  },
+  "yellow_slime": {
+    "gearSet": {
+      "weapon": "skull_wand",
+      "shield": "slime_shield",
+      "helmet": "piggy_helmet",
+      "body_armor": "bandit_armor",
+      "leg_armor": "piggy_pants",
+      "boots": "old_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "ring_of_chance",
+      "amulet": "emerald_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1,
+    "averageAttackerHP": 925,
+    "averageDefenderHP": -13.76
+  },
+  "green_slime": {
+    "gearSet": {
+      "weapon": "vampire_bow",
+      "shield": "steel_shield",
+      "helmet": "piggy_helmet",
+      "body_armor": "bandit_armor",
+      "leg_armor": "stormforged_pants",
+      "boots": "serpent_skin_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "ring_of_chance",
+      "amulet": "fire_and_earth_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1.78,
+    "averageAttackerHP": 860.73,
+    "averageDefenderHP": -21.4
+  },
+  "blue_slime": {
+    "gearSet": {
+      "weapon": "skull_wand",
+      "shield": "steel_shield",
+      "helmet": "piggy_helmet",
+      "body_armor": "skeleton_armor",
+      "leg_armor": "serpent_skin_legs_armor",
+      "boots": "old_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "skull_ring",
+      "amulet": "ruby_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 2.9,
+    "averageAttackerHP": 831.73,
+    "averageDefenderHP": -43.72
+  },
+  "red_slime": {
+    "gearSet": {
+      "weapon": "dreadful_staff",
+      "shield": "steel_shield",
+      "helmet": "piggy_helmet",
+      "body_armor": "bandit_armor",
+      "leg_armor": "piggy_pants",
+      "boots": "old_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "ring_of_chance",
+      "amulet": "ruby_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 3,
+    "averageAttackerHP": 909.26,
+    "averageDefenderHP": -14.9
+  },
+  "cow": {
+    "gearSet": {
+      "weapon": "steel_battleaxe",
+      "shield": "steel_shield",
+      "helmet": "steel_helm",
+      "body_armor": "bandit_armor",
+      "leg_armor": "stormforged_pants",
+      "boots": "serpent_skin_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "ring_of_chance",
+      "amulet": "topaz_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 4.83,
+    "averageAttackerHP": 860.58,
+    "averageDefenderHP": -32.8
+  },
+  "mushmush": {
+    "gearSet": {
+      "weapon": "forest_whip",
+      "shield": "slime_shield",
+      "helmet": "lucky_wizard_hat",
+      "body_armor": "serpent_skin_armor",
+      "leg_armor": "skeleton_pants",
+      "boots": "serpent_skin_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "ring_of_chance",
+      "amulet": "emerald_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 6.77,
+    "averageAttackerHP": 696.92,
+    "averageDefenderHP": -32.68
+  },
+  "flying_serpent": {
+    "gearSet": {
+      "weapon": "dreadful_staff",
+      "shield": "steel_shield",
+      "helmet": "steel_helm",
+      "body_armor": "bandit_armor",
+      "leg_armor": "lizard_skin_legs_armor",
+      "boots": "steel_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "dreadful_ring",
+      "amulet": "dreadful_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 7.42,
+    "averageAttackerHP": 750.04,
+    "averageDefenderHP": -26.38
+  },
+  "highwayman": {
+    "gearSet": {
+      "weapon": "battlestaff",
+      "shield": "slime_shield",
+      "helmet": "lucky_wizard_hat",
+      "body_armor": "lizard_skin_armor",
+      "leg_armor": "steel_legs_armor",
+      "boots": "old_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "ring_of_chance",
+      "amulet": "sapphire_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 8.67,
+    "averageAttackerHP": 685.85,
+    "averageDefenderHP": -21.08
+  },
+  "wolf": {
+    "gearSet": {
+      "weapon": "vampire_bow",
+      "shield": "slime_shield",
+      "helmet": "piggy_helmet",
+      "body_armor": "bandit_armor",
+      "leg_armor": "piggy_pants",
+      "boots": "serpent_skin_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "skull_ring",
+      "amulet": "skull_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 8.34,
+    "averageAttackerHP": 779.97,
+    "averageDefenderHP": -25.29
+  },
+  "skeleton": {
+    "gearSet": {
+      "weapon": "dreadful_staff",
+      "shield": "slime_shield",
+      "helmet": "lucky_wizard_hat",
+      "body_armor": "bandit_armor",
+      "leg_armor": "steel_legs_armor",
+      "boots": "steel_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "dreadful_ring",
+      "amulet": "dreadful_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 10.73,
+    "averageAttackerHP": 565.78,
+    "averageDefenderHP": -30.64
+  },
+  "pig": {
+    "gearSet": {
+      "weapon": "wooden_club",
+      "shield": "steel_shield",
+      "helmet": "steel_helm",
+      "body_armor": "bandit_armor",
+      "leg_armor": "stormforged_pants",
+      "boots": "leather_boots",
+      "ring1": "dreadful_ring",
+      "ring2": "ring_of_chance",
+      "amulet": "topaz_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 10.06,
+    "averageAttackerHP": 711.49,
+    "averageDefenderHP": -36.74
+  },
+  "ogre": {
+    "gearSet": {
+      "weapon": "vampire_bow",
+      "shield": "steel_shield",
+      "helmet": "piggy_helmet",
+      "body_armor": "bandit_armor",
+      "leg_armor": "piggy_pants",
+      "boots": "old_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "ring_of_chance",
+      "amulet": "ruby_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 12.14,
+    "averageAttackerHP": 530.76,
+    "averageDefenderHP": -37.49
+  },
+  "spider": {
+    "gearSet": {
+      "weapon": "battlestaff",
+      "shield": "slime_shield",
+      "helmet": "magic_wizard_hat",
+      "body_armor": "lizard_skin_armor",
+      "leg_armor": "lizard_skin_legs_armor",
+      "boots": "adventurer_boots",
+      "ring1": "dreadful_ring",
+      "ring2": "dreadful_ring",
+      "amulet": "sapphire_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 10.37,
+    "averageAttackerHP": 520.39,
+    "averageDefenderHP": -48.54
+  },
+  "vampire": {
+    "gearSet": {
+      "weapon": "dreadful_staff",
+      "shield": "slime_shield",
+      "helmet": "steel_helm",
+      "body_armor": "steel_armor",
+      "leg_armor": "lizard_skin_legs_armor",
+      "boots": "iron_boots",
+      "ring1": "dreadful_ring",
+      "ring2": "dreadful_ring",
+      "amulet": "sapphire_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 13.77,
+    "averageAttackerHP": 281.04,
+    "averageDefenderHP": -34.1
+  },
+  "bandit_lizard": {
+    "gearSet": {
+      "weapon": "battlestaff",
+      "shield": "steel_shield",
+      "helmet": "lucky_wizard_hat",
+      "body_armor": "lizard_skin_armor",
+      "leg_armor": "lizard_skin_legs_armor",
+      "boots": "iron_boots",
+      "ring1": "dreadful_ring",
+      "ring2": "ring_of_chance",
+      "amulet": "sapphire_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 18.15,
+    "averageAttackerHP": 246.17,
+    "averageDefenderHP": -17.63
+  },
+  "cyclops": {
+    "gearSet": {
+      "weapon": "vampire_bow",
+      "shield": "slime_shield",
+      "helmet": "piggy_helmet",
+      "body_armor": "bandit_armor",
+      "leg_armor": "piggy_pants",
+      "boots": "steel_boots",
+      "ring1": "skull_ring",
+      "ring2": "skull_ring",
+      "amulet": "ruby_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 11.72,
+    "averageAttackerHP": 386.24,
+    "averageDefenderHP": -35.18
+  },
+  "death_knight": {
+    "gearSet": {
+      "weapon": "leather_gloves",
+      "shield": "slime_shield",
+      "helmet": "adventurer_helmet",
+      "body_armor": "adventurer_vest",
+      "leg_armor": "leather_legs_armor",
+      "boots": "adventurer_boots",
+      "ring1": "iron_ring",
+      "ring2": "fire_ring",
+      "amulet": "fire_and_earth_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 10,
+    "averageAttackerHP": -18.44,
+    "averageDefenderHP": 785
+  },
+  "imp": {
+    "gearSet": {
+      "weapon": "multislimes_sword",
+      "shield": "slime_shield",
+      "helmet": "leather_hat",
+      "body_armor": "iron_armor",
+      "leg_armor": "iron_legs_armor",
+      "boots": "iron_boots",
+      "ring1": "iron_ring",
+      "ring2": "steel_ring",
+      "amulet": "fire_and_earth_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 22.9,
+    "averageAttackerHP": -23.41,
+    "averageDefenderHP": 1360.32
+  },
+  "demon": {
+    "gearSet": {
+      "weapon": "dreadful_staff",
+      "shield": "slime_shield",
+      "helmet": "magic_wizard_hat",
+      "body_armor": "bandit_armor",
+      "leg_armor": "adventurer_pants",
+      "boots": "steel_boots",
+      "ring1": "air_ring",
+      "ring2": "forest_ring",
+      "amulet": "fire_and_earth_amulet"
+    },
+    "fights": 250,
+    "wins": 1,
+    "losses": 249,
+    "successRate": 0.4,
+    "averageTurns": 19.4,
+    "averageAttackerHP": -62.53,
+    "averageDefenderHP": 209.74
+  },
+  "lich": {
+    "gearSet": {
+      "weapon": "hunting_bow",
+      "shield": "slime_shield",
+      "helmet": "mushmush_wizard_hat",
+      "body_armor": "adventurer_vest",
+      "leg_armor": "iron_legs_armor",
+      "boots": "iron_boots",
+      "ring1": "water_ring",
+      "ring2": "water_ring",
+      "amulet": "air_and_water_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 9.78,
+    "averageAttackerHP": -66.16,
+    "averageDefenderHP": 1295.09
+  },
+  "owlbear": {
+    "gearSet": {
+      "weapon": "steel_battleaxe",
+      "shield": "slime_shield",
+      "helmet": "lucky_wizard_hat",
+      "body_armor": "lizard_skin_armor",
+      "leg_armor": "lizard_skin_legs_armor",
+      "boots": "serpent_skin_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "earth_ring",
+      "amulet": "fire_and_earth_amulet"
+    },
+    "fights": 250,
+    "wins": 1,
+    "losses": 249,
+    "successRate": 0.4,
+    "averageTurns": 27.9,
+    "averageAttackerHP": -38.42,
+    "averageDefenderHP": 240.32
+  },
+  "cultist_acolyte": {
+    "gearSet": {
+      "weapon": "iron_pickaxe",
+      "shield": "slime_shield",
+      "helmet": "leather_hat",
+      "body_armor": "mushmush_jacket",
+      "leg_armor": "iron_legs_armor",
+      "boots": "iron_boots",
+      "ring1": "air_ring",
+      "ring2": "steel_ring",
+      "amulet": "air_and_water_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 9.14,
+    "averageAttackerHP": -57.64,
+    "averageDefenderHP": 1472.24
+  },
+  "cursed_tree": {
+    "gearSet": {
+      "weapon": "mushstaff",
+      "shield": "slime_shield",
+      "helmet": "iron_helm",
+      "body_armor": "leather_armor",
+      "leg_armor": "iron_legs_armor",
+      "boots": "leather_boots",
+      "ring1": "water_ring",
+      "ring2": "fire_ring",
+      "amulet": "fire_and_earth_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 7.66,
+    "averageAttackerHP": -40.47,
+    "averageDefenderHP": 1396.93
+  },
+  "cultist_emperor": {
+    "gearSet": {
+      "weapon": "vampire_bow",
+      "shield": "slime_shield",
+      "helmet": "iron_helm",
+      "body_armor": "leather_armor",
+      "leg_armor": "leather_legs_armor",
+      "boots": "leather_boots",
+      "ring1": "water_ring",
+      "ring2": "fire_ring",
+      "amulet": "air_and_water_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 7.08,
+    "averageAttackerHP": -86.36,
+    "averageDefenderHP": 1616.95
+  },
+  "goblin": {
+    "gearSet": {
+      "weapon": "greater_wooden_staff",
+      "shield": "slime_shield",
+      "helmet": "adventurer_helmet",
+      "body_armor": "adventurer_vest",
+      "leg_armor": "adventurer_pants",
+      "boots": "leather_boots",
+      "ring1": "water_ring",
+      "ring2": "skull_ring",
+      "amulet": "air_and_water_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 7.58,
+    "averageAttackerHP": -97.92,
+    "averageDefenderHP": 1509.97
+  },
+  "bat": {
+    "gearSet": {
+      "weapon": "skull_wand",
+      "shield": "slime_shield",
+      "helmet": "iron_helm",
+      "body_armor": "leather_armor",
+      "leg_armor": "leather_legs_armor",
+      "boots": "leather_boots",
+      "ring1": "fire_ring",
+      "ring2": "earth_ring",
+      "amulet": "air_and_water_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 7.26,
+    "averageAttackerHP": -82.29,
+    "averageDefenderHP": 1769.34
+  },
+  "orc": {
+    "gearSet": {
+      "weapon": "iron_pickaxe",
+      "shield": "slime_shield",
+      "helmet": "lucky_wizard_hat",
+      "body_armor": "adventurer_vest",
+      "leg_armor": "iron_legs_armor",
+      "boots": "adventurer_boots",
+      "ring1": "steel_ring",
+      "ring2": "steel_ring",
+      "amulet": "air_and_water_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 5.99,
+    "averageAttackerHP": -67.5,
+    "averageDefenderHP": 1584.67
+  },
+  "goblin_wolfrider": {
+    "gearSet": {
+      "weapon": "skull_staff",
+      "shield": "slime_shield",
+      "helmet": "steel_helm",
+      "body_armor": "mushmush_jacket",
+      "leg_armor": "leather_legs_armor",
+      "boots": "iron_boots",
+      "ring1": "steel_ring",
+      "ring2": "steel_ring",
+      "amulet": "fire_and_earth_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 7.97,
+    "averageAttackerHP": -14.9,
+    "averageDefenderHP": 2463.16
+  },
+  "hellhound": {
+    "gearSet": {
+      "weapon": "hunting_bow",
+      "shield": "slime_shield",
+      "helmet": "leather_hat",
+      "body_armor": "iron_armor",
+      "leg_armor": "iron_legs_armor",
+      "boots": "iron_boots",
+      "ring1": "steel_ring",
+      "ring2": "air_ring",
+      "amulet": "fire_and_earth_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 7.98,
+    "averageAttackerHP": -56.59,
+    "averageDefenderHP": 3075.79
+  },
+  "rosenblood": {
+    "gearSet": {
+      "weapon": "battlestaff",
+      "shield": "slime_shield",
+      "helmet": "leather_hat",
+      "body_armor": "iron_armor",
+      "leg_armor": "leather_legs_armor",
+      "boots": "iron_boots",
+      "ring1": "steel_ring",
+      "ring2": "water_ring",
+      "amulet": "fire_and_earth_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 7.58,
+    "averageAttackerHP": -67.75,
+    "averageDefenderHP": 2906.24
+  },
+  "efreet_sultan": {
+    "gearSet": {
+      "weapon": "hunting_bow",
+      "shield": "slime_shield",
+      "helmet": "adventurer_helmet",
+      "body_armor": "adventurer_vest",
+      "leg_armor": "leather_legs_armor",
+      "boots": "adventurer_boots",
+      "ring1": "fire_ring",
+      "ring2": "water_ring",
+      "amulet": "air_and_water_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 7.99,
+    "averageAttackerHP": -24.56,
+    "averageDefenderHP": 3478.32
+  }
+}

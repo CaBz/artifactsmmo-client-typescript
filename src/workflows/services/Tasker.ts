@@ -31,8 +31,13 @@ export class Tasker {
     }
 
     async exchangeTask(): Promise<void> {
+        const character = await this.waiter.wait();
+        if (character.holdsHowManyOf(Items.TasksCoin) < 6) {
+            Utils.errorHeadline('EXCHANGE TASK > SKIP');
+            return;
+        }
+
         Utils.logHeadline(`EXCHANGE TASK`);
-        await this.waiter.wait();
 
         try {
             await this.characterGateway.taskExchange();
@@ -47,10 +52,14 @@ export class Tasker {
     }
 
     async tradeTask(item: Items, quantity: number): Promise<void> {
-        const realQuantity: number = quantity === -1 ? 1 : quantity;
+        const character = await this.waiter.wait();
+        if (character.holdsHowManyOf(item) === 0) {
+            Utils.errorHeadline('TRADE TASK > SKIP');
+            return;
+        }
 
+        const realQuantity: number = quantity === -1 ? 1 : quantity;
         Utils.logHeadline(`TRADE TASK > ${item} x${realQuantity}`);
-        await this.waiter.wait();
 
         try {
             await this.characterGateway.taskTrade(item, realQuantity);
@@ -69,8 +78,13 @@ export class Tasker {
     }
 
     async completeTask(): Promise<void> {
+        const character = await this.waiter.wait();
+        if (!character.getTask()) {
+            Utils.errorHeadline(`CANCEL TASK > SKIP`);
+            return;
+        }
+
         Utils.logHeadline(`COMPLETE TASK`);
-        await this.waiter.wait();
 
         try {
             await this.characterGateway.taskComplete();
@@ -85,8 +99,13 @@ export class Tasker {
     }
 
     async cancelTask(): Promise<void> {
+        const character = await this.waiter.wait();
+        if (!character.getTask()) {
+            Utils.errorHeadline(`CANCEL TASK > SKIP`);
+            return;
+        }
+
         Utils.logHeadline(`CANCEL TASK`);
-        await this.waiter.wait();
 
         try {
             await this.characterGateway.taskCancel();

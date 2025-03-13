@@ -1,0 +1,642 @@
+{
+  "chicken": {
+    "gearSet": {
+      "weapon": "strangold_sword",
+      "shield": "steel_shield",
+      "helmet": "lich_crown",
+      "body_armor": "obsidian_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "enchanter_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "ring_of_chance",
+      "amulet": "masterful_necklace"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1,
+    "averageAttackerHP": 1100,
+    "averageDefenderHP": -90.45
+  },
+  "yellow_slime": {
+    "gearSet": {
+      "weapon": "magic_bow",
+      "shield": "gold_shield",
+      "helmet": "lich_crown",
+      "body_armor": "obsidian_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "lizard_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "ring_of_chance",
+      "amulet": "ancestral_talisman"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1,
+    "averageAttackerHP": 1100,
+    "averageDefenderHP": -57.68
+  },
+  "green_slime": {
+    "gearSet": {
+      "weapon": "greater_dreadful_staff",
+      "shield": "gold_shield",
+      "helmet": "lich_crown",
+      "body_armor": "dreadful_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "lizard_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "ring_of_chance",
+      "amulet": "prospecting_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1,
+    "averageAttackerHP": 1090,
+    "averageDefenderHP": -68.14
+  },
+  "blue_slime": {
+    "gearSet": {
+      "weapon": "strangold_sword",
+      "shield": "gold_shield",
+      "helmet": "lich_crown",
+      "body_armor": "obsidian_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "lizard_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "ring_of_chance",
+      "amulet": "masterful_necklace"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1,
+    "averageAttackerHP": 1100,
+    "averageDefenderHP": -27.99
+  },
+  "red_slime": {
+    "gearSet": {
+      "weapon": "dreadful_battleaxe",
+      "shield": "steel_shield",
+      "helmet": "lich_crown",
+      "body_armor": "obsidian_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "enchanter_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "ring_of_chance",
+      "amulet": "prospecting_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1,
+    "averageAttackerHP": 1100,
+    "averageDefenderHP": -23.53
+  },
+  "cow": {
+    "gearSet": {
+      "weapon": "obsidian_battleaxe",
+      "shield": "dreadful_shield",
+      "helmet": "jester_hat",
+      "body_armor": "conjurer_cloak",
+      "leg_armor": "ancient_jean",
+      "boots": "flying_boots",
+      "ring1": "malefic_ring",
+      "ring2": "malefic_ring",
+      "amulet": "masterful_necklace"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 1.98,
+    "averageAttackerHP": 908.29,
+    "averageDefenderHP": -119.41
+  },
+  "mushmush": {
+    "gearSet": {
+      "weapon": "strangold_sword",
+      "shield": "gold_shield",
+      "helmet": "royal_skeleton_helmet",
+      "body_armor": "obsidian_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "gold_boots",
+      "ring1": "emerald_ring",
+      "ring2": "topaz_ring",
+      "amulet": "ancestral_talisman"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 3,
+    "averageAttackerHP": 991.38,
+    "averageDefenderHP": -37.62
+  },
+  "flying_serpent": {
+    "gearSet": {
+      "weapon": "cursed_sceptre",
+      "shield": "gold_shield",
+      "helmet": "lich_crown",
+      "body_armor": "malefic_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "gold_boots",
+      "ring1": "ring_of_chance",
+      "ring2": "ring_of_chance",
+      "amulet": "masterful_necklace"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 3,
+    "averageAttackerHP": 1062.39,
+    "averageDefenderHP": -127.43
+  },
+  "highwayman": {
+    "gearSet": {
+      "weapon": "dreadful_battleaxe",
+      "shield": "gold_shield",
+      "helmet": "jester_hat",
+      "body_armor": "dreadful_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "lizard_boots",
+      "ring1": "sapphire_ring",
+      "ring2": "ring_of_chance",
+      "amulet": "diamond_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 3,
+    "averageAttackerHP": 1006.65,
+    "averageDefenderHP": -64.52
+  },
+  "wolf": {
+    "gearSet": {
+      "weapon": "cursed_sceptre",
+      "shield": "gold_shield",
+      "helmet": "cursed_hat",
+      "body_armor": "malefic_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "gold_boots",
+      "ring1": "skull_ring",
+      "ring2": "skull_ring",
+      "amulet": "magic_stone_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 3,
+    "averageAttackerHP": 1034.33,
+    "averageDefenderHP": -92.9
+  },
+  "skeleton": {
+    "gearSet": {
+      "weapon": "diamond_sword",
+      "shield": "gold_shield",
+      "helmet": "jester_hat",
+      "body_armor": "dreadful_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "flying_boots",
+      "ring1": "sapphire_ring",
+      "ring2": "malefic_ring",
+      "amulet": "diamond_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 3.23,
+    "averageAttackerHP": 923.06,
+    "averageDefenderHP": -51.98
+  },
+  "pig": {
+    "gearSet": {
+      "weapon": "cursed_sceptre",
+      "shield": "gold_shield",
+      "helmet": "cursed_hat",
+      "body_armor": "malefic_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "flying_boots",
+      "ring1": "malefic_ring",
+      "ring2": "ruby_ring",
+      "amulet": "magic_stone_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 3.19,
+    "averageAttackerHP": 955.64,
+    "averageDefenderHP": -59.48
+  },
+  "ogre": {
+    "gearSet": {
+      "weapon": "cursed_sceptre",
+      "shield": "gold_shield",
+      "helmet": "lich_crown",
+      "body_armor": "malefic_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "flying_boots",
+      "ring1": "ruby_ring",
+      "ring2": "malefic_ring",
+      "amulet": "magic_stone_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 4.01,
+    "averageAttackerHP": 890.42,
+    "averageDefenderHP": -84.5
+  },
+  "spider": {
+    "gearSet": {
+      "weapon": "diamond_sword",
+      "shield": "gold_shield",
+      "helmet": "jester_hat",
+      "body_armor": "dreadful_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "flying_boots",
+      "ring1": "sapphire_ring",
+      "ring2": "malefic_ring",
+      "amulet": "diamond_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 3.22,
+    "averageAttackerHP": 892.48,
+    "averageDefenderHP": -78.08
+  },
+  "vampire": {
+    "gearSet": {
+      "weapon": "dreadful_battleaxe",
+      "shield": "steel_shield",
+      "helmet": "jester_hat",
+      "body_armor": "dreadful_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "flying_boots",
+      "ring1": "sapphire_ring",
+      "ring2": "sapphire_ring",
+      "amulet": "diamond_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 5.06,
+    "averageAttackerHP": 812.77,
+    "averageDefenderHP": -116.25
+  },
+  "bandit_lizard": {
+    "gearSet": {
+      "weapon": "cursed_sceptre",
+      "shield": "gold_shield",
+      "helmet": "lich_crown",
+      "body_armor": "malefic_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "flying_boots",
+      "ring1": "ruby_ring",
+      "ring2": "ruby_ring",
+      "amulet": "magic_stone_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 5.49,
+    "averageAttackerHP": 845.22,
+    "averageDefenderHP": -85.64
+  },
+  "cyclops": {
+    "gearSet": {
+      "weapon": "cursed_sceptre",
+      "shield": "dreadful_shield",
+      "helmet": "jester_hat",
+      "body_armor": "malefic_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "flying_boots",
+      "ring1": "malefic_ring",
+      "ring2": "ruby_ring",
+      "amulet": "magic_stone_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 3.95,
+    "averageAttackerHP": 821.55,
+    "averageDefenderHP": -91.67
+  },
+  "death_knight": {
+    "gearSet": {
+      "weapon": "cursed_sceptre",
+      "shield": "steel_shield",
+      "helmet": "cursed_hat",
+      "body_armor": "bandit_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "flying_boots",
+      "ring1": "ruby_ring",
+      "ring2": "ruby_ring",
+      "amulet": "magic_stone_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 5.62,
+    "averageAttackerHP": 733.41,
+    "averageDefenderHP": -69.82
+  },
+  "imp": {
+    "gearSet": {
+      "weapon": "cursed_sceptre",
+      "shield": "steel_shield",
+      "helmet": "cursed_hat",
+      "body_armor": "malefic_armor",
+      "leg_armor": "royal_skeleton_pants",
+      "boots": "flying_boots",
+      "ring1": "ruby_ring",
+      "ring2": "ruby_ring",
+      "amulet": "magic_stone_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 14.81,
+    "averageAttackerHP": 684.77,
+    "averageDefenderHP": -72.78
+  },
+  "demon": {
+    "gearSet": {
+      "weapon": "diamond_sword",
+      "shield": "gold_shield",
+      "helmet": "jester_hat",
+      "body_armor": "dreadful_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "flying_boots",
+      "ring1": "sapphire_ring",
+      "ring2": "sapphire_ring",
+      "amulet": "diamond_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 6.59,
+    "averageAttackerHP": 739.4,
+    "averageDefenderHP": -80.6
+  },
+  "lich": {
+    "gearSet": {
+      "weapon": "cursed_sceptre",
+      "shield": "gold_shield",
+      "helmet": "cursed_hat",
+      "body_armor": "malefic_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "steel_boots",
+      "ring1": "ruby_ring",
+      "ring2": "ruby_ring",
+      "amulet": "masterful_necklace"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 16.33,
+    "averageAttackerHP": 265.47,
+    "averageDefenderHP": -64.9
+  },
+  "owlbear": {
+    "gearSet": {
+      "weapon": "obsidian_battleaxe",
+      "shield": "gold_shield",
+      "helmet": "lich_crown",
+      "body_armor": "bandit_armor",
+      "leg_armor": "ancient_jean",
+      "boots": "flying_boots",
+      "ring1": "topaz_ring",
+      "ring2": "topaz_ring",
+      "amulet": "masterful_necklace"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 8.05,
+    "averageAttackerHP": 717.05,
+    "averageDefenderHP": -98.16
+  },
+  "cultist_acolyte": {
+    "gearSet": {
+      "weapon": "cursed_sceptre",
+      "shield": "gold_shield",
+      "helmet": "cursed_hat",
+      "body_armor": "malefic_armor",
+      "leg_armor": "conjurer_skirt",
+      "boots": "flying_boots",
+      "ring1": "ruby_ring",
+      "ring2": "malefic_ring",
+      "amulet": "magic_stone_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 10.21,
+    "averageAttackerHP": 437.3,
+    "averageDefenderHP": -82.78
+  },
+  "cursed_tree": {
+    "gearSet": {
+      "weapon": "diamond_sword",
+      "shield": "dreadful_shield",
+      "helmet": "jester_hat",
+      "body_armor": "dreadful_armor",
+      "leg_armor": "obsidian_legs_armor",
+      "boots": "lizard_boots",
+      "ring1": "sapphire_ring",
+      "ring2": "sapphire_ring",
+      "amulet": "diamond_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 12.38,
+    "averageAttackerHP": 398.67,
+    "averageDefenderHP": -73.28
+  },
+  "cultist_emperor": {
+    "gearSet": {
+      "weapon": "golden_gloves",
+      "shield": "dreadful_shield",
+      "helmet": "steel_helm",
+      "body_armor": "steel_armor",
+      "leg_armor": "skeleton_pants",
+      "boots": "flying_boots",
+      "ring1": "emerald_ring",
+      "ring2": "topaz_ring",
+      "amulet": "skull_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 9.37,
+    "averageAttackerHP": -114.87,
+    "averageDefenderHP": 1710.66
+  },
+  "goblin": {
+    "gearSet": {
+      "weapon": "diamond_sword",
+      "shield": "gold_shield",
+      "helmet": "jester_hat",
+      "body_armor": "dreadful_armor",
+      "leg_armor": "strangold_legs_armor",
+      "boots": "lizard_boots",
+      "ring1": "malefic_ring",
+      "ring2": "emerald_ring",
+      "amulet": "diamond_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 12.41,
+    "averageAttackerHP": 252.18,
+    "averageDefenderHP": -97.22
+  },
+  "bat": {
+    "gearSet": {
+      "weapon": "cursed_sceptre",
+      "shield": "dreadful_shield",
+      "helmet": "tromatising_mask",
+      "body_armor": "skeleton_armor",
+      "leg_armor": "skeleton_pants",
+      "boots": "flying_boots",
+      "ring1": "ruby_ring",
+      "ring2": "malefic_ring",
+      "amulet": "dreadful_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 9.77,
+    "averageAttackerHP": -93.34,
+    "averageDefenderHP": 1149.15
+  },
+  "orc": {
+    "gearSet": {
+      "weapon": "cursed_sceptre",
+      "shield": "gold_shield",
+      "helmet": "cursed_hat",
+      "body_armor": "malefic_armor",
+      "leg_armor": "piggy_pants",
+      "boots": "gold_boots",
+      "ring1": "ruby_ring",
+      "ring2": "ruby_ring",
+      "amulet": "magic_stone_amulet"
+    },
+    "fights": 250,
+    "wins": 250,
+    "losses": 0,
+    "successRate": 100,
+    "averageTurns": 10.04,
+    "averageAttackerHP": 257.26,
+    "averageDefenderHP": -96.19
+  },
+  "goblin_wolfrider": {
+    "gearSet": {
+      "weapon": "skull_wand",
+      "shield": "steel_shield",
+      "helmet": "skeleton_helmet",
+      "body_armor": "skeleton_armor",
+      "leg_armor": "steel_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "sapphire_ring",
+      "ring2": "ruby_ring",
+      "amulet": "skull_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 9.96,
+    "averageAttackerHP": -19.97,
+    "averageDefenderHP": 2232.13
+  },
+  "hellhound": {
+    "gearSet": {
+      "weapon": "skull_staff",
+      "shield": "dreadful_shield",
+      "helmet": "steel_helm",
+      "body_armor": "skeleton_armor",
+      "leg_armor": "steel_legs_armor",
+      "boots": "flying_boots",
+      "ring1": "ruby_ring",
+      "ring2": "ruby_ring",
+      "amulet": "dreadful_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 9.99,
+    "averageAttackerHP": -35.88,
+    "averageDefenderHP": 2820.08
+  },
+  "rosenblood": {
+    "gearSet": {
+      "weapon": "cursed_sceptre",
+      "shield": "dreadful_shield",
+      "helmet": "tromatising_mask",
+      "body_armor": "steel_armor",
+      "leg_armor": "steel_legs_armor",
+      "boots": "serpent_skin_boots",
+      "ring1": "gold_ring",
+      "ring2": "ruby_ring",
+      "amulet": "ruby_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 9.44,
+    "averageAttackerHP": -104.36,
+    "averageDefenderHP": 2239.49
+  },
+  "efreet_sultan": {
+    "gearSet": {
+      "weapon": "strangold_sword",
+      "shield": "dreadful_shield",
+      "helmet": "steel_helm",
+      "body_armor": "steel_armor",
+      "leg_armor": "steel_legs_armor",
+      "boots": "old_boots",
+      "ring1": "emerald_ring",
+      "ring2": "royal_skeleton_ring",
+      "amulet": "skull_amulet"
+    },
+    "fights": 250,
+    "wins": 0,
+    "losses": 250,
+    "successRate": 0,
+    "averageTurns": 9.75,
+    "averageAttackerHP": -95.86,
+    "averageDefenderHP": 3167.66
+  }
+}
