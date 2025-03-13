@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import {Container} from "../src/Container.js";
 
 const container = await Container.create('Richard_CDL');
-const characters = await container.client.getAllCharacterStatus();
+const characters = process.env.ARTIFACTS_CHARACTER.split(',');
 
 const port = +(process.env.PORT || 3000);
 const app = express();
