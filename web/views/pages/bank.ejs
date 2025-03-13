@@ -1,29 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <%- include('../partials/head'); %>
-</head>
-<body class="container">
+<%- include('../partials/header'); %>
 
-<header>
-    <%- include('../partials/header'); %>
-</header>
+<h2>Bank: (<%= bank.items.length %>/<%= bank.bank.slots %>) with <%=bank.bank.gold%>g</h2>
 
-<main>
-    <div class="jumbotron">
-        <textarea cols="100" rows="20"><%= JSON.stringify(bank) %></textarea>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Code</th>
+        <th scope="col">Name</th>
+        <th scope="col">Type</th>
+        <th scope="col">Subtype</th>
+        <th scope="col">Quantity</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% bank.items.forEach(function(bankItem, index){ %>
+    <tr>
+        <th scope="row"><%=index+1%></th>
+        <td><%=bankItem.value.code %></td>
+        <td><%=bankItem.value.name %></td>
+        <td><%=bankItem.value.type %></td>
+        <td><%=bankItem.value.subType %></td>
+        <td><%=bankItem.quantity %></td>
+    </tr>
+    <% }); %>
+    </tbody>
+</table>
 
-        <ul>
-            <% bank.items.forEach(function(bankItem){ %>
-            <li><%=bankItem.code %> = <%=bankItem.quantity %></li>
-            <% }); %>
-        </ul>
-    </div>
-</main>
-
-<footer>
-    <%- include('../partials/footer'); %>
-</footer>
-
-</body>
-</html>
+<%- include('../partials/footer'); %>
