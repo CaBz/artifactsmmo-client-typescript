@@ -23,6 +23,12 @@ app.get('/bank', async (req: Request, res: Response) => {
     res.render('pages/bank', { active: 'bank', characters, bank });
 });
 
+app.get('/characters/:name', async (req: Request, res: Response) => {
+    const character = await container.client.getCharacterStatus(req.params.name);
+
+    res.render('pages/character', { active: `character_${character.name}`, characters, character });
+});
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });

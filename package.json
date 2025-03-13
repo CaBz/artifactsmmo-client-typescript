@@ -13,7 +13,7 @@
     "typescript-eslint": "^8.24.1"
   },
   "scripts": {
-    "server": "node --no-warnings --loader ts-node/esm --env-file=.env web/server.ts",
+    "server": "nodemon -e ts --watch web --exec \"node --no-warnings --loader ts-node/esm --env-file=.env web/server.ts\"",
 
     "test": "node --no-warnings --loader ts-node/esm --env-file=.env src/test.ts",
     "console": "node --no-warnings --loader ts-node/esm --env-file=.env src/console.ts",
