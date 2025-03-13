@@ -1,5 +1,9 @@
 <%- include('../partials/header'); %>
 
+<h1><%character.name%></h1>
+
+<span><%=character.hp%>/<%=character.maxHp%>HP</span>
+
 <pre>
     <%= JSON.stringify(character, null, 2)%>
 </pre>
