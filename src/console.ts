@@ -180,7 +180,10 @@ async function processCommand(commandName: string) {
         case 'refresh-dataset': await container.dataLoader.saveDataSets(); break;
         case 'quick-refresh': await container.dataLoader.reloadMapsAndActiveEvents(); break;
         case 'generate': await container.lexicalGenerator.generateAll(); break;
+
         default:
+            consoleParams.unshift(commandName);
+            await processCommand('workflow'); // Funky
             break;
     }
 }

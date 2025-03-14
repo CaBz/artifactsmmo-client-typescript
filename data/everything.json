@@ -14450,10 +14450,13 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_3",
+      "skin": "forest_portal",
       "x": -1,
       "y": 5,
-      "content": null
+      "content": {
+        "type": "monster",
+        "code": "demon"
+      }
     },
     {
       "name": "Forest",
@@ -14474,10 +14477,13 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_village6",
+      "skin": "forest_village6_fish_merchant",
       "x": 2,
       "y": 5,
-      "content": null
+      "content": {
+        "type": "npc",
+        "code": "fish_merchant"
+      }
     },
     {
       "name": "Forest",
@@ -15428,13 +15434,10 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_magictree1",
+      "skin": "forest_1",
       "x": 9,
       "y": 12,
-      "content": {
-        "type": "resource",
-        "code": "magic_tree"
-      }
+      "content": null
     },
     {
       "name": "Forest",
@@ -15596,10 +15599,13 @@
     },
     {
       "name": "Forest",
-      "skin": "forest_4",
+      "skin": "forest_magictree1",
       "x": -4,
       "y": 14,
-      "content": null
+      "content": {
+        "type": "resource",
+        "code": "magic_tree"
+      }
     },
     {
       "name": "Forest",
@@ -17927,22 +17933,58 @@
   ],
   "events_active": [
     {
+      "name": "Fish Merchant",
+      "code": "fish_merchant",
+      "map": {
+        "name": "Forest",
+        "skin": "forest_village6_fish_merchant",
+        "x": 2,
+        "y": 5,
+        "content": {
+          "type": "npc",
+          "code": "fish_merchant"
+        }
+      },
+      "previous_skin": "forest_village6",
+      "duration": 60,
+      "expiration": "2025-03-14T02:54:01.898Z",
+      "created_at": "2025-03-14T01:54:01.898Z"
+    },
+    {
       "name": "Magic Apparition",
       "code": "magic_apparition",
       "map": {
         "name": "Forest",
         "skin": "forest_magictree1",
-        "x": 9,
-        "y": 12,
+        "x": -4,
+        "y": 14,
         "content": {
           "type": "resource",
           "code": "magic_tree"
         }
       },
-      "previous_skin": "forest_1",
+      "previous_skin": "forest_4",
       "duration": 60,
-      "expiration": "2025-03-12T14:58:19.684Z",
-      "created_at": "2025-03-12T13:58:19.684Z"
+      "expiration": "2025-03-14T03:37:08.650Z",
+      "created_at": "2025-03-14T02:37:08.650Z"
+    },
+    {
+      "name": "Portal (Demon)",
+      "code": "portal_demon",
+      "map": {
+        "name": "Forest",
+        "skin": "forest_portal",
+        "x": -1,
+        "y": 5,
+        "content": {
+          "type": "monster",
+          "code": "demon"
+        }
+      },
+      "previous_skin": "forest_3",
+      "duration": 120,
+      "expiration": "2025-03-14T02:41:50.823Z",
+      "created_at": "2025-03-14T00:41:50.823Z"
     }
   ],
   "effects": [

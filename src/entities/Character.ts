@@ -49,10 +49,14 @@ export class Character {
 
     getRemainingCooldown(): number {
         const now = new Date();
-        const cooldownExpiration = new Date(this.data.cooldown_expiration);
+        const cooldownExpiration = this.getExpirationCooldown();
         const timeDifference = cooldownExpiration.getTime() - now.getTime();
 
         return timeDifference > 0 ? timeDifference : 0;
+    }
+
+    getExpirationCooldown(): Date {
+        return new Date(this.data.cooldown_expiration);
     }
 
     getCoordinates(): Coordinates {

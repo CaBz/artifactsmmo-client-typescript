@@ -14,7 +14,7 @@ export class Waiter {
             return result;
         }
 
-        Utils.stdoutHeadline(`>>> ${(remainingCooldown/1000).toFixed(2)}s`);
+        Utils.stdoutHeadline(`>>> ${(remainingCooldown/1000).toFixed(2)}s @ ${result.getExpirationCooldown().toLocaleTimeString()}`);
 
         await Utils.sleep(remainingCooldown);
 

@@ -96,6 +96,9 @@ export class Simulator {
         const minLevel = level < 10 ? 1 : (Math.floor(level / 10) * 10);
         const prep = await this.getGearPool(minLevel, level, showUnavailableItems);
 
+
+        const monster: Monster = this.monsters.get(code)!;
+        console.log(`Simulating for ${monster.code} (lv. ${monster.level})`);
         return this.simulateUltimateForMonsterWithGear(prep.attackerStats, prep.gearPool, code)
     }
 
@@ -162,7 +165,7 @@ export class Simulator {
             population.sort((a, b) => b.successRate - a.successRate || a.averageTurns - b.averageTurns || b.averageAttackerHP - a.averageAttackerHP);
 
             const topHalf = population.slice(0, populationSize / 2);
-            const newPopulation = [...topHalf];
+            const newPopulation = population[0]!.successRate === 0 ? [] : [...topHalf];
 
             while (newPopulation.length < populationSize) {
                 const parent1 = Utils.randomArrayValue(topHalf).gearSet;

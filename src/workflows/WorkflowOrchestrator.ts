@@ -195,6 +195,8 @@ export class WorkflowOrchestrator {
     ) {
     }
 
+    private currentWorkflow: string = '';
+
     async findWorkflowAndExecute(name: string, loops: number): Promise<void> {
         let workflowActions = this.staticWorkflows.get(name);
         if (!workflowActions || workflowActions.length === 0) {
@@ -208,6 +210,7 @@ export class WorkflowOrchestrator {
         }
 
         Utils.logHeadline(`WORKFLOW: ${name}`);
+        this.currentWorkflow = name;
 
         try {
             await this.execute(workflowActions!);
