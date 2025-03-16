@@ -139,7 +139,8 @@ async function processCommand(commandName: string) {
             await container.simulator.simulateUltimate(
                 (consoleParams.shift() || '') as Monsters,
                 +(consoleParams.shift() || -1),
-                !!consoleParams.shift()
+                !!consoleParams.shift(),
+                !!consoleParams.shift(),
             );
             break;
         case 'simulate-ultimate-all':

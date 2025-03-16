@@ -5,6 +5,7 @@ import {ClientException} from "../../gateways/ClientException.js";
 import {Items} from "../../lexical/Items.js";
 import {CraftActionConditions} from "../WorkflowOrchestrator.js";
 import {Character} from "../../entities/Character.js";
+import {Container} from "../../Container.js";
 
 export class Crafter {
     constructor(private readonly waiter: Waiter, private readonly characterGateway: CharacterGateway) {
@@ -36,6 +37,7 @@ export class Crafter {
         }
 
         if (quantity === -1) {
+            await Container.taskRepository.checkForImmediateTask();
             return this.craft(item, quantity);
         }
 

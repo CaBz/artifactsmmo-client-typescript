@@ -61,7 +61,7 @@ export class Simulator {
         let minLevel = level < 10 ? 1 : (Math.floor(level / 10) * 10 - 10);
         minLevel = minLevel === level ? level - 5 : minLevel;
 
-        const prep = await this.getGearPool(minLevel, level, showUnavailableItems);
+        const prep = await this.getGearPool(minLevel, level, showUnavailableItems, true);
 
         const monsters: Monster[] = Array.from(Container.monsters.values());
         monsters.sort((a, b) => a.level - b.level);
@@ -86,24 +86,24 @@ export class Simulator {
         }
     }
 
-    async simulateUltimate(code: Monsters, level: number, showUnavailableItems: boolean): Promise<Population> {
+    async simulateUltimate(code: Monsters, level: number, showUnavailableItems: boolean, showFromAllCharacter: boolean): Promise<Population> {
         await this.loadCharacter();
 
         if (level === -1) {
             level = this.character.level;
         }
 
-        let minLevel = level < 10 ? 1 : (Math.floor(level / 10) * 10);
+        let minLevel = level < 10 ? 1 : (Math.floor(level / 10) * 10 - 10);
         minLevel = minLevel === level ? level - 5 : minLevel;
 
-        const prep = await this.getGearPool(minLevel, level, showUnavailableItems);
+        const prep = await this.getGearPool(minLevel, level, showUnavailableItems, showFromAllCharacter);
 
         const monster: Monster = Container.monsters.get(code)!;
         console.log(`Simulating for ${monster.code} (lv. ${monster.level})`);
         return this.simulateUltimateForMonsterWithGear(prep.attackerStats, prep.gearPool, code)
     }
 
-    private async getGearPool(minLevel: number, maxLevel: number, showUnavailableItems: boolean) {
+    private async getGearPool(minLevel: number, maxLevel: number, showUnavailableItems: boolean, showFromAllCharacter: boolean) {
         const characters = await this.client.getAllCharacterStatus();
         const bank: any = await this.banker.getBank();
 
@@ -123,9 +123,16 @@ export class Simulator {
             // Test item attack vs monster weakness
             // Test item resistance vs monster strenghts
 
-            if (bank[item.code]) { return true ;}
-            for (let i=0; i<characters.length; i++) {
-                if (characters[i]!.holdsHowManyOf(item.code) > 0) { return true; }
+            if (bank[item.code]) {
+                return true;
+            }
+
+            if (showFromAllCharacter) {
+                for (let i = 0; i < characters.length; i++) {
+                    if (characters[i]!.holdsHowManyOf(item.code) > 0) {
+                        return true;
+                    }
+                }
             }
 
             return false;

@@ -102,24 +102,37 @@ export class WorkflowRegister {
             [Items.SkullRing, 1, EquippableSlot.Ring2],
         ]));
 
-        workflows.set('equip-demon_set-lv30', WorkflowFactory.withdrawAndEquip([
-            [Items.ObsidianBattleaxe, 1, EquippableSlot.Weapon],
-            [Items.FlyingBoots, 1, EquippableSlot.Boots],
-            [Items.LichCrown, 1, EquippableSlot.Helmet],
-            [Items.ConjurerSkirt, 1, EquippableSlot.LegArmor],
-            [Items.BanditArmor, 1, EquippableSlot.BodyArmor],
-            [Items.GoldShield, 1, EquippableSlot.Shield],
-            [Items.TopazAmulet, 1, EquippableSlot.Amulet],
-            [Items.TopazRing, 1, EquippableSlot.Ring1],
-            [Items.TopazRing, 1, EquippableSlot.Ring2],
-        ]));
-
 
         // OK Bandit Lizard -> lizard_eye + lizard_skin
         // OK Imp -> demoniac_dust + piece_of_obsidian
         // Death knight -> red_cloth
         // Demon -> demon_horn
         // Ownbear -> owlbear_hair + owlbear_claw
+
+
+
+        workflows.set('equip-death_knight_set', WorkflowFactory.withdrawAndEquip([
+            [Items.ObsidianBattleaxe, 1, EquippableSlot.Weapon],
+            [Items.SteelShield, 1, EquippableSlot.Shield],
+            [Items.PiggyHelmet, 1, EquippableSlot.Helmet],
+            [Items.BanditArmor, 1, EquippableSlot.BodyArmor],
+            [Items.SerpentSkinLegsArmor, 1, EquippableSlot.LegArmor],
+            [Items.SerpentSkinBoots, 1, EquippableSlot.Boots],
+            [Items.RingofChance, 1, EquippableSlot.Ring1],
+            [Items.RingofChance, 1, EquippableSlot.Ring2],
+            [Items.DreadfulAmulet, 1, EquippableSlot.Amulet],
+        ]));
+
+        workflows.set('equip-bb', WorkflowFactory.withdrawAndEquip([
+            [Items.VampireBow, 1, EquippableSlot.Weapon],
+            [Items.SteelShield, 1, EquippableSlot.Shield],
+            [Items.PiggyHelmet, 1, EquippableSlot.Helmet],
+            [Items.PiggyArmor, 1, EquippableSlot.BodyArmor],
+            [Items.SkeletonPants, 1, EquippableSlot.LegArmor],
+            [Items.SteelBoots, 1, EquippableSlot.Boots],
+            [Items.SkullRing, 2, [EquippableSlot.Ring1, EquippableSlot.Ring2]],
+            [Items.SkullAmulet, 1, EquippableSlot.Amulet],
+        ]));
 
     }
 }
