@@ -141,6 +141,14 @@ export class Character {
         return false;
     }
 
+    getItemEquippedIn(slot: EquippableSlot): Items | undefined {
+        return this.data[`${slot}_slot`];
+    }
+
+    hasSlotEquipped(slot: EquippableSlot): boolean {
+        return !!this.data[`${slot}_slot`];
+    }
+
     getAllStats() {
         return StatEffects.map((stat) => {
             const value = stat === 'hp' ? this.data.max_hp : this.data[stat];

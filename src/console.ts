@@ -49,6 +49,13 @@ async function processCommand(commandName: string) {
             await container.rester.rest();
             break;
 
+        case 'recycle':
+            await container.crafter.recycle(
+                (consoleParams.shift() || '') as unknown as Items,
+                1
+            );
+            break;
+
         // Utility function to swap an equipped item from the back
         case 'swap':
             code = (consoleParams.shift() || '') as Items;

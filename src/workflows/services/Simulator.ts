@@ -60,7 +60,9 @@ export class Simulator {
             level = this.character.level;
         }
 
-        const minLevel = level < 10 ? 1 : (Math.floor(level / 10) * 10 - 10);
+        let minLevel = level < 10 ? 1 : (Math.floor(level / 10) * 10 - 10);
+        minLevel = minLevel === level ? level - 5 : minLevel;
+
         const prep = await this.getGearPool(minLevel, level, showUnavailableItems);
 
         const monsters: Monster[] = Array.from(this.monsters.values());
@@ -93,9 +95,10 @@ export class Simulator {
             level = this.character.level;
         }
 
-        const minLevel = level < 10 ? 1 : (Math.floor(level / 10) * 10);
-        const prep = await this.getGearPool(minLevel, level, showUnavailableItems);
+        let minLevel = level < 10 ? 1 : (Math.floor(level / 10) * 10);
+        minLevel = minLevel === level ? level - 5 : minLevel;
 
+        const prep = await this.getGearPool(minLevel, level, showUnavailableItems);
 
         const monster: Monster = this.monsters.get(code)!;
         console.log(`Simulating for ${monster.code} (lv. ${monster.level})`);
@@ -117,6 +120,10 @@ export class Simulator {
             if (showUnavailableItems) {
                 return true;
             }
+
+            // @TODO: Filter more to only include items that matters?
+            // Test item attack vs monster weakness
+            // Test item resistance vs monster strenghts
 
             if (bank[item.code]) { return true ;}
             for (let i=0; i<characters.length; i++) {
@@ -603,6 +610,12 @@ export class Simulator {
             logLevel === 'details'
         );
 
+        const won = attackerStats.hp > 0 && turns < 100;
+        const result = {won, turns, attackerHP: attackerStats.hp, defenderHP: defenderStats.hp};
+        if (!['details', 'summary'].includes(logLevel)) {
+            return result;
+        }
+
         if (logLevel === 'details') {
             console.log(Utils.LINE);
         }
@@ -610,12 +623,6 @@ export class Simulator {
         let fightResult = `${this.character.name} (${attackerStats.hp.toString().padStart(4, ' ')}hp) vs`;
         fightResult = `${fightResult} ${monster.name.padEnd(16, ' ')} (${defenderStats.hp.toString().padStart(4, ' ')}hp) =>`;
         fightResult = `${fightResult} vs lv.${monster.level.toString().padStart(2, ' ')} =`;
-
-        const won = attackerStats.hp > 0 && turns < 100;
-        const result = {won, turns, attackerHP: attackerStats.hp, defenderHP: defenderStats.hp};
-        if (!['details', 'summary'].includes(logLevel)) {
-            return result;
-        }
 
         if (won) {
             Utils.logHeadline(`${fightResult}  WIN - ${turns.toString().padStart(3, ' ')} TURNS`);
@@ -630,18 +637,36 @@ export class Simulator {
         return result;
     }
 
+    private efficientSimulateWithStatsAgainst(attackerStats: any, defenderStats:any, monsterName: string) {
+        const turns = this.executeFight(
+            this.character.name,
+            attackerStats,
+            monsterName,
+            defenderStats,
+            false
+        );
+
+        return {won: (attackerStats.hp > 0 && turns < 100), turns, attackerHP: attackerStats.hp, defenderHP: defenderStats.hp};
+    }
+
     calculateSimulationFor(attackerStats: any, code: Monsters, loops: number) {
         let result: any,
-            clonedAttackerStats: any;
+            clonedAttackerStats: any,
+            clonedDefenderStats: any;
 
         let turns: number = 0,
             attackerHP: number = 0,
             defenderHP: number = 0,
             wins: number = 0;
 
+
+        const monster: Monster = this.monsters.get(code)!;
+        const defenderStats: any = this.getEntityStats(monster.getAllStats());
+
         for (let i=0; i<loops; i++) {
             clonedAttackerStats = { ...attackerStats };
-            result = this.simulateWithStatsAgainst(clonedAttackerStats, code, 'none');
+            clonedDefenderStats = { ...defenderStats };
+            result = this.efficientSimulateWithStatsAgainst(clonedAttackerStats, clonedDefenderStats, monster.name);
             turns += result.turns;
             attackerHP += result.attackerHP;
             defenderHP += result.defenderHP;

@@ -18,7 +18,11 @@ export class Equipper {
             return;
         }
 
-        await this.waiter.wait();
+        const character = await this.waiter.wait();
+        if (character.getItemEquippedIn(slot) === item) {
+            Utils.errorHeadline(`SKIP - Already equipped`);
+            return;
+        }
 
         try {
             await this.characterGateway.equip(item, quantity, slot);
@@ -41,7 +45,11 @@ export class Equipper {
             return;
         }
 
-        await this.waiter.wait();
+        const character = await this.waiter.wait();
+        if (!character.hasSlotEquipped(slot)) {
+            Utils.errorHeadline(`SKIP - Already unequipped`);
+            return;
+        }
 
         try {
             await this.characterGateway.unequip(quantity, slot);
