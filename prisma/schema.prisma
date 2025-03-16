@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,8 +8,170 @@ datasource db {
 }
 
 model pending_tasks {
-  id           Int       @id @default(autoincrement())
-  character    String
+  id            Int      @id @default(autoincrement())
+  character     String
+  name          String
+  creation_date DateTime @default(now())
+}
+
+model effects {
+  code        String @id
+  name        String
+  description String
+  type        String
+  subtype     String
+}
+
+model events {
+  code         String @id
   name         String
-  creationDate DateTime? @default(now())
+  maps         Json
+  skin         String
+  duration     Int
+  rate         Int
+  content_type String
+  content_code String
+}
+
+model active_events {
+  code             String   @id
+  name             String
+  map_name         String
+  map_skin         String
+  map_x            Int
+  map_y            Int
+  map_content_type String
+  map_content_code String
+  previous_skin    String
+  duration         Int
+  expiration       DateTime
+  created_at       DateTime
+}
+
+model items {
+  code           String  @id
+  name           String
+  level          Int
+  type           String
+  subtype        String
+  description    String
+  craft_skill    String?
+  craft_level    Int?
+  craft_quantity Int?
+  tradeable      Boolean
+}
+
+model item_effects {
+  item_code    String
+  effect_code  String
+  effect_value Int
+
+  @@id([item_code, effect_code])
+}
+
+model recipes {
+  code          String
+  item_code     String
+  item_quantity Int
+
+  @@id([code, item_code])
+}
+
+model maps {
+  code         String  @id
+  skin         String
+  x            Int
+  y            Int
+  content_type String?
+  content_code String?
+}
+
+model monsters {
+  code            String @id
+  name            String
+  level           Int
+  hp              Int
+  attack_fire     Int
+  attack_earth    Int
+  attack_water    Int
+  attack_air      Int
+  res_fire        Int
+  res_earth       Int
+  res_water       Int
+  res_air         Int
+  critical_strike Int
+  min_gold        Int
+  max_gold        Int
+}
+
+model monster_effects {
+  monster_code String
+  effect_code  String
+  effect_value Int
+
+  @@id([monster_code, effect_code])
+}
+
+model monster_drops {
+  monster_code String
+  item_code    String
+  rate         Int
+  min_quantity Int
+  max_quantity Int
+
+  @@id([monster_code, item_code])
+}
+
+model npcs {
+  code        String @id
+  name        String
+  description String
+  type        String
+}
+
+model npc_items {
+  npc_code   String
+  item_code  String
+  buy_price  Int
+  sell_price Int
+
+  @@id([npc_code, item_code])
+}
+
+model resources {
+  code  String @id
+  name  String
+  skill String
+  level Int
+}
+
+model resource_drops {
+  resource_code String
+  item_code     String
+  rate          Int
+  min_quantity  Int
+  max_quantity  Int
+
+  @@id([resource_code, item_code])
+}
+
+model tasks {
+  code         String  @id
+  level        Int
+  type         String
+  min_quantity Int
+  max_quantity Int
+  skill        String?
+  reward_coins Int
+  reward_golds Int
+}
+
+model task_rewards {
+  task_code    String
+  item_code    String
+  rate         Int
+  min_quantity Int
+  max_quantity Int
+
+  @@id([task_code, item_code])
 }

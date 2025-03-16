@@ -1,4 +1,5 @@
-import {Coordinates} from "../lexical/MapCoordinates.js";
+import {MapTile} from "./MapTile.js";
+import {Coordinates} from "../lexical/Coordinates.js";
 
 export class Event {
     constructor(private readonly data: any) {
@@ -25,6 +26,14 @@ export class Event {
         return this.data.name;
     }
 
+    get map(): MapTile {
+        return new MapTile(this.data.map);
+    }
+
+    get mapData(): MapTile {
+        return this.data.map;
+    }
+
     get code(): string {
         return this.data.code;
     }
@@ -34,7 +43,7 @@ export class Event {
     }
 
     get isExpired(): boolean {
-        return this.getRemainingActive() > 0
+        return this.getRemainingActive() <= 0;
     }
 
     getRemainingActive(): number {

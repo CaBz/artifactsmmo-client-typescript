@@ -1360,13 +1360,10 @@
   },
   {
     "name": "Forest",
-    "skin": "forest_portal",
+    "skin": "forest_3",
     "x": -1,
     "y": 5,
-    "content": {
-      "type": "monster",
-      "code": "demon"
-    }
+    "content": null
   },
   {
     "name": "Forest",
@@ -1387,13 +1384,10 @@
   },
   {
     "name": "Forest",
-    "skin": "forest_village6_fish_merchant",
+    "skin": "forest_village6",
     "x": 2,
     "y": 5,
-    "content": {
-      "type": "npc",
-      "code": "fish_merchant"
-    }
+    "content": null
   },
   {
     "name": "Forest",
@@ -1407,7 +1401,7 @@
   },
   {
     "name": "Forest",
-    "skin": "forest_2",
+    "skin": "forest_event_lizard1",
     "x": 4,
     "y": 5,
     "content": null
@@ -2509,13 +2503,10 @@
   },
   {
     "name": "Forest",
-    "skin": "forest_magictree1",
+    "skin": "forest_4",
     "x": -4,
     "y": 14,
-    "content": {
-      "type": "resource",
-      "code": "magic_tree"
-    }
+    "content": null
   },
   {
     "name": "Forest",

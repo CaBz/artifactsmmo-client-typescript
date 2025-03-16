@@ -57,11 +57,12 @@ export class WorkflowRegister {
 
         workflows.set('equip-imp_set-lv25', WorkflowFactory.withdrawAndEquip([
             [Items.SkullWand, 1, EquippableSlot.Weapon],
-            [Items.SteelShield, 1, EquippableSlot.Boots],
-            [Items.PiggyHelmet, 1, EquippableSlot.Helmet],
-            [Items.SerpentSkinLegsArmor, 1, EquippableSlot.LegArmor],
-            [Items.BanditArmor, 1, EquippableSlot.BodyArmor],
             [Items.SteelShield, 1, EquippableSlot.Shield],
+            [Items.PiggyHelmet, 1, EquippableSlot.Helmet],
+            // [Items.BanditArmor, 1, EquippableSlot.BodyArmor],
+            [Items.PiggyArmor, 1, EquippableSlot.BodyArmor],
+            [Items.SerpentSkinLegsArmor, 1, EquippableSlot.LegArmor],
+            [Items.SteelBoots, 1, EquippableSlot.Boots],
             // [Items.EmeraldAmulet, 1, EquippableSlot.Amulet],
             [Items.SkullAmulet, 1, EquippableSlot.Amulet],
             [Items.SkullRing, 1, EquippableSlot.Ring1],

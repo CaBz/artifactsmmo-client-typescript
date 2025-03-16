@@ -1,11 +1,11 @@
-import {CharacterGateway} from "../../gateways/CharacterGateway.js";
-import {Monster} from "../../entities/Monster.js";
-import {Character} from "../../entities/Character.js";
-import {Monsters} from "../../lexical/Monsters.js";
-import {StatEffects} from "../../lexical/TypeEffects.js";
-import * as Utils from "../../Utils.js";
-import {Item} from "../../entities/Item.js";
-import {Items} from "../../lexical/Items.js";
+import {CharacterGateway} from "../gateways/CharacterGateway.js";
+import {Monster} from "../entities/Monster.js";
+import {Character} from "../entities/Character.js";
+import {Monsters} from "../lexical/Monsters.js";
+import {StatEffects} from "../lexical/TypeEffects.js";
+import * as Utils from "../Utils.js";
+import {Item} from "../entities/Item.js";
+import {Items} from "../lexical/Items.js";
 import {
     EquippableAmulets,
     EquippableBodyArmors, EquippableBoots,
@@ -13,23 +13,23 @@ import {
     Equippables,
     EquippableShields,
     EquippableWeapons
-} from "../../lexical/Equippables.js";
+} from "../lexical/Equippables.js";
 import {
     AllEquippableSlots,
     EquippableSlot,
     EquippableSlots,
     EquippableSlotToType, GearEquippableSlots
-} from "../../lexical/EquippableSlot.js";
-import {ArtifactsClient} from "../../gateways/ArtifactsClient.js";
-import {Recipe, Recipes, ResourceItem} from "../../lexical/Recipes.js";
+} from "../lexical/EquippableSlot.js";
+import {ArtifactsClient} from "../gateways/ArtifactsClient.js";
+import {Recipe, Recipes, ResourceItem} from "../lexical/Recipes.js";
 import {
     CraftableGearcrafting,
     CraftableJewelry,
     CraftableWeaponcrafting
-} from "../../lexical/Craftables.js";
-import {Banker} from "./Banker.js";
-import {Effects} from "../../lexical/Effects.js";
-import {Container} from "../../Container.js";
+} from "../lexical/Craftables.js";
+import {Banker} from "../workflows/services/Banker.js";
+import {Effects} from "../lexical/Effects.js";
+import {Container} from "../Container.js";
 
 
 type GearSet = Record<string, Item>;
@@ -41,8 +41,6 @@ export class Simulator {
     constructor(
         private readonly client: ArtifactsClient,
         private readonly characterGateway: CharacterGateway,
-        private readonly monsters: Map<string, Monster>,
-        private readonly items: Map<string, Item>,
         private readonly banker: Banker,
     ) {
     }
@@ -65,7 +63,7 @@ export class Simulator {
 
         const prep = await this.getGearPool(minLevel, level, showUnavailableItems);
 
-        const monsters: Monster[] = Array.from(this.monsters.values());
+        const monsters: Monster[] = Array.from(Container.monsters.values());
         monsters.sort((a, b) => a.level - b.level);
 
         const result: any = {};
@@ -73,11 +71,11 @@ export class Simulator {
         let populationResult: any;
         for (let i=0; i<monsters.length; i++) {
             console.log(`Simulating for ${monsters[i]!.code} (lv. ${monsters[i]!.level})`);
-            populationResult = this.simulateUltimateForMonsterWithGear(prep.attackerStats, prep.gearPool, monsters[i]!.code);
+            populationResult = this.simulateUltimateForMonsterWithGear(prep.attackerStats, prep.gearPool, monsters[i]!.code as Monsters);
 
             gearSet = {};
             Object.entries(populationResult.gearSet).forEach(([key, item]) => {
-                gearSet[key] = item.code;
+                gearSet[key] = (item as Item).code;
             });
 
             result[monsters[i]!.code] = { ... populationResult };
@@ -100,7 +98,7 @@ export class Simulator {
 
         const prep = await this.getGearPool(minLevel, level, showUnavailableItems);
 
-        const monster: Monster = this.monsters.get(code)!;
+        const monster: Monster = Container.monsters.get(code)!;
         console.log(`Simulating for ${monster.code} (lv. ${monster.level})`);
         return this.simulateUltimateForMonsterWithGear(prep.attackerStats, prep.gearPool, code)
     }
@@ -268,13 +266,13 @@ export class Simulator {
             const stats: any = { ...attackerStats };
             const equippedItemCode: any = this.character.getEquippedGear(slot);
             if (equippedItemCode) {
-                const equippedItem = this.items.get(equippedItemCode)!;
+                const equippedItem = Container.items.get(equippedItemCode)!;
                 equippedItem.effects.forEach((effect: any) => {
                     stats[effect.code] -= effect.value;
                 });
             }
 
-            const items = Array.from(this.items.values()).filter((item: Item) => item.type === itemType && (item.level > (level - 9) && item.level <= level));
+            const items = Array.from(Container.items.values()).filter((item: Item) => item.type === itemType && (item.level > (level - 9) && item.level <= level));
             items.sort((a, b) => a.level - b.level);
             items.forEach((item: Item) => {
                 const copyStats = { ...stats };
@@ -327,7 +325,7 @@ export class Simulator {
                     const bankQuantity = bank[recipeItem.code] || 0;
                     recipeItems.push({bankQuantity, code: recipeItem.code, quantity: recipeItem.quantity});
                 });
-                itemsToCraft.push({ skill, item: this.items.get(code)!, recipeItems: recipeItems, recipeQuantityBank: recipeQuantityFromBank});
+                itemsToCraft.push({ skill, item: Container.items.get(code)!, recipeItems: recipeItems, recipeQuantityBank: recipeQuantityFromBank});
             }
         });
         itemsToCraft.sort((a, b) => a.skill.name.localeCompare(b.skill.name) || a.item.level - b.item.level || a.recipeQuantityBank - b.recipeQuantityBank);
@@ -401,7 +399,7 @@ export class Simulator {
                 //     return;
                 // }
 
-                const item = this.items.get(entry.item)!;
+                const item = Container.items.get(entry.item)!;
                 const recipe = item.isCraftable ? Recipes.getFor(entry.item) : undefined;
 
                 const quantity: number = (bank[entry.item] || 0) + this.character.holdsHowManyOf(entry.item);
@@ -444,7 +442,7 @@ export class Simulator {
         await this.loadCharacter();
         const attackerStats: any = this.getEntityStats(this.character.getAllStats());
 
-        const monsters: Monster[] = Array.from(this.monsters.values());
+        const monsters: Monster[] = Array.from(Container.monsters.values());
         monsters.sort((a, b) => a.level - b.level);
 
         const numberFormatter = new Intl.NumberFormat('en-us', {minimumFractionDigits: 2});
@@ -496,7 +494,7 @@ export class Simulator {
 
     async analyzeFightTurn(code: Monsters): Promise<void> {
         await this.loadCharacter();
-        const monster: Monster = this.monsters.get(code)!;
+        const monster: Monster = Container.monsters.get(code)!;
 
         const attackerStats: any = this.getEntityStats(StatEffects.map((stat) => {
             const value = stat.startsWith('attack') ? 1000 : 0;
@@ -539,8 +537,8 @@ export class Simulator {
     async simulateWithItemCodeAgainst(monsterCode: Monsters, itemCode: Items) {
         await this.loadCharacter();
 
-        const item: Item = this.items.get(itemCode)!;
-        const values = await this.simulateWithItemAgainst(monsterCode, item, 1000);
+        const item: Item = Container.items.get(itemCode)!;
+        const values = this.simulateWithItemAgainst(monsterCode, item, 1000);
 
         console.log(values);
     }
@@ -548,7 +546,7 @@ export class Simulator {
     private simulateForEquipmentSlot(code: Monsters, slot: EquippableSlot, maxLevel: number) {
         let result: any = [];
         Equippables.forEach((itemCode: Items) => {
-            const item = this.items.get(itemCode)!;
+            const item = Container.items.get(itemCode)!;
             if (item.equippableSlot !== slot) {
                 return;
             }
@@ -579,7 +577,7 @@ export class Simulator {
 
         const equippedGears = this.character.getEquippedGears();
         equippedGears.forEach((itemCode: Items) => {
-            let equippedItem = this.items.get(itemCode)!;
+            let equippedItem = Container.items.get(itemCode)!;
             if (equippedItem.equippableSlot === item.equippableSlot) {
                 equippedItem = item;
             }
@@ -593,7 +591,7 @@ export class Simulator {
     }
 
     private simulateWithStatsAgainst(attackerStats: any, code: Monsters, logLevel: string) {
-        const monster: Monster = this.monsters.get(code)!;
+        const monster: Monster = Container.monsters.get(code)!;
         const defenderStats: any = this.getEntityStats(monster.getAllStats());
 
         if (logLevel === 'details') {
@@ -660,7 +658,7 @@ export class Simulator {
             wins: number = 0;
 
 
-        const monster: Monster = this.monsters.get(code)!;
+        const monster: Monster = Container.monsters.get(code)!;
         const defenderStats: any = this.getEntityStats(monster.getAllStats());
 
         for (let i=0; i<loops; i++) {
@@ -770,7 +768,7 @@ export class Simulator {
     private calculateCharacterHP(): number {
         let equipmentHp = 0;
         this.character.getEquippedGears().forEach((itemCode: Items) => {
-            const item: Item = this.items.get(itemCode)!;
+            const item: Item = Container.items.get(itemCode)!;
             item.effects.forEach((effect: any) => {
                 if (effect.code !== 'hp') {
                     return;

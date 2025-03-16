@@ -17,7 +17,7 @@ import {Monster} from "./entities/Monster.js";
 import {Resource} from "./entities/Resource.js";
 import {LexicalGenerator} from "./generators/LexicalGenerator.js";
 import {DataLoader} from "./generators/DataLoader.js";
-import {Simulator} from "./workflows/services/Simulator.js";
+import {Simulator} from "./simulations/Simulator.js";
 import {Effect} from "./entities/Effect.js";
 import {WorkflowGenerator} from "./workflows/WorkflowGenerator.js";
 import {ItemUser} from "./workflows/services/ItemUser.js";
@@ -45,18 +45,17 @@ export class Container {
         // Order matters
         this.registerGateways();
         await this.registerGeneratorsAndSets();
-
         this.registerServices();
-        this.registerWorkflows();
         this.registerWorkflowOrchestrator();
+        this.registerSimulations();
     }
 
     private registerGateways(): void {
-        this.instances.set('client', new ArtifactsClient());
-        this.instances.set('character-gateway', new CharacterGateway(this.client, this.characterName));
-
         this.instances.set('db-connection', new PrismaClient({ errorFormat: 'pretty', }));
         this.instances.set('task-repository', new TaskRepository(this.dbConnection));
+
+        this.instances.set('client', new ArtifactsClient());
+        this.instances.set('character-gateway', new CharacterGateway(this.client, this.characterName));
     }
 
     get client(): ArtifactsClient {
@@ -76,7 +75,7 @@ export class Container {
     }
 
     private async registerGeneratorsAndSets(): Promise<void> {
-        this.instances.set('data-loader', new DataLoader(this.client, 'data', 'everything.json'));
+        this.instances.set('data-loader', new DataLoader(this.client, 'data', 'everything.json', this.dbConnection));
         this.instances.set('data', await this.dataLoader.loadData());
         Container.items = this.items;
         Container.monsters = this.monsters;
@@ -128,7 +127,6 @@ export class Container {
         this.instances.set('rester', new Rester(this.waiter, this.characterGateway, this.itemUser, this.items));
         this.instances.set('fighter', new Fighter(this.waiter, this.characterGateway));
         this.instances.set('tasker', new Tasker(this.waiter, this.characterGateway));
-        this.instances.set('simulator', new Simulator(this.client, this.characterGateway, this.monsters, this.items, this.banker));
     }
     get waiter(): Waiter {
         return this.instances.get('waiter');
@@ -170,11 +168,8 @@ export class Container {
         return this.instances.get('tasker');
     }
 
-    get simulator(): Simulator {
-        return this.instances.get('simulator');
-    }
-
     private registerWorkflowOrchestrator() {
+        this.instances.set('workflows', WorkflowRegister.create());
         this.instances.set('workflow-generator', new WorkflowGenerator(
             this.characterGateway,
             this.banker,
@@ -199,6 +194,10 @@ export class Container {
         );
     }
 
+    get workflows(): Map<string, WorkflowAction[]> {
+        return this.instances.get('workflows');
+    }
+
     get workflowGenerator(): WorkflowGenerator {
         return this.instances.get('workflow-generator');
     }
@@ -207,11 +206,11 @@ export class Container {
         return this.instances.get('workflow-orchestrator');
     }
 
-    private registerWorkflows() {
-        this.instances.set('workflows', WorkflowRegister.create());
+    private registerSimulations() {
+        this.instances.set('simulator', new Simulator(this.client, this.characterGateway, this.banker));
     }
 
-    get workflows(): Map<string, WorkflowAction[]> {
-        return this.instances.get('workflows');
+    get simulator(): Simulator {
+        return this.instances.get('simulator');
     }
 }
