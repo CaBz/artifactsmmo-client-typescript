@@ -34,9 +34,11 @@ import {Merchant} from "./entities/Merchant.js";
 import {Event} from "./entities/Event.js";
 
 export class Container {
+    static dataLoader: DataLoader;
     static items: Map<string, Item>;
     static monsters: Map<string, Monster>;
     static maps: Map<string, MapTile>;
+    static resources: Map<string, Resource>;
     static taskRepository: TaskRepository;
 
     static async create(charactName: string): Promise<Container> {
@@ -133,11 +135,13 @@ export class Container {
             this.npcRepository,
             this.taskRepository,
         ));
+        Container.dataLoader = this.dataLoader;
 
         this.instances.set('data', await this.dataLoader.loadDataFromDb());
         Container.items = this.items;
         Container.monsters = this.monsters;
         Container.maps = this.maps;
+        Container.resources = this.resources;
 
         this.instances.set('lexical-generator', new LexicalGenerator(this.data, 'data/templates', 'src/lexical'));
     }
@@ -244,7 +248,6 @@ export class Container {
         this.instances.set(
             'workflow-orchestrator',
             new WorkflowOrchestrator(
-                this.characterName,
                 this.taskRepository,
                 this.characterGateway,
                 this.mover,

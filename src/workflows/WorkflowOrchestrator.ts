@@ -16,6 +16,7 @@ import {WorkflowGenerator} from "./WorkflowGenerator.js";
 import {ItemUser} from "./services/ItemUser.js";
 import {EquippableSlot} from "../lexical/EquippableSlot.js";
 import {TaskRepository} from "../repositories/TaskRepository.js";
+import {Container} from "../Container.js";
 
 export enum MoveActionCondition {
     InventoryNotFull = 'inventory-not-full',
@@ -177,7 +178,6 @@ export class WorkflowOrchestrator {
     private currentWorkflowName: string = '';
 
     constructor(
-        private readonly characterName: string,
         private readonly taskRepository: TaskRepository,
         private readonly characterGateway: CharacterGateway,
         private readonly mover: Mover,
@@ -196,9 +196,10 @@ export class WorkflowOrchestrator {
 
     async findWorkflowAndExecute(name: string, loops: number): Promise<void> {
         this.currentWorkflowName = name;
-
         const workflowActions = await this.getWorkflowActions();
-        Utils.logHeadline(`WORKFLOW: ${this.currentWorkflowName}`);
+        name = this.currentWorkflowName;
+
+        Utils.logHeadline(`WORKFLOW: ${name}`);
 
         try {
             await this.execute(workflowActions!);
@@ -217,13 +218,20 @@ export class WorkflowOrchestrator {
     private async getWorkflowActions(): Promise<WorkflowAction[]> {
         let name = this.currentWorkflowName;
 
+        // @TODO: This is foul code
         const pendingTasks = await this.taskRepository.getPendingTasks();
         if (pendingTasks.length > 0) {
             const task = pendingTasks.shift()!;
+            if (task.is_refresh_events) {
+                await Container.dataLoader.reloadActiveEvents();
+                Container.maps = await Container.dataLoader.loadMapsAndActiveEvents(Container.resources);
+            }
             await this.taskRepository.confirmPendingTask(task.id);
-            name = this.currentWorkflowName = task.name;
 
-            Utils.errorHeadline(`NEW TASK > ${name}`);
+            this.currentWorkflowName = task.name;
+            name = this.currentWorkflowName;
+
+            Utils.errorHeadline(`NEW TASK > ${this.currentWorkflowName}`);
         }
 
         let workflowActions: WorkflowAction[] | undefined = this.staticWorkflows.get(name);

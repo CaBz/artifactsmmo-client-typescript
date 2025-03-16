@@ -51,7 +51,7 @@ export class TaskRepository {
         return this.db.pending_tasks.deleteMany({
             where: {
                 character: this.characterName,
-                id: { lte: taskId }
+                id: { lt: taskId }
             }
         })
     }

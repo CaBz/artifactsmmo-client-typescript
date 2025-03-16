@@ -76,9 +76,12 @@ async function processCommand(commandName: string) {
             break;
 
         case 'add-pending-task':
-            await container.taskRepository.addPendingTask(
-                (consoleParams.shift() || ''),
-                !!consoleParams.shift()
+        case 'apt':
+            console.log(
+                await container.taskRepository.addPendingTask(
+                    (consoleParams.shift() || ''),
+                    !!consoleParams.shift()
+                )
             );
             break;
 
