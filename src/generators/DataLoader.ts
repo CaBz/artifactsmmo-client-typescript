@@ -9,6 +9,7 @@ import {ResourceRepository} from "../repositories/ResourceRepository.js";
 import {TaskRepository} from "../repositories/TaskRepository.js";
 import {EventRepository} from "../repositories/EventRepository.js";
 import {NpcRepository} from "../repositories/NpcRepository.js";
+import {Resource} from "../entities/Resource.js";
 
 export class DataLoader {
     constructor(
@@ -25,24 +26,26 @@ export class DataLoader {
     ) { }
 
     async loadDataFromDb() {
-        const result = {
+        const resources = await this.resourceRepository.getAll();
+        return {
             items: (await this.itemRepository.getAll()),
             monsters: (await this.monsterRepository.getAll()),
-            maps: new Map<string, MapTile>,
+            maps: (await this.loadMapsAndActiveEvents(resources)),
             resources: (await this.resourceRepository.getAll()),
             npcs: (await this.npcRepository.getAll()),
-            tasks_list: (await this.taskRepository.getAll()),
-            tasks_rewards: [],
+            tasks: (await this.taskRepository.getAll()),
             events: (await this.eventRepository.getAll()),
-            events_active: (await this.eventRepository.getAllActive()),
             effects: (await this.effectRepository.getAll()),
         };
+    }
+
+    async loadMapsAndActiveEvents(resources: Map<string, Resource>): Promise<Map<string, MapTile>> {
+        const result = new Map<string, MapTile>;
 
         const mapTiles = await this.mapRepository.getAll();
-
-        // Add events to the maps
-        for (let i=0; i<result.events_active.length; i++) {
-            const event = result.events_active[i]!;
+        const activeEvents = await this.eventRepository.getAllActive();
+        for (let i=0; i<activeEvents.length; i++) {
+            const event = activeEvents[i]!;
             if (event.isExpired) {
                 continue;
             }
@@ -58,33 +61,33 @@ export class DataLoader {
 
             switch (map.contentType) {
                 case MapType.Monster:
-                    result.maps.set(map.contentCode, map);
+                    result.set(map.contentCode, map);
                     break;
                 case MapType.Resource:
-                    result.resources.get(map.contentCode)!.drops.forEach((drop) => {
+                    resources.get(map.contentCode)!.drops.forEach((drop: any) => {
                         if (drop.rate === 1) { // Ensures we only set for main resources
-                            result.maps.set(drop.code, map);
+                            result.set(drop.code, map);
                         }
                     });
                     break;
                 case MapType.Workshop:
-                    result.maps.set(`${map.contentType}_${map.contentCode}`, map);
+                    result.set(`${map.contentType}_${map.contentCode}`, map);
                     break;
                 case MapType.Bank:
-                    if (!result.maps.has('bank1')) {
-                        result.maps.set('bank1', map);
+                    if (!result.has('bank1')) {
+                        result.set('bank1', map);
                     } else {
-                        result.maps.set('bank2', map);
+                        result.set('bank2', map);
                     }
                     break;
                 case MapType.GrandExchange:
-                    result.maps.set(map.contentCode, map);
+                    result.set(map.contentCode, map);
                     break;
                 case MapType.TasksMaster:
-                    result.maps.set(`${map.contentType}_${map.contentCode}`, map);
+                    result.set(`${map.contentType}_${map.contentCode}`, map);
                     break;
                 case MapType.NPC:
-                    result.maps.set(map.contentCode, map);
+                    result.set(map.contentCode, map);
                     break;
                 default:
                     throw new Error(`Map type unhandled: ${map.contentType}`);

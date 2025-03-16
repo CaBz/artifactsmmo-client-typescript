@@ -30,6 +30,8 @@ import {ResourceRepository} from "./repositories/ResourceRepository.js";
 import {EffectRepository} from "./repositories/EffectRepository.js";
 import {EventRepository} from "./repositories/EventRepository.js";
 import {NpcRepository} from "./repositories/NpcRepository.js";
+import {Merchant} from "./entities/Merchant.js";
+import {Event} from "./entities/Event.js";
 
 export class Container {
     static items: Map<string, Item>;
@@ -164,6 +166,14 @@ export class Container {
 
     get effects(): Map<string, Effect> {
         return this.data.effects;
+    }
+
+    get npcs(): Map<string, Merchant> {
+        return this.data.npcs;
+    }
+
+    get events(): Map<string, Event> {
+        return this.data.events;
     }
 
     get lexicalGenerator(): LexicalGenerator {
