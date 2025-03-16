@@ -68,6 +68,12 @@ async function processCommand(commandName: string) {
             await container.client.getAnnouncements();
             break;
 
+        // Show announcements
+        case 'pending-tasks':
+            const result = await container.taskRepository.getPendingTasks(characterName);
+            console.log(result);
+            break;
+
         // Just to dump an entity
         case 'resources':
         case 'items':

@@ -21,6 +21,8 @@ import {Simulator} from "./workflows/services/Simulator.js";
 import {Effect} from "./entities/Effect.js";
 import {WorkflowGenerator} from "./workflows/WorkflowGenerator.js";
 import {ItemUser} from "./workflows/services/ItemUser.js";
+import { PrismaClient } from '@prisma/client'
+import {TaskRepository} from "./gateways/TaskRepository.js";
 
 export class Container {
     static items: Map<string, Item>;
@@ -52,6 +54,9 @@ export class Container {
     private registerGateways(): void {
         this.instances.set('client', new ArtifactsClient());
         this.instances.set('character-gateway', new CharacterGateway(this.client, this.characterName));
+
+        this.instances.set('db-connection', new PrismaClient({ errorFormat: 'pretty', }));
+        this.instances.set('task-repository', new TaskRepository(this.dbConnection));
     }
 
     get client(): ArtifactsClient {
@@ -60,6 +65,14 @@ export class Container {
 
     get characterGateway(): CharacterGateway {
         return this.instances.get('character-gateway');
+    }
+
+    get dbConnection(): PrismaClient {
+        return this.instances.get('db-connection');
+    }
+
+    get taskRepository(): TaskRepository {
+        return this.instances.get('task-repository');
     }
 
     private async registerGeneratorsAndSets(): Promise<void> {

@@ -83,7 +83,7 @@ export class WorkflowRegister {
         ]));
 
         workflows.set('equip-demon_set-lv25', WorkflowFactory.withdrawAndEquip([
-            // [Items.DreadfulStaff, 1, EquippableSlot.Weapon],
+            [Items.ObsidianBattleaxe, 1, EquippableSlot.Weapon],
             [Items.SkullWand, 1, EquippableSlot.Weapon],
             [Items.SteelBoots, 1, EquippableSlot.Boots],
             // [Items.MagicWizardHat, 1, EquippableSlot.Helmet],
