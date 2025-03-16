@@ -190,12 +190,9 @@ async function processCommand(commandName: string) {
             break;
 
         // Refresh & Regenerate lexicals
-        case 'refresh-dataset': await container.dataLoader.saveDataSets(); break;
-        case 'quick-refresh': await container.dataLoader.reloadActiveEvents(); break;
+        case 'refresh-all': await container.dataLoader.saveDataSets(); break;
+        case 'refresh-events': await container.dataLoader.reloadActiveEvents(); break;
         case 'generate': await container.lexicalGenerator.generateAll(); break;
-
-        case 'fill-db': await container.dataLoader.convertJsonToDatabase(); break;
-        case 'load-data-db': await container.dataLoader.loadDataFromDb(); break;
 
         default:
             consoleParams.unshift(commandName);
