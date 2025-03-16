@@ -195,6 +195,7 @@ async function processCommand(commandName: string) {
         case 'generate': await container.lexicalGenerator.generateAll(); break;
 
         case 'fill-db': await container.dataLoader.convertJsonToDatabase(); break;
+        case 'load-data-db': await container.dataLoader.loadDataFromDb(); break;
 
         default:
             consoleParams.unshift(commandName);

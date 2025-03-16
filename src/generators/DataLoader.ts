@@ -1,30 +1,115 @@
 import {ArtifactsClient} from "../gateways/ArtifactsClient.js";
-import * as Utils from "../Utils.js";
-import {Item} from "../entities/Item.js";
 import {MapTile, MapType} from "../entities/MapTile.js";
-import {Monster} from "../entities/Monster.js";
-import {Resource} from "../entities/Resource.js";
-import {Effect} from "../entities/Effect.js";
-import {Merchant} from "../entities/Merchant.js";
-import {Event} from "../entities/Event.js";
 import { PrismaClient } from '@prisma/client'
+import {ItemRepository} from "../repositories/ItemRepository.js";
+import {MonsterRepository} from "../repositories/MonsterRepository.js";
+import {MapRepository} from "../repositories/MapRepository.js";
+import {EffectRepository} from "../repositories/EffectRepository.js";
+import {ResourceRepository} from "../repositories/ResourceRepository.js";
+import {TaskRepository} from "../repositories/TaskRepository.js";
+import {EventRepository} from "../repositories/EventRepository.js";
+import {NpcRepository} from "../repositories/NpcRepository.js";
 
 export class DataLoader {
-    constructor(private readonly client: ArtifactsClient, private readonly folder: string, private readonly everythingFile: string, private readonly dbConnection: PrismaClient) {
+    constructor(
+        private readonly client: ArtifactsClient,
+        private readonly dbConnection: PrismaClient,
+        private readonly itemRepository: ItemRepository,
+        private readonly monsterRepository: MonsterRepository,
+        private readonly mapRepository: MapRepository,
+        private readonly resourceRepository: ResourceRepository,
+        private readonly effectRepository: EffectRepository,
+        private readonly eventRepository: EventRepository,
+        private readonly npcRepository: NpcRepository,
+        private readonly taskRepository: TaskRepository,
+    ) { }
 
+    async loadDataFromDb() {
+        const result = {
+            items: (await this.itemRepository.getAll()),
+            monsters: (await this.monsterRepository.getAll()),
+            maps: new Map<string, MapTile>,
+            resources: (await this.resourceRepository.getAll()),
+            npcs: (await this.npcRepository.getAll()),
+            tasks_list: (await this.taskRepository.getAll()),
+            tasks_rewards: [],
+            events: (await this.eventRepository.getAll()),
+            events_active: (await this.eventRepository.getAllActive()),
+            effects: (await this.effectRepository.getAll()),
+        };
+
+        const mapTiles = await this.mapRepository.getAll();
+
+        // Add events to the maps
+        for (let i=0; i<result.events_active.length; i++) {
+            const event = result.events_active[i]!;
+            if (event.isExpired) {
+                continue;
+            }
+
+            mapTiles.push(event.mapData);
+        }
+
+        for (let i=0; i<mapTiles.length; i++) {
+            const map = new MapTile(mapTiles[i]);
+            if (!map.hasContent()) {
+                continue;
+            }
+
+            switch (map.contentType) {
+                case MapType.Monster:
+                    result.maps.set(map.contentCode, map);
+                    break;
+                case MapType.Resource:
+                    result.resources.get(map.contentCode)!.drops.forEach((drop) => {
+                        if (drop.rate === 1) { // Ensures we only set for main resources
+                            result.maps.set(drop.code, map);
+                        }
+                    });
+                    break;
+                case MapType.Workshop:
+                    result.maps.set(`${map.contentType}_${map.contentCode}`, map);
+                    break;
+                case MapType.Bank:
+                    if (!result.maps.has('bank1')) {
+                        result.maps.set('bank1', map);
+                    } else {
+                        result.maps.set('bank2', map);
+                    }
+                    break;
+                case MapType.GrandExchange:
+                    result.maps.set(map.contentCode, map);
+                    break;
+                case MapType.TasksMaster:
+                    result.maps.set(`${map.contentType}_${map.contentCode}`, map);
+                    break;
+                case MapType.NPC:
+                    result.maps.set(map.contentCode, map);
+                    break;
+                default:
+                    throw new Error(`Map type unhandled: ${map.contentType}`);
+            }
+        }
+
+        return result;
     }
 
-    async convertJsonToDatabase(): Promise<void> {
-        await this.insertEffects(await Utils.readFile(`${this.folder}/effects.json`));
-        await this.insertEvents(await Utils.readFile(`${this.folder}/events.json`));
-        await this.insertActiveEvents(await Utils.readFile(`${this.folder}/events_active.json`));
-        await this.insertItems(await Utils.readFile(`${this.folder}/items.json`));
-        await this.insertMaps(await Utils.readFile(`${this.folder}/maps.json`));
-        await this.insertMonsters(await Utils.readFile(`${this.folder}/monsters.json`));
-        await this.insertNPCs(await Utils.readFile(`${this.folder}/npcs.json`));
-        await this.insertResources(await Utils.readFile(`${this.folder}/resources.json`));
-        await this.insertTasks(await Utils.readFile(`${this.folder}/tasks_list.json`));
-        await this.insertTaskRewards(await Utils.readFile(`${this.folder}/tasks_rewards.json`));
+    async saveDataSets(): Promise<void> {
+        await this.insertEffects(await this.client.getAllOf('effects'));
+        await this.insertEvents(await this.client.getAllOf('events'));
+        await this.insertActiveEvents(await this.client.getAllOf(`events/active`));
+        await this.insertItems(await this.client.getAllOf(`items`));
+        await this.insertMaps(await this.client.getAllOf(`maps`));
+        await this.insertMonsters(await this.client.getAllOf(`monsters`));
+        await this.insertNPCs(await this.client.getAllOf(`npcs`));
+        await this.insertResources(await this.client.getAllOf(`resources`));
+        await this.insertTasks(await this.client.getAllOf(`tasks/list`));
+        await this.insertTaskRewards(await this.client.getAllOf(`tasks/rewards`));
+    }
+
+    async reloadActiveEvents(): Promise<void> {
+        const data = await this.client.getAllOf('events/active');
+        await this.insertActiveEvents(data);
     }
 
     async insertEffects(data: any) {
@@ -244,161 +329,5 @@ export class DataLoader {
                 data: { ...data[i], data: data[i] },
             });
         }
-    }
-
-    async reloadActiveEvents(): Promise<void> {
-        const data = await this.client.getAllOf('events/active');
-        await this.insertActiveEvents(data);
-
-        const dataSets = [
-            'events_active',
-        ];
-        const allData = await Utils.readFile(`${this.folder}/${this.everythingFile}`);
-
-        await this.getAndSaveDataSets(dataSets, allData);
-
-        await Utils.writeFile(`${this.folder}/${this.everythingFile}`, allData);
-    }
-
-    async saveDataSets(): Promise<void> {
-        const dataSets = [
-            'items',
-            'monsters',
-            'maps',
-            'resources',
-            'npcs',
-            'tasks_list',
-            'tasks_rewards',
-            'events',
-            'events_active',
-            'effects',
-        ];
-
-        const allData = {};
-
-        await this.getAndSaveDataSets(dataSets, allData);
-
-        await Utils.writeFile(`${this.folder}/${this.everythingFile}`, allData);
-    }
-
-    async getAndSaveDataSets(dataSets: string[], everything: {}): Promise<void> {
-        let entity: string;
-        for (var i = 0; i<dataSets.length; i++) {
-            entity = dataSets[i]!;
-
-            try {
-                const data = await this.client.getAllOf(entity.replace('_', '/'));
-
-                await Utils.writeFile(`${this.folder}/${entity}.json`, data);
-
-                everything[entity] = data;
-                if (entity !== 'maps') {
-                    everything[entity].sort((a: any, b: any) => a.code.localeCompare(b.code));
-                }
-            } catch (e) {
-                console.error(e.message);
-            }
-
-            await Utils.sleep(1000);
-        }
-    }
-
-    async loadData() {
-        const result = {
-            items: new Map<string, Item>(),
-            monsters: new Map<string, Monster>(),
-            maps: new Map<string, MapTile>,
-            resources: new Map<string, Resource>(),
-            npcs: new Map<string, Merchant>(),
-            tasks_list: [],
-            tasks_rewards: [],
-            events: [],
-            events_active: [],
-            effects: new Map<string, Effect>(),
-        };
-
-        const allData = await Utils.readFile(`${this.folder}/${this.everythingFile}`);
-
-        for (let i=0; i<allData.items.length; i++) {
-            const item = new Item(allData.items[i]);
-            result.items.set(item.code, item);
-        }
-
-        for (let i=0; i<allData.monsters.length; i++) {
-            const monster = new Monster(allData.monsters[i]);
-            result.monsters.set(monster.code, monster);
-        }
-
-        for (let i=0; i<allData.resources.length; i++) {
-            const resource = new Resource(allData.resources[i]);
-            result.resources.set(resource.code, resource);
-        }
-
-        for (let i=0; i<allData.effects.length; i++) {
-            const effect = new Effect(allData.effects[i]);
-            result.effects.set(effect.code, effect);
-        }
-
-        for (let i=0; i<allData.npcs.length; i++) {
-            const merchant = new Merchant(allData.npcs[i]);
-            result.npcs.set(merchant.code, merchant);
-        }
-
-        // Add events to the maps
-        for (let i=0; i<allData.events_active.length; i++) {
-            const event = new Event(allData.events_active[i]);
-            if (event.isExpired) {
-                continue;
-            }
-
-            allData.maps.push(event.mapData);
-        }
-
-        for (let i=0; i<allData.maps.length; i++) {
-            const map = new MapTile(allData.maps[i]);
-            if (!map.hasContent()) {
-                continue;
-            }
-
-            switch (map.contentType) {
-                case MapType.Monster:
-                    result.maps.set(map.contentCode, map);
-                    break;
-                case MapType.Resource:
-                    result.resources.get(map.contentCode).drops.forEach((drop) => {
-                        if (drop.rate === 1) { // Ensures we only set for main resources
-                            result.maps.set(drop.code, map);
-                        }
-                    });
-                    break;
-                case MapType.Workshop:
-                    result.maps.set(`${map.contentType}_${map.contentCode}`, map);
-                    break;
-                case MapType.Bank:
-                    if (!result.maps.has('bank1')) {
-                        result.maps.set('bank1', map);
-                    } else {
-                        result.maps.set('bank2', map);
-                    }
-                    break;
-                case MapType.GrandExchange:
-                    result.maps.set(map.contentCode, map);
-                    break;
-                case MapType.TasksMaster:
-                    result.maps.set(`${map.contentType}_${map.contentCode}`, map);
-                    break;
-                case MapType.NPC:
-                    result.maps.set(map.contentCode, map);
-                    break;
-                default:
-                    throw new Error(`Map type unhandled: ${map.contentType}`);
-            }
-        }
-
-        return result;
-    }
-
-    async loadDataFromDb() {
-
     }
 }

@@ -22,7 +22,14 @@ import {Effect} from "./entities/Effect.js";
 import {WorkflowGenerator} from "./workflows/WorkflowGenerator.js";
 import {ItemUser} from "./workflows/services/ItemUser.js";
 import { PrismaClient } from '@prisma/client'
-import {TaskRepository} from "./gateways/TaskRepository.js";
+import {TaskRepository} from "./repositories/TaskRepository.js";
+import {ItemRepository} from "./repositories/ItemRepository.js";
+import {MonsterRepository} from "./repositories/MonsterRepository.js";
+import {MapRepository} from "./repositories/MapRepository.js";
+import {ResourceRepository} from "./repositories/ResourceRepository.js";
+import {EffectRepository} from "./repositories/EffectRepository.js";
+import {EventRepository} from "./repositories/EventRepository.js";
+import {NpcRepository} from "./repositories/NpcRepository.js";
 
 export class Container {
     static items: Map<string, Item>;
@@ -52,6 +59,13 @@ export class Container {
 
     private registerGateways(): void {
         this.instances.set('db-connection', new PrismaClient({ errorFormat: 'pretty', }));
+        this.instances.set('item-repository', new ItemRepository(this.dbConnection));
+        this.instances.set('monster-repository', new MonsterRepository(this.dbConnection));
+        this.instances.set('map-repository', new MapRepository(this.dbConnection));
+        this.instances.set('resource-repository', new ResourceRepository(this.dbConnection));
+        this.instances.set('effect-repository', new EffectRepository(this.dbConnection));
+        this.instances.set('event-repository', new EventRepository(this.dbConnection));
+        this.instances.set('npc-repository', new NpcRepository(this.dbConnection));
         this.instances.set('task-repository', new TaskRepository(this.dbConnection));
 
         this.instances.set('client', new ArtifactsClient());
@@ -70,13 +84,53 @@ export class Container {
         return this.instances.get('db-connection');
     }
 
+    get itemRepository(): ItemRepository {
+        return this.instances.get('item-repository');
+    }
+
+    get monsterRepository(): MonsterRepository {
+        return this.instances.get('monster-repository');
+    }
+
+    get mapRepository(): MapRepository {
+        return this.instances.get('map-repository');
+    }
+
+    get resourceRepository(): ResourceRepository {
+        return this.instances.get('resource-repository');
+    }
+
+    get effectRepository(): EffectRepository {
+        return this.instances.get('effect-repository');
+    }
+
+    get eventRepository(): EventRepository {
+        return this.instances.get('event-repository');
+    }
+
+    get npcRepository(): NpcRepository {
+        return this.instances.get('npc-repository');
+    }
+
     get taskRepository(): TaskRepository {
         return this.instances.get('task-repository');
     }
 
     private async registerGeneratorsAndSets(): Promise<void> {
-        this.instances.set('data-loader', new DataLoader(this.client, 'data', 'everything.json', this.dbConnection));
-        this.instances.set('data', await this.dataLoader.loadData());
+        this.instances.set('data-loader', new DataLoader(
+            this.client,
+            this.dbConnection,
+            this.itemRepository,
+            this.monsterRepository,
+            this.mapRepository,
+            this.resourceRepository,
+            this.effectRepository,
+            this.eventRepository,
+            this.npcRepository,
+            this.taskRepository,
+        ));
+
+        this.instances.set('data', await this.dataLoader.loadDataFromDb());
         Container.items = this.items;
         Container.monsters = this.monsters;
         Container.maps = this.maps;
