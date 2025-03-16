@@ -19,140 +19,237 @@ export class DataLoader {
         await this.insertEvents(await Utils.readFile(`${this.folder}/events.json`));
         await this.insertActiveEvents(await Utils.readFile(`${this.folder}/events_active.json`));
         await this.insertItems(await Utils.readFile(`${this.folder}/items.json`));
+        await this.insertMaps(await Utils.readFile(`${this.folder}/maps.json`));
+        await this.insertMonsters(await Utils.readFile(`${this.folder}/monsters.json`));
+        await this.insertNPCs(await Utils.readFile(`${this.folder}/npcs.json`));
+        await this.insertResources(await Utils.readFile(`${this.folder}/resources.json`));
+        await this.insertTasks(await Utils.readFile(`${this.folder}/tasks_list.json`));
+        await this.insertTaskRewards(await Utils.readFile(`${this.folder}/tasks_rewards.json`));
     }
 
     async insertEffects(data: any) {
-        await this.dbConnection.$executeRawUnsafe(`TRUNCATE effects`);
+        await this.dbConnection.$executeRawUnsafe(`DELETE FROM effects;`);
         for (let i=0; i<data.length; i++) {
-            try {
-                await this.dbConnection.effects.create({
-                    data: data[i]
-                })
-            } catch (e: any) {
-                if (e.code !== 'P2002') {
-                    console.error(e);
-                }
-            }
+            await this.dbConnection.effects.create({
+                data: { ...data[i], data: data[i] },
+            });
         }
     }
 
     async insertEvents(data: any) {
-        await this.dbConnection.$executeRawUnsafe(`TRUNCATE events`);
+        await this.dbConnection.$executeRawUnsafe(`DELETE FROM events`);
         for (let i=0; i<data.length; i++) {
-            try {
-                await this.dbConnection.events.create({
-                    data: {
-                        name: data[i].name,
-                        code: data[i].code,
-                        skin: data[i].skin,
-                        duration: data[i].duration,
-                        maps: data[i].maps,
-                        rate: data[i].rate,
-                        content_type: data[i].content.type,
-                        content_code: data[i].content.code,
-                    }
-                })
-            } catch (e: any) {
-                if (e.code !== 'P2002') {
-                    console.error(e);
+            await this.dbConnection.events.create({
+                data: {
+                    name: data[i].name,
+                    code: data[i].code,
+                    skin: data[i].skin,
+                    duration: data[i].duration,
+                    maps: data[i].maps,
+                    rate: data[i].rate,
+                    content_type: data[i].content.type,
+                    content_code: data[i].content.code,
+                    data: data[i],
                 }
-            }
+            });
         }
     }
 
     async insertActiveEvents(data: any) {
-        await this.dbConnection.$executeRawUnsafe(`TRUNCATE active_events`);
+        await this.dbConnection.$executeRawUnsafe(`DELETE FROM active_events`);
         for (let i=0; i<data.length; i++) {
-            try {
-                await this.dbConnection.active_events.create({
-                    data: {
-                        name: data[i].name,
-                        code: data[i].code,
-                        map_name: data[i].map.name,
-                        map_skin: data[i].map.skin,
-                        map_x: data[i].map.x,
-                        map_y: data[i].map.y,
-                        map_content_code: data[i].map.content.code,
-                        map_content_type: data[i].map.content.type,
-                        previous_skin: data[i].previous_skin,
-                        duration: data[i].duration,
-                        expiration: new Date(data[i].expiration),
-                        created_at: new Date(data[i].created_at),
-                    }
-                })
-            } catch (e: any) {
-                if (e.code !== 'P2002') {
-                    console.error(e);
+            await this.dbConnection.active_events.create({
+                data: {
+                    name: data[i].name,
+                    code: data[i].code,
+                    map_name: data[i].map.name,
+                    map_skin: data[i].map.skin,
+                    map_x: data[i].map.x,
+                    map_y: data[i].map.y,
+                    map_content_code: data[i].map.content.code,
+                    map_content_type: data[i].map.content.type,
+                    previous_skin: data[i].previous_skin,
+                    duration: data[i].duration,
+                    expiration: new Date(data[i].expiration),
+                    created_at: new Date(data[i].created_at),
+                    data: data[i],
                 }
-            }
+            });
         }
     }
 
     async insertItems(data: any) {
-        await this.dbConnection.$executeRawUnsafe(`TRUNCATE items`);
-        await this.dbConnection.$executeRawUnsafe(`TRUNCATE item_effects`);
-        await this.dbConnection.$executeRawUnsafe(`TRUNCATE recipes`);
+        await this.dbConnection.$executeRawUnsafe(`DELETE FROM items`);
+        await this.dbConnection.$executeRawUnsafe(`DELETE FROM item_effects`);
+        await this.dbConnection.$executeRawUnsafe(`DELETE FROM recipes`);
 
         for (let i=0; i<data.length; i++) {
             const craft: any | undefined = data[i].craft;
-            try {
-                await this.dbConnection.items.create({
-                    data: {
-                        name: data[i].name,
-                        code: data[i].code,
-                        level: data[i].level,
-                        type: data[i].type,
-                        subtype: data[i].subtype,
-                        description: data[i].description,
-                        craft_level: craft?.level,
-                        craft_skill: craft?.skill,
-                        tradeable: data[i].tradeable,
-                    }
-                });
-            } catch (e: any) {
-                if (e.code !== 'P2002') {
-                    console.error(e);
+            await this.dbConnection.items.create({
+                data: {
+                    name: data[i].name,
+                    code: data[i].code,
+                    level: data[i].level,
+                    type: data[i].type,
+                    subtype: data[i].subtype,
+                    description: data[i].description,
+                    craft_level: craft?.level,
+                    craft_skill: craft?.skill,
+                    tradeable: data[i].tradeable,
+                    data: data[i],
                 }
-            }
+            });
 
             for (let e=0; e<data[i].effects.length; e++) {
-                try {
-                    await this.dbConnection.item_effects.create({
-                        data: {
-                            item_code: data[i].code,
-                            effect_code: data[i].effects[e].code,
-                            effect_value: data[i].effects[e].value,
-                        }
-                    });
-                } catch (e: any) {
-                    if (e.code !== 'P2002') {
-                        console.error(e);
+                await this.dbConnection.item_effects.create({
+                    data: {
+                        item_code: data[i].code,
+                        effect_code: data[i].effects[e].code,
+                        effect_value: data[i].effects[e].value,
                     }
-                }
+                });
             }
 
             if (craft === undefined) {
                 continue;
             }
 
-            for (let r=0; r<craft.items.length; i++)
-            try {
+            for (let r=0; r<craft?.items.length; r++) {
                 await this.dbConnection.recipes.create({
                     data: {
                         code: data[i].code,
-                        item_code: craft[r].code,
-                        item_quantity: craft[r].quantity,
+                        item_code: craft.items[r].code,
+                        item_quantity: craft.items[r].quantity,
                     }
                 });
-            } catch (e: any) {
-                if (e.code !== 'P2002') {
-                    console.error(e);
-                }
             }
         }
     }
 
+    async insertMaps(data: any) {
+        await this.dbConnection.$executeRawUnsafe(`DELETE FROM maps`);
+
+        for (let i=0; i<data.length; i++) {
+            await this.dbConnection.maps.create({
+                data: {
+                    name: data[i].name,
+                    skin: data[i].skin,
+                    x: data[i].x,
+                    y: data[i].y,
+                    content_type: data[i].content?.type,
+                    content_code: data[i].content?.code,
+                    data: data[i],
+                }
+            });
+        }
+    }
+
+    async insertMonsters(data: any) {
+        await this.dbConnection.$executeRawUnsafe(`DELETE FROM monsters`);
+        await this.dbConnection.$executeRawUnsafe(`DELETE FROM monster_effects`);
+        await this.dbConnection.$executeRawUnsafe(`DELETE FROM monster_drops`);
+
+        for (let i=0; i<data.length; i++) {
+            const effects = data[i].effects;
+            delete data[i]['effects'];
+
+            const drops: any[] = data[i].drops;
+            delete data[i]['drops'];
+
+            await this.dbConnection.monsters.create({
+                data: { ...data[i], data: data[i] }
+            });
+
+            for (let e=0; e<effects.length; e++) {
+                await this.dbConnection.monster_effects.create({
+                    data: {
+                        monster_code: data[i].code,
+                        effect_code: effects[e].code,
+                        effect_value: effects[e].value,
+                    }
+                });
+            }
+
+            for (let r=0; r<drops.length; r++) {
+                await this.dbConnection.monster_drops.create({
+                    data: {
+                        monster_code: data[i].code,
+                        item_code: drops[r].code,
+                        rate: drops[r].rate,
+                        min_quantity: drops[r].min_quantity,
+                        max_quantity: drops[r].max_quantity,
+                    }
+                });
+            }
+        }
+    }
+
+    async insertNPCs(data: any) {
+        await this.dbConnection.$executeRawUnsafe(`DELETE FROM npcs`);
+        for (let i=0; i<data.length; i++) {
+            await this.dbConnection.npcs.create({
+                data: { ...data[i], data: data[i] },
+            });
+        }
+    }
+
+    async insertResources(data: any) {
+        await this.dbConnection.$executeRawUnsafe(`DELETE FROM resources`);
+        await this.dbConnection.$executeRawUnsafe(`DELETE FROM resource_drops`);
+        for (let i=0; i<data.length; i++) {
+            const drops: any[] = data[i].drops;
+            delete data[i]['drops'];
+
+            await this.dbConnection.resources.create({
+                data: { ...data[i], data: data[i] },
+            });
+
+            for (let r=0; r<drops.length; r++) {
+                await this.dbConnection.resource_drops.create({
+                    data: {
+                        resource_code: data[i].code,
+                        item_code: drops[r].code,
+                        rate: drops[r].rate,
+                        min_quantity: drops[r].min_quantity,
+                        max_quantity: drops[r].max_quantity,
+                    }
+                });
+            }
+        }
+    }
+
+    async insertTasks(data: any) {
+        await this.dbConnection.$executeRawUnsafe(`DELETE FROM tasks`);
+        for (let i=0; i<data.length; i++) {
+            await this.dbConnection.tasks.create({
+                data: {
+                    code: data[i].code,
+                    level: data[i].level,
+                    type: data[i].type,
+                    min_quantity: data[i].min_quantity,
+                    max_quantity: data[i].max_quantity,
+                    skill: data[i].skill,
+                    reward_coins: data[i].rewards.items[0].quantity,
+                    reward_golds: data[i].rewards.gold,
+                    data: data[i],
+                }
+            });
+        }
+    }
+
+    async insertTaskRewards(data: any) {
+        await this.dbConnection.$executeRawUnsafe(`DELETE FROM task_rewards`);
+        for (let i=0; i<data.length; i++) {
+            await this.dbConnection.task_rewards.create({
+                data: { ...data[i], data: data[i] },
+            });
+        }
+    }
+
     async reloadActiveEvents(): Promise<void> {
+        const data = await this.client.getAllOf('events/active');
+        await this.insertActiveEvents(data);
+
         const dataSets = [
             'events_active',
         ];
@@ -299,5 +396,9 @@ export class DataLoader {
         }
 
         return result;
+    }
+
+    async loadDataFromDb() {
+
     }
 }

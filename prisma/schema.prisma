@@ -20,6 +20,7 @@ model effects {
   description String
   type        String
   subtype     String
+  data        Json
 }
 
 model events {
@@ -31,6 +32,7 @@ model events {
   rate         Int
   content_type String
   content_code String
+  data         Json
 }
 
 model active_events {
@@ -46,6 +48,7 @@ model active_events {
   duration         Int
   expiration       DateTime
   created_at       DateTime
+  data             Json
 }
 
 model items {
@@ -59,6 +62,7 @@ model items {
   craft_level    Int?
   craft_quantity Int?
   tradeable      Boolean
+  data           Json
 }
 
 model item_effects {
@@ -78,12 +82,15 @@ model recipes {
 }
 
 model maps {
-  code         String  @id
+  name         String
   skin         String
   x            Int
   y            Int
   content_type String?
   content_code String?
+  data         Json
+
+  @@id([x, y])
 }
 
 model monsters {
@@ -102,6 +109,7 @@ model monsters {
   critical_strike Int
   min_gold        Int
   max_gold        Int
+  data            Json
 }
 
 model monster_effects {
@@ -127,6 +135,7 @@ model npcs {
   name        String
   description String
   type        String
+  data        Json
 }
 
 model npc_items {
@@ -143,6 +152,7 @@ model resources {
   name  String
   skill String
   level Int
+  data  Json
 }
 
 model resource_drops {
@@ -164,14 +174,13 @@ model tasks {
   skill        String?
   reward_coins Int
   reward_golds Int
+  data         Json
 }
 
 model task_rewards {
-  task_code    String
-  item_code    String
+  code         String @id
   rate         Int
   min_quantity Int
   max_quantity Int
-
-  @@id([task_code, item_code])
+  data         Json
 }
