@@ -3,6 +3,7 @@ import {Waiter} from "./Waiter.js";
 import * as Utils from "../../Utils.js";
 import {ClientException} from "../../gateways/ClientException.js";
 import {Character} from "../../entities/Character.js";
+import {Container} from "../../Container.js";
 
 export class Gatherer {
     constructor(private readonly waiter: Waiter, private readonly characterGateway: CharacterGateway) {
@@ -32,23 +33,7 @@ export class Gatherer {
             return;
         }
 
+        await Container.taskRepository.checkForImmediateTask();
         await this.gather(loops-1);
-    }
-
-    async gatherForTask(): Promise<void> {
-        Utils.logHeadline(`GATHER-FT >`);
-        const character: Character = await this.characterGateway.status();
-        const task = character.getTask();
-        if (!task) {
-            Utils.errorHeadline('SKIP - No Tasks');
-            return;
-        }
-
-        const value = task.total - task.progress - character.holdsHowManyOf(task.task);
-        if (value <= 0) {
-            return;
-        }
-
-        await this.gather(value);
     }
 }

@@ -15,7 +15,7 @@ export class MapRepository {
 
         const result: MapTile[] = [];
         data.forEach((datum) => {
-            result.push(new MapTile(datum));
+            result.push(new MapTile(datum.data));
         })
 
         return result;

@@ -16,7 +16,6 @@
     "server": "nodemon -e ts --watch web --exec \"node --no-warnings --loader ts-node/esm --env-file=.env web/server.ts\"",
     "test": "node --no-warnings --loader ts-node/esm --env-file=.env src/test.ts",
     "console": "node --no-warnings --loader ts-node/esm --env-file=.env src/console.ts",
-    "workflow": "node --no-warnings --loader ts-node/esm --env-file=.env src/workflow.ts",
     "refresh-events": "yarn console Dummy refresh-events",
     "refresh": "yarn console Dummy refresh-all && yarn console Dummy generate",
     "generate": "yarn console Dummy generate",

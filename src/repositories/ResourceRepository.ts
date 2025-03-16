@@ -5,7 +5,7 @@ export class ResourceRepository {
     private model;
 
     constructor(private readonly db: PrismaClient) {
-        this.model = this.db.monsters;
+        this.model = this.db.resources;
     }
 
     async getAll(): Promise<Map<string, Resource>> {

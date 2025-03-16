@@ -37,6 +37,7 @@ export class Container {
     static items: Map<string, Item>;
     static monsters: Map<string, Monster>;
     static maps: Map<string, MapTile>;
+    static taskRepository: TaskRepository;
 
     static async create(charactName: string): Promise<Container> {
         const container = new Container(charactName);
@@ -68,7 +69,8 @@ export class Container {
         this.instances.set('effect-repository', new EffectRepository(this.dbConnection));
         this.instances.set('event-repository', new EventRepository(this.dbConnection));
         this.instances.set('npc-repository', new NpcRepository(this.dbConnection));
-        this.instances.set('task-repository', new TaskRepository(this.dbConnection));
+        this.instances.set('task-repository', new TaskRepository(this.dbConnection, this.characterName));
+        Container.taskRepository = this.taskRepository;
 
         this.instances.set('client', new ArtifactsClient());
         this.instances.set('character-gateway', new CharacterGateway(this.client, this.characterName));
@@ -242,6 +244,8 @@ export class Container {
         this.instances.set(
             'workflow-orchestrator',
             new WorkflowOrchestrator(
+                this.characterName,
+                this.taskRepository,
                 this.characterGateway,
                 this.mover,
                 this.gatherer,

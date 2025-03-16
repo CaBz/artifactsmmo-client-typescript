@@ -70,8 +70,16 @@ async function processCommand(commandName: string) {
 
         // Show announcements
         case 'pending-tasks':
-            const result = await container.taskRepository.getPendingTasks(characterName);
-            console.log(result);
+            console.log(
+                await container.taskRepository.getPendingTasks()
+            );
+            break;
+
+        case 'add-pending-task':
+            await container.taskRepository.addPendingTask(
+                (consoleParams.shift() || ''),
+                !!consoleParams.shift()
+            );
             break;
 
         // Just to dump an entity

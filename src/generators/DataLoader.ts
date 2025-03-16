@@ -50,11 +50,11 @@ export class DataLoader {
                 continue;
             }
 
-            mapTiles.push(event.mapData);
+            mapTiles.push(event.map);
         }
 
         for (let i=0; i<mapTiles.length; i++) {
-            const map = new MapTile(mapTiles[i]);
+            const map = mapTiles[i]!;
             if (!map.hasContent()) {
                 continue;
             }
@@ -238,6 +238,8 @@ export class DataLoader {
         await this.dbConnection.$executeRawUnsafe(`DELETE FROM monster_drops`);
 
         for (let i=0; i<data.length; i++) {
+            const copy = { ...data[i] };
+
             const effects = data[i].effects;
             delete data[i]['effects'];
 
@@ -245,7 +247,7 @@ export class DataLoader {
             delete data[i]['drops'];
 
             await this.dbConnection.monsters.create({
-                data: { ...data[i], data: data[i] }
+                data: { ...data[i], data: copy }
             });
 
             for (let e=0; e<effects.length; e++) {
@@ -285,11 +287,12 @@ export class DataLoader {
         await this.dbConnection.$executeRawUnsafe(`DELETE FROM resources`);
         await this.dbConnection.$executeRawUnsafe(`DELETE FROM resource_drops`);
         for (let i=0; i<data.length; i++) {
+            const copy = { ...data[i] };
             const drops: any[] = data[i].drops;
             delete data[i]['drops'];
 
             await this.dbConnection.resources.create({
-                data: { ...data[i], data: data[i] },
+                data: { ...data[i], data: copy },
             });
 
             for (let r=0; r<drops.length; r++) {

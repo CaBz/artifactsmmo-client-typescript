@@ -15,6 +15,7 @@ import {Equipper} from "./services/Equipper.js";
 import {WorkflowGenerator} from "./WorkflowGenerator.js";
 import {ItemUser} from "./services/ItemUser.js";
 import {EquippableSlot} from "../lexical/EquippableSlot.js";
+import {TaskRepository} from "../repositories/TaskRepository.js";
 
 export enum MoveActionCondition {
     InventoryNotFull = 'inventory-not-full',
@@ -30,10 +31,6 @@ export interface MoveAction {
 export interface GatherAction {
     action: Action.Gather;
     loops: number;
-}
-
-export interface GatherForTaskAction {
-    action: Action.GatherForTask;
 }
 
 export enum CraftActionConditions {
@@ -139,7 +136,6 @@ export enum SubworkflowCondition {
 export type WorkflowAction =
     MoveAction
     | GatherAction
-    | GatherForTaskAction
     | CraftAction
     | RecycleAction
     | EquipAction
@@ -159,7 +155,6 @@ export type WorkflowAction =
 export enum Action {
     Move = 'move',
     Gather = 'gather',
-    GatherForTask = 'gather-for-task',
     Craft = 'craft',
     Recycle = 'recycle',
     Equip = 'equip',
@@ -179,7 +174,11 @@ export enum Action {
 }
 
 export class WorkflowOrchestrator {
+    private currentWorkflowName: string = '';
+
     constructor(
+        private readonly characterName: string,
+        private readonly taskRepository: TaskRepository,
         private readonly characterGateway: CharacterGateway,
         private readonly mover: Mover,
         private readonly gatherer: Gatherer,
@@ -195,28 +194,16 @@ export class WorkflowOrchestrator {
     ) {
     }
 
-    private currentWorkflow: string = '';
-
     async findWorkflowAndExecute(name: string, loops: number): Promise<void> {
-        let workflowActions = this.staticWorkflows.get(name);
-        if (!workflowActions || workflowActions.length === 0) {
-            workflowActions = await this.workflowGenerator.generate(name);
-            if (!workflowActions || workflowActions.length === 0) {
-                console.error(`Put a proper workflow name from ${WorkflowRegister.name}`);
-                return;
-            }
+        this.currentWorkflowName = name;
 
-            // console.dir(workflowActions, { depth: null });
-        }
-
-        Utils.logHeadline(`WORKFLOW: ${name}`);
-        this.currentWorkflow = name;
+        const workflowActions = await this.getWorkflowActions();
+        Utils.logHeadline(`WORKFLOW: ${this.currentWorkflowName}`);
 
         try {
             await this.execute(workflowActions!);
-        } catch (e) {
-            // Don't crash
-            console.error(e);
+        } catch (e: any) {
+            console.error(e.message);
             await Utils.sleep(5000);
         }
 
@@ -227,8 +214,33 @@ export class WorkflowOrchestrator {
         await this.findWorkflowAndExecute(name, loops - 1);
     }
 
+    private async getWorkflowActions(): Promise<WorkflowAction[]> {
+        let name = this.currentWorkflowName;
+
+        const pendingTasks = await this.taskRepository.getPendingTasks();
+        if (pendingTasks.length > 0) {
+            const task = pendingTasks.shift()!;
+            await this.taskRepository.confirmPendingTask(task.id);
+            name = this.currentWorkflowName = task.name;
+
+            Utils.errorHeadline(`NEW TASK > ${name}`);
+        }
+
+        let workflowActions: WorkflowAction[] | undefined = this.staticWorkflows.get(name);
+        if (workflowActions && workflowActions.length > 0) {
+            return workflowActions;
+        }
+
+        workflowActions = await this.workflowGenerator.generate(name);
+        if (workflowActions?.length > 0) {
+            return workflowActions;
+        }
+
+        throw new Error(`Put a proper workflow name from ${WorkflowRegister.name}`)
+    }
+
     private async execute(actions: WorkflowAction[]): Promise<void> {
-        for (var i=0; i<actions.length; i++) {
+        for (let i=0; i<actions.length; i++) {
             await this.dispatchAction(actions[i]!);
         }
     }
@@ -290,6 +302,8 @@ export class WorkflowOrchestrator {
     }
 
     private async dispatchAction(action: WorkflowAction) {
+        await this.taskRepository.checkForImmediateTask();
+
         switch (action.action) {
             case Action.Move:
                 await this.mover.moveToPointOfInterest(
@@ -302,10 +316,6 @@ export class WorkflowOrchestrator {
                 await this.gatherer.gather(
                     (action as GatherAction).loops
                 );
-                break;
-
-            case Action.GatherForTask:
-                await this.gatherer.gatherForTask();
                 break;
 
             case Action.Craft:

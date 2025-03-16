@@ -8,10 +8,13 @@ datasource db {
 }
 
 model pending_tasks {
-  id            Int      @id @default(autoincrement())
-  character     String
-  name          String
-  creation_date DateTime @default(now())
+  id                Int      @id @default(autoincrement())
+  character         String
+  name              String
+  is_immediate      Boolean
+  is_refresh_events Boolean
+  is_in_progress    Boolean
+  creation_date     DateTime @default(now())
 }
 
 model effects {

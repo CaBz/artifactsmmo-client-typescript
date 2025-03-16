@@ -30,7 +30,7 @@ export class Event {
         return new MapTile(this.data.map);
     }
 
-    get mapData(): MapTile {
+    get mapData(): any {
         return this.data.map;
     }
 
