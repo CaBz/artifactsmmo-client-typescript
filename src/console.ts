@@ -41,6 +41,10 @@ async function processCommand(commandName: string) {
             await container.characterGateway.logStatus(consoleParams.shift()?.split(','))
             break;
 
+        case 'dispatch-events':
+            await container.activeEventsDispatcher.start();
+            break;
+
         case 'bank-status':
             await container.banker.getStatus();
             break;

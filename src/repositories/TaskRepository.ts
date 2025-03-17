@@ -5,6 +5,21 @@ export class TaskRepository {
     constructor(private readonly db: PrismaClient, private readonly characterName: string) {
     }
 
+    async updateCurrentTask(task: string) {
+        return this.db.character_tasks.upsert({
+            where: {
+                character: this.characterName,
+            },
+            update: {
+                task,
+            },
+            create: {
+                character: this.characterName,
+                task,
+            }
+        })
+    }
+
     async checkForImmediateTask(): Promise<void> {
         const tasks = await this.getPendingTasks()
         for (let i=0; i<tasks.length; i++) {
@@ -16,10 +31,10 @@ export class TaskRepository {
         }
     }
 
-    async addPendingTask(name: string, isImmediate: boolean) {
+    async addPendingTask(name: string, isImmediate: boolean, character?: string) {
         return this.db.pending_tasks.create({
             data: {
-                character: this.characterName,
+                character: character || this.characterName,
                 name,
                 is_immediate: isImmediate,
                 is_in_progress: false,
@@ -35,6 +50,14 @@ export class TaskRepository {
             },
             orderBy: {
                 creation_date: 'asc',
+            }
+        })
+    }
+
+    async getCurrentTask(character?: string) {
+        return this.db.character_tasks.findFirst({
+            where: {
+                character: character || this.characterName,
             }
         })
     }

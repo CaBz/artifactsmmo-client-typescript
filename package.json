@@ -3,7 +3,14 @@
   "license": "MIT",
   "version": "1.0.0",
   "type": "module",
-  "devDependencies": {
+  "dependencies": {
+    "@prisma/client": "^6.5.0",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.10",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "prisma": "^6.5.0",
+    "sqlite3": "^5.1.7",
     "@eslint/js": "^9.21.0",
     "@sindresorhus/tsconfig": "^6.0.0",
     "eslint": "^9.21.0",
@@ -14,35 +21,33 @@
   },
   "scripts": {
     "server": "nodemon -e ts --watch web --exec \"node --no-warnings --loader ts-node/esm --env-file=.env web/server.ts\"",
-    "test": "node --no-warnings --loader ts-node/esm --env-file=.env src/test.ts",
     "console": "node --no-warnings --loader ts-node/esm --env-file=.env src/console.ts",
+
     "refresh-events": "yarn console Dummy refresh-events",
     "refresh": "yarn console Dummy refresh-all && yarn console Dummy generate",
     "generate": "yarn console Dummy generate",
+    "dispatch": "yarn console Dummy dispatch-events",
+
     "bank": "yarn console Dummy bank-status",
     "achievements": "yarn console Dummy achievements",
     "list-items": "yarn console Dummy list-items",
+
     "cdl": "yarn console Richard_CDL",
     "bandit": "yarn cdl rest && yarn quick-refresh && yarn cdl w e-skeleton_pants,vampire_bow 1 && yarn cdl w f-bandit_lizard",
     "imp": "yarn cdl rest && yarn cdl w e-serpent_skin_legs_armor,skull_wand 1 && yarn cdl w f-imp",
+
     "pp": "yarn console PatatePoil",
     "pp-bank": "yarn pp rest && yarn pp db 1",
     "pp-fight": "yarn pp db 1",
+
     "bob": "yarn console YourBoiBob",
     "magic": "yarn bob rest && yarn quick-refresh && yarn bob w e-iron_axe 1 && yarn bob w g-magic_wood",
     "bob-fight": "yarn bob w e-skull_staff 1 && yarn bob w f-ogre",
+
     "ginette": "yarn console Ginette",
+
     "bb": "yarn console BigBooty",
     "bb-fishing": "yarn bb rest && yarn bb w e-wolf_ears,spruce_fishing_rod 1 && yarn bb w gc-cooked_salmon",
     "bb-fight": "yarn bob w e-piggy_helmet,skull_staff 1 && yarn bob f-pig"
-  },
-  "dependencies": {
-    "@prisma/client": "^6.5.0",
-    "@types/express": "^5.0.0",
-    "@types/node": "^22.13.10",
-    "ejs": "^3.1.10",
-    "express": "^4.21.2",
-    "prisma": "^6.5.0",
-    "sqlite3": "^5.1.7"
   }
 }

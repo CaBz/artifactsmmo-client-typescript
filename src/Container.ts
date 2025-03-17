@@ -32,6 +32,7 @@ import {EventRepository} from "./repositories/EventRepository.js";
 import {NpcRepository} from "./repositories/NpcRepository.js";
 import {Merchant} from "./entities/Merchant.js";
 import {Event} from "./entities/Event.js";
+import {ActiveEventsDispatcher} from "./workflows/ActiveEventsDispatcher.js";
 
 export class Container {
     static dataLoader: DataLoader;
@@ -60,6 +61,12 @@ export class Container {
         this.registerServices();
         this.registerWorkflowOrchestrator();
         this.registerSimulations();
+
+        this.instances.set('active-events-dispatcher', new ActiveEventsDispatcher(this.dataLoader, this.taskRepository))
+    }
+
+    get activeEventsDispatcher(): ActiveEventsDispatcher {
+        return this.instances.get('active-events-dispatcher');
     }
 
     private registerGateways(): void {

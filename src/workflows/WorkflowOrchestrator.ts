@@ -201,6 +201,8 @@ export class WorkflowOrchestrator {
 
         Utils.logHeadline(`WORKFLOW: ${name}`);
 
+        await this.taskRepository.updateCurrentTask(name);
+
         try {
             await this.execute(workflowActions!);
         } catch (e: any) {

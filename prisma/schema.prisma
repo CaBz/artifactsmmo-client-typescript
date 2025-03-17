@@ -7,16 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model pending_tasks {
-  id                Int      @id @default(autoincrement())
-  character         String
-  name              String
-  is_immediate      Boolean
-  is_refresh_events Boolean
-  is_in_progress    Boolean
-  creation_date     DateTime @default(now())
-}
-
 model effects {
   code        String @id
   name        String
@@ -186,4 +176,19 @@ model task_rewards {
   min_quantity Int
   max_quantity Int
   data         Json
+}
+
+model pending_tasks {
+  id                Int      @id @default(autoincrement())
+  character         String
+  name              String
+  is_immediate      Boolean
+  is_refresh_events Boolean
+  is_in_progress    Boolean
+  creation_date     DateTime @default(now())
+}
+
+model character_tasks {
+  character String @id
+  task      String
 }

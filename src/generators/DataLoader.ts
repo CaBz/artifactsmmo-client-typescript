@@ -10,6 +10,7 @@ import {TaskRepository} from "../repositories/TaskRepository.js";
 import {EventRepository} from "../repositories/EventRepository.js";
 import {NpcRepository} from "../repositories/NpcRepository.js";
 import {Resource} from "../entities/Resource.js";
+import {Event} from "../entities/Event.js";
 
 export class DataLoader {
     constructor(
@@ -110,9 +111,11 @@ export class DataLoader {
         await this.insertTaskRewards(await this.client.getAllOf(`tasks/rewards`));
     }
 
-    async reloadActiveEvents(): Promise<void> {
-        const data = await this.client.getAllOf('events/active');
+    async reloadActiveEvents(): Promise<Event[]> {
+        const data: any = await this.client.getAllOf('events/active', true);
         await this.insertActiveEvents(data);
+
+        return data.map((datum: any) => new Event(datum));
     }
 
     async insertEffects(data: any) {
