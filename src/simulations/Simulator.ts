@@ -160,9 +160,9 @@ export class Simulator {
     }
 
     private simulateUltimateForMonsterWithGear(attackerStats: any, gearPool: Record<string, Item[]>, code: Monsters): Population {
-        const fightLoops = 250; // The more the better, but slows down a lot
-        const populationSize = 200; // higher = more slow
-        const generations = 50; // higher = more precise
+        const fightLoops = 300; // The more the better, but slows down a lot
+        const populationSize = 256; // higher = more slow
+        const generations = 64; // higher = more precise
 
         let population: Population[] = [];
         for (let i = 0; i < populationSize; i++) {
