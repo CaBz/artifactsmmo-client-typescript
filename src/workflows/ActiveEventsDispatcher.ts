@@ -25,9 +25,9 @@ export class ActiveEventsDispatcher {
 
         const activeEvents = await this.dataLoader.reloadActiveEvents();
 
-        const richardTask = (await this.taskRepository.getCurrentTask('Richard_CDL'))?.task || '';
-        const patatePoilTask = (await this.taskRepository.getCurrentTask('PatatePoil'))?.task || '';
-        const yourBoiBobTask = (await this.taskRepository.getCurrentTask('YourBoiBob'))?.task || '';
+        let richardTask = (await this.taskRepository.getCurrentTask('Richard_CDL'))?.task || '';
+        let patatePoilTask = (await this.taskRepository.getCurrentTask('PatatePoil'))?.task || '';
+        let yourBoiBobTask = (await this.taskRepository.getCurrentTask('YourBoiBob'))?.task || '';
 
         const events = {
             bandit_camp: false,
@@ -40,27 +40,32 @@ export class ActiveEventsDispatcher {
             const event = activeEvents[i]!;
             events[event.code] = true;
 
-            if (event.code === 'bandit_camp' && richardTask !== 'f-bandit_lizard') {
+            // Horrible code
+            if (event.code === 'bandit_camp' && richardTask !== 'f-bandit_lizard' && richardTask !== 'f-demon') {
                 console.log(`[${(new Date()).toLocaleString()}] Dispatching Richard_CDL to bandit_camp to kill bandit lizards`);
                 await this.taskRepository.addPendingTask('f-bandit_lizard', true, 'Richard_CDL');
+                richardTask = 'f-bandit_lizard';
                 continue;
             }
 
             if (event.code === 'portal_demon' && richardTask !== 'f-demon') {
                 console.log(`[${(new Date()).toLocaleString()}] Dispatching Richard_CDL to portal_demon to kill demons`);
                 await this.taskRepository.addPendingTask('f-demon', true, 'Richard_CDL');
+                richardTask = 'f-demon';
                 continue;
             }
 
             if (event.code === 'strange_apparition' && patatePoilTask !== 'g-strange_ore') {
                 console.log(`[${(new Date()).toLocaleString()}] Dispatching PatatePoil to strange_apparition to gather strange ores`);
                 await this.taskRepository.addPendingTask('g-strange_ore', true, 'PatatePoil');
+                patatePoilTask = 'g-strange_ore';
                 continue;
             }
 
             if (event.code === 'magic_apparition' && yourBoiBobTask !== 'g-magic_wood') {
                 console.log(`[${(new Date()).toLocaleString()}] Dispatching YourBoiBob to magic_apparition to gather magic woods`);
                 await this.taskRepository.addPendingTask('g-magic_wood', true, 'YourBoiBob');
+                patatePoilTask = 'g-magic_wood';
             }
         }
 
