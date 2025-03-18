@@ -11,11 +11,28 @@ export class TaskRepository {
                 character: this.characterName,
             },
             update: {
-                task,
+                current_task: task,
             },
             create: {
                 character: this.characterName,
-                task,
+                current_task: task,
+                initial_task: task,
+            }
+        })
+    }
+
+    async updateInitialTask(task: string) {
+        return this.db.character_tasks.upsert({
+            where: {
+                character: this.characterName,
+            },
+            update: {
+                initial_task: task,
+            },
+            create: {
+                character: this.characterName,
+                current_task: task,
+                initial_task: task,
             }
         })
     }

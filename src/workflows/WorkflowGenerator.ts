@@ -189,7 +189,7 @@ export class WorkflowGenerator {
                 actions: [
                     { action: Action.Move, coordinates: code },
                     { action: Action.Rest },
-                    { action: Action.Fight, loops: 1 },
+                    { action: Action.Fight, loops: 1, code },
                 ],
             },
             { action: Action.Move, coordinates: PointOfInterest.Bank1 },
@@ -250,7 +250,7 @@ export class WorkflowGenerator {
                     actions: [
                         { action: Action.Move, coordinates: task.task },
                         { action: Action.Rest },
-                        { action: Action.Fight, loops: 1 },
+                        { action: Action.Fight, loops: 1, code: task.task as Monsters },
                     ]
                 }
             ];

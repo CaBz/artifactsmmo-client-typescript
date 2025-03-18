@@ -31,8 +31,11 @@ async function processCommand(commandName: string) {
         case 'w':
         case 'wf':
             console.log(Utils.LINE);
+            const taskName = consoleParams.shift() || '';
+
+            await container.taskRepository.updateInitialTask(taskName)
             await container.workflowOrhcestrator.findWorkflowAndExecute(
-                consoleParams.shift() || '', // name -> Workflows.ts
+                taskName, // name -> Workflows.ts
                 +(consoleParams.shift() || -1) // loops -> -1 = infinity
             );
             console.log(Utils.LINE);

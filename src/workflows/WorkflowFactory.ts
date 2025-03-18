@@ -143,6 +143,7 @@ export class WorkflowFactory {
 
         return [
             { action: Action.Move, coordinates: PointOfInterest.Bank1 },
+            { action: Action.Rest },
             { action: Action.BankDepositAll },
             ...withdrawActions,
             ...equipActions,

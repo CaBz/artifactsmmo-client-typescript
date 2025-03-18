@@ -189,6 +189,7 @@ model pending_tasks {
 }
 
 model character_tasks {
-  character String @id
-  task      String
+  character    String @id
+  current_task String
+  initial_task String
 }

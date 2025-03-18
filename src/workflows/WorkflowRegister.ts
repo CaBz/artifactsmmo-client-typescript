@@ -123,15 +123,26 @@ export class WorkflowRegister {
             [Items.DreadfulAmulet, 1, EquippableSlot.Amulet],
         ]));
 
-        workflows.set('equip-bb', WorkflowFactory.withdrawAndEquip([
-            [Items.VampireBow, 1, EquippableSlot.Weapon],
+        workflows.set('equip-bb-dk', WorkflowFactory.withdrawAndEquip([
+            [Items.DeathKnightSword, 1, EquippableSlot.Weapon],
             [Items.SteelShield, 1, EquippableSlot.Shield],
             [Items.PiggyHelmet, 1, EquippableSlot.Helmet],
             [Items.PiggyArmor, 1, EquippableSlot.BodyArmor],
             [Items.SkeletonPants, 1, EquippableSlot.LegArmor],
-            [Items.SteelBoots, 1, EquippableSlot.Boots],
-            [Items.SkullRing, 2, [EquippableSlot.Ring1, EquippableSlot.Ring2]],
-            [Items.SkullAmulet, 1, EquippableSlot.Amulet],
+            [Items.FlyingBoots, 1, EquippableSlot.Boots],
+            [Items.GoldRing, 2, [EquippableSlot.Ring1, EquippableSlot.Ring2]],
+            [Items.TopazAmulet, 1, EquippableSlot.Amulet],
+        ]));
+
+        workflows.set('equip-ginette-imp', WorkflowFactory.withdrawAndEquip([
+            [Items.EnchantedBow, 1, EquippableSlot.Weapon],
+            [Items.SteelShield, 1, EquippableSlot.Shield],
+            [Items.PiggyHelmet, 1, EquippableSlot.Helmet],
+            [Items.PiggyArmor, 1, EquippableSlot.BodyArmor],
+            [Items.SkeletonPants, 1, EquippableSlot.LegArmor],
+            [Items.FlyingBoots, 1, EquippableSlot.Boots],
+            [Items.TopazRing, 2, [EquippableSlot.Ring1, EquippableSlot.Ring2]],
+            [Items.RubyAmulet, 1, EquippableSlot.Amulet],
         ]));
 
     }

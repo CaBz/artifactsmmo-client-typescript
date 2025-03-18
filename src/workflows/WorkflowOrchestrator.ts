@@ -17,6 +17,7 @@ import {ItemUser} from "./services/ItemUser.js";
 import {EquippableSlot} from "../lexical/EquippableSlot.js";
 import {TaskRepository} from "../repositories/TaskRepository.js";
 import {Container} from "../Container.js";
+import {Monsters} from "../lexical/Monsters.js";
 
 export enum MoveActionCondition {
     InventoryNotFull = 'inventory-not-full',
@@ -102,6 +103,7 @@ export interface RestAction {
 export interface FightAction {
     action: Action.Fight;
     loops: number;
+    code: Monsters;
 }
 
 export interface GetTaskAction {
@@ -378,7 +380,8 @@ export class WorkflowOrchestrator {
 
             case Action.Fight:
                 await this.fighter.fight(
-                    (action as FightAction).loops
+                    (action as FightAction).loops,
+                    (action as FightAction).code,
                 );
                 break;
 

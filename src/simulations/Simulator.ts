@@ -104,7 +104,7 @@ export class Simulator {
     }
 
     private async getGearPool(minLevel: number, maxLevel: number, showUnavailableItems: boolean, showFromAllCharacter: boolean) {
-        const characters = await this.client.getAllCharacterStatus();
+        const characters: Character[] = showFromAllCharacter ? await this.client.getAllCharacterStatus() : [this.character];
         const bank: any = await this.banker.getBank();
 
         const codeMapFunction = function (code: string) {
@@ -127,11 +127,9 @@ export class Simulator {
                 return true;
             }
 
-            if (showFromAllCharacter) {
-                for (let i = 0; i < characters.length; i++) {
-                    if (characters[i]!.holdsHowManyOf(item.code) > 0) {
-                        return true;
-                    }
+            for (let i = 0; i < characters.length; i++) {
+                if (characters[i]!.holdsHowManyOf(item.code) > 0) {
+                    return true;
                 }
             }
 
@@ -160,9 +158,9 @@ export class Simulator {
     }
 
     private simulateUltimateForMonsterWithGear(attackerStats: any, gearPool: Record<string, Item[]>, code: Monsters): Population {
-        const fightLoops = 300; // The more the better, but slows down a lot
-        const populationSize = 256; // higher = more slow
-        const generations = 64; // higher = more precise
+        const fightLoops = 250; // The more the better, but slows down a lot
+        const populationSize = 200; // higher = more slow
+        const generations = 50; // higher = more precise
 
         let population: Population[] = [];
         for (let i = 0; i < populationSize; i++) {
