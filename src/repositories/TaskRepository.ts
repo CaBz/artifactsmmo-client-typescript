@@ -37,6 +37,14 @@ export class TaskRepository {
         })
     }
 
+    async getCurrentTask(character?: string) {
+        return this.db.character_tasks.findFirst({
+            where: {
+                character: character || this.characterName,
+            }
+        })
+    }
+
     async checkForImmediateTask(): Promise<void> {
         const tasks = await this.getPendingTasks()
         for (let i=0; i<tasks.length; i++) {
@@ -67,14 +75,6 @@ export class TaskRepository {
             },
             orderBy: {
                 creation_date: 'asc',
-            }
-        })
-    }
-
-    async getCurrentTask(character?: string) {
-        return this.db.character_tasks.findFirst({
-            where: {
-                character: character || this.characterName,
             }
         })
     }
