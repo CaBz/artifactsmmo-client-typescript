@@ -129,7 +129,7 @@ export class Banker {
     private logBankItems(bank: any): void {
         const bankItems: any[] = bank.items;
         const items = bankItems.map((bankItem: any) => ({ item: this.items.get(bankItem.code)!, quantity: bankItem.quantity }));
-        items.sort((a: any, b: any) => a.item.typeAndSubtypeWeight - b.item.typeAndSubtypeWeight || a.item.name.localeCompare(b.item.name));
+        items.sort((a: any, b: any) => a.item.typeAndSubtypeWeight - b.item.typeAndSubtypeWeight || a.level - b.level || a.item.name.localeCompare(b.item.name));
 
         const headline = `| ${Utils.formatForMiddle('Name', 23)} `
             + `| Lv. `

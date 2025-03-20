@@ -189,7 +189,8 @@ model pending_tasks {
 }
 
 model character_tasks {
-  character    String @id
+  character    String  @id
   current_task String
   initial_task String
+  event_task   String?
 }

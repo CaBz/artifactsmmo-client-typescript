@@ -45,6 +45,17 @@ export class TaskRepository {
         })
     }
 
+    async getAllCharacterTasks(): Promise<Map<string, any>> {
+        const data = await this.db.character_tasks.findMany();
+
+        const result: Map<string, Task> = new Map<string, any>();
+        data.forEach((datum: any) => {
+            result.set(datum.character, datum);
+        })
+
+        return result;
+    }
+
     async checkForImmediateTask(): Promise<void> {
         const tasks = await this.getPendingTasks()
         for (let i=0; i<tasks.length; i++) {

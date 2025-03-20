@@ -614,7 +614,15 @@ export class Simulator {
         );
 
         const won = attackerStats.hp > 0 && turns < 100;
-        const result = {won, turns, attackerHP: attackerStats.hp, defenderHP: defenderStats.hp};
+        const result = {
+            won: (attackerStats.hp > 0 && turns < 100),
+            turns,
+            attackerHP: attackerStats.hp,
+            attackerFightValues: attackerStats.fightValues,
+            defenderHP: defenderStats.hp,
+            defenderFightValues: defenderStats.fightValues,
+        };
+
         if (!['details', 'summary'].includes(logLevel)) {
             return result;
         }
@@ -649,7 +657,21 @@ export class Simulator {
             false
         );
 
-        return {won: (attackerStats.hp > 0 && turns < 100), turns, attackerHP: attackerStats.hp, defenderHP: defenderStats.hp};
+        return {
+            won: (attackerStats.hp > 0 && turns < 100),
+            turns,
+            attackerHP: attackerStats.hp,
+            attackerFightValues: attackerStats.fightValues,
+            defenderHP: defenderStats.hp,
+            defenderFightValues: defenderStats.fightValues,
+        };
+    }
+
+    evaluateSuccessRateFor(character: Character, code: Monsters): number {
+        this.character = character;
+        const attackerStats: any = this.getEntityStats(this.character.getAllStats());
+
+        return this.calculateSimulationFor(attackerStats, code, 250).successRate;
     }
 
     calculateSimulationFor(attackerStats: any, code: Monsters, loops: number) {
@@ -693,7 +715,7 @@ export class Simulator {
         let turn = 0;
         while (attackerStats.hp > 0 && attackerStats.hp > 0) {
             turn++;
-            this.fight(turn, attackName, attackerStats, defenderName, defenderStats, withLogs);
+            attackerStats.fightValues = this.fight(turn, attackName, attackerStats, defenderName, defenderStats, withLogs);
 
             tmp = attackName;
             attackName = defenderName;

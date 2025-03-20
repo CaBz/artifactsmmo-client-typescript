@@ -62,7 +62,12 @@ export class Container {
         this.registerWorkflowOrchestrator();
         this.registerSimulations();
 
-        this.instances.set('active-events-dispatcher', new ActiveEventsDispatcher(this.dataLoader, this.taskRepository))
+        this.instances.set('active-events-dispatcher', new ActiveEventsDispatcher(
+            this.dataLoader,
+            this.taskRepository,
+            this.simulator,
+            this.client
+        ))
     }
 
     get activeEventsDispatcher(): ActiveEventsDispatcher {
