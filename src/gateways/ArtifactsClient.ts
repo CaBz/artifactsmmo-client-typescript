@@ -26,7 +26,7 @@ export class ArtifactsClient {
     }
 
     async getAllCharacterStatus(): Promise<Character[]> {
-        const result: any[] = await this.sendRequest('GET', `my/characters`);
+        const result: any[] = await this.sendRequest('GET', `accounts/${this.accountName}/characters`);
 
         return result.map((entry: any) => new Character(entry));
     }

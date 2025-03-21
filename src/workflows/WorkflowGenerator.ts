@@ -297,6 +297,8 @@ export class WorkflowGenerator {
     }
 
     private async prepareForFight(monster: Monster): Promise<WorkflowAction[]> {
+        let goingToBank: boolean = false;
+
         const actions: WorkflowAction[] = [];
 
         // 1. Find best Set?
@@ -320,10 +322,7 @@ export class WorkflowGenerator {
         if (inventoryConsumables.length === 0) {
             const bankItems: any = await this.banker.getFoodConsumables(this.character.level);
             if (bankItems.length > 0) {
-                actions.push(
-                    {action: Action.Move, coordinates: PointOfInterest.Bank1},
-                    {action: Action.BankDepositAll},
-                )
+                goingToBank = true;
 
                 let remainingSpaces = Math.floor(this.character.maxInventory * 0.8);
                 let item: any;
@@ -341,6 +340,13 @@ export class WorkflowGenerator {
             } else {
 
             }
+        }
+
+        if (goingToBank) {
+            actions.unshift(
+                {action: Action.Move, coordinates: PointOfInterest.Bank1},
+                {action: Action.BankDepositAll},
+            )
         }
 
         return actions;
